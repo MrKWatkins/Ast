@@ -1,0 +1,60 @@
+name: .NET Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  BuildAndTest:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    env:
+      config: 'Release'
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Restore Dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore --configuration $config
+
+    - name: Test
+      run: dotnet test --no-restore --no-build --configuration $config --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude=[*.Testing]*
+
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Test Results
+        path: "**/TestResults/test-results.trx"
+        reporter: dotnet-trx
+
+    - name: Aggregate Coverage Reports
+      run: | 
+        dotnet new tool-manifest
+        dotnet tool install dotnet-reportgenerator-globaltool
+        dotnet tool run reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:." "-reportTypes:Cobertura"
+
+    - name: Generate Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.2.0
+      with:
+        filename: Cobertura.xml
+        format: markdown
+        indicators: true
+        output: file
+        thresholds: '50 60'
+        
+    - name: Attach Coverage Report to Build
+      uses: dtinth/markdown-report-action@v1
+      with:
+        name: Test Coverage
+        title: Test Coverage
+        body-file: code-coverage-results.md
