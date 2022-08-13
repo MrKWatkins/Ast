@@ -4,7 +4,7 @@ using System.Reflection;
 namespace MrKWatkins.Ast;
 
 public sealed class NodeFactory<TType, TNode> : INodeFactory<TType, TNode>
-    where TType : Enum
+    where TType : struct, Enum
     where TNode : Node<TType, TNode>
 {
     public static readonly INodeFactory<TType, TNode> Default = new NodeFactory<TType, TNode>();

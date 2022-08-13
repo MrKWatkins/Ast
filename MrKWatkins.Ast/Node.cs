@@ -3,7 +3,7 @@ using System.Reflection;
 namespace MrKWatkins.Ast;
 
 public abstract class Node<TType, TNode>
-    where TType : Enum
+    where TType : struct, Enum
     where TNode : Node<TType, TNode>
 {
     static Node()
@@ -16,16 +16,17 @@ public abstract class Node<TType, TNode>
         
     protected Node()
     {
-        Children = new NodeList<TType, TNode>(This);
+        Children = new Children<TType, TNode>(This);
     }
 
     protected Node([InstantHandle] IEnumerable<TNode> children)
     {
-        Children = new NodeList<TType, TNode>(This, children);
+        Children = new Children<TType, TNode>(This, children);
     }
         
     private TNode This => (TNode) this;
-        
+    
+    // Not using Type for the name as that will most likely get used a lot in compilers.
     public abstract TType NodeType { get; }
 
     private NodeProperties? properties;
@@ -77,7 +78,7 @@ public abstract class Node<TType, TNode>
     /// </summary>
     public bool HasParent => parent != null;
 
-    public NodeList<TType, TNode> Children { get; }
+    public Children<TType, TNode> Children { get; }
 
     public IEnumerable<TNode> Ancestors
     {
