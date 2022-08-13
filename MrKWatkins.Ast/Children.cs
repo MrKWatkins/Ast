@@ -66,27 +66,40 @@ public sealed class Children<TType, TNode> : IList<TNode>
         return false;
     }
 
-    public void Move(TNode node)
+    /// <summary>
+    /// Moves <paramref name="node" /> from it's current parent (if it has one) into this collection.
+    /// </summary>
+    public void MoveInto(TNode node)
     {
         if (node.HasParent)
         {
+            if (node.Parent == parent)
+            {
+                throw new InvalidOperationException($"{nameof(node)} is already in this collection.");
+            }
             node.RemoveFromParent();
         }
             
         Add(node);
     }
 
+    /// <summary>
+    /// Moves <paramref name="nodes" /> from their current parents (if they have one) into this collection.
+    /// </summary>
     // ReSharper disable once ParameterHidesMember
-    public void Move([InstantHandle] IEnumerable<TNode> nodes)
+    public void MoveInto([InstantHandle] IEnumerable<TNode> nodes)
     {
         foreach (var node in nodes)
         {
-            Move(node);
+            MoveInto(node);
         }
     }
 
+    /// <summary>
+    /// Moves <paramref name="nodes" /> from their current parents (if they have one) into this collection.
+    /// </summary>
     // ReSharper disable once ParameterHidesMember
-    public void Move(params TNode[] nodes) => Move((IEnumerable<TNode>) nodes);
+    public void MoveInto(params TNode[] nodes) => MoveInto((IEnumerable<TNode>) nodes);
 
     public int Count => nodes.Count;
 

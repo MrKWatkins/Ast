@@ -1,7 +1,25 @@
+using System.Reflection;
+
 namespace MrKWatkins.Ast.Tests;
 
 public sealed class NodeTests
 {
+    [Test]
+    public void Properties()
+    {
+        var node = new ANode();
+        node.Invoking(n => n.TestProperty).Should().Throw<KeyNotFoundException>();
+        node.TestProperty = "Test";
+        node.TestProperty.Should().Be("Test");
+    }
+    
+    [Test]
+    public void TypeEnumCannotBeFlagsEnum() =>
+        FluentActions.Invoking(() => new InvalidEnumType())
+            .Should().Throw<TypeInitializationException>()
+            .WithInnerException<ArgumentException>()
+            .Which.Message.Should().StartWith("TType cannot be a flags enum.");
+    
     [Test]
     public void Constructor_IEnumerable()
     {
@@ -37,6 +55,49 @@ public sealed class NodeTests
         root.Invoking(r => r.Parent)
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Node has no parent.");
+    }
+
+    [Test]
+    public void RemoveFromParent()
+    {
+        var child = new ANode();
+        var parent = new BNode(child);
+        
+        child.RemoveFromParent();
+        child.HasParent.Should().BeFalse();
+
+        parent.Children.Should().BeEmpty();
+    }
+    
+    [Test]
+    public void MoveTo()
+    {
+        var child = new ANode();
+        var parent = new BNode(child);
+        
+        var newParent = new BNode();
+        
+        child.MoveTo(newParent);
+        child.Parent.Should().BeSameAs(newParent);
+
+        parent.Children.Should().BeEmpty();
+    }
+    
+    [Test]
+    public void ReplaceWith()
+    {
+        var child1 = new ANode();
+        var child2 = new ANode();
+        var child3 = new ANode();
+        
+        var parent = new BNode(child1, child2, child3);
+
+        var replacement = new CNode();
+        
+        child2.ReplaceWith(replacement);
+        child2.HasParent.Should().BeFalse();
+
+        parent.Children.Should().BeEquivalentTo(new TestNode[] { child1, replacement, child3 }, c => c.WithStrictOrdering());
     }
 
     [Test]
@@ -315,5 +376,92 @@ public sealed class NodeTests
         grandChildren0[1].ThisAndDescendents.Should().Equal(grandChildren0[1]);
         grandChildren1[0].ThisAndDescendents.Should().Equal(grandChildren1[0]);
         grandChildren1[1].ThisAndDescendents.Should().Equal(grandChildren1[1]);
+    }
+
+    [Test]
+    public void Copy()
+    {
+        var grandchild11 = new CNode { TestProperty = "GC11" };
+        var grandchild12 = new CNode { TestProperty = "GC12" };
+        var child1 = new BNode(grandchild11, grandchild12) { TestProperty = "C1" };
+        
+        var grandchild21 = new CNode { TestProperty = "GC21" };
+        var child2 = new BNode(grandchild21) { TestProperty = "C2" };
+
+        var child3 = new BNode();   // Test TestProperty not set.
+
+        var parent = new ANode(child1, child2, child3) { TestProperty = "P" };
+
+        var copy = parent.Copy();
+
+        copy.Should().NotBeSameAs(parent);
+        copy.TestProperty.Should().Be("P");
+        copy.Children.Should().HaveCount(3);
+
+        var child1Copy = copy.Children[0];
+        child1Copy.Should().NotBeSameAs(child1);
+        child1Copy.TestProperty.Should().Be("C1");
+        child1Copy.Children.Should().HaveCount(2);
+
+        var grandchild11Copy = child1Copy.Children[0];
+        grandchild11Copy.Should().NotBeSameAs(grandchild11);
+        grandchild11Copy.TestProperty.Should().Be("GC11");
+        grandchild11Copy.Children.Should().BeEmpty();
+        
+        var grandchild12Copy = child1Copy.Children[1];
+        grandchild12Copy.Should().NotBeSameAs(grandchild12);
+        grandchild12Copy.TestProperty.Should().Be("GC12");
+        grandchild12Copy.Children.Should().BeEmpty();
+        
+        var child2Copy = copy.Children[1];
+        child2Copy.Should().NotBeSameAs(child2);
+        child2Copy.TestProperty.Should().Be("C2");
+        child2Copy.Children.Should().HaveCount(1);
+
+        var grandchild21Copy = child2Copy.Children[0];
+        grandchild21Copy.Should().NotBeSameAs(grandchild21);
+        grandchild21Copy.TestProperty.Should().Be("GC21");
+        grandchild21Copy.Children.Should().BeEmpty();
+        
+        var child3Copy = copy.Children[2];
+        child3Copy.Should().NotBeSameAs(child3);
+        child3Copy.Invoking(c => c.TestProperty).Should().Throw<KeyNotFoundException>();
+        child3Copy.Children.Should().BeEmpty();
+    }
+
+    [Test]
+    public void Copy_INodeFactory()
+    {
+        var child = new BNode { TestProperty = "Child" };
+        var parent = new ANode(child);
+
+        var copy = parent.Copy(new CustomNodeFactory());
+
+        copy.Should().BeOfType<CNode>();
+        copy.Invoking(c => c.TestProperty).Should().Throw<KeyNotFoundException>();
+        copy.Children.Should().HaveCount(1);
+
+        var childCopy = copy.Children[0];
+        childCopy.Should().BeOfType<CNode>();
+        childCopy.TestProperty.Should().Be("Child");
+        childCopy.Children.Should().BeEmpty();
+    }
+
+    [Test]
+    public void ToStringTest()
+    {
+        new ANode().ToString().Should().Be("A");
+        new BNode().ToString().Should().Be("B");
+        new CNode().ToString().Should().Be("C");
+    }
+
+    private sealed class CustomNodeFactory : INodeFactory<TestNodeType, TestNode>
+    {
+        public TestNode Create(TestNodeType nodeType) => new CNode();
+    }
+
+    private sealed class InvalidEnumType : Node<BindingFlags, InvalidEnumType>
+    {
+        public override BindingFlags NodeType => throw new NotSupportedException();
     }
 }

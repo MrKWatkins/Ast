@@ -162,25 +162,35 @@ public sealed class ChildrenTests
     }
 
     [Test]
-    public void Move_Node_DoesNotHaveParent()
+    public void MoveInto_ThrowsIfAlreadyInChildren()
+    {
+        var child = new BNode();
+        var parent = new ANode(child);
+        parent.Children.Invoking(c => c.MoveInto(child))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("node is already in this collection.");
+    }
+
+    [Test]
+    public void MoveInto_Node_DoesNotHaveParent()
     {
         var child = new BNode();
 
         var newParent = new CNode();
-        newParent.Children.Move(child);
+        newParent.Children.MoveInto(child);
 
         newParent.Children.Should().BeEquivalentTo(new[] { child });
         child.Parent.Should().BeSameAs(newParent);
     }
     
     [Test]
-    public void Move_Node_HasParent()
+    public void MoveInto_Node_HasParent()
     {
         var child = new BNode();
         var parent = new ANode(child);
 
         var newParent = new CNode();
-        newParent.Children.Move(child);
+        newParent.Children.MoveInto(child);
 
         parent.Children.Should().BeEmpty();
 
@@ -189,7 +199,17 @@ public sealed class ChildrenTests
     }
     
     [Test]
-    public void Move_IEnumerable_HasParent()
+    public void MoveInto_IEnumerable_ThrowsIfAnyNodeAlreadyInChildren()
+    {
+        var child = new BNode();
+        var parent = new ANode(child);
+        parent.Children.Invoking(c => c.MoveInto((IEnumerable<BNode>) new [] { new BNode(), child }))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("node is already in this collection.");
+    }
+    
+    [Test]
+    public void MoveInto_IEnumerable_HasParent()
     {
         var child1 = new BNode();
         var parent = new ANode(child1);
@@ -199,7 +219,7 @@ public sealed class ChildrenTests
         IEnumerable<TestNode> children = new[] { child1, child2 };
         
         var newParent = new CNode();
-        newParent.Children.Move(children);
+        newParent.Children.MoveInto(children);
 
         parent.Children.Should().BeEmpty();
 
@@ -209,7 +229,17 @@ public sealed class ChildrenTests
     }
     
     [Test]
-    public void Move_Params_HasParent()
+    public void MoveInto_Params_ThrowsIfAnyNodeAlreadyInChildren()
+    {
+        var child = new BNode();
+        var parent = new ANode(child);
+        parent.Children.Invoking(c => c.MoveInto(new BNode(), child))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("node is already in this collection.");
+    }
+    
+    [Test]
+    public void MoveInto_Params_HasParent()
     {
         var child1 = new BNode();
         var parent = new ANode(child1);
@@ -217,7 +247,7 @@ public sealed class ChildrenTests
         var child2 = new BNode();
 
         var newParent = new CNode();
-        newParent.Children.Move(child1, child2);
+        newParent.Children.MoveInto(child1, child2);
 
         parent.Children.Should().BeEmpty();
 

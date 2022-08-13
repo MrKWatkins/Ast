@@ -31,10 +31,8 @@ public abstract class Node<TType, TNode>
 
     private NodeProperties? properties;
         
+    [PublicAPI]
     protected NodeProperties Properties => properties ??= new NodeProperties();
-
-    // ReSharper disable once ParameterHidesMember
-    protected internal void SetProperties(NodeProperties? properties) => this.properties = properties;
 
     private TNode? parent;
         
@@ -58,19 +56,19 @@ public abstract class Node<TType, TNode>
         }
     }
 
+    internal void RemoveParent() => parent = null;
+
     public void RemoveFromParent() => Parent.Children.Remove(This);
 
-    public void MoveTo(TNode newParent)
-    {
-        if (newParent == Parent)
-        {
-            throw new ArgumentException($"This node is already a child of {nameof(newParent)}.", nameof(newParent));
-        }
-        RemoveFromParent();
-        newParent.Children.Add(This);
-    }
+    /// <summary>
+    /// Moves this node to a new parent.
+    /// </summary>
+    public void MoveTo(TNode newParent) => newParent.Children.MoveInto(This);
 
-    internal void RemoveParent() => parent = null;
+    /// <summary>
+    /// Removes this node from it's parent and puts <see cref="other" /> in its place.
+    /// </summary>
+    public void ReplaceWith(Node<TType, TNode> other) => Parent.Children.Replace(This, (TNode) other);
 
     /// <summary>
     /// Does this node have a parent? Nodes will not have parents if they are the root node or they have just been
@@ -94,20 +92,6 @@ public abstract class Node<TType, TNode>
     }
 
     [Pure]
-    public T FirstAncestorOfTypeOrThrow<T>()
-        where T : TNode
-    {
-        return Ancestors.OfType<T>().FirstOrThrow(() => $"{GetType()} is not part of a {typeof(T).Name}.");
-    }
-        
-    [Pure]
-    public T? FirstAncestorOfTypeOrNull<T>()
-        where T : TNode
-    {
-        return Ancestors.OfType<T>().FirstOrDefault();
-    }
-
-    [Pure]
     private IEnumerable<TNode> ThisAnd(IEnumerable<TNode> and)
     {
         yield return This;
@@ -121,18 +105,7 @@ public abstract class Node<TType, TNode>
     public IEnumerable<TNode> ThisAndAncestors => ThisAnd(Ancestors);
 
     [Pure]
-    private int GetIndexOfSelf()
-    {
-        for (var f = 0; f < Parent.Children.Count; f++)
-        {
-            if (ReferenceEquals(Parent.Children[f], this))
-            {
-                return f;
-            }
-        }
-            
-        throw new InvalidOperationException("Parent and children are out of sync.");
-    }
+    private int GetIndexOfSelf() => Parent.Children.IndexOf(This);  // Can never be -1.
 
     public TNode? NextSibling
     {
@@ -209,17 +182,9 @@ public abstract class Node<TType, TNode>
     public TNode Copy(INodeFactory<TType, TNode> nodeFactory)
     {
         var copy = nodeFactory.Create(NodeType);
-        copy.SetProperties(Properties.Copy());
+        copy.properties = Properties.Copy();
         copy.Children.Add(Children.Select(c => c.Copy(nodeFactory)));
         return copy;
-    }
-
-    /// <summary>
-    /// Removes this node from the parent and puts <see cref="other" /> in its place.
-    /// </summary>
-    public void ReplaceWith(Node<TType, TNode> other)
-    {
-        Parent.Children.Replace(This, (TNode) other);
     }
 
     public override string ToString() => NodeType.ToString();

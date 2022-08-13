@@ -11,4 +11,10 @@ public abstract class TestNode : Node<TestNodeType, TestNode>
         : base(children)
     {
     }
+
+    public string TestProperty
+    {
+        get => Properties.GetOrThrow<string>(nameof(TestProperty));
+        set => Properties.Set(nameof(TestProperty), value);
+    }
 }
