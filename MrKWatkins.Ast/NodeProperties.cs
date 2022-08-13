@@ -1,32 +1,41 @@
-using System.Collections;
-using NotNull = System.Diagnostics.CodeAnalysis.NotNullAttribute;
+using System.Collections.Concurrent;
+using System.Linq.Expressions;
 
 namespace MrKWatkins.Ast;
 
 public sealed class NodeProperties
 {
-    private readonly Dictionary<string, object> properties = new();
+    private static readonly ConcurrentDictionary<Type, Func<object, object>> ListCopiers = new();
+    private readonly Dictionary<string, Property> properties;
+
+    internal NodeProperties()
+        : this(new Dictionary<string, Property>())
+    {
+    }
+
+    private NodeProperties(Dictionary<string, Property> properties)
+    {
+        this.properties = properties;
+    }
 
     [Pure]
     public T GetOrThrow<T>(string key)
-        where T : notnull
-    {
-        return GetOrThrow<T>(key, () => new KeyNotFoundException($"No value for property with key \"{key}\"."));
-    }
-        
+        where T : notnull =>
+        GetOrThrow<T>(key, k => new KeyNotFoundException($"No value for property with key \"{k}\"."));
+
     [Pure]
-    public T GetOrThrow<T>(string key, [InstantHandle] Func<Exception> exceptionCreator)
-        where T : notnull
-    {
-        if (TryGet<T>(key, out var value))
-        {
-            return value;
-        }
-        throw exceptionCreator();
-    }
+    public T GetOrThrow<T>(string key, [InstantHandle] Func<string, Exception> exceptionCreator)
+        where T : notnull =>
+        TryGet<T>(key, out var value) ? value : throw exceptionCreator(key);
+
+    [Pure]
+    [return: NotNullIfNotNull("default")]
+    public T? GetOrDefault<T>(string key, T? @default = default)
+        where T : notnull =>
+        TryGet<T>(key, out var value) ? value : @default;
 
     [MustUseReturnValue]
-    public T GetOrAdd<T>(string key, [InstantHandle] Func<T> creator)
+    public T GetOrAdd<T>(string key, [InstantHandle] Func<string, T> creator)
         where T : notnull
     {
         if (TryGet<T>(key, out var value))
@@ -34,26 +43,18 @@ public sealed class NodeProperties
             return value;
         }
 
-        value = creator();
+        value = creator(key);
         Set(key, value);
         return value;
     }
 
     [Pure]
-    [return: NotNullIfNotNull("default")]
-    public T? GetOrDefault<T>(string key, T? @default = default)
+    public bool TryGet<T>(string key, [MaybeNullWhen(false)] out T value)
         where T : notnull
     {
-        return TryGet<T>(key, out var value) ? value : @default;
-    }
-
-    [Pure]
-    public bool TryGet<T>(string key, [NotNullWhen(true)] [MaybeNullWhen(false)] out T value)
-        where T : notnull
-    {
-        if (properties.TryGetValue(key, out var objectValue))
+        if (properties.TryGetValue(key, out var property))
         {
-            value = Convert<T>(key, objectValue);
+            value = VerifySingle<T>(key, property);
             return true;
         }
 
@@ -62,133 +63,149 @@ public sealed class NodeProperties
     }
 
     [Pure]
-    public bool Has(string key) => properties.ContainsKey(key);
+    public bool ContainsKey(string key) => properties.ContainsKey(key);
 
-    // TODO: Type check existing on set.
-    public void Set<T>(string key, [NotNull] T value)
+    [Pure]
+    public int Count => properties.Count;
+
+    public void Set<T>(string key, T value)
         where T : notnull
     {
-        properties[key] = value ?? throw new ArgumentNullException(nameof(value));
+        if (properties.TryGetValue(key, out var property))
+        {
+            VerifySingle<T>(key, property);
+        }
+
+        properties[key] = new Property(false, typeof(T), value);
     }
 
     [Pure]
     public IReadOnlyList<T> GetMultiple<T>(string key)
-        where T : notnull
-    {
-        if (TryGet<List<T>>(key, out var value))
-        {
-            return value;
-        }
+        where T : notnull =>
+        properties.TryGetValue(key, out var property) ? VerifyMultiple<T>(key, property) : Array.Empty<T>();
 
-        return Array.Empty<T>();
-    }
-        
     public void SetMultiple<T>(string key, [InstantHandle] IEnumerable<T> values)
         where T : notnull
     {
-        properties[key] = values.ToList();
+        if (properties.TryGetValue(key, out var property))
+        {
+            VerifyMultiple<T>(key, property);
+        }
+        
+        properties[key] =  new Property(true, typeof(T), values.ToList());
     }
 
-    // TODO: Remove.
-    // TODO: Type check existing.
     public void AddToMultiple<T>(string key, T value)
         where T : notnull
     {
-        if (!TryGet<List<T>>(key, out var list))
+        List<T> list;
+        if (properties.TryGetValue(key, out var property))
+        {
+            list = VerifyMultiple<T>(key, property);
+        }
+        else
         {
             list = new List<T>();
-            properties.Add(key, list);
+            properties.Add(key, new Property(true, typeof(T), list));
         }
 
         list.Add(value);
     }
         
-    public void RemoveFromMultiple<T>(string key, T value)
+    public void AddRangeToMultiple<T>(string key, IEnumerable<T> values)
         where T : notnull
     {
-        if (TryGet<List<T>>(key, out var list))
+        List<T> list;
+        if (properties.TryGetValue(key, out var property))
         {
-            list.Remove(value);
+            list = VerifyMultiple<T>(key, property);
         }
-    }
-        
-    public void RemoveFromMultiple<T>(string key, IEnumerable<T> values)
-        where T : notnull
-    {
-        if (TryGet<List<T>>(key, out var list))
-        {
-            foreach (var value in values)
-            {
-                list.Remove(value);
-            }
-        }
-    }
-        
-    public void AddAllToMultiple<T>(string key, IEnumerable<T> values)
-        where T : notnull
-    {
-        foreach (var value in values)
-        {
-            AddToMultiple(key, value);
-        }
-    }
-        
-    public void AddToMultipleIfMissing<T>(string key, T value)
-        where T : notnull
-    {
-        if (!TryGet<List<T>>(key, out var list))
+        else
         {
             list = new List<T>();
-            properties.Add(key, list);
+            properties.Add(key, new Property(true, typeof(T), list));
         }
 
-        if (!list.Contains(value))
-        {
-            list.Add(value);
-        }
-    }
-        
-    public void AddAllToMultipleIfMissing<T>(string key, IEnumerable<T> values)
-        where T : notnull
-    {
-        foreach (var value in values)
-        {
-            AddToMultipleIfMissing(key, value);
-        }
-    }
-
-    [return: NotNull]
-    private static T Convert<T>(string key, object value)
-        where T : notnull
-    {
-        if (value is T typedValue)
-        {
-            return typedValue;
-        }
-
-        throw new InvalidOperationException($"Property with key \"{key}\" has a value of type {value.GetType().FullName} but a type of {typeof(T).FullName} was expected.");
+        list.AddRange(values);
     }
 
     [Pure]
     public NodeProperties Copy()
     {
-        var copy = new NodeProperties();
-        foreach (var (key, value) in properties)
+        var newProperties = new Dictionary<string, Property>(properties.Count);
+        foreach (var (key, property) in properties)
         {
-            var type = value.GetType();
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+            if (property.Multiple)
             {
-                foreach (var multipleValue in (IEnumerable) value)
-                {
-                    copy.AddToMultiple(key, multipleValue);
-                }
+                newProperties[key] = new Property(true, property.Type, ListCopiers.GetOrAdd(property.Type, BuildListCopier)(property.Value));
             }
             else
             {
-                copy.Set(key, value);
+                newProperties[key] = property;
             }
         }
 
-        return copy;
+        return new NodeProperties(newProperties);
+    }
+
+    [Pure]
+    private static Func<object, object> BuildListCopier(Type itemType)
+    {
+        var parameter = Expression.Parameter(typeof(object), "value");
+
+        var listType = typeof(List<>).MakeGenericType(itemType);
+        var list = Expression.Convert(parameter, listType);
+
+        var constructor = listType.GetConstructor(new[] { typeof(IEnumerable<>).MakeGenericType(itemType) })!;
+        var newList = Expression.New(constructor, list);
+
+        var lambda = Expression.Lambda<Func<object, object>>(newList, parameter);
+
+        return lambda.Compile();
+    }
+
+    private static T VerifySingle<T>(string key, Property property)
+    {
+        if (property.Multiple)
+        {
+            throw new InvalidOperationException($"Property \"{key}\" has multiple values.");
+        }
+
+        if (property.Type != typeof(T))
+        {
+            throw new InvalidOperationException($"Property \"{key}\" has a value of type {property.Type.SimpleName()}; cannot change to {typeof(T).SimpleName()}.");
+        }
+
+        return (T) property.Value;
+    }
+
+    private static List<T> VerifyMultiple<T>(string key, Property property)
+    {
+        if (!property.Multiple)
+        {
+            throw new InvalidOperationException($"Property \"{key}\" is a single value.");
+        }
+
+        if (property.Type != typeof(T))
+        {
+            throw new InvalidOperationException($"Property \"{key}\" has values of type {property.Type.SimpleName()}; cannot change to {typeof(T).SimpleName()}.");
+        }
+        return (List<T>) property.Value;
+    }
+
+    private readonly struct Property
+    {
+        public Property(bool multiple, Type type, object value)
+        {
+            Multiple = multiple;
+            Type = type;
+            Value = value;
+        }
+
+        public bool Multiple { get; }
+        
+        public Type Type { get; }
+        
+        public object Value { get; }
     }
 }
