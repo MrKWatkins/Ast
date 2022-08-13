@@ -1,1 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk" />
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Title>MrKWatkins.Ast</Title>
+    <Authors>Kevin Watkins</Authors>
+    <Description>Library to build an abstract syntax tree for use in compilers. </Description>
+    <Copyright>Kevin Watkins 2022</Copyright>
+    <PackageProjectUrl>https://github.com/MrKWatkins/Ast</PackageProjectUrl>
+    <PackageLicense>https://github.com/MrKWatkins/Ast/blob/main/License.md</PackageLicense>
+    <RepositoryUrl>https://github.com/MrKWatkins/Ast</RepositoryUrl>
+  </PropertyGroup>
+</Project>
