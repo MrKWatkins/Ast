@@ -92,7 +92,8 @@ public abstract class Node<TType, TNode>
     }
 
     [Pure]
-    private IEnumerable<TNode> ThisAnd(IEnumerable<TNode> and)
+    [PublicAPI]
+    protected IEnumerable<TNode> ThisAnd(IEnumerable<TNode> and)
     {
         yield return This;
             
