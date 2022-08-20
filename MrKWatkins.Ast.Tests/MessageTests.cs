@@ -2,14 +2,13 @@ namespace MrKWatkins.Ast.Tests;
 
 public sealed class MessageTests
 {
-    [TestCase(MessageLevel.Error, "Text", "Code")]
-    [TestCase(MessageLevel.Warning, "Text", null)]
-    public void Constructor(MessageLevel level, string text, string? code)
+    [Test]
+    public void Constructor_WithCode()
     {
-        var message = new Message(level, text, code);
-        message.Level.Should().Be(level);
-        message.Text.Should().Be(text);
-        message.Code.Should().Be(code);
+        var message = new Message(MessageLevel.Error, "Code", "Text");
+        message.Level.Should().Be(MessageLevel.Error);
+        message.Code.Should().Be("Code");
+        message.Text.Should().Be("Text");
     }
     
     [Test]
@@ -21,11 +20,63 @@ public sealed class MessageTests
         message.Text.Should().Be("Text");
     }
     
-    [TestCase(MessageLevel.Error, "Text", "Code", "[Error] Code: Text")]
-    [TestCase(MessageLevel.Error, "Text", null, "[Error] Text")]
-    public void ToString_Tests(MessageLevel level, string text, string? code, string expected)
+    [Test]
+    public void Error_WithoutCode()
     {
-        var message = new Message(level, text, code);
-        message.ToString().Should().Be(expected);
+        var error = Message.Error("Code", "Text");
+        error.Level.Should().Be(MessageLevel.Error);
+        error.Code.Should().Be("Code");
+        error.Text.Should().Be("Text");
     }
+    
+    [Test]
+    public void Error_WithCode()
+    {
+        var error = Message.Error("Text");
+        error.Level.Should().Be(MessageLevel.Error);
+        error.Code.Should().BeNull();
+        error.Text.Should().Be("Text");
+    }
+    
+    [Test]
+    public void Warning_WithoutCode()
+    {
+        var warning = Message.Warning("Code", "Text");
+        warning.Level.Should().Be(MessageLevel.Warning);
+        warning.Code.Should().Be("Code");
+        warning.Text.Should().Be("Text");
+    }
+    
+    [Test]
+    public void Warning_WithCode()
+    {
+        var warning = Message.Warning("Text");
+        warning.Level.Should().Be(MessageLevel.Warning);
+        warning.Code.Should().BeNull();
+        warning.Text.Should().Be("Text");
+    }
+    
+    [Test]
+    public void Info_WithoutCode()
+    {
+        var info = Message.Info("Code", "Text");
+        info.Level.Should().Be(MessageLevel.Info);
+        info.Code.Should().Be("Code");
+        info.Text.Should().Be("Text");
+    }
+    
+    [Test]
+    public void Info_WithCode()
+    {
+        var info = Message.Info("Text");
+        info.Level.Should().Be(MessageLevel.Info);
+        info.Code.Should().BeNull();
+        info.Text.Should().Be("Text");
+    }
+    
+    [Test]
+    public void ToString_WithCode() => new Message(MessageLevel.Error, "Code", "Text").ToString().Should().Be("[Error] Code: Text");
+
+    [Test]
+    public void ToString_WithoutCode() => new Message(MessageLevel.Error, "Text").ToString().Should().Be("[Error] Text");
 }

@@ -2,16 +2,16 @@ using System.Collections;
 
 namespace MrKWatkins.Ast;
 
-public sealed class Children<TType, TNode> : IList<TNode>
-    where TType : struct, Enum
-    where TNode : Node<TType, TNode>
+public sealed class Children<TNode> : IList<TNode>
+    where TNode : Node<TNode>
 {
     private readonly List<TNode> nodes;
     private readonly TNode parent;
 
     internal Children(TNode parent)
-        : this(parent, Enumerable.Empty<TNode>())
     {
+        this.parent = parent;
+        nodes = new List<TNode>();
     }
         
     internal Children(TNode parent, [InstantHandle] IEnumerable<TNode> nodes)
@@ -163,45 +163,14 @@ public sealed class Children<TType, TNode> : IList<TNode>
         nodes.OfType<TChild>();
 
     [Pure]
-    public IEnumerable<TNode> OfType(TType type) => nodes.Where(node => node.NodeType.Equals(type));
-
-    [Pure]
-    public IEnumerable<TNode> OfType(TType type, params TType[] types) => OfType(new HashSet<TType>(types) { type });
-
-    [Pure]
-    public IEnumerable<TNode> OfType([InstantHandle] IEnumerable<TType> types)
-    {
-        var set = types as IReadOnlySet<TType> ?? new HashSet<TType>(types);
-            
-        return nodes.Where(node => set.Contains(node.NodeType));
-    }
-
-    [Pure]
     public IEnumerable<TNode> ExceptOfType<TChild>()
         where TChild : TNode =>
         nodes.Where(n => n is not TChild);
 
     [Pure]
-    public IEnumerable<TNode> ExceptOfType(TType type) => nodes.Where(node => !node.NodeType.Equals(type));
-
-    [Pure]
-    public IEnumerable<TNode> ExceptOfType(TType type, params TType[] types) => ExceptOfType(new HashSet<TType>(types) { type });
-
-    [Pure]
-    public IEnumerable<TNode> ExceptOfType([InstantHandle] IEnumerable<TType> types)
-    {
-        var set = types as IReadOnlySet<TType> ?? new HashSet<TType>(types);
-            
-        return nodes.Where(node => !set.Contains(node.NodeType));
-    }
-    
-    [Pure]
     public TChild? SingleOfTypeOrNull<TChild>()
         where TChild : TNode => 
         (TChild?) SingleOfTypeOrNull(typeof(TChild).Name, OfType<TChild>());
-    
-    [Pure]
-    public TNode? SingleOfTypeOrNull(TType type) => SingleOfTypeOrNull(type.ToString(), OfType(type));
     
     // Hand rolling to give a better exception message than SingleOrDefault().
     [Pure]
@@ -226,10 +195,7 @@ public sealed class Children<TType, TNode> : IList<TNode>
     public TChild SingleOfType<TChild>()
         where TChild : TNode => 
         (TChild) SingleOfType(typeof(TChild).Name, OfType<TChild>());
-    
-    [Pure]
-    public TNode SingleOfType(TType type) => SingleOfType(type.ToString(), OfType(type));
-    
+
     // Hand rolling to give a better exception message than Single().
     [Pure]
     private TNode SingleOfType(string type, [InstantHandle] IEnumerable<TNode> childrenOfType)

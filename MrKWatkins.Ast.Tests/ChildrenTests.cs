@@ -460,46 +460,6 @@ public sealed class ChildrenTests
     }
     
     [Test]
-    public void OfType_NodeType()
-    {
-        var a = new ANode();
-        var b1 = new BNode();
-        var b2 = new BNode();
-        
-        var parent = new ANode(b1, a, b2);
-
-        parent.Children.OfType(TestNodeType.A).Should().BeEquivalentTo(new[] { a });
-        parent.Children.OfType(TestNodeType.B).Should().BeEquivalentTo(new[] { b1, b2 }, c => c.WithStrictOrdering());
-        parent.Children.OfType(TestNodeType.C).Should().BeEmpty();
-    }
-    
-    [Test]
-    public void OfType_NodeType_Params()
-    {
-        var a = new ANode();
-        var b1 = new BNode();
-        var b2 = new BNode();
-        
-        var parent = new ANode(b1, a, b2);
-
-        parent.Children.OfType(TestNodeType.A, TestNodeType.B).Should().BeEquivalentTo(new TestNode[] { b1, a, b2 }, c => c.WithStrictOrdering());
-        parent.Children.OfType(TestNodeType.B, TestNodeType.C).Should().BeEquivalentTo(new[] { b1, b2 }, c => c.WithStrictOrdering());
-    }
-    
-    [Test]
-    public void OfType_NodeType_IEnumerable()
-    {
-        var a = new ANode();
-        var b1 = new BNode();
-        var b2 = new BNode();
-        
-        var parent = new ANode(b1, a, b2);
-
-        parent.Children.OfType(new [] { TestNodeType.A, TestNodeType.B }).Should().BeEquivalentTo(new TestNode[] { b1, a, b2 }, c => c.WithStrictOrdering());
-        parent.Children.OfType(new [] { TestNodeType.B, TestNodeType.C }).Should().BeEquivalentTo(new[] { b1, b2 }, c => c.WithStrictOrdering());
-    }
-    
-    [Test]
     public void ExceptOfType()
     {
         var a = new ANode();
@@ -511,48 +471,6 @@ public sealed class ChildrenTests
         parent.Children.ExceptOfType<ANode>().Should().BeEquivalentTo(new[] { b1, b2 }, c => c.WithStrictOrdering());
         parent.Children.ExceptOfType<BNode>().Should().BeEquivalentTo(new[] { a });
         parent.Children.ExceptOfType<CNode>().Should().BeEquivalentTo(new TestNode[] { b1, a, b2 }, c => c.WithStrictOrdering());
-    }
-    
-    [Test]
-    public void ExceptOfType_NodeType()
-    {
-        var a = new ANode();
-        var b1 = new BNode();
-        var b2 = new BNode();
-        
-        var parent = new ANode(b1, a, b2);
-
-        parent.Children.ExceptOfType(TestNodeType.A).Should().BeEquivalentTo(new[] { b1, b2 }, c => c.WithStrictOrdering());
-        parent.Children.ExceptOfType(TestNodeType.B).Should().BeEquivalentTo(new[] { a });
-        parent.Children.ExceptOfType(TestNodeType.C).Should().BeEquivalentTo(new TestNode[] { b1, a, b2 }, c => c.WithStrictOrdering());
-    }
-    
-    [Test]
-    public void ExceptOfType_NodeType_Params()
-    {
-        var a = new ANode();
-        var b1 = new BNode();
-        var b2 = new BNode();
-        
-        var parent = new ANode(b1, a, b2);
-
-        parent.Children.ExceptOfType(TestNodeType.A, TestNodeType.B).Should().BeEmpty();
-        parent.Children.ExceptOfType(TestNodeType.B, TestNodeType.C).Should().BeEquivalentTo(new[] { a });
-        parent.Children.ExceptOfType(TestNodeType.A, TestNodeType.C).Should().BeEquivalentTo(new[] { b1, b2 }, c => c.WithStrictOrdering());
-    }
-    
-    [Test]
-    public void ExceptOfType_NodeType_IEnumerable()
-    {
-        var a = new ANode();
-        var b1 = new BNode();
-        var b2 = new BNode();
-        
-        var parent = new ANode(b1, a, b2);
-
-        parent.Children.ExceptOfType(new [] { TestNodeType.A, TestNodeType.B }).Should().BeEmpty();
-        parent.Children.ExceptOfType(new [] { TestNodeType.B, TestNodeType.C }).Should().BeEquivalentTo(new[] { a });
-        parent.Children.ExceptOfType(new [] { TestNodeType.A, TestNodeType.C }).Should().BeEquivalentTo(new[] { b1, b2 }, c => c.WithStrictOrdering());
     }
     
     [Test]
@@ -572,23 +490,7 @@ public sealed class ChildrenTests
     }
     
     [Test]
-    public void SingleOfTypeOrNull_EnumType()
-    {
-        var a = new ANode();
-        var b1 = new BNode();
-        var b2 = new BNode();
-        
-        var parent = new ANode(b1, a, b2);
-
-        parent.Children.SingleOfTypeOrNull(TestNodeType.A).Should().BeSameAs(a);
-        parent.Children.Invoking(c => c.SingleOfTypeOrNull(TestNodeType.B))
-            .Should().Throw<InvalidOperationException>()
-            .WithMessage("Expected ANode to have 0 or 1 children of type B but found multiple.");
-        parent.Children.SingleOfTypeOrNull(TestNodeType.C).Should().BeNull();
-    }
-    
-    [Test]
-    public void SingleOfType_NodeType()
+    public void SingleOfType()
     {
         var a = new ANode();
         var b1 = new BNode();
@@ -603,23 +505,5 @@ public sealed class ChildrenTests
         parent.Children.Invoking(c => c.SingleOfType<CNode>())
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Expected ANode to have 1 child of type CNode but found none.");
-    }
-    
-    [Test]
-    public void SingleOfType_EnumType()
-    {
-        var a = new ANode();
-        var b1 = new BNode();
-        var b2 = new BNode();
-        
-        var parent = new ANode(b1, a, b2);
-
-        parent.Children.SingleOfType(TestNodeType.A).Should().BeSameAs(a);
-        parent.Children.Invoking(c => c.SingleOfType(TestNodeType.B))
-            .Should().Throw<InvalidOperationException>()
-            .WithMessage("Expected ANode to have 1 child of type B but found multiple.");
-        parent.Children.Invoking(c => c.SingleOfType(TestNodeType.C))
-            .Should().Throw<InvalidOperationException>()
-            .WithMessage("Expected ANode to have 1 child of type C but found none.");
     }
 }

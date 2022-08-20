@@ -1,7 +1,11 @@
 namespace MrKWatkins.Ast.Tests;
 
-public abstract class TestNode : Node<TestNodeType, TestNode>
+public abstract class TestNode : Node<TestNode>
 {
+    protected TestNode()
+    {
+    }
+    
     protected TestNode([InstantHandle] IEnumerable<TestNode> children)
         : base(children)
     {

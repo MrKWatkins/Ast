@@ -1,41 +1,24 @@
-using System.Reflection;
-
 namespace MrKWatkins.Ast;
 
-public abstract class Node<TType, TNode>
-    where TType : struct, Enum
-    where TNode : Node<TType, TNode>
+public abstract class Node<TNode>
+    where TNode : Node<TNode>
 {
-    static Node()
-    {
-        if (typeof(TType).GetCustomAttribute<FlagsAttribute>() != null)
-        {
-            throw new ArgumentException($"{nameof(TType)} cannot be a flags enum.", nameof(TType));
-        }
-    }
-        
+    private TNode? parent;
+    private Children<TNode>? children;
+    private NodeProperties? properties;
+    private List<Message>? messages;
+
     protected Node()
     {
-        Children = new Children<TType, TNode>(This);
     }
 
     protected Node([InstantHandle] IEnumerable<TNode> children)
     {
-        Children = new Children<TType, TNode>(This, children);
+        this.children = new Children<TNode>(This, children);
     }
         
     private TNode This => (TNode) this;
     
-    // Not using Type for the name as that will most likely get used a lot in compilers.
-    public abstract TType NodeType { get; }
-
-    private NodeProperties? properties;
-        
-    [PublicAPI]
-    protected NodeProperties Properties => properties ??= new NodeProperties();
-
-    private TNode? parent;
-        
     public TNode Parent
     {
         get => parent ?? throw new InvalidOperationException("Node has no parent.");
@@ -55,11 +38,22 @@ public abstract class Node<TType, TNode>
             parent = value;
         }
     }
+    
+    /// <summary>
+    /// Does this node have a parent? Nodes will not have parents if they are the root node or they have just been
+    /// constructed and not yet added to a parent.
+    /// </summary>
+    public bool HasParent => parent != null;
 
     internal void RemoveParent() => parent = null;
 
     public void RemoveFromParent() => Parent.Children.Remove(This);
-
+        
+    public Children<TNode> Children => children ??= new Children<TNode>(This);
+    
+    [PublicAPI]
+    protected NodeProperties Properties => properties ??= new NodeProperties();
+    
     /// <summary>
     /// Moves this node to a new parent.
     /// </summary>
@@ -68,16 +62,8 @@ public abstract class Node<TType, TNode>
     /// <summary>
     /// Removes this node from it's parent and puts <see cref="other" /> in its place.
     /// </summary>
-    public void ReplaceWith(Node<TType, TNode> other) => Parent.Children.Replace(This, (TNode) other);
-
-    /// <summary>
-    /// Does this node have a parent? Nodes will not have parents if they are the root node or they have just been
-    /// constructed and not yet added to a parent.
-    /// </summary>
-    public bool HasParent => parent != null;
-
-    public Children<TType, TNode> Children { get; }
-
+    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode) other);
+    
     public IEnumerable<TNode> Ancestors
     {
         get
@@ -176,17 +162,70 @@ public abstract class Node<TType, TNode>
     /// </summary>
     public IEnumerable<TNode> ThisAndDescendents => ThisAnd(Descendents);
 
+    public IReadOnlyList<Message> Messages => messages != null ? messages : Array.Empty<Message>();
+
+    public bool HasMessages => Messages.Any();
+
+    public bool ThisAndDescendentsHaveMessages => ThisAndDescendentsMessages.Any();
+    
+    public IEnumerable<Message> ThisAndDescendentsMessages => ThisAndDescendents.SelectMany(n => n.Messages);
+
+    public void AddMessage(Message message) => (messages ??= new List<Message>()).Add(message);
+
+    public void AddMessage(MessageLevel level, string text) => AddMessage(new Message(level, text));
+    
+    public void AddMessage(MessageLevel level, string code, string text) => AddMessage(new Message(level, code, text));
+
+    public IEnumerable<Message> Errors => Messages.Where(m => m.Level == MessageLevel.Error);
+    
+    public bool HasErrors => Errors.Any();
+
+    public bool ThisAndDescendentsHaveErrors => ThisAndDescendentsErrors.Any();
+    
+    public IEnumerable<Message> ThisAndDescendentsErrors => ThisAndDescendents.SelectMany(n => n.Errors);
+    
+    public void AddError(string text) => AddMessage(Message.Error(text));
+    
+    public void AddError(string code, string text) => AddMessage(Message.Error(code, text));
+    
+    public IEnumerable<Message> Warnings => Messages.Where(m => m.Level == MessageLevel.Warning);
+
+    public bool HasWarnings => Warnings.Any();
+
+    public bool ThisAndDescendentsHaveWarnings => ThisAndDescendentsWarnings.Any();
+    
+    public IEnumerable<Message> ThisAndDescendentsWarnings => ThisAndDescendents.SelectMany(n => n.Warnings);
+    
+    public void AddWarning(string text) => AddMessage(Message.Warning(text));
+    
+    public void AddWarning(string code, string text) => AddMessage(Message.Warning(code, text));
+
+    public void AddInfo(string text) => AddMessage(Message.Info(text));
+    
+    public void AddInfo(string code, string text) => AddMessage(Message.Info(code, text));
+
+    public IEnumerable<Message> Infos => Messages.Where(m => m.Level == MessageLevel.Info);
+
+    public bool HasInfos => Infos.Any();
+
+    public bool ThisAndDescendentsHaveInfos => ThisAndDescendentsInfos.Any();
+    
+    public IEnumerable<Message> ThisAndDescendentsInfos => ThisAndDescendents.SelectMany(n => n.Infos);
+    
     [Pure]
-    public TNode Copy() => Copy(NodeFactory<TType, TNode>.Default);
+    public TNode Copy() => Copy(NodeFactory<TNode>.Default);
         
     [Pure]
-    public TNode Copy(INodeFactory<TType, TNode> nodeFactory)
+    public TNode Copy(INodeFactory<TNode> nodeFactory)
     {
-        var copy = nodeFactory.Create(NodeType);
-        copy.properties = Properties.Copy();
-        copy.Children.Add(Children.Select(c => c.Copy(nodeFactory)));
+        var copy = nodeFactory.Create(GetType());
+        copy.properties = properties?.Copy();
+        if (children != null)
+        {
+            copy.Children.Add(children.Select(c => c.Copy(nodeFactory)));
+        }
         return copy;
     }
 
-    public override string ToString() => NodeType.ToString();
+    public override string ToString() => GetType().Name;
 }

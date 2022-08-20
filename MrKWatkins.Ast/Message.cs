@@ -2,12 +2,36 @@ namespace MrKWatkins.Ast;
 
 public sealed record Message
 {
-    internal Message(MessageLevel level, string text, string? code = null)
+    public Message(MessageLevel level, string text)
+    {
+        Level = level;
+        Text = text;
+    }
+    
+    public Message(MessageLevel level, string code, string text)
     {
         Level = level;
         Text = text;
         Code = code;
     }
+
+    [Pure]
+    public static Message Error(string code, string text) => new(MessageLevel.Error, code, text);
+    
+    [Pure]
+    public static Message Error(string text) => new(MessageLevel.Error, text);
+
+    [Pure]
+    public static Message Warning(string code, string text) => new(MessageLevel.Warning, code, text);
+    
+    [Pure]
+    public static Message Warning(string text) => new(MessageLevel.Warning, text);
+
+    [Pure]
+    public static Message Info(string code, string text) => new(MessageLevel.Info, code, text);
+    
+    [Pure]
+    public static Message Info(string text) => new(MessageLevel.Info, text);
 
     public MessageLevel Level { get; }
     

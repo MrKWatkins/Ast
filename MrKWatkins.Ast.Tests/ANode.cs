@@ -2,9 +2,7 @@ namespace MrKWatkins.Ast.Tests;
 
 public sealed class ANode : TestNode
 {
-    // Private to test NodeFactory.Default can run private constructors.
-    [UsedImplicitly]
-    private ANode()
+    public ANode()
     {
     }
 
@@ -17,6 +15,4 @@ public sealed class ANode : TestNode
         : base(children)
     {
     }
-
-    public override TestNodeType NodeType => TestNodeType.A;
 }

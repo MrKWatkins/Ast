@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <PackageVersion>0.3.0</PackageVersion>
+    <PackageVersion>0.4.0</PackageVersion>
     <Title>MrKWatkins.Ast</Title>
     <Authors>Kevin Watkins</Authors>
     <Description>Library to build an abstract syntax tree for use in compilers. </Description>

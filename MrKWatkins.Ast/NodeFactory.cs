@@ -1,80 +1,42 @@
+using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace MrKWatkins.Ast;
 
-public sealed class NodeFactory<TType, TNode> : INodeFactory<TType, TNode>
-    where TType : struct, Enum
-    where TNode : Node<TType, TNode>
+public sealed class NodeFactory<TNode> : INodeFactory<TNode>
+    where TNode : Node<TNode>
 {
-    public static readonly INodeFactory<TType, TNode> Default = new NodeFactory<TType, TNode>();
+    public static readonly INodeFactory<TNode> Default = new NodeFactory<TNode>();
 
-    // Using a lazy so we get exceptions on Create rather than TypeLoadExceptions via the static constructor blowing up.
-    private readonly Lazy<IReadOnlyDictionary<TType, Func<TNode>>> constructorsByNodeType = new(BuildConstructorsByNodeType);
+    private readonly ConcurrentDictionary<Type, Func<TNode>> constructorsByNodeType = new();
         
     private NodeFactory()
     {
     }
 
-    public TNode Create(TType nodeType)
+    public TNode Create(Type nodeType) => CallConstructor(nodeType, constructorsByNodeType.GetOrAdd(nodeType, BuildConstructor));
+
+    [Pure]
+    private static Func<TNode> BuildConstructor(Type type)
     {
-        var name = $"{typeof(TType).Name}.{nodeType}";
-        if (constructorsByNodeType.Value.TryGetValue(nodeType, out var constructor))
+        var constructorInfo = type
+            .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .FirstOrDefault(c => c.GetParameters().Length == 0);
+
+        if (constructorInfo == null)
         {
-            return CallConstructor(name, constructor);
-        }
-            
-        throw new InvalidOperationException($"A {typeof(TNode).Name} for {name} could not be found in the same assembly as {typeof(TNode).Name}.");
-    }
-
-    private static IReadOnlyDictionary<TType, Func<TNode>> BuildConstructorsByNodeType()
-    {
-        var constructorsByNodeType = new Dictionary<TType, Func<TNode>>();
-            
-        var types = typeof(TNode).Assembly.GetTypes().Where(type => typeof(TNode).IsAssignableFrom(type) && !type.IsAbstract);
-        foreach (var type in types)
-        {
-            var constructorInfo = type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .FirstOrDefault(c => c.GetParameters().Length == 0);
-
-            if (constructorInfo == null)
-            {
-                throw new InvalidOperationException($"Could not find a parameterless constructor for the node type {type.Name}.");
-            }
-
-            var expression = Expression.Lambda<Func<TNode>>(Expression.New(constructorInfo));
-            var constructor = expression.Compile();
-
-            var node = CallConstructor(type.Name, constructor);
-                
-            TType nodeType;
-            try
-            {
-                nodeType = node.NodeType;
-            }
-            catch (Exception exception)
-            {
-                throw new InvalidOperationException($"The node of type {type.Name} threw when calling the {nameof(node.NodeType)} property.", exception);
-            }
-
-            if (constructorsByNodeType.ContainsKey(nodeType))
-            {
-                throw new InvalidOperationException($"Multiple types return a {typeof(TType).Name} value of {nodeType}.");
-            }
-
-            constructorsByNodeType[nodeType] = constructor;
+            throw new InvalidOperationException($"Could not find a parameterless constructor for the node type {type.SimpleName()}.");
         }
 
-        if (constructorsByNodeType.Count == 0)
-        {
-            throw new InvalidOperationException($"No implementations of {typeof(TNode).Name} found.");
-        }
-            
-        return constructorsByNodeType;
+        var expression = Expression.Lambda<Func<TNode>>(Expression.New(constructorInfo));
+        var constructor = expression.Compile();
+
+        return constructor;
     }
 
     [Pure]
-    private static TNode CallConstructor(string name, Func<TNode> constructor)
+    private static TNode CallConstructor(Type type, Func<TNode> constructor)
     {
         try
         {
@@ -82,7 +44,7 @@ public sealed class NodeFactory<TType, TNode> : INodeFactory<TType, TNode>
         }
         catch (Exception exception)
         {
-            throw new InvalidOperationException($"Exception calling the constructor for {name}.", exception);
+            throw new InvalidOperationException($"Exception calling the constructor for {type.Name}.", exception);
         }
     }
 }

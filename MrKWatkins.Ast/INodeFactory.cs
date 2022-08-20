@@ -1,9 +1,11 @@
 namespace MrKWatkins.Ast;
 
-public interface INodeFactory<in TType, out TNode>
-    where TType : struct, Enum
-    where TNode : Node<TType, TNode>
+public interface INodeFactory<out TNode>
+    where TNode : Node<TNode>
 {
     [Pure]
-    TNode Create(TType nodeType);
+    TNode Create(Type nodeType);
+
+    [Pure]
+    TNode Create<T>() => Create(typeof(T));
 }
