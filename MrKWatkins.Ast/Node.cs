@@ -166,9 +166,9 @@ public abstract class Node<TNode>
 
     public bool HasMessages => Messages.Any();
 
-    public bool ThisAndDescendentsHaveMessages => ThisAndDescendentsMessages.Any();
-    
-    public IEnumerable<Message> ThisAndDescendentsMessages => ThisAndDescendents.SelectMany(n => n.Messages);
+    public bool ThisAndDescendentsHaveMessages => ThisAndDescendentsWithMessages.Any();
+
+    public IEnumerable<TNode> ThisAndDescendentsWithMessages => ThisAndDescendents.Where(n => n.HasMessages);
 
     public void AddMessage(Message message) => (messages ??= new List<Message>()).Add(message);
 
@@ -180,9 +180,9 @@ public abstract class Node<TNode>
     
     public bool HasErrors => Errors.Any();
 
-    public bool ThisAndDescendentsHaveErrors => ThisAndDescendentsErrors.Any();
+    public bool ThisAndDescendentsHaveErrors => ThisAndDescendentsWithErrors.Any();
     
-    public IEnumerable<Message> ThisAndDescendentsErrors => ThisAndDescendents.SelectMany(n => n.Errors);
+    public IEnumerable<TNode> ThisAndDescendentsWithErrors => ThisAndDescendents.Where(n => n.HasErrors);
     
     public void AddError(string text) => AddMessage(Message.Error(text));
     
@@ -192,9 +192,9 @@ public abstract class Node<TNode>
 
     public bool HasWarnings => Warnings.Any();
 
-    public bool ThisAndDescendentsHaveWarnings => ThisAndDescendentsWarnings.Any();
+    public bool ThisAndDescendentsHaveWarnings => ThisAndDescendentsWithWarnings.Any();
     
-    public IEnumerable<Message> ThisAndDescendentsWarnings => ThisAndDescendents.SelectMany(n => n.Warnings);
+    public IEnumerable<TNode> ThisAndDescendentsWithWarnings => ThisAndDescendents.Where(n => n.HasWarnings);
     
     public void AddWarning(string text) => AddMessage(Message.Warning(text));
     
@@ -208,9 +208,9 @@ public abstract class Node<TNode>
 
     public bool HasInfos => Infos.Any();
 
-    public bool ThisAndDescendentsHaveInfos => ThisAndDescendentsInfos.Any();
+    public bool ThisAndDescendentsHaveInfos => ThisAndDescendentsWithInfos.Any();
     
-    public IEnumerable<Message> ThisAndDescendentsInfos => ThisAndDescendents.SelectMany(n => n.Infos);
+    public IEnumerable<TNode> ThisAndDescendentsWithInfos => ThisAndDescendents.Where(n => n.HasInfos);
     
     [Pure]
     public TNode Copy() => Copy(NodeFactory<TNode>.Default);
