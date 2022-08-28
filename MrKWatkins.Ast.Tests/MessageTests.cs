@@ -75,8 +75,8 @@ public sealed class MessageTests
     }
     
     [Test]
-    public void ToString_WithCode() => new Message(MessageLevel.Error, "Code", "Text").ToString().Should().Be("[Error] Code: Text");
+    public void ToString_WithCode() => new Message(MessageLevel.Error, "Code", "Text").ToString().Should().Be("Error Code: Text");
 
     [Test]
-    public void ToString_WithoutCode() => new Message(MessageLevel.Error, "Text").ToString().Should().Be("[Error] Text");
+    public void ToString_WithoutCode() => new Message(MessageLevel.Error, "Text").ToString().Should().Be("Error: Text");
 }

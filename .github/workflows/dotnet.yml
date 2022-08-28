@@ -13,58 +13,58 @@ jobs:
     env:
       config: 'Release'
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-        
-    - name: Restore Dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --no-restore --configuration $config
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
 
-    - name: Test
-      run: dotnet test --no-restore --no-build --configuration $config --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude=[*.Testing]*
+      - name: Restore Dependencies
+        run: dotnet restore
 
-    - name: Test Report
-      uses: dorny/test-reporter@v1
-      if: success() || failure()
-      with:
-        name: Test Results
-        path: "**/TestResults/test-results.trx"
-        reporter: dotnet-trx
+      - name: Build
+        run: dotnet build --no-restore --configuration $config
 
-    - name: Aggregate Coverage Reports
-      run: | 
-        dotnet new tool-manifest
-        dotnet tool install dotnet-reportgenerator-globaltool
-        dotnet tool run reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:." "-reportTypes:Cobertura"
+      - name: Test
+        run: dotnet test --no-restore --no-build --configuration $config --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude=[*.Testing]*
 
-    - name: Generate Coverage Report
-      uses: irongut/CodeCoverageSummary@v1.2.0
-      with:
-        filename: Cobertura.xml
-        format: markdown
-        indicators: true
-        output: file
-        thresholds: '50 60'
-        
-    - name: Attach Coverage Report to Build
-      uses: dtinth/markdown-report-action@v1
-      with:
-        name: Test Coverage
-        title: Test Coverage
-        body-file: code-coverage-results.md
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Test Results
+          path: "**/TestResults/test-results.trx"
+          reporter: dotnet-trx
 
-    - name: Publish to NuGet
-      id: publish_nuget
-      uses: tedd/publish-nuget-neo@v1
-      with:
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-        PROJECT_FILE_PATH: MrKWatkins.Ast/MrKWatkins.Ast.csproj
-        TAG_COMMIT: true
-        PACKAGE_NAME: MrKWatkins.Ast
-        VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$
+      - name: Aggregate Coverage Reports
+        run: |
+          dotnet new tool-manifest
+          dotnet tool install dotnet-reportgenerator-globaltool
+          dotnet tool run reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:." "-reportTypes:Cobertura"
+
+      - name: Generate Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.2.0
+        with:
+          filename: Cobertura.xml
+          format: markdown
+          indicators: true
+          output: file
+          thresholds: '50 60'
+
+      - name: Attach Coverage Report to Build
+        uses: dtinth/markdown-report-action@v1
+        with:
+          name: Test Coverage
+          title: Test Coverage
+          body-file: code-coverage-results.md
+
+      - name: Publish to NuGet
+        id: publish_nuget
+        uses: tedd/publish-nuget-neo@v1
+        with:
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          PROJECT_FILE_PATH: MrKWatkins.Ast/MrKWatkins.Ast.csproj
+          TAG_COMMIT: true
+          PACKAGE_NAME: MrKWatkins.Ast
+          VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$

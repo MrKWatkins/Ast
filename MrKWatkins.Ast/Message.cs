@@ -41,6 +41,6 @@ public sealed record Message
 
     public override string ToString() =>
         Code != null
-            ? $"[{Level}] {Code}: {Text}"
-            : $"[{Level}] {Text}";
+            ? $"{Level} {Code}: {Text}"
+            : $"{Level}: {Text}";
 }

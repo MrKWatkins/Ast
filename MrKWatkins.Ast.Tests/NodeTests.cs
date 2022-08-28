@@ -1,3 +1,5 @@
+using MrKWatkins.Ast.Position;
+
 namespace MrKWatkins.Ast.Tests;
 
 public sealed class NodeTests
@@ -727,6 +729,17 @@ public sealed class NodeTests
         childCopy.Should().BeOfType<CNode>();
         childCopy.TestProperty.Should().Be("Child");
         childCopy.Children.Should().BeEmpty();
+    }
+
+    [Test]
+    public void SourcePosition()
+    {
+        var node = new ANode();
+        node.SourcePosition.Should().BeSameAs(MrKWatkins.Ast.Position.SourcePosition.None);
+
+        var position = new BinaryFilePosition(new BinaryFile("Test File", new byte[] { 1, 2, 3 }), 0, 1);
+        node.SourcePosition = position;
+        node.SourcePosition.Should().BeSameAs(position);
     }
 
     [Test]

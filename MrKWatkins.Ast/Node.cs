@@ -1,3 +1,5 @@
+using MrKWatkins.Ast.Position;
+
 namespace MrKWatkins.Ast;
 
 public abstract class Node<TNode>
@@ -211,6 +213,12 @@ public abstract class Node<TNode>
     public bool ThisAndDescendentsHaveInfos => ThisAndDescendentsWithInfos.Any();
     
     public IEnumerable<TNode> ThisAndDescendentsWithInfos => ThisAndDescendents.Where(n => n.HasInfos);
+    
+    public SourcePosition SourcePosition
+    {
+        get => Properties.GetOrDefault(nameof(SourcePosition), SourcePosition.None);
+        set => Properties.Set(nameof(SourcePosition), value);
+    }
     
     [Pure]
     public TNode Copy() => Copy(NodeFactory<TNode>.Default);
