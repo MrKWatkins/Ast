@@ -1,17 +1,15 @@
-name: .NET Build and Test
+name: Build, Test and Package
 
 on:
   push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
 
 jobs:
-  BuildAndTest:
-    name: Build and Test
+  BuildTestAndPackage:
+    name: Build, Test and Package
     runs-on: ubuntu-latest
     env:
-      config: 'Release'
+      Version: "0.9.${{ github.RUN_NUMBER }}"
     steps:
       - uses: actions/checkout@v3
 
@@ -24,10 +22,10 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore --configuration $config
+        run: dotnet build /p:Version=$Version --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test --no-restore --no-build --configuration $config --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude=[*.Testing]*
+        run: dotnet test --no-restore --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
 
       - name: Test Report
         uses: dorny/test-reporter@v1
@@ -60,11 +58,11 @@ jobs:
           body-file: code-coverage-results.md
 
       - name: Publish to NuGet
-        id: publish_nuget
         uses: tedd/publish-nuget-neo@v1
+        if: ${{ github.ref == 'refs/heads/main' }}
         with:
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
           PROJECT_FILE_PATH: MrKWatkins.Ast/MrKWatkins.Ast.csproj
           TAG_COMMIT: true
           PACKAGE_NAME: MrKWatkins.Ast
-          VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$
+          VERSION_STATIC: ${{ env.Version }}
