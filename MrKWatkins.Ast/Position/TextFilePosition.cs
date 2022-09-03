@@ -23,7 +23,14 @@ public sealed  class TextFilePosition : SourceFilePosition<TextFilePosition, Tex
         }
 
         var startLine = file.Lines[startLineIndex];
-        if (startColumnIndex >= startLine.Length)
+        if (startLine.Length == 0)
+        {
+            if (startColumnIndex != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startColumnIndex), startColumnIndex, "Value must be 0 for a start line of 0 length.");
+            }
+        }
+        else if (startColumnIndex >= startLine.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(startColumnIndex), startColumnIndex, $"Value must be less than the length of the start line. ({startLine.Length})");
         }
