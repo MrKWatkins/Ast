@@ -66,3 +66,4 @@ jobs:
           TAG_COMMIT: true
           PACKAGE_NAME: MrKWatkins.Ast
           VERSION_STATIC: ${{ env.Version }}
+          INCLUDE_SYMBOLS: true
