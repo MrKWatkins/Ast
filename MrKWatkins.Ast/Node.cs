@@ -52,6 +52,8 @@ public abstract class Node<TNode>
     public void RemoveFromParent() => Parent.Children.Remove(This);
         
     public Children<TNode> Children => children ??= new Children<TNode>(This);
+
+    public bool HasChildren => children is { Count: > 0 };
     
     [PublicAPI]
     protected NodeProperties Properties => properties ??= new NodeProperties();

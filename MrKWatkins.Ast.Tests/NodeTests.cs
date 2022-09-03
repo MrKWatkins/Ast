@@ -114,6 +114,19 @@ public sealed class NodeTests
     }
 
     [Test]
+    public void HasChildren()
+    {
+        var root = new ANode();
+        root.HasChildren.Should().BeFalse();
+
+        root.Children.Add(new BNode());
+        root.HasChildren.Should().BeTrue();
+        
+        root.Children.Clear();
+        root.HasChildren.Should().BeFalse();
+    }
+
+    [Test]
     public void Ancestors()
     {
         var grandChildren0 = new TestNode[] { new ANode(), new BNode() };
