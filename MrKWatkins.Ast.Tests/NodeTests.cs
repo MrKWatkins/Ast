@@ -181,6 +181,20 @@ public sealed class NodeTests
     }
 
     [Test]
+    public void Root()
+    {
+        var grandChild = new CNode();
+        var child1 = new BNode(grandChild);
+        var child2 = new BNode();
+        var root = new ANode(child1, child2);
+
+        grandChild.Root.Should().BeSameAs(root);
+        child1.Root.Should().BeSameAs(root);
+        child2.Root.Should().BeSameAs(root);
+        root.Root.Should().BeSameAs(root);
+    }
+
+    [Test]
     public void NextSibling()
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };

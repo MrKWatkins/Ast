@@ -80,7 +80,6 @@ public abstract class Node<TNode>
             }
         }
     }
-
     [Pure]
     [PublicAPI]
     protected IEnumerable<TNode> ThisAnd(IEnumerable<TNode> and)
@@ -94,6 +93,11 @@ public abstract class Node<TNode>
     }
 
     public IEnumerable<TNode> ThisAndAncestors => ThisAnd(Ancestors);
+
+    /// <summary>
+    /// The root node, i.e. the highest parent above this node. Returns this node if it is the root, i.e. it has no parents.
+    /// </summary>
+    public TNode Root => ThisAndAncestors.Last();
 
     [Pure]
     private int GetIndexOfSelf() => Parent.Children.IndexOf(This);  // Can never be -1.
