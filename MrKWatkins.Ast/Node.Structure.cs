@@ -22,6 +22,8 @@ public abstract partial class Node<TNode>
             parent = value;
         }
     }
+
+    internal void SetParentWithoutChecks(TNode newParent) => parent = newParent; 
     
     /// <summary>
     /// Does this node have a parent? Nodes will not have parents if they are the root node or they have just been

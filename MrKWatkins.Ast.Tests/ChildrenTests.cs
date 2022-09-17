@@ -227,6 +227,48 @@ public sealed class ChildrenTests
         child1.Parent.Should().BeSameAs(newParent);
         child2.Parent.Should().BeSameAs(newParent);
     }
+
+    [Test]
+    public void MoveInto_Children_ThrowsIfMovingSelf()
+    {
+        var parent = new ANode();
+        parent.Children.Invoking(c => c.MoveInto(c)).Should().Throw<ArgumentException>();
+    }
+
+    [Test]
+    public void MoveInto_Children()
+    {
+        var child1 = new BNode();
+        var child2 = new BNode();
+        var parent = new ANode(child1, child2);
+
+        var newParentChild = new BNode();
+        var newParent = new BNode(newParentChild);
+        
+        // We do not want parent.Children to throw a "collection was modified" exception.
+        newParent.Children.MoveInto(parent.Children);
+
+        parent.Children.Should().BeEmpty();
+
+        newParent.Children.Should().BeEquivalentTo(new [] { newParentChild, child1, child2 }, c => c.WithoutStrictOrdering());
+        child1.Parent.Should().BeSameAs(newParent);
+        child2.Parent.Should().BeSameAs(newParent);
+    }
+    
+    [Test]
+    public void MoveInto_Children_Empty()
+    {
+        var parent = new ANode();
+
+        var newParentChild = new BNode();
+        var newParent = new BNode(newParentChild);
+        
+        newParent.Children.MoveInto(parent.Children);
+
+        parent.Children.Should().BeEmpty();
+
+        newParent.Children.Should().BeEquivalentTo(new [] { newParentChild }, c => c.WithoutStrictOrdering());
+    }
     
     [Test]
     public void MoveInto_Params_ThrowsIfAnyNodeAlreadyInChildren()
