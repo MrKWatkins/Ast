@@ -224,6 +224,64 @@ public sealed partial class NodeTests
     }
 
     [Test]
+    public void AddNextSibling_ThrowsForRootNode()
+    {
+        var root = new ANode();
+
+        root.Invoking(r => r.AddNextSibling(new ANode()))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Cannot add a next sibling to the root node.");
+    }
+    
+    [Test]
+    public void AddNextSibling_HasNextSibling()
+    {
+        var child1 = new ANode();
+        var child2 = new ANode();
+        var parent = new ANode(child1, child2);
+
+        var sibling = new ANode();
+
+        child1.AddNextSibling(sibling);
+        parent.Children.Should().BeEquivalentTo(new[] { child1, sibling, child2 }, c => c.WithStrictOrdering());
+    }
+    
+    [Test]
+    public void AddNextSibling_NoNextSibling()
+    {
+        var child1 = new ANode();
+        var child2 = new ANode();
+        var parent = new ANode(child1, child2);
+
+        var sibling = new ANode();
+
+        child2.AddNextSibling(sibling);
+        parent.Children.Should().BeEquivalentTo(new[] { child1, child2, sibling }, c => c.WithStrictOrdering());
+    }
+    
+    [Test]
+    public void RemoveNextSibling_HasNextSibling()
+    {
+        var child1 = new ANode();
+        var child2 = new ANode();
+        var parent = new ANode(child1, child2);
+
+        child1.RemoveNextSibling().Should().BeTrue();
+        parent.Children.Should().BeEquivalentTo(new[] { child1 }, c => c.WithStrictOrdering());
+    }
+    
+    [Test]
+    public void RemoveNextSibling_NoNextSibling()
+    {
+        var child1 = new ANode();
+        var child2 = new ANode();
+        var parent = new ANode(child1, child2);
+
+        child2.RemoveNextSibling().Should().BeFalse();
+        parent.Children.Should().BeEquivalentTo(new[] { child1, child2 }, c => c.WithStrictOrdering());
+    }
+    
+    [Test]
     public void PreviousSibling()
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
@@ -308,6 +366,64 @@ public sealed partial class NodeTests
         var root = new ANode(new ANode(), new BNode(), new CNode());
 
         root.ThisAndPreviousSiblings.Should().Equal(root);
+    }
+
+    [Test]
+    public void AddPreviousSibling_ThrowsForRootNode()
+    {
+        var root = new ANode();
+
+        root.Invoking(r => r.AddPreviousSibling(new ANode()))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Cannot add a previous sibling to the root node.");
+    }
+    
+    [Test]
+    public void AddPreviousSibling_HasPreviousSibling()
+    {
+        var child1 = new ANode();
+        var child2 = new ANode();
+        var parent = new ANode(child1, child2);
+
+        var sibling = new ANode();
+
+        child2.AddPreviousSibling(sibling);
+        parent.Children.Should().BeEquivalentTo(new[] { child1, sibling, child2 }, c => c.WithStrictOrdering());
+    }
+    
+    [Test]
+    public void AddPreviousSibling_NoPreviousSibling()
+    {
+        var child1 = new ANode();
+        var child2 = new ANode();
+        var parent = new ANode(child1, child2);
+
+        var sibling = new ANode();
+
+        child1.AddPreviousSibling(sibling);
+        parent.Children.Should().BeEquivalentTo(new[] { sibling, child1, child2 }, c => c.WithStrictOrdering());
+    }
+    
+    [Test]
+    public void RemovePreviousSibling_HasPreviousSibling()
+    {
+        var child1 = new ANode();
+        var child2 = new ANode();
+        var parent = new ANode(child1, child2);
+
+        child2.RemovePreviousSibling().Should().BeTrue();
+        parent.Children.Should().BeEquivalentTo(new[] { child2 }, c => c.WithStrictOrdering());
+    }
+    
+    [Test]
+    public void RemovePreviousSibling_NoPreviousSibling()
+    {
+        var child1 = new ANode();
+        var child2 = new ANode();
+        var parent = new ANode(child1, child2);
+
+        child1.RemovePreviousSibling().Should().BeFalse();
+        parent.Children.Should().BeEquivalentTo(new[] { child1, child2 }, c => c.WithStrictOrdering());
     }
 
     [Test]

@@ -16,9 +16,11 @@ public abstract class TestNode : Node<TestNode>
     {
     }
 
-    public string TestProperty
+    public string Name
     {
-        get => Properties.GetOrThrow<string>(nameof(TestProperty));
-        set => Properties.Set(nameof(TestProperty), value);
+        get => Properties.GetOrThrow<string>(nameof(Name));
+        set => Properties.Set(nameof(Name), value);
     }
+
+    public override string ToString() => Properties.GetOrDefault<string>(nameof(Name)) ?? base.ToString();
 }

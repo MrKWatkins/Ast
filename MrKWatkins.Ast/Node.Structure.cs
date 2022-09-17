@@ -38,7 +38,7 @@ public abstract partial class Node<TNode>
     public bool HasChildren => children is { Count: > 0 };
     
     [PublicAPI]
-    protected NodeProperties Properties => properties ??= new NodeProperties();
+    protected Properties Properties => properties ??= new Properties();
     
     /// <summary>
     /// Moves this node to a new parent.
@@ -103,6 +103,29 @@ public abstract partial class Node<TNode>
 
     public IEnumerable<TNode> ThisAndNextSiblings => ThisAnd(NextSiblings);
 
+    public void AddNextSibling(TNode nextSibling)
+    {
+        if (!HasParent)
+        {
+            throw new InvalidOperationException("Cannot add a next sibling to the root node.");
+        }
+
+        var index = GetIndexOfSelf();
+        Parent.Children.Insert(index + 1, nextSibling);
+    }
+    
+    public bool RemoveNextSibling()
+    {
+        var nextSibling = NextSibling;
+        if (nextSibling != null)
+        {
+            nextSibling.RemoveFromParent();
+            return true;
+        }
+
+        return false;
+    }
+
     public TNode? PreviousSibling
     {
         get
@@ -142,13 +165,36 @@ public abstract partial class Node<TNode>
 
     public IEnumerable<TNode> ThisAndPreviousSiblings => ThisAnd(PreviousSiblings);
 
+    public void AddPreviousSibling(TNode previousSibling)
+    {
+        if (!HasParent)
+        {
+            throw new InvalidOperationException("Cannot add a previous sibling to the root node.");
+        }
+
+        var index = GetIndexOfSelf();
+        Parent.Children.Insert(index, previousSibling);
+    }
+    
+    public bool RemovePreviousSibling()
+    {
+        var previousSibling = PreviousSibling;
+        if (previousSibling != null)
+        {
+            previousSibling.RemoveFromParent();
+            return true;
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// Enumerates all descendents of this node in depth first order.
     /// </summary>
-    public IEnumerable<TNode> Descendents => Children.SelectMany(c => c.ThisAndDescendents);
+    public IEnumerable<TNode> Descendents => Enumerate.DepthFirstPreOrder(This, false);
 
     /// <summary>
     /// Enumerates this node then all descendents of this node in depth first order.
     /// </summary>
-    public IEnumerable<TNode> ThisAndDescendents => ThisAnd(Descendents);
+    public IEnumerable<TNode> ThisAndDescendents => Enumerate.DepthFirstPreOrder(This);
 }

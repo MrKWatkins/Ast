@@ -3,17 +3,17 @@ using System.Linq.Expressions;
 
 namespace MrKWatkins.Ast;
 
-public sealed class NodeProperties
+public sealed class Properties
 {
     private static readonly ConcurrentDictionary<Type, Func<object, object>> ListCopiers = new();
     private readonly Dictionary<string, Property> properties;
 
-    internal NodeProperties()
+    internal Properties()
         : this(new Dictionary<string, Property>())
     {
     }
 
-    private NodeProperties(Dictionary<string, Property> properties)
+    private Properties(Dictionary<string, Property> properties)
     {
         this.properties = properties;
     }
@@ -130,7 +130,7 @@ public sealed class NodeProperties
     }
 
     [Pure]
-    public NodeProperties Copy()
+    public Properties Copy()
     {
         var newProperties = new Dictionary<string, Property>(properties.Count);
         foreach (var (key, property) in properties)
@@ -145,7 +145,7 @@ public sealed class NodeProperties
             }
         }
 
-        return new NodeProperties(newProperties);
+        return new Properties(newProperties);
     }
 
     [Pure]

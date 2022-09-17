@@ -7,7 +7,7 @@ public abstract partial class Node<TNode>
 {
     private TNode? parent;
     private Children<TNode>? children;
-    private NodeProperties? properties;
+    private Properties? properties;
     private List<Message>? messages;
 
     protected Node()

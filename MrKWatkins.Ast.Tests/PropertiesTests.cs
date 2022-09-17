@@ -1,11 +1,11 @@
 namespace MrKWatkins.Ast.Tests;
 
-public sealed class NodePropertiesTests
+public sealed class PropertiesTests
 {
     [Test]
     public void GetOrThrow()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
         properties.Set("Two", "2");
 
@@ -16,7 +16,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrThrow_ThrowsIfValueIsAMultiple()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.AddToMultiple("Key", 1);
 
         properties.Invoking(p => p.GetOrThrow<string>("Key"))
@@ -27,7 +27,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrThrow_ThrowsIfNoValueFoundForKey()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
 
         properties.Invoking(p => p.GetOrThrow<string>("Two"))
@@ -38,7 +38,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrThrow_ExceptionCreator_ThrowsIfNoValueFoundForKey()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         
         var exception = new InvalidOperationException("Test");
 
@@ -56,7 +56,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrThrow_ThrowsIfValueWithDifferentTypeFound()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
 
         properties.Invoking(p => p.GetOrThrow<string>("One"))
@@ -67,7 +67,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrDefault()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
         properties.Set("Two", "2");
 
@@ -78,7 +78,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrDefault_ReturnsTheDefaultIfNoValueFoundForKey()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
 
         properties.GetOrDefault<string>("Two").Should().BeNull();
@@ -91,7 +91,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrDefault_ThrowsIfValueIsAMultiple()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.AddToMultiple("Key", 1);
 
         properties.Invoking(p => p.GetOrDefault<string>("Key"))
@@ -102,7 +102,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrDefault_ThrowsIfValueWithDifferentTypeFound()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
 
         properties.Invoking(p => p.GetOrDefault<string>("One"))
@@ -113,7 +113,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrAdd_GetsExistingValue()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("Key", 1);
         
         properties.GetOrAdd("Key", ShouldNotBeCalled<int>).Should().Be(1);
@@ -122,7 +122,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrAdd_AddsNewValue()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         
         static string Creator(string key)
         {
@@ -138,7 +138,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrAdd_CanAddSubTypes()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         
         static string Creator(string key)
         {
@@ -154,7 +154,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrAdd_ThrowsIfValueIsAMultiple()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.AddToMultiple("Key", 1);
 
         properties.Invoking(p => p.GetOrAdd("Key", ShouldNotBeCalled<string>))
@@ -165,7 +165,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetOrAdd_ThrowsIfValueWithDifferentTypeFound()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
 
         properties.Invoking(p => p.GetOrAdd("One", ShouldNotBeCalled<string>))
@@ -176,7 +176,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void TryGet_ValueExists()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
         properties.Set("Two", "2");
 
@@ -190,7 +190,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void TryGet_ValueDoesNotExist()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
 
         properties.TryGet<int>("One", out _).Should().BeFalse();
         properties.TryGet<string>("Two", out _).Should().BeFalse();
@@ -199,7 +199,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void TryGet_ThrowsIfValueIsAMultiple()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.AddToMultiple("Key", 1);
 
         properties.Invoking(p => p.TryGet<string>("Key", out _))
@@ -210,7 +210,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void TryGet_ThrowsIfValueWithDifferentTypeFound()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
 
        properties.Invoking(p => p.TryGet<string>("One", out _))
@@ -221,7 +221,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void ContainsKey()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
 
         properties.ContainsKey("One").Should().BeTrue();
@@ -231,7 +231,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void Count()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Count.Should().Be(0);
         
         properties.Set("One", 1);
@@ -247,7 +247,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void Set()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.GetOrDefault<int>("Key").Should().Be(default);
         
         properties.Set("Key", 1);
@@ -260,7 +260,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void Set_ThrowsIfValueIsAMultiple()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.AddToMultiple("Key", 1);
 
         properties.Invoking(p => p.Set("Key", 1))
@@ -271,7 +271,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void Set_ThrowsIfExistingValueOfADifferentType()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("One", 1);
 
         properties.Invoking(p => p.Set("One", "1"))
@@ -282,7 +282,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void Set_CanAddSubTypes()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
 
         properties.Set<object>("Key", "Value");
 
@@ -292,7 +292,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetMultiple()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
 
         properties.GetMultiple<int>("Key").Should().BeEmpty();
         
@@ -306,7 +306,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetMultiple_ThrowsIfValueIsASingle()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("Key", 1);
 
         properties.Invoking(p => p.GetMultiple<string>("Key"))
@@ -317,7 +317,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void GetMultiple_ThrowsIfValueWithDifferentTypeFound()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.AddToMultiple("Key", 1);
 
         properties.Invoking(p => p.GetMultiple<string>("Key"))
@@ -328,7 +328,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void SetMultiple()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.GetMultiple<int>("Key").Should().BeEmpty();
         
         properties.SetMultiple("Key", new[] { 1 });
@@ -341,7 +341,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void SetMultiple_ThrowsIfValueIsASingle()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("Key", 1);
 
         properties.Invoking(p => p.SetMultiple("Key", new[] { 1, 2 }))
@@ -352,7 +352,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void SetMultiple_ThrowsIfExistingValueOfADifferentType()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.SetMultiple("One", new[] { 1, 2 });
 
         properties.Invoking(p => p.SetMultiple("One", new[] { "1", "2" }))
@@ -363,7 +363,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void SetMultiple_ThrowsIfValueIsNull()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
 
         properties.Invoking(p => p.SetMultiple<string>("One", null!))
             .Should().Throw<ArgumentNullException>();
@@ -372,7 +372,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void SetMultiple_CanAddSubTypes()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
 
         properties.SetMultiple<object>("Key", new [] { "Value" });
 
@@ -382,7 +382,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void AddToMultiple()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.GetMultiple<int>("Key").Should().BeEmpty();
         
         properties.AddToMultiple("Key", 1);
@@ -395,7 +395,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void AddToMultiple_ThrowsIfValueIsASingle()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("Key", 1);
 
         properties.Invoking(p => p.AddToMultiple("Key", 1))
@@ -406,7 +406,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void AddToMultiple_ThrowsIfExistingValueOfADifferentType()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.AddToMultiple("One", 1);
 
         properties.Invoking(p => p.AddToMultiple("One", "2"))
@@ -417,7 +417,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void AddToMultiple_CanAddSubTypes()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
 
         properties.AddToMultiple<object>("Key", "Value");
 
@@ -427,7 +427,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void AddRangeToMultiple()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.GetMultiple<int>("Key").Should().BeEmpty();
         
         properties.AddRangeToMultiple("Key", new [] { 1, 2 });
@@ -440,7 +440,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void AddRangeToMultiple_ThrowsIfValueIsASingle()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("Key", 1);
 
         properties.Invoking(p => p.AddRangeToMultiple("Key", new [] { 1, 2 }))
@@ -451,7 +451,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void AddRangeToMultiple_ThrowsIfExistingValueOfADifferentType()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.AddToMultiple("One", 1);
 
         properties.Invoking(p => p.AddRangeToMultiple("One", new[] { "1", "2" }))
@@ -462,7 +462,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void AddRangeToMultiple_CanAddSubTypes()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
 
         properties.AddRangeToMultiple<object>("Key", new[] { "1", "2" });
 
@@ -472,7 +472,7 @@ public sealed class NodePropertiesTests
     [Test]
     public void Copy()
     {
-        var properties = new NodeProperties();
+        var properties = new Properties();
         properties.Set("SingleOne", 1);
         properties.Set("SingleTwo", "Two");
         properties.Set<object>("SingleThree", "Two");
