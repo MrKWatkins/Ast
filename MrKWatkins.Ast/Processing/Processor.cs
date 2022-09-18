@@ -2,7 +2,41 @@ using MrKWatkins.Ast.Enumeration;
 
 namespace MrKWatkins.Ast.Processing;
 
-public abstract class Processor<TNode>
+public abstract class Processor
+{
+    private protected Processor()
+    {
+    }
+
+    [MustUseReturnValue]
+    protected static TResult CatchAndRethrowExceptions<TNode, TResult>(TNode node, string method, Func<TNode, TResult> function)
+        where TNode : Node<TNode>
+    {
+        try
+        {
+            return function(node);
+        }
+        catch (Exception exception)
+        {
+            throw new ProcessingException<TNode>($"Exception during {method}.", exception, node);
+        }
+    }
+    
+    protected static void CatchAndRethrowExceptions<TNode>(TNode node, string method, Action<TNode> action)
+        where TNode : Node<TNode>
+    {
+        try
+        {
+            action(node);
+        }
+        catch (Exception exception)
+        {
+            throw new ProcessingException<TNode>($"Exception during {method}.", exception, node);
+        }
+    }
+}
+
+public abstract class Processor<TNode> : Processor, IProcessor<TNode>
     where TNode : Node<TNode>
 {
     public void Process(TNode root)
@@ -15,52 +49,27 @@ public abstract class Processor<TNode>
             }
         }
     }
-
-    [MustUseReturnValue]
-    private static TResult CatchAndRethrowExceptions<TResult>(TNode node, string method, Func<TNode, TResult> function)
-    {
-        try
-        {
-            return function(node);
-        }
-        catch (Exception exception)
-        {
-            throw new ProcessingException<TNode>($"Exception during {method}.", exception, node);
-        }
-    }
     
-    private static void CatchAndRethrowExceptions(TNode node, string method, Action<TNode> action)
-    {
-        try
-        {
-            action(node);
-        }
-        catch (Exception exception)
-        {
-            throw new ProcessingException<TNode>($"Exception during {method}.", exception, node);
-        }
-    }
-    
-    protected virtual IDescendentEnumerator<TNode> Enumerator => DepthFirstPreOrder<TNode>.Instance;
+    protected internal virtual IDescendentEnumerator<TNode> Enumerator => DepthFirstPreOrder<TNode>.Instance;
 
     [Pure]
-    protected virtual bool ShouldProcessNode(TNode node) => true;
+    protected internal virtual bool ShouldProcessNode(TNode node) => true;
     
     [Pure]
-    protected virtual bool ShouldProcessChildren(TNode node) => true;
+    protected internal virtual bool ShouldProcessChildren(TNode node) => true;
 
-    protected abstract void ProcessNode(TNode node);
+    protected internal abstract void ProcessNode(TNode node);
 }
 
 public abstract class Processor<TNode, TBaseNode> : Processor<TBaseNode>
     where TNode : TBaseNode
     where TBaseNode : Node<TBaseNode>
 {
-    protected sealed override bool ShouldProcessNode(TBaseNode node) => node is TNode typedNode && ShouldProcessNode(typedNode);
+    protected internal sealed override bool ShouldProcessNode(TBaseNode node) => node is TNode typedNode && ShouldProcessNode(typedNode);
 
     protected virtual bool ShouldProcessNode(TNode node) => true;
 
-    protected sealed override void ProcessNode(TBaseNode node) => ProcessNode((TNode) node);
+    protected internal sealed override void ProcessNode(TBaseNode node) => ProcessNode((TNode) node);
 
     protected abstract void ProcessNode(TNode node);
 }

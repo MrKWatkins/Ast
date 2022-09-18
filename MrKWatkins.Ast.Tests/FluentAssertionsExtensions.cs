@@ -41,6 +41,39 @@ public static class FluentAssertionsExtensions
 
         return new AndConstraint<TAssertions>((TAssertions) assertions);
     }
+    
+    public static ExceptionAssertions<ArgumentException> WithParameters(
+        this ExceptionAssertions<ArgumentException> assertions, 
+        string baseMessage, string paramName,
+        string because = "", params object[] becauseArgs)
+    {
+        using (new AssertionScope())
+        {
+            assertions.Which.ParamName.Should().Be(paramName, because, becauseArgs);
+
+            var message = $"{baseMessage} (Parameter '{paramName}')";
+            assertions.WithMessage(message, because, becauseArgs);
+        }
+
+        return assertions;
+    }
+    
+    public static ExceptionAssertions<ArgumentOutOfRangeException> WithParameters(
+        this ExceptionAssertions<ArgumentOutOfRangeException> assertions, 
+        string paramName, object actualValue, string baseMessage, 
+        string because = "", params object[] becauseArgs)
+    {
+        using (new AssertionScope())
+        {
+            assertions.Which.ParamName.Should().Be(paramName, because, becauseArgs);
+            assertions.Which.ActualValue.Should().Be(actualValue, because, becauseArgs);
+
+            var message = $"{baseMessage} (Parameter '{paramName}'){Environment.NewLine}Actual value was {actualValue}.";
+            assertions.WithMessage(message, because, becauseArgs);
+        }
+
+        return assertions;
+    }
 
     public static ExceptionAssertions<ProcessingException<TestNode>> WithParameters(
         this ExceptionAssertions<ProcessingException<TestNode>> assertions,

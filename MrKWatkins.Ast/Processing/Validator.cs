@@ -3,7 +3,7 @@ namespace MrKWatkins.Ast.Processing;
 public abstract class Validator<TNode> : Processor<TNode> 
     where TNode : Node<TNode>
 {
-    protected sealed override void ProcessNode(TNode node)
+    protected internal sealed override void ProcessNode(TNode node)
     {
         foreach (var message in ValidateNode(node))
         {
@@ -25,7 +25,7 @@ public abstract class Validator<TNode, TBaseNode> : Validator<TBaseNode>
     [Pure]
     protected abstract IEnumerable<Message> ValidateNode(TNode node);
 
-    protected sealed override bool ShouldProcessNode(TBaseNode node) => node is TNode typedNode && ShouldProcessNode(typedNode);
+    protected internal sealed override bool ShouldProcessNode(TBaseNode node) => node is TNode typedNode && ShouldProcessNode(typedNode);
 
     protected virtual bool ShouldProcessNode(TNode node) => true;
 }

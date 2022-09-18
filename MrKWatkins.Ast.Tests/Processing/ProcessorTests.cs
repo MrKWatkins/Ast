@@ -106,17 +106,17 @@ public sealed class ProcessorTests : TreeTestFixture
 
         public IReadOnlyList<TestNode> Processed => processed;
 
-        protected override IDescendentEnumerator<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
+        protected internal override IDescendentEnumerator<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
 
-        protected override void ProcessNode(TestNode node)
+        protected internal override void ProcessNode(TestNode node)
         {
             processed.Add(node);
             ProcessNodeOverride?.Invoke(node);
         }
 
-        protected override bool ShouldProcessNode(TestNode node) => ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(node);
+        protected internal override bool ShouldProcessNode(TestNode node) => ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(node);
         
-        protected override bool ShouldProcessChildren(TestNode node) => ShouldProcessChildrenOverride?.Invoke(node) ?? base.ShouldProcessChildren(node);
+        protected internal override bool ShouldProcessChildren(TestNode node) => ShouldProcessChildrenOverride?.Invoke(node) ?? base.ShouldProcessChildren(node);
     }
     
     private sealed class TestTypedProcessor : Processor<BNode, TestNode>
@@ -137,6 +137,6 @@ public sealed class ProcessorTests : TreeTestFixture
 
         protected override bool ShouldProcessNode(BNode node) => ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(node);
         
-        protected override bool ShouldProcessChildren(TestNode node) => ShouldProcessChildrenOverride?.Invoke(node) ?? base.ShouldProcessChildren(node);
+        protected internal override bool ShouldProcessChildren(TestNode node) => ShouldProcessChildrenOverride?.Invoke(node) ?? base.ShouldProcessChildren(node);
     }
 }

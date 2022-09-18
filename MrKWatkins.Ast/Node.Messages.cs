@@ -1,11 +1,14 @@
+using System.Collections.Immutable;
+
 namespace MrKWatkins.Ast;
 
 public abstract partial class Node<TNode>
     where TNode : Node<TNode>
 {
-    private List<Message>? messages;
+    private readonly object messagesLock = new ();
+    private ImmutableList<Message> messages = ImmutableList<Message>.Empty;
     
-    public IReadOnlyList<Message> Messages => messages != null ? messages : Array.Empty<Message>();
+    public IReadOnlyList<Message> Messages => messages;
 
     public bool HasMessages => Messages.Any();
 
@@ -13,7 +16,15 @@ public abstract partial class Node<TNode>
 
     public IEnumerable<TNode> ThisAndDescendentsWithMessages => ThisAndDescendents.Where(n => n.HasMessages);
 
-    public void AddMessage(Message message) => (messages ??= new List<Message>()).Add(message);
+    public void AddMessage(Message message)
+    {
+        // Lock around updates in case two threads add at the same time; we don't want to lose one of the adds.
+        // No need to lock around gets as we'll just return the list at the time.
+        lock (messagesLock)
+        {
+            messages = messages.Add(message);
+        }
+    }
 
     public void AddMessage(MessageLevel level, string text) => AddMessage(new Message(level, text));
     
