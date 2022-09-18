@@ -1,6 +1,6 @@
 namespace MrKWatkins.Ast.Enumeration;
 
-public sealed class DepthFirstPreOrder<TNode> : DepthFirst<TNode>
+public sealed class DepthFirstPreOrder<TNode> : IDescendentEnumerator<TNode>
     where TNode : Node<TNode>
 {
     public static readonly IDescendentEnumerator<TNode> Instance = new DepthFirstPreOrder<TNode>();
@@ -9,14 +9,14 @@ public sealed class DepthFirstPreOrder<TNode> : DepthFirst<TNode>
     {
     }
 
-    public override IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true)
+    public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true)
     {
         if (includeRoot)
         {
             yield return root;
         }
 
-        foreach (var descendent in EnumerateChildrenAndDescendents(root))
+        foreach (var descendent in root.Children.SelectMany(child => Enumerate(child)))
         {
             yield return descendent;
         }

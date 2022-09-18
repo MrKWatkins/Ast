@@ -2,7 +2,7 @@ using MrKWatkins.Ast.Enumeration;
 
 namespace MrKWatkins.Ast.Tests.Enumeration;
 
-public sealed class DepthFirstPostOrderTests : DepthFirstTestFixture
+public sealed class DepthFirstPostOrderTests : EnumerationTestFixture
 {
     protected override IDescendentEnumerator<TestNode> Enumerator => DepthFirstPostOrder<TestNode>.Instance;
 

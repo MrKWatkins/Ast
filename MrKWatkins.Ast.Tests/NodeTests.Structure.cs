@@ -266,7 +266,7 @@ public sealed partial class NodeTests
         var child2 = new ANode();
         var parent = new ANode(child1, child2);
 
-        child1.RemoveNextSibling().Should().BeTrue();
+        child1.RemoveNextSibling().Should().Be(child2);
         parent.Children.Should().BeEquivalentTo(new[] { child1 }, c => c.WithStrictOrdering());
     }
     
@@ -277,7 +277,7 @@ public sealed partial class NodeTests
         var child2 = new ANode();
         var parent = new ANode(child1, child2);
 
-        child2.RemoveNextSibling().Should().BeFalse();
+        child2.RemoveNextSibling().Should().BeNull();
         parent.Children.Should().BeEquivalentTo(new[] { child1, child2 }, c => c.WithStrictOrdering());
     }
     
@@ -411,7 +411,7 @@ public sealed partial class NodeTests
         var child2 = new ANode();
         var parent = new ANode(child1, child2);
 
-        child2.RemovePreviousSibling().Should().BeTrue();
+        child2.RemovePreviousSibling().Should().Be(child1);
         parent.Children.Should().BeEquivalentTo(new[] { child2 }, c => c.WithStrictOrdering());
     }
     
@@ -422,7 +422,7 @@ public sealed partial class NodeTests
         var child2 = new ANode();
         var parent = new ANode(child1, child2);
 
-        child1.RemovePreviousSibling().Should().BeFalse();
+        child1.RemovePreviousSibling().Should().BeNull();
         parent.Children.Should().BeEquivalentTo(new[] { child1, child2 }, c => c.WithStrictOrdering());
     }
 

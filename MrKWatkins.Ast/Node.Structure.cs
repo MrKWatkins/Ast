@@ -22,8 +22,6 @@ public abstract partial class Node<TNode>
             parent = value;
         }
     }
-
-    internal void SetParentWithoutChecks(TNode newParent) => parent = newParent; 
     
     /// <summary>
     /// Does this node have a parent? Nodes will not have parents if they are the root node or they have just been
@@ -116,16 +114,11 @@ public abstract partial class Node<TNode>
         Parent.Children.Insert(index + 1, nextSibling);
     }
     
-    public bool RemoveNextSibling()
+    public TNode? RemoveNextSibling()
     {
         var nextSibling = NextSibling;
-        if (nextSibling != null)
-        {
-            nextSibling.RemoveFromParent();
-            return true;
-        }
-
-        return false;
+        nextSibling?.RemoveFromParent();
+        return nextSibling;
     }
 
     public TNode? PreviousSibling
@@ -178,16 +171,11 @@ public abstract partial class Node<TNode>
         Parent.Children.Insert(index, previousSibling);
     }
     
-    public bool RemovePreviousSibling()
+    public TNode? RemovePreviousSibling()
     {
         var previousSibling = PreviousSibling;
-        if (previousSibling != null)
-        {
-            previousSibling.RemoveFromParent();
-            return true;
-        }
-
-        return false;
+        previousSibling?.RemoveFromParent();
+        return previousSibling;
     }
 
     /// <summary>

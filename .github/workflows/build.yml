@@ -42,7 +42,7 @@ jobs:
           dotnet tool run reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:." "-reportTypes:Cobertura"
 
       - name: Generate Coverage Report
-        uses: irongut/CodeCoverageSummary@v1.2.0
+        uses: irongut/CodeCoverageSummary@v1.3.0
         with:
           filename: Cobertura.xml
           format: markdown

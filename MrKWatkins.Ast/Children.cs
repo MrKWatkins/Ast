@@ -1,8 +1,6 @@
-using System.Collections;
-
 namespace MrKWatkins.Ast;
 
-public sealed class Children<TNode> : IList<TNode>
+public sealed partial class Children<TNode> : IList<TNode>
     where TNode : Node<TNode>
 {
     private readonly List<TNode> nodes;
@@ -96,41 +94,6 @@ public sealed class Children<TNode> : IList<TNode>
     }
 
     /// <summary>
-    /// Moves <paramref name="children" /> from their current parent into this collection.
-    /// </summary>
-    // ReSharper disable once ParameterHidesMember
-    public void MoveInto(Children<TNode> children)
-    {
-        if (children == this)
-        {
-            throw new ArgumentException("Cannot move own children into self.", nameof(children));
-        }
-
-        if (children.Count == 0)
-        {
-            return;
-        }
-
-        // Cannot just move each node one by one because we will get a "collection was modified" exception.
-        // First add them to nodes.
-        var newChildrenStartIndex = nodes.Count;
-        foreach (var child in children)
-        {
-            nodes.Add(child);
-        }
-
-        // Clear the nodes in children. Don't use Clear() as that will set the parents to null; pointless to
-        // do so as we will be updating their parents shortly anyway.
-        children.nodes.Clear();
-
-        // Now set the new parent.
-        for (var f = newChildrenStartIndex; f < nodes.Count; f++)
-        {
-            nodes[f].SetParentWithoutChecks(parent);
-        }
-    }
-
-    /// <summary>
     /// Moves <paramref name="nodes" /> from their current parents (if they have one) into this collection.
     /// </summary>
     // ReSharper disable once ParameterHidesMember
@@ -139,10 +102,6 @@ public sealed class Children<TNode> : IList<TNode>
     public int Count => nodes.Count;
 
     bool ICollection<TNode>.IsReadOnly => false;
-        
-    public IEnumerator<TNode> GetEnumerator() => nodes.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => nodes.GetEnumerator();
 
     public int IndexOf(TNode node) => nodes.IndexOf(node);
 

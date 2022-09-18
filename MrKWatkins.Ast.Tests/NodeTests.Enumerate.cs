@@ -18,6 +18,16 @@ public sealed partial class NodeTests
     }
 
     [Test]
+    public void Enumerate_BreadthFirst_IncludeRoot() => 
+        TestNode.Enumerate.BreadthFirst(N1)
+            .Should().BeEquivalentTo(BreadthFirst<TestNode>.Instance.Enumerate(N1));
+    
+    [Test]
+    public void Enumerate_BreadthFirst_WithoutRoot() => 
+        TestNode.Enumerate.BreadthFirst(N1, false)
+            .Should().BeEquivalentTo(BreadthFirst<TestNode>.Instance.Enumerate(N1, false));
+    
+    [Test]
     public void Enumerate_DepthFirstPreOrder_IncludeRoot() => 
         TestNode.Enumerate.DepthFirstPreOrder(N1)
             .Should().BeEquivalentTo(DepthFirstPreOrder<TestNode>.Instance.Enumerate(N1));

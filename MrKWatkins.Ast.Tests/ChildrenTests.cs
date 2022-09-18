@@ -1,9 +1,7 @@
-using System.Collections;
-
 namespace MrKWatkins.Ast.Tests;
 
 // Tests the type via the Children property of a node as the type cannot exist without a parent node.
-public sealed class ChildrenTests
+public sealed partial class ChildrenTests
 {
     [Test]
     public void Add_Node_SetsParentOnChild()
@@ -229,13 +227,6 @@ public sealed class ChildrenTests
     }
 
     [Test]
-    public void MoveInto_Children_ThrowsIfMovingSelf()
-    {
-        var parent = new ANode();
-        parent.Children.Invoking(c => c.MoveInto(c)).Should().Throw<ArgumentException>();
-    }
-
-    [Test]
     public void MoveInto_Children()
     {
         var child1 = new BNode();
@@ -245,7 +236,7 @@ public sealed class ChildrenTests
         var newParentChild = new BNode();
         var newParent = new BNode(newParentChild);
         
-        // We do not want parent.Children to throw a "collection was modified" exception.
+        // Explicit test with parent.Children as we do not want it to throw a "collection was modified" exception.
         newParent.Children.MoveInto(parent.Children);
 
         parent.Children.Should().BeEmpty();
@@ -253,21 +244,6 @@ public sealed class ChildrenTests
         newParent.Children.Should().BeEquivalentTo(new [] { newParentChild, child1, child2 }, c => c.WithoutStrictOrdering());
         child1.Parent.Should().BeSameAs(newParent);
         child2.Parent.Should().BeSameAs(newParent);
-    }
-    
-    [Test]
-    public void MoveInto_Children_Empty()
-    {
-        var parent = new ANode();
-
-        var newParentChild = new BNode();
-        var newParent = new BNode(newParentChild);
-        
-        newParent.Children.MoveInto(parent.Children);
-
-        parent.Children.Should().BeEmpty();
-
-        newParent.Children.Should().BeEquivalentTo(new [] { newParentChild }, c => c.WithoutStrictOrdering());
     }
     
     [Test]
@@ -318,44 +294,6 @@ public sealed class ChildrenTests
     [Test]
     public void IsReadOnly() => ((IList<TestNode>) new ANode().Children).IsReadOnly.Should().BeFalse();
 
-    [Test]
-    public void GetEnumerator()
-    {
-        var child1 = new BNode();
-        var child2 = new BNode();
-        
-        var parent = new ANode(child1, child2);
-
-        using var enumerator = parent.Children.GetEnumerator();
-        
-        enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(child1);
-        
-        enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(child2);
-
-        enumerator.MoveNext().Should().BeFalse();
-    }
-
-    [Test]
-    public void GetEnumerator_Untyped()
-    {
-        var child1 = new BNode();
-        var child2 = new BNode();
-
-        var parent = new ANode(child1, child2);
-
-        var enumerator = ((IEnumerable) parent.Children).GetEnumerator();
-
-        enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(child1);
-
-        enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(child2);
-
-        enumerator.MoveNext().Should().BeFalse();
-    }
-    
     [Test]
     public void IndexOf()
     {
