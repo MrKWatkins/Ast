@@ -45,6 +45,22 @@ public abstract class EnumerationTestFixture
     protected abstract IEnumerable<TestNode> ExpectedOrderWithoutRoot { get; }
 
     [Test]
+    public void Enumerate_IncludeRoot_ShouldEnumerateDescendents() => 
+        AssertOrder(ExpectedOrderWithRoot.Except(N12.Descendents), Enumerator.Enumerate(N1, true, c => c != N12));
+
+    [Test]
+    public void Enumerate_WithoutRoot_ShouldEnumerateDescendents() => 
+        AssertOrder(ExpectedOrderWithoutRoot.Except(N12.Descendents), Enumerator.Enumerate(N1, false, c => c != N12));
+
+    [Test]
+    public void Enumerate_IncludeRoot_ShouldEnumerateDescendents_ExcludeDescendentsOfRoot() => 
+        AssertOrder(new [] { N1 }, Enumerator.Enumerate(N1, true, c => c != N1));
+
+    [Test]
+    public void Enumerate_WithoutRoot_ShouldEnumerateDescendents_ExcludeDescendentsOfRoot() => 
+        AssertOrder(Enumerable.Empty<TestNode>(), Enumerator.Enumerate(N1, false, c => c != N1));
+
+    [Test]
     public void Enumerate_ReplaceDuringEnumeration()
     {
         var replacement = new ANode { Name = "NRep" };

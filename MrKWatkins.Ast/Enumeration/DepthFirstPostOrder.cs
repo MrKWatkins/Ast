@@ -9,13 +9,16 @@ public sealed class DepthFirstPostOrder<TNode> : IDescendentEnumerator<TNode>
     {
     }
 
-    public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true)
+    public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null)
     {
-        foreach (var descendent in root.Children.SelectMany(child => Enumerate(child)))
+        if (shouldEnumerateDescendents?.Invoke(root) ?? true)
         {
-            yield return descendent;
+            foreach (var descendent in root.Children.SelectMany(child => Enumerate(child, true, shouldEnumerateDescendents)))
+            {
+                yield return descendent;
+            }
         }
-        
+
         if (includeRoot)
         {
             yield return root;

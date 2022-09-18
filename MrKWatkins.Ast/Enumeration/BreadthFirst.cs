@@ -9,7 +9,7 @@ public sealed class BreadthFirst<TNode> : IDescendentEnumerator<TNode>
     {
     }
 
-    public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true)
+    public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null)
     {
         // Start by queuing and yielding the root.
         var queue = new Queue<TNode>();
@@ -24,10 +24,16 @@ public sealed class BreadthFirst<TNode> : IDescendentEnumerator<TNode>
         // This means for each level we will then yield all their children, i.e. giving the level below,
         // whilst at the same time queueing them up so that next time around will will get the level below
         // and so on.
+        shouldEnumerateDescendents ??= _ => true;
         while (queue.Count > 0)
         {
             var node = queue.Dequeue();
 
+            if (!shouldEnumerateDescendents(node))
+            {
+                continue;
+            }
+            
             foreach (var child in node.Children)
             {
                 yield return child;
