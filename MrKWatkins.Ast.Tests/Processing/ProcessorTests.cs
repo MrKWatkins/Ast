@@ -63,18 +63,18 @@ public sealed class ProcessorTests : TreeTestFixture
     }
 
     [Test]
-    public void Process_TypedShouldProcessNodeThrows()
+    public void Process_Typed_ShouldProcessNodeThrows()
     {
         var exception = new InvalidOperationException("Test");
-        var processor = new TestTypedProcessor { ShouldProcessNodeOverride = n => n == N111 ? throw exception : true };
+        var processor = new TestTypedProcessor { ShouldProcessNodeOverride = n => n == N122 ? throw exception : true };
 
         processor.Invoking(p => p.Process(N1))
             .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessNode.", exception, N111);
+            .WithParameters("Exception during ShouldProcessNode.", exception, N122);
     }
 
     [Test]
-    public void Process_TypedShouldProcessChildrenThrows()
+    public void Process_Typed_ShouldProcessChildrenThrows()
     {
         var exception = new InvalidOperationException("Test");
         var processor = new TestTypedProcessor { ShouldProcessChildrenOverride = n => n == N13 ? throw exception : true };
@@ -85,14 +85,14 @@ public sealed class ProcessorTests : TreeTestFixture
     }
 
     [Test]
-    public void Process_TypedProcessNodeThrows()
+    public void Process_Typed_ProcessNodeThrows()
     {
         var exception = new InvalidOperationException("Test");
-        var processor = new TestTypedProcessor { ProcessNodeOverride = n => n == N111 ? throw exception : true };
+        var processor = new TestTypedProcessor { ProcessNodeOverride = n => n == N122 ? throw exception : true };
 
         processor.Invoking(p => p.Process(N1))
             .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", exception, N111);
+            .WithParameters("Exception during ProcessNode.", exception, N122);
     }
     
     private sealed class TestProcessor : Processor<TestNode>
