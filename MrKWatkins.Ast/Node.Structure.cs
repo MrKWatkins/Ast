@@ -3,6 +3,14 @@ namespace MrKWatkins.Ast;
 public abstract partial class Node<TNode>
     where TNode : Node<TNode>
 {
+    private TNode? parent;
+    private Children<TNode>? children;
+    
+    protected Node([InstantHandle] IEnumerable<TNode> children)
+    {
+        this.children = new Children<TNode>(This, children);
+    }
+    
     public TNode Parent
     {
         get => parent ?? throw new InvalidOperationException("Node has no parent.");
@@ -36,9 +44,6 @@ public abstract partial class Node<TNode>
     public Children<TNode> Children => children ??= new Children<TNode>(This);
 
     public bool HasChildren => children is { Count: > 0 };
-    
-    [PublicAPI]
-    protected Properties Properties => properties ??= new Properties();
     
     /// <summary>
     /// Moves this node to a new parent.

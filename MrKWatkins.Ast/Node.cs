@@ -5,22 +5,16 @@ namespace MrKWatkins.Ast;
 public abstract partial class Node<TNode>
     where TNode : Node<TNode>
 {
-    private TNode? parent;
-    private Children<TNode>? children;
     private Properties? properties;
-    private List<Message>? messages;
 
     protected Node()
     {
     }
-
-    protected Node([InstantHandle] IEnumerable<TNode> children)
-    {
-        this.children = new Children<TNode>(This, children);
-    }
         
     private TNode This => (TNode) this;
     
+    protected Properties Properties => properties ??= new Properties();
+
     public SourcePosition SourcePosition
     {
         get => Properties.GetOrDefault(nameof(SourcePosition), SourcePosition.None);

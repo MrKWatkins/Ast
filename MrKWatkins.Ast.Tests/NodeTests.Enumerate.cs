@@ -2,21 +2,8 @@ using MrKWatkins.Ast.Enumeration;
 
 namespace MrKWatkins.Ast.Tests;
 
-public sealed partial class NodeTests
+public sealed partial class NodeTests : TreeTestFixture
 {
-    private static readonly TestNode N1 = new ANode { Name = "N1" };
-    private static readonly TestNode N11 = new BNode { Name = "N11" };
-    private static readonly TestNode N12 = new CNode { Name = "N12" };
-    private static readonly TestNode N111 = new BNode { Name = "N111" };
-    private static readonly TestNode N121 = new CNode { Name = "N121" };
-
-    static NodeTests()
-    {
-        N1.Children.Add(N11, N12);
-        N11.Children.Add(N111);
-        N12.Children.Add(N121);
-    }
-
     [Test]
     public void Enumerate_BreadthFirst_IncludeRoot() => 
         TestNode.Enumerate.BreadthFirst(N1)

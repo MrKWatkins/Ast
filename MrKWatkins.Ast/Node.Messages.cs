@@ -3,6 +3,8 @@ namespace MrKWatkins.Ast;
 public abstract partial class Node<TNode>
     where TNode : Node<TNode>
 {
+    private List<Message>? messages;
+    
     public IReadOnlyList<Message> Messages => messages != null ? messages : Array.Empty<Message>();
 
     public bool HasMessages => Messages.Any();

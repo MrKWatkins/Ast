@@ -1,5 +1,4 @@
 using System.Collections;
-using NUnit.Framework.Internal;
 
 namespace MrKWatkins.Ast.Tests;
 
@@ -199,8 +198,8 @@ public sealed partial class ChildrenTests
             action(child);
         }
 
-        AssertOrder(expectedFirstEnumeration, firstEnumeration);
-        AssertOrder(expectedSecondEnumeration ?? expectedFirstEnumeration, P.Children);
+        firstEnumeration.Should().HaveSameOrderAs(expectedFirstEnumeration);
+        P.Children.Should().HaveSameOrderAs(expectedSecondEnumeration ?? expectedFirstEnumeration);
     }
     
     [Test]
@@ -278,23 +277,5 @@ public sealed partial class ChildrenTests
         enumerator.Current.Should().BeSameAs(C3);
 
         enumerator.MoveNext().Should().BeFalse();
-    }
-    
-    // Custom assertion to give a better error message.
-    private static void AssertOrder([InstantHandle] IEnumerable<TestNode> expected, [InstantHandle] IEnumerable<TestNode> actual)
-    {
-        var expectedList = expected.ToList();
-        var actualList = actual.ToList();
-
-        [Pure]
-        static string NodesText(IEnumerable<TestNode> nodes) => string.Join(' ', nodes.Select(n => n.Name.PadRight(4, ' ')));
-
-        if (!expectedList.SequenceEqual(actualList))
-        {
-            throw new NUnitException(
-                $"Order did not match expectation.{Environment.NewLine}" +
-                $"Expected: {NodesText(expectedList)}{Environment.NewLine}" +
-                $"Actual:   {NodesText(actualList)}");
-        }
     }
 }
