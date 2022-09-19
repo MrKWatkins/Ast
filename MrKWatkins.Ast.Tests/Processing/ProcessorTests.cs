@@ -12,7 +12,7 @@ public sealed class ProcessorTests : TreeTestFixture
         processor.Process(N1);
         processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
     }
-    
+
     [Test]
     public void Process_OverrideEnumerator()
     {
@@ -29,7 +29,8 @@ public sealed class ProcessorTests : TreeTestFixture
 
         processor.Invoking(p => p.Process(N1))
             .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessNode.", exception, N13);
+            .WithParameters("Exception during ShouldProcessNode.", N13)
+            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
     }
 
     [Test]
@@ -40,20 +41,22 @@ public sealed class ProcessorTests : TreeTestFixture
 
         processor.Invoking(p => p.Process(N1))
             .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessChildren.", exception, N13);
+            .WithParameters("Exception during ShouldProcessChildren.", N13)
+            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
     }
 
     [Test]
     public void Process_ProcessNodeThrows()
     {
         var exception = new InvalidOperationException("Test");
-        var processor = new TestProcessor { ProcessNodeOverride = n => n == N13 ? throw exception : true };
+        var processor = new TestProcessor { ProcessNodeOverride = n => n == N13 ? throw exception : null };
 
         processor.Invoking(p => p.Process(N1))
             .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", exception, N13);
+            .WithParameters("Exception during ProcessNode.", N13)
+            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
     }
-    
+
     [Test]
     public void Process_Typed()
     {
@@ -70,7 +73,8 @@ public sealed class ProcessorTests : TreeTestFixture
 
         processor.Invoking(p => p.Process(N1))
             .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessNode.", exception, N122);
+            .WithParameters("Exception during ShouldProcessNode.", N122)
+            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
     }
 
     [Test]
@@ -81,49 +85,27 @@ public sealed class ProcessorTests : TreeTestFixture
 
         processor.Invoking(p => p.Process(N1))
             .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessChildren.", exception, N13);
+            .WithParameters("Exception during ShouldProcessChildren.", N13)
+            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
     }
 
     [Test]
     public void Process_Typed_ProcessNodeThrows()
     {
         var exception = new InvalidOperationException("Test");
-        var processor = new TestTypedProcessor { ProcessNodeOverride = n => n == N122 ? throw exception : true };
+        var processor = new TestTypedProcessor { ProcessNodeOverride = n => n == N122 ? throw exception : null };
 
         processor.Invoking(p => p.Process(N1))
             .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", exception, N122);
+            .WithParameters("Exception during ProcessNode.", N122)
+            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
     }
-    
-    private sealed class TestProcessor : Processor<TestNode>
-    {
-        private readonly List<TestNode> processed = new();
-        
-        public Func<TestNode, bool>? ProcessNodeOverride { get; init; }
-        public Func<TestNode, bool>? ShouldProcessNodeOverride { get; init; }
-        public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; init; }
-        public IDescendentEnumerator<TestNode>? EnumeratorOverride { get; init; }
 
-        public IReadOnlyList<TestNode> Processed => processed;
-
-        protected internal override IDescendentEnumerator<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
-
-        protected internal override void ProcessNode(TestNode node)
-        {
-            processed.Add(node);
-            ProcessNodeOverride?.Invoke(node);
-        }
-
-        protected internal override bool ShouldProcessNode(TestNode node) => ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(node);
-        
-        protected internal override bool ShouldProcessChildren(TestNode node) => ShouldProcessChildrenOverride?.Invoke(node) ?? base.ShouldProcessChildren(node);
-    }
-    
     private sealed class TestTypedProcessor : Processor<BNode, TestNode>
     {
         private readonly List<TestNode> processed = new();
-        
-        public Func<BNode, bool>? ProcessNodeOverride { get; init; }
+
+        public Func<TestNode, object?>? ProcessNodeOverride { get; init; }
         public Func<BNode, bool>? ShouldProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; init; }
 
@@ -136,7 +118,7 @@ public sealed class ProcessorTests : TreeTestFixture
         }
 
         protected override bool ShouldProcessNode(BNode node) => ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(node);
-        
+
         protected internal override bool ShouldProcessChildren(TestNode node) => ShouldProcessChildrenOverride?.Invoke(node) ?? base.ShouldProcessChildren(node);
     }
 }

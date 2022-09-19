@@ -78,18 +78,6 @@ public static class FluentAssertionsExtensions
     public static ExceptionAssertions<ProcessingException<TestNode>> WithParameters(
         this ExceptionAssertions<ProcessingException<TestNode>> assertions,
         string expectedMessage, TestNode expectedNode,
-        string because = "", params object[] becauseArgs) =>
-        assertions.WithParameters(expectedMessage, expectedNode, null, because, becauseArgs);
-    
-    public static ExceptionAssertions<ProcessingException<TestNode>> WithParameters(
-        this ExceptionAssertions<ProcessingException<TestNode>> assertions, 
-        string expectedMessage, Exception expectedInnerException, TestNode? expectedNode,
-        string because = "", params object[] becauseArgs) =>
-        assertions.WithParameters(expectedMessage, expectedNode, () => assertions.Which.InnerException.Should().Be(expectedInnerException), because, becauseArgs);
-    
-    private static ExceptionAssertions<ProcessingException<TestNode>> WithParameters(
-        this ExceptionAssertions<ProcessingException<TestNode>> assertions, 
-        string expectedMessage, TestNode? expectedNode, Action? extraAssertions,
         string because = "", params object[] becauseArgs)
     {
         using (new AssertionScope())
@@ -98,7 +86,22 @@ public static class FluentAssertionsExtensions
             assertions.WithMessage(message, because, becauseArgs);
             
             assertions.Which.Node.Should().Be(expectedNode, because, becauseArgs);
-            extraAssertions?.Invoke();
+        }
+
+        return assertions;
+    }
+
+    public static ExceptionAssertions<PipelineException> WithParameters(
+        this ExceptionAssertions<PipelineException> assertions, 
+        string expectedMessage, string expectedStage,
+        string because = "", params object[] becauseArgs)
+    {
+        using (new AssertionScope())
+        {
+            var message = $"{expectedMessage} (Stage '{expectedStage}')";
+            assertions.WithMessage(message, because, becauseArgs);
+            
+            assertions.Which.Stage.Should().Be(expectedStage, because, becauseArgs);
         }
 
         return assertions;
