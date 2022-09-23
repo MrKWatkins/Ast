@@ -71,7 +71,7 @@ public sealed class ValidatorTests : TreeTestFixture
         public IEnumerator GetEnumerator() => throw new NotSupportedException();
     }
 
-    private sealed class TestTypedValidator : Validator<ANode, TestNode>, IEnumerable 
+    private sealed class TestTypedValidator : Validator<TestNode, ANode>, IEnumerable 
     {
         private readonly Dictionary<TestNode, IReadOnlyList<Message>> messagesByNode = new();
         public Func<TestNode, bool>? ShouldProcessNodeOverride { get; set; }

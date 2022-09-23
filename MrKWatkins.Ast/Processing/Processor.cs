@@ -61,9 +61,9 @@ public abstract class Processor<TNode> : Processor, IProcessor<TNode>
     protected internal abstract void ProcessNode(TNode node);
 }
 
-public abstract class Processor<TNode, TBaseNode> : Processor<TBaseNode>
-    where TNode : TBaseNode
+public abstract class Processor<TBaseNode, TNode> : Processor<TBaseNode>
     where TBaseNode : Node<TBaseNode>
+    where TNode : TBaseNode
 {
     protected internal sealed override bool ShouldProcessNode(TBaseNode node) => node is TNode typedNode && ShouldProcessNode(typedNode);
 

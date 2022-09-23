@@ -15,9 +15,9 @@ public abstract class Validator<TNode> : Processor<TNode>
     protected abstract IEnumerable<Message> ValidateNode(TNode node);
 }
 
-public abstract class Validator<TNode, TBaseNode> : Validator<TBaseNode>
-    where TNode : TBaseNode
+public abstract class Validator<TBaseNode, TNode> : Validator<TBaseNode>
     where TBaseNode : Node<TBaseNode>
+    where TNode : TBaseNode
 {
     [Pure]
     protected sealed override IEnumerable<Message> ValidateNode(TBaseNode node) => ValidateNode((TNode) node);

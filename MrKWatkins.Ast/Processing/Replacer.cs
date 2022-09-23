@@ -20,9 +20,9 @@ public abstract class Replacer<TNode> : Processor<TNode>
     protected abstract TNode? ReplaceNode(TNode node);
 }
 
-public abstract class Replacer<TNode, TBaseNode> : Processor<TNode, TBaseNode>
-    where TNode : TBaseNode
+public abstract class Replacer<TBaseNode, TNode> : Processor<TBaseNode, TNode>
     where TBaseNode : Node<TBaseNode>
+    where TNode : TBaseNode
 {
     protected override void ProcessNode(TNode node)
     {
@@ -41,10 +41,10 @@ public abstract class Replacer<TNode, TBaseNode> : Processor<TNode, TBaseNode>
     protected abstract TBaseNode? ReplaceNode(TNode node);
 }
 
-public abstract class Replacer<TOriginalNode, TReplacementNode, TBaseNode> : Processor<TOriginalNode, TBaseNode>
+public abstract class Replacer<TBaseNode, TOriginalNode, TReplacementNode> : Processor<TBaseNode, TOriginalNode>
+    where TBaseNode : Node<TBaseNode>
     where TOriginalNode : TBaseNode
     where TReplacementNode : TBaseNode
-    where TBaseNode : Node<TBaseNode>
 {
     protected override void ProcessNode(TOriginalNode node)
     {

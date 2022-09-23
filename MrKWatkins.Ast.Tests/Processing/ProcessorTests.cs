@@ -101,7 +101,7 @@ public sealed class ProcessorTests : TreeTestFixture
             .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
     }
 
-    private sealed class TestTypedProcessor : Processor<BNode, TestNode>
+    private sealed class TestTypedProcessor : Processor<TestNode, BNode>
     {
         private readonly List<TestNode> processed = new();
 

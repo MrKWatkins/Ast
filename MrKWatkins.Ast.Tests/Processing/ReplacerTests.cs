@@ -135,7 +135,7 @@ public sealed class ReplacerTests : TreeTestFixture
         protected override TestNode? ReplaceNode(TestNode node) => node == original ? replacement : node;
     }
     
-    private sealed class TestOriginalTypedReplacer : Replacer<BNode, TestNode>
+    private sealed class TestOriginalTypedReplacer : Replacer<TestNode, BNode>
     {
         private readonly TestNode original;
         private readonly TestNode? replacement;
@@ -149,7 +149,7 @@ public sealed class ReplacerTests : TreeTestFixture
         protected override TestNode? ReplaceNode(BNode node) => node == original ? replacement : node;
     }
     
-    private sealed class TestOriginalAndReplacementTypedReplacer<TReplacement> : Replacer<BNode, TReplacement, TestNode>
+    private sealed class TestOriginalAndReplacementTypedReplacer<TReplacement> : Replacer<TestNode, BNode, TReplacement>
         where TReplacement : TestNode
     {
         private readonly TestNode original;
