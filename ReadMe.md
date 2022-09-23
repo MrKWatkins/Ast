@@ -104,6 +104,12 @@ Full documentation will be available with version 1.0.x.
 dotnet add package MrKWatkins.Ast
 ```
 
+## Pull Requests
+
+I'm not accepting pull requests at the current time; this project is tailored for some other projects of mine and I want to get them in a suitable state first.
+
+Feel free to raise issues for bugs or suggestions, but I make no guarantees they will get looked at I'm afraid!
+
 ## License
 
 MIT
