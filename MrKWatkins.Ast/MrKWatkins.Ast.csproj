@@ -5,8 +5,8 @@
     <Authors>Kevin Watkins</Authors>
     <Description>Library to build an abstract syntax tree for use in compilers.</Description>
     <Copyright>Kevin Watkins 2022</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/MrKWatkins/Ast</PackageProjectUrl>
-    <PackageLicense>https://github.com/MrKWatkins/Ast/blob/main/License.md</PackageLicense>
     <RepositoryUrl>https://github.com/MrKWatkins/Ast</RepositoryUrl>
     <PackageIcon>Icon.png</PackageIcon>
     <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
