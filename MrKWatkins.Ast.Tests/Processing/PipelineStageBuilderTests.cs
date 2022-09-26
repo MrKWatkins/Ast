@@ -102,8 +102,8 @@ public sealed class PipelineStageBuilderTests : TreeTestFixture
             .Which.MaxDegreeOfParallelism.Should().Be(maxDegreeOfParallelism ?? Environment.ProcessorCount);
         
         stage.Run(N1).Should().BeTrue();
-        processors[0].Processed.Should().HaveCount(8);
-        processors[1].Processed.Should().HaveCount(8);
-        processors[2].Processed.Should().HaveCount(8);
+        processors[0].Processed.Should().HaveCount(NodeCount);
+        processors[1].Processed.Should().HaveCount(NodeCount);
+        processors[2].Processed.Should().HaveCount(NodeCount);
     }
 }

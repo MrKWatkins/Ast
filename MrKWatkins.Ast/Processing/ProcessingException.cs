@@ -1,6 +1,6 @@
 namespace MrKWatkins.Ast.Processing;
 
-public abstract class ProcessingException : Exception
+public class ProcessingException : Exception
 {
     private protected ProcessingException(string message)
         : base(message)

@@ -2,6 +2,8 @@ namespace MrKWatkins.Ast.Tests;
 
 public abstract class TreeTestFixture
 {
+    protected const int NodeCount = 8;
+    protected const int BNodeCount = 2;
     protected TestNode N1 { get; private set; } = null!;
     protected TestNode N11 { get; private set; } = null!;
     protected TestNode N12 { get; private set; } = null!;
