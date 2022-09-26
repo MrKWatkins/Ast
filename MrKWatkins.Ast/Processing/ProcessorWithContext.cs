@@ -6,14 +6,14 @@ public abstract class ProcessorWithContext<TContext, TNode> : IProcessor<TNode>
     where TNode : Node<TNode>
 {
     [Pure]
-    protected abstract TContext CreateContext();
+    protected abstract TContext CreateContext(TNode root);
     
     public void Process(TNode root)
     {
         TContext context;
         try
         {
-            context = CreateContext();
+            context = CreateContext(root);
         }
         catch (Exception exception)
         {

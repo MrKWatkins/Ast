@@ -11,6 +11,7 @@ public sealed class ProcessorWithContextTests : TreeTestFixture
         var processor = new TestProcessorWithContext();
         processor.Process(N1);
         processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processor.Context.Root.Should().BeSameAs(N1);
         processor.Context.NodesProcessed.Should().Be(NodeCount);
     }
 
@@ -20,6 +21,7 @@ public sealed class ProcessorWithContextTests : TreeTestFixture
         var processor = new TestProcessorWithContext { EnumeratorOverride = BreadthFirst<TestNode>.Instance };
         processor.Process(N1);
         processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.BreadthFirst(N1));
+        processor.Context.Root.Should().BeSameAs(N1);
         processor.Context.NodesProcessed.Should().Be(NodeCount);
     }
 
@@ -27,7 +29,7 @@ public sealed class ProcessorWithContextTests : TreeTestFixture
     public void Process_CreateContextThrows()
     {
         var exception = new InvalidOperationException("Test");
-        var processor = new TestProcessorWithContext { CreateContextOverride = () => throw exception };
+        var processor = new TestProcessorWithContext { CreateContextOverride = _ => throw exception };
 
         processor.Invoking(p => p.Process(N1))
             .Should().Throw<ProcessingException>()
@@ -77,6 +79,7 @@ public sealed class ProcessorWithContextTests : TreeTestFixture
         var processor = new TestTypedProcessorWithContext();
         processor.Process(N1);
         processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1).OfType<BNode>());
+        processor.Context.Root.Should().BeSameAs(N1);
         processor.Context.NodesProcessed.Should().Be(BNodeCount);
     }
 
@@ -120,8 +123,8 @@ public sealed class ProcessorWithContextTests : TreeTestFixture
     {
         private readonly List<TestNode> processed = new();
 
-        public TestContext Context { get; } = new ();
-        public Func<TestContext>? CreateContextOverride { get; init; }
+        public TestContext Context { get; private set; } = null!;
+        public Func<TestNode, TestContext>? CreateContextOverride { get; init; }
         public Func<TestNode, object?>? ProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; init; }
@@ -131,7 +134,11 @@ public sealed class ProcessorWithContextTests : TreeTestFixture
 
         protected internal override IDescendentEnumerator<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
 
-        protected override TestContext CreateContext() => CreateContextOverride?.Invoke() ?? Context;
+        protected override TestContext CreateContext(TestNode root)
+        {
+            Context = CreateContextOverride?.Invoke(root) ?? new TestContext(root);
+            return Context;
+        }
 
         protected internal override void ProcessNode(TestContext context, TestNode node)
         {
@@ -158,14 +165,14 @@ public sealed class ProcessorWithContextTests : TreeTestFixture
     {
         private readonly List<TestNode> processed = new();
 
-        public TestContext Context { get; } = new ();
+        public TestContext Context { get; private set; } = null!;
         public Func<TestNode, object?>? ProcessNodeOverride { get; init; }
         public Func<BNode, bool>? ShouldProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; init; }
 
         public IReadOnlyList<TestNode> Processed => processed;
 
-        protected override TestContext CreateContext() => Context;
+        protected override TestContext CreateContext(TestNode root) => Context = new TestContext(root);
 
         protected override void ProcessNode(TestContext context, BNode node)
         {
@@ -190,6 +197,13 @@ public sealed class ProcessorWithContextTests : TreeTestFixture
 
     private sealed class TestContext
     {
+        public TestContext(TestNode root)
+        {
+            Root = root;
+        }
+
+        public TestNode Root { get; }
+        
         public int NodesProcessed { get; set; }
     }
 }
