@@ -1,3 +1,4 @@
+// ReSharper disable CoVariantArrayConversion
 namespace MrKWatkins.Ast.Processing;
 
 // ReSharper disable ParameterHidesMember
@@ -25,13 +26,13 @@ public sealed class PipelineBuilder<TNode>
         where TProcessor : Processor<TNode>, new() =>
         AddStage(b => b.WithName(name).Add<TProcessor>());
     
-    public PipelineBuilder<TNode> AddStage(Processor<TNode> processor, params Processor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddStage(IProcessor<TNode> processor, params IProcessor<TNode>[] others) =>
         AddStage(b => b.Add(processor, others));
     
-    public PipelineBuilder<TNode> AddStage(string name, Processor<TNode> processor, params Processor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddStage(string name, IProcessor<TNode> processor, params IProcessor<TNode>[] others) =>
         AddStage(b => b.WithName(name).Add(processor, others));
     
-    public PipelineBuilder<TNode> AddParallelStage(Processor<TNode> processor, params Processor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddParallelStage(IProcessor<TNode> processor, params IProcessor<TNode>[] others) =>
         AddStage(b => b.Add(processor, others).WithParallelProcessing());
     
     public PipelineBuilder<TNode> AddParallelStage(string name, Processor<TNode> processor, params Processor<TNode>[] others) =>

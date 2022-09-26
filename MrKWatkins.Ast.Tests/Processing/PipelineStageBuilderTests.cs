@@ -106,4 +106,17 @@ public sealed class PipelineStageBuilderTests : TreeTestFixture
         processors[1].Processed.Should().HaveCount(NodeCount);
         processors[2].Processed.Should().HaveCount(NodeCount);
     }
+    
+    [Test]
+    public void Build_ThrowsIfWithParallelCalledForIncompatibleProcessors()
+    {
+        var processor = new ParallelProcessor<TestNode>(new TestProcessor());
+
+        new PipelineStageBuilder<TestNode>(123)
+            .Add(processor)
+            .WithParallelProcessing()
+            .Invoking(b => b.Build())
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Cannot use parallel processing with processor ParallelProcessor<TestNode> because it does not inherit from Processor<TestNode>.");
+    }
 }

@@ -4,7 +4,7 @@ namespace MrKWatkins.Ast.Processing;
 public sealed class PipelineStageBuilder<TNode>
     where TNode : Node<TNode>
 {
-    private readonly List<Processor<TNode>> processors = new();
+    private readonly List<IProcessor<TNode>> processors = new();
     private string name;
     private Func<TNode, bool> shouldContinue = root => !root.ThisAndDescendentsHaveErrors;
     private int? maxDegreeOfParallelism;
@@ -18,17 +18,26 @@ public sealed class PipelineStageBuilder<TNode>
     internal PipelineStage<TNode> Build() => new(
         name,
         maxDegreeOfParallelism.HasValue
-            ? new[] { new ParallelProcessor<TNode>(maxDegreeOfParallelism.Value, processors) }
+            ? new[]
+            {
+                new ParallelProcessor<TNode>(
+                    maxDegreeOfParallelism.Value,
+                    processors
+                        .Select(p =>
+                            p as Processor<TNode>
+                            ?? throw new InvalidOperationException(
+                                $"Cannot use parallel processing with processor {p.GetType().SimpleName()} because it does not inherit from {typeof(Processor<TNode>).SimpleName()}.")))
+            }
             : processors, shouldContinue);
-    
+
     public PipelineStageBuilder<TNode> Add<TProcessor>()
-        where TProcessor : Processor<TNode>, new()
+        where TProcessor : IProcessor<TNode>, new()
     {
         processors.Add(new TProcessor());
         return this;
     }
 
-    public PipelineStageBuilder<TNode> Add(Processor<TNode> processor, params Processor<TNode>[] others)
+    public PipelineStageBuilder<TNode> Add(IProcessor<TNode> processor, params IProcessor<TNode>[] others)
     {
         processors.Add(processor);
         processors.AddRange(others);
