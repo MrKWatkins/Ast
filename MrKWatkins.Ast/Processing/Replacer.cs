@@ -1,9 +1,9 @@
 namespace MrKWatkins.Ast.Processing;
 
-public abstract class Replacer<TNode> : Processor<TNode>
+public abstract class Replacer<TNode> : OrderedProcessor<TNode>
     where TNode : Node<TNode>
 {
-    protected internal override void ProcessNode(TNode node)
+    protected sealed override void ProcessNode(TNode node)
     {
         var newNode = ReplaceNode(node);
         if (newNode != null && !ReferenceEquals(node, newNode))
@@ -20,11 +20,11 @@ public abstract class Replacer<TNode> : Processor<TNode>
     protected abstract TNode? ReplaceNode(TNode node);
 }
 
-public abstract class Replacer<TBaseNode, TNode> : Processor<TBaseNode, TNode>
+public abstract class Replacer<TBaseNode, TNode> : OrderedProcessor<TBaseNode, TNode>
     where TBaseNode : Node<TBaseNode>
     where TNode : TBaseNode
 {
-    protected override void ProcessNode(TNode node)
+    protected sealed override void ProcessNode(TNode node)
     {
         var newNode = ReplaceNode(node);
         if (newNode != null && !ReferenceEquals(node, newNode))
@@ -41,12 +41,12 @@ public abstract class Replacer<TBaseNode, TNode> : Processor<TBaseNode, TNode>
     protected abstract TBaseNode? ReplaceNode(TNode node);
 }
 
-public abstract class Replacer<TBaseNode, TOriginalNode, TReplacementNode> : Processor<TBaseNode, TOriginalNode>
+public abstract class Replacer<TBaseNode, TNode, TReplacementNode> : OrderedProcessor<TBaseNode, TNode>
     where TBaseNode : Node<TBaseNode>
-    where TOriginalNode : TBaseNode
+    where TNode : TBaseNode
     where TReplacementNode : TBaseNode
 {
-    protected override void ProcessNode(TOriginalNode node)
+    protected override void ProcessNode(TNode node)
     {
         var newNode = ReplaceNode(node);
         if (newNode != null && !ReferenceEquals(node, newNode))
@@ -60,5 +60,5 @@ public abstract class Replacer<TBaseNode, TOriginalNode, TReplacementNode> : Pro
     }
 
     [Pure]
-    protected abstract TReplacementNode? ReplaceNode(TOriginalNode node);
+    protected abstract TReplacementNode? ReplaceNode(TNode node);
 }

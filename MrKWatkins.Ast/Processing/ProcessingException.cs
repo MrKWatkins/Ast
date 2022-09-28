@@ -2,11 +2,6 @@ namespace MrKWatkins.Ast.Processing;
 
 public class ProcessingException : Exception
 {
-    private protected ProcessingException(string message)
-        : base(message)
-    {
-    }
-    
     internal ProcessingException(string message, Exception innerException)
         : base(message, innerException)
     {
@@ -16,12 +11,6 @@ public class ProcessingException : Exception
 public sealed class ProcessingException<TNode> : ProcessingException
     where TNode : Node<TNode>
 {
-    internal ProcessingException(string message, TNode node)
-        : base(message)
-    {
-        Node = node;
-    }
-    
     internal ProcessingException(string message, Exception innerException, TNode node)
         : base(message, innerException)
     {

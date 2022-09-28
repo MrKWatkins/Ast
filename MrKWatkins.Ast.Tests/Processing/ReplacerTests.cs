@@ -81,7 +81,7 @@ public sealed class ReplacerTests : TreeTestFixture
             .WithInnerException<InvalidOperationException>()
             .WithMessage("Replacement node Replacement already has a parent Parent.");
     }
-    
+
     [Test]
     public void Process_OriginalAndReplacementTyped_ReturnOriginalAndReplacement()
     {

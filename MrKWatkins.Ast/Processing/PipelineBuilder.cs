@@ -10,9 +10,9 @@ public sealed class PipelineBuilder<TNode>
     [Pure]
     internal Pipeline<TNode> Build() => new(stages);
     
-    public PipelineBuilder<TNode> AddStage(Action<PipelineStageBuilder<TNode>> build)
+    public PipelineBuilder<TNode> AddStage(Action<SerialPipelineStageBuilder<TNode>> build)
     {
-        var builder = new PipelineStageBuilder<TNode>(stages.Count + 1);
+        var builder = new SerialPipelineStageBuilder<TNode>(stages.Count + 1);
         build(builder);
         stages.Add(builder.Build());
         return this;
@@ -26,21 +26,29 @@ public sealed class PipelineBuilder<TNode>
         where TProcessor : Processor<TNode>, new() =>
         AddStage(b => b.WithName(name).Add<TProcessor>());
     
-    public PipelineBuilder<TNode> AddStage(IProcessor<TNode> processor, params IProcessor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddStage(Processor<TNode> processor, params Processor<TNode>[] others) =>
         AddStage(b => b.Add(processor, others));
     
-    public PipelineBuilder<TNode> AddStage(string name, IProcessor<TNode> processor, params IProcessor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddStage(string name, Processor<TNode> processor, params Processor<TNode>[] others) =>
         AddStage(b => b.WithName(name).Add(processor, others));
     
-    public PipelineBuilder<TNode> AddParallelStage(IProcessor<TNode> processor, params IProcessor<TNode>[] others) =>
-        AddStage(b => b.Add(processor, others).WithParallelProcessing());
+    public PipelineBuilder<TNode> AddParallelStage(Action<ParallelPipelineStageBuilder<TNode>> build)
+    {
+        var builder = new ParallelPipelineStageBuilder<TNode>(stages.Count + 1);
+        build(builder);
+        stages.Add(builder.Build());
+        return this;
+    }
+
+    public PipelineBuilder<TNode> AddParallelStage(UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, params UnorderedProcessor<TNode>[] others) =>
+        AddParallelStage(b => b.Add(processor1).Add(processor2, others));
     
-    public PipelineBuilder<TNode> AddParallelStage(string name, Processor<TNode> processor, params Processor<TNode>[] others) =>
-        AddStage(b => b.WithName(name).Add(processor, others).WithParallelProcessing());
+    public PipelineBuilder<TNode> AddParallelStage(string name, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, params UnorderedProcessor<TNode>[] others) =>
+        AddParallelStage(b => b.WithName(name).Add(processor1).Add(processor2, others));
     
-    public PipelineBuilder<TNode> AddParallelStage(int maxDegreeOfParallelism, Processor<TNode> processor, params Processor<TNode>[] others) =>
-        AddStage(b => b.Add(processor, others).WithParallelProcessing(maxDegreeOfParallelism));
+    public PipelineBuilder<TNode> AddParallelStage(int maxDegreeOfParallelism, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, params UnorderedProcessor<TNode>[] others) =>
+        AddParallelStage(b => b.Add(processor1).Add(processor2, others).WithMaxDegreeOfParallelism(maxDegreeOfParallelism));
     
-    public PipelineBuilder<TNode> AddParallelStage(int maxDegreeOfParallelism, string name, Processor<TNode> processor, params Processor<TNode>[] others) =>
-        AddStage(b => b.WithName(name).Add(processor, others).WithParallelProcessing(maxDegreeOfParallelism));
+    public PipelineBuilder<TNode> AddParallelStage(int maxDegreeOfParallelism, string name, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, params UnorderedProcessor<TNode>[] others) =>
+        AddParallelStage(b => b.WithName(name).Add(processor1).Add(processor2, others).WithMaxDegreeOfParallelism(maxDegreeOfParallelism));
 }

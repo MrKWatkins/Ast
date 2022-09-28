@@ -1,66 +1,49 @@
 namespace MrKWatkins.Ast.Processing;
 
-// ReSharper disable ParameterHidesMember
-public sealed class PipelineStageBuilder<TNode>
+[SuppressMessage("ReSharper", "ParameterHidesMember")]
+public abstract class PipelineStageBuilder<TThis, TProcessor, TNode>
+    where TThis : PipelineStageBuilder<TThis, TProcessor, TNode>
+    where TProcessor : Processor<TNode>
     where TNode : Node<TNode>
 {
-    private readonly List<IProcessor<TNode>> processors = new();
-    private string name;
-    private Func<TNode, bool> shouldContinue = root => !root.ThisAndDescendentsHaveErrors;
-    private int? maxDegreeOfParallelism;
-
-    internal PipelineStageBuilder(int number)
+    private protected PipelineStageBuilder(int number)
     {
-        name = number.ToString();
+        Name = number.ToString();
     }
+
+    private protected TThis This => (TThis) this;
+    private protected List<TProcessor> Processors { get; } = new();
+    private protected string Name { get; private set; }
+    private protected Func<TNode, bool> ShouldContinue { get; private set; } = root => !root.ThisAndDescendentsHaveErrors;
 
     [Pure]
-    internal PipelineStage<TNode> Build() => new(
-        name,
-        maxDegreeOfParallelism.HasValue
-            ? new[]
-            {
-                new ParallelProcessor<TNode>(
-                    maxDegreeOfParallelism.Value,
-                    processors
-                        .Select(p =>
-                            p as Processor<TNode>
-                            ?? throw new InvalidOperationException(
-                                $"Cannot use parallel processing with processor {p.GetType().SimpleName()} because it does not inherit from {typeof(Processor<TNode>).SimpleName()}.")))
-            }
-            : processors, shouldContinue);
+    internal abstract PipelineStage<TNode> Build();
 
-    public PipelineStageBuilder<TNode> Add<TProcessor>()
-        where TProcessor : IProcessor<TNode>, new()
+    public TThis Add<TConstructableProcessor>()
+        where TConstructableProcessor : TProcessor, new()
     {
-        processors.Add(new TProcessor());
-        return this;
+        Processors.Add(new TConstructableProcessor());
+        return This;
     }
 
-    public PipelineStageBuilder<TNode> Add(IProcessor<TNode> processor, params IProcessor<TNode>[] others)
+    public TThis Add(TProcessor processor, params TProcessor[] others)
     {
-        processors.Add(processor);
-        processors.AddRange(others);
-        return this;
+        Processors.Add(processor);
+        Processors.AddRange(others);
+        return This;
     }
 
-    public PipelineStageBuilder<TNode> WithName(string name)
+    public TThis WithName(string name)
     {
-        this.name = name;
-        return this;
+        Name = name;
+        return This;
     }
 
-    public PipelineStageBuilder<TNode> WithShouldContinue(Func<TNode, bool> shouldContinue)
+    public TThis WithShouldContinue(Func<TNode, bool> shouldContinue)
     {
-        this.shouldContinue = shouldContinue;
-        return this;
+        ShouldContinue = shouldContinue;
+        return This;
     }
 
-    public PipelineStageBuilder<TNode> WithAlwaysContinue() => WithShouldContinue(_ => true);
-    
-    public PipelineStageBuilder<TNode> WithParallelProcessing(int? maxDegreeOfParallelism = null)
-    {
-        this.maxDegreeOfParallelism = maxDegreeOfParallelism ?? Environment.ProcessorCount;
-        return this;
-    }
+    public TThis WithAlwaysContinue() => WithShouldContinue(_ => true);
 }

@@ -1,7 +1,6 @@
 namespace MrKWatkins.Ast.Processing;
 
-public interface IProcessor<in TNode>
+internal interface IParallelizableProcessor<TNode>
     where TNode : Node<TNode>
 {
-    void Process(TNode root);
 }

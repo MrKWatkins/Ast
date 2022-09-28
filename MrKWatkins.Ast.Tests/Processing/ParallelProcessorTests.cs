@@ -1,5 +1,4 @@
 using System.Collections;
-using MrKWatkins.Ast.Enumeration;
 using MrKWatkins.Ast.Processing;
 
 namespace MrKWatkins.Ast.Tests.Processing;
@@ -7,78 +6,23 @@ namespace MrKWatkins.Ast.Tests.Processing;
 public sealed class ParallelProcessorTests : TreeTestFixture
 {
     [Test]
-    public void Constructor_Params_ProcessorWithInvalidEnumeratorThrows() =>
-        TestProcessorWithInvalidEnumeratorThrows(() => new ParallelProcessor<TestNode>(new TestValidator(), new BreadthFirstProcessor()));
-    
-    [Test]
-    public void Constructor_MaxDegreeOfParallelism_Params_ProcessorWithInvalidEnumeratorThrows() =>
-        TestProcessorWithInvalidEnumeratorThrows(() => new ParallelProcessor<TestNode>(5, new TestValidator(), new BreadthFirstProcessor()));
-    
-    [Test]
-    public void Constructor_IEnumerable_ProcessorWithInvalidEnumeratorThrows() =>
-        TestProcessorWithInvalidEnumeratorThrows(() => new ParallelProcessor<TestNode>(new List<Processor<TestNode>> { new TestValidator(), new BreadthFirstProcessor() }));
-    
-    [Test]
-    public void Constructor_MaxDegreeOfParallelism_IEnumerable_ProcessorWithInvalidEnumeratorThrows() =>
-        TestProcessorWithInvalidEnumeratorThrows(() => new ParallelProcessor<TestNode>(5, new List<Processor<TestNode>> { new TestValidator(), new BreadthFirstProcessor() }));
-    
-    private static void TestProcessorWithInvalidEnumeratorThrows(Func<ParallelProcessor<TestNode>> constructor) => 
-        FluentActions.Invoking(constructor)
-            .Should().Throw<ArgumentException>()
-            .WithParameters("Value contains processor BreadthFirstProcessor that overrides Enumerator; only DepthFirstPreOrder processors can be used in parallel.", "processors");
-
-    [Test]
-    public void Constructor_Params_ProcessorsEmptyThrows() => TestProcessorsEmptyThrows(() => new ParallelProcessor<TestNode>());
-    
-    [Test]
-    public void Constructor_MaxDegreeOfParallelism_Params_ProcessorsEmptyThrows() => TestProcessorsEmptyThrows(() => new ParallelProcessor<TestNode>(5));
-    
-    [Test]
-    public void Constructor_IEnumerable_ProcessorsEmptyThrows() => TestProcessorsEmptyThrows(() => new ParallelProcessor<TestNode>(Enumerable.Empty<Processor<TestNode>>()));
-    
-    [Test]
-    public void Constructor_MaxDegreeOfParallelism_IEnumerable_ProcessorsEmptyThrows() => TestProcessorsEmptyThrows(() => new ParallelProcessor<TestNode>(5, Enumerable.Empty<Processor<TestNode>>()));
-    
-    private static void TestProcessorsEmptyThrows(Func<ParallelProcessor<TestNode>> constructor) => 
-        FluentActions.Invoking(constructor)
+    public void Constructor_ProcessorsEmptyThrows() => 
+        FluentActions.Invoking(() => new ParallelProcessor<TestNode>(Enumerable.Empty<Processor<TestNode>>(), 5))
             .Should().Throw<ArgumentException>()
             .WithParameters("Value is empty.", "processors");
-
+    
     [TestCase(0)]
     [TestCase(-1)]
-    public void Constructor_MaxDegreeOfParallelism_Params_InvalidMaxDegreeOfParallelismThrows(int maxDegreeOfParallelism) => 
-        TestInvalidMaxDegreeOfParallelismThrows(maxDegreeOfParallelism, () => new ParallelProcessor<TestNode>(maxDegreeOfParallelism, new TestValidator()));
-
-    [TestCase(0)]
-    [TestCase(-1)]
-    public void Constructor_MaxDegreeOfParallelism_IEnumerable_InvalidMaxDegreeOfParallelismThrows(int maxDegreeOfParallelism) => 
-        TestInvalidMaxDegreeOfParallelismThrows(maxDegreeOfParallelism, () => new ParallelProcessor<TestNode>(maxDegreeOfParallelism, new List<Processor<TestNode>> { new TestValidator() }));
-
-    private static void TestInvalidMaxDegreeOfParallelismThrows(int maxDegreeOfParallelism, Func<ParallelProcessor<TestNode>> constructor) => 
-        FluentActions.Invoking(constructor)
+    public void Constructor_InvalidMaxDegreeOfParallelismThrows(int maxDegreeOfParallelism) => 
+        FluentActions.Invoking(() => new ParallelProcessor<TestNode>(new List<Processor<TestNode>> { new TestValidator() }, maxDegreeOfParallelism))
             .Should().Throw<ArgumentOutOfRangeException>()
             .WithParameters("maxDegreeOfParallelism", maxDegreeOfParallelism, "Value must be greater than 0.");
     
     [Test]
-    public void Constructor_Params() => 
-        TestConstructor(Environment.ProcessorCount, () => new ParallelProcessor<TestNode>(new TestValidator(), new TestValidator()));
-    
-    [Test]
-    public void Constructor_MaxDegreeOfParallelism_Params() => 
-        TestConstructor(5, () => new ParallelProcessor<TestNode>(5, new TestValidator(), new TestValidator()));
-    
-    [Test]
-    public void Constructor_IEnumerable() => 
-        TestConstructor(Environment.ProcessorCount, () => new ParallelProcessor<TestNode>(new List<Processor<TestNode>> { new TestValidator(), new TestValidator() }));
-    
-    [Test]
-    public void Constructor_MaxDegreeOfParallelism_IEnumerable() => 
-        TestConstructor(5, () => new ParallelProcessor<TestNode>(5, new List<Processor<TestNode>> { new TestValidator(), new TestValidator() }));
-    
-    private static void TestConstructor(int expectedMaxDegreeOfParallelism, Func<ParallelProcessor<TestNode>> constructor)
+    public void Constructor()
     {
-        var processor = constructor();
-        processor.MaxDegreeOfParallelism.Should().Be(expectedMaxDegreeOfParallelism);
+        var processor = new ParallelProcessor<TestNode>(new List<Processor<TestNode>> { new TestValidator(), new TestValidator() }, 5);
+        processor.MaxDegreeOfParallelism.Should().Be(5);
     }
     
     [TestCase(1)]
@@ -96,7 +40,7 @@ public sealed class ParallelProcessorTests : TreeTestFixture
             { N123, () => "N123 Error" }
         };
         
-        var parallel = new ParallelProcessor<TestNode>(maxDegreeOfParallelism, validator1, validator2);
+        var parallel = new ParallelProcessor<TestNode>(new [] { validator1, validator2 }, maxDegreeOfParallelism);
         
         parallel.Process(N1);
         
@@ -128,7 +72,7 @@ public sealed class ParallelProcessorTests : TreeTestFixture
             { N123, () => "N123 Error" }
         };
         
-        var parallel = new ParallelProcessor<TestNode>(maxDegreeOfParallelism, validator1, validator2);
+        var parallel = new ParallelProcessor<TestNode>(new [] { validator1, validator2 }, maxDegreeOfParallelism);
 
         var innerExceptions = parallel.Invoking(p => p.Process(N1)).Should().Throw<AggregateException>().Which.InnerExceptions;
         innerExceptions.Should().HaveCount(2);
@@ -148,38 +92,7 @@ public sealed class ParallelProcessorTests : TreeTestFixture
         N121.Messages.Should().BeEquivalentTo(new [] { Message.Error("N121 Error") });
         N123.Messages.Should().BeEquivalentTo(new [] { Message.Error("N123 Error") });
     }
-    
-    [TestCase(1)]
-    [TestCase(2)]
-    public void Process_ShouldProcessChildrenReturnsFalse(int maxDegreeOfParallelism)
-    {
-        var validator1 = new TestValidator
-        {
-            { N12, () => "N12 Error" },
-            { N121, () => "N121 Error" }
-        };
-        var validator2 = new TestValidator
-        {
-            { N121, () => "N121 Error" },
-            { N123, () => "N123 Error" }
-        };
-        validator2.ShouldProcessChildrenOverride = n => n != N121;
-        
-        var parallel = new ParallelProcessor<TestNode>(maxDegreeOfParallelism, validator1, validator2);
 
-        parallel.Invoking(p => p.Process(N1)).Should().Throw<AggregateException>()
-            .WithInnerException<ProcessingException<TestNode>>()
-            .WithParameters("Processor TestValidator.ShouldProcessChildren returned false; child nodes cannot be skipped when running in parallel.", N121);
-
-        // The other validations should still have been processed.
-        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo(new[] { N12, N121, N123 });
-
-        N12.Messages.Should().BeEquivalentTo(new [] { Message.Error("N12 Error") });
-        // Still has two because we check ShouldProcessChildren after the validation.
-        N121.Messages.Should().BeEquivalentTo(new [] { Message.Error("N121 Error"), Message.Error("N121 Error") });  
-        N123.Messages.Should().BeEquivalentTo(new [] { Message.Error("N123 Error") });
-    }
-    
     [Test]
     public async Task Process_RunsInParallel()
     {
@@ -219,7 +132,7 @@ public sealed class ParallelProcessorTests : TreeTestFixture
             }
         };
         
-        var parallel = new ParallelProcessor<TestNode>(3, validator1, validator2);
+        var parallel = new ParallelProcessor<TestNode>(new [] { validator1, validator2 }, 3);
 
         var processTask = Task.Run(() => parallel.Process(N1));
         
@@ -247,7 +160,6 @@ public sealed class ParallelProcessorTests : TreeTestFixture
     private sealed class TestValidator : Validator<TestNode>, IEnumerable
     {
         private readonly Dictionary<TestNode, Func<string>> errorProducersByNode = new();
-        public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; set; }
 
         public void Add(TestNode node, Func<string> errorProducer) => errorProducersByNode.Add(node, errorProducer);
         
@@ -259,15 +171,6 @@ public sealed class ParallelProcessorTests : TreeTestFixture
             }
         }
 
-        protected internal override bool ShouldProcessChildren(TestNode node) => ShouldProcessChildrenOverride?.Invoke(node) ?? base.ShouldProcessChildren(node);
-
         public IEnumerator GetEnumerator() => throw new NotSupportedException();
-    }
-
-    private sealed class BreadthFirstProcessor : Processor<TestNode>
-    {
-        protected internal override IDescendentEnumerator<TestNode> Enumerator => BreadthFirst<TestNode>.Instance;
-
-        protected internal override void ProcessNode(TestNode node) => throw new NotSupportedException();
     }
 }

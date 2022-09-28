@@ -13,8 +13,8 @@ public sealed class PipelineTests : TreeTestFixture
     [Test]
     public void Run_AllStages([Values(true, false)] bool lastStageShouldContinue)
     {
-        var processor1 = new TestProcessor();
-        var processor2 = new TestProcessor();
+        var processor1 = new TestUnorderedProcessor();
+        var processor2 = new TestUnorderedProcessor();
 
         var stages = new[]
         {
@@ -33,8 +33,8 @@ public sealed class PipelineTests : TreeTestFixture
     [Test]
     public void Run_LastStageRan_AllStages([Values(true, false)] bool lastStageShouldContinue)
     {
-        var processor1 = new TestProcessor();
-        var processor2 = new TestProcessor();
+        var processor1 = new TestUnorderedProcessor();
+        var processor2 = new TestUnorderedProcessor();
 
         var stages = new[]
         {
@@ -54,8 +54,8 @@ public sealed class PipelineTests : TreeTestFixture
     [Test]
     public void Run_SomeStages()
     {
-        var processor1 = new TestProcessor();
-        var processor2 = new TestProcessor();
+        var processor1 = new TestUnorderedProcessor();
+        var processor2 = new TestUnorderedProcessor();
 
         var stages = new[]
         {
@@ -74,8 +74,8 @@ public sealed class PipelineTests : TreeTestFixture
     [Test]
     public void Run_LastStageRan_AllStages()
     {
-        var processor1 = new TestProcessor();
-        var processor2 = new TestProcessor();
+        var processor1 = new TestUnorderedProcessor();
+        var processor2 = new TestUnorderedProcessor();
 
         var stages = new[]
         {

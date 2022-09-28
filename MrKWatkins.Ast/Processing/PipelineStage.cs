@@ -5,7 +5,7 @@ internal sealed class PipelineStage<TNode>
 {
     private readonly Func<TNode, bool> shouldContinue;
 
-    internal PipelineStage(string name, IReadOnlyList<IProcessor<TNode>> processors, Func<TNode, bool> shouldContinue)
+    internal PipelineStage(string name, IReadOnlyList<Processor<TNode>> processors, Func<TNode, bool> shouldContinue)
     {
         if (processors.Count == 0)
         {
@@ -19,7 +19,7 @@ internal sealed class PipelineStage<TNode>
     
     internal string Name { get; }
     
-    internal IReadOnlyList<IProcessor<TNode>> Processors { get; }
+    internal IReadOnlyList<Processor<TNode>> Processors { get; }
     
     internal bool Run(TNode root)
     {

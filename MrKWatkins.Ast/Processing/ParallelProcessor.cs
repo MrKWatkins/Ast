@@ -1,139 +1,136 @@
-using System.Collections.Concurrent;
 using System.Threading.Tasks.Dataflow;
-using MrKWatkins.Ast.Enumeration;
 
 namespace MrKWatkins.Ast.Processing;
 
-public sealed class ParallelProcessor<TNode> : Processor, IProcessor<TNode>
+internal sealed class ParallelProcessor<TNode> : Processor<TNode>
     where TNode : Node<TNode>
 {
     private readonly IReadOnlyList<Processor<TNode>> processors;
 
-    public ParallelProcessor(params Processor<TNode>[] processors)
-        : this(Environment.ProcessorCount, processors)
+    internal ParallelProcessor([InstantHandle] IEnumerable<Processor<TNode>> processors, int? maxDegreeOfParallelism) 
     {
-    }
-    
-    public ParallelProcessor(int maxDegreeOfParallelism, params Processor<TNode>[] processors)
-        : this(maxDegreeOfParallelism, (IEnumerable<Processor<TNode>>) processors)
-    {
-    }
-    
-    public ParallelProcessor([InstantHandle] IEnumerable<Processor<TNode>> processors)
-        : this(Environment.ProcessorCount, processors)
-    {
-    }
-    
-    public ParallelProcessor(int maxDegreeOfParallelism, [InstantHandle] IEnumerable<Processor<TNode>> processors)
-    {
-        this.processors = ValidateProcessors(processors);
         if (maxDegreeOfParallelism <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(maxDegreeOfParallelism), maxDegreeOfParallelism, "Value must be greater than 0.");
         }
-        MaxDegreeOfParallelism = maxDegreeOfParallelism;
+        MaxDegreeOfParallelism = maxDegreeOfParallelism ?? Environment.ProcessorCount;
+        
+        this.processors = processors.ToList();
+        if (this.processors.Count == 0)
+        {
+            throw new ArgumentException("Value is empty.", nameof(processors));
+        }
     }
     
     internal int MaxDegreeOfParallelism { get; }
 
-    private static IReadOnlyList<Processor<TNode>> ValidateProcessors([InstantHandle] IEnumerable<Processor<TNode>> processors)
-    {
-        var processorsList = new List<Processor<TNode>>();
-        foreach (var processor in processors)
-        {
-            if (processor.Enumerator != DepthFirstPreOrder<TNode>.Instance)
-            {
-                throw new ArgumentException(
-                    $"Value contains processor {processor.GetType().Name} that overrides {nameof(processor.Enumerator)}; only DepthFirstPreOrder processors can be used in parallel.",
-                    nameof(processors));
-            }
+    internal override ProcessorState<TNode> CreateState(TNode root) =>
+        MaxDegreeOfParallelism == 1
+            ? CreateSerialState(root)
+            : CreateParallelState(root);
 
-            processorsList.Add(processor);
+    [Pure]
+    private ProcessorState<TNode> CreateSerialState(TNode root)
+    {
+        var exceptions = new Exceptions();
+
+        var context = new SerialContext(processors, root);
+        
+        return new(
+            exceptions,
+            node =>
+            {
+                foreach (var processorState in context.ProcessorStates)
+                {
+                    processorState.ProcessNodeIfShould(node);
+                }
+            },
+            context)
+        {
+            OnComplete = context.OnComplete
+        };
+    }
+    
+    [Pure]
+    private ProcessorState<TNode> CreateParallelState(TNode root)
+    {
+        var exceptions = new Exceptions();
+
+        var context = new ParallelContext(processors, root, MaxDegreeOfParallelism);
+        
+        return new(
+            exceptions,
+            node =>
+            {
+                foreach (var processorState in context.ProcessorStates)
+                {
+                    context.Jobs.Post((processorState, node));
+                }
+            },
+            context)
+        {
+            OnComplete = context.OnComplete
+        };
+    }
+
+    private abstract class Context : IDisposable
+    {
+        protected Context(IReadOnlyList<Processor<TNode>> processors, TNode root)
+        {
+            ProcessorStates = processors.Select(p => p.CreateState(root)).ToList();
+        }
+            
+        public IReadOnlyList<ProcessorState<TNode>> ProcessorStates { get; }
+
+        public virtual void OnComplete(ProcessorState<TNode> parallelState)
+        {
+            foreach (var state in ProcessorStates)
+            {
+                parallelState.Exceptions.Add(state.Exceptions);
+                state.OnComplete?.Invoke(state);
+            }
         }
         
-        if (processorsList.Count == 0)
+        public void Dispose()
         {
-            throw new ArgumentException("Value is empty.", nameof(processors));
-        }
-
-        return processorsList;
-    }
-
-    public void Process(TNode root)
-    {
-        if (MaxDegreeOfParallelism == 1)
-        {
-            ProcessSerially(root);
-        }
-        else
-        {
-            ProcessInParallel(root);
+            foreach (var state in ProcessorStates)
+            {
+                state.Dispose();
+            }
         }
     }
 
-    private void ProcessInParallel(TNode root)
+    private sealed class ParallelContext : Context
     {
-        var options = new ExecutionDataflowBlockOptions
+        public ParallelContext(IReadOnlyList<Processor<TNode>> processors, TNode root, int maxDegreeOfParallelism) 
+            : base(processors, root)
         {
-            EnsureOrdered = false,
-            MaxDegreeOfParallelism = MaxDegreeOfParallelism - 1, // One thread to walk the tree, the rest to process.
-            SingleProducerConstrained = true
-        };
-
-        var exceptions = new ConcurrentStack<Exception>();
-        var actionBlock = new ActionBlock<(Processor<TNode> Processor, TNode Node, Action<Exception> OnException)>(ProcessNode, options);
-        foreach (var node in DepthFirstPreOrder<TNode>.Instance.Enumerate(root))
-        {
-            foreach (var processor in processors)
+            var options = new ExecutionDataflowBlockOptions
             {
-                actionBlock.Post((processor, node, exceptions.Push));
-            }
-        }
-        actionBlock.Complete();
-        actionBlock.Completion.Wait();
+                EnsureOrdered = false,
+                MaxDegreeOfParallelism = maxDegreeOfParallelism - 1, // One thread to walk the tree, the rest to process.
+                SingleProducerConstrained = true
+            };
 
-        if (exceptions.Any())
+            Jobs = new ActionBlock<(ProcessorState<TNode> State, TNode Node)>(x => x.State.ProcessNodeIfShould(x.Node), options);
+        }
+        
+        public ActionBlock<(ProcessorState<TNode> State, TNode Node)> Jobs { get; }
+
+        public override void OnComplete(ProcessorState<TNode> parallelState)
         {
-            throw new AggregateException("One or more errors occurred processing the tree in parallel.", exceptions);
+            Jobs.Complete();
+            Jobs.Completion.Wait();
+            
+            base.OnComplete(parallelState);
         }
     }
 
-    private void ProcessSerially(TNode root)
+    private sealed class SerialContext : Context
     {
-        var exceptions = new List<Exception>();
-        foreach (var node in DepthFirstPreOrder<TNode>.Instance.Enumerate(root))
+        public SerialContext(IReadOnlyList<Processor<TNode>> processors, TNode root) 
+            : base(processors, root)
         {
-            foreach (var processor in processors)
-            {
-                ProcessNode((processor, node, exceptions.Add));
-            }
-        }
-
-        if (exceptions.Any())
-        {
-            throw new AggregateException("One or more errors occurred processing the tree serially.", exceptions);
-        }
-    }
-
-    private static void ProcessNode((Processor<TNode> Processor, TNode Node, Action<Exception> OnException) input)
-    {
-        var (processor, node, onException) = input;
-        try
-        {
-            if (CatchAndRethrowExceptions(node, nameof(processor.ShouldProcessNode), processor.ShouldProcessNode))
-            {
-                CatchAndRethrowExceptions(node, nameof(processor.ProcessNode), processor.ProcessNode);
-            }
-
-            if (!processor.ShouldProcessChildren(node))
-            {
-                throw new ProcessingException<TNode>(
-                    $"Processor {processor.GetType().Name}.{nameof(processor.ShouldProcessChildren)} returned false; child nodes cannot be skipped when running in parallel.", node);
-            }
-        }
-        catch (Exception exception)
-        {
-            onException(exception);
         }
     }
 }
