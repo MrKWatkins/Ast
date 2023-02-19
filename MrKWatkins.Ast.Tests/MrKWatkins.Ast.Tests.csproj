@@ -1,8 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\MrKWatkins.Ast\MrKWatkins.Ast.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\MrKWatkins.Ast\MrKWatkins.Ast.csproj" />
+    </ItemGroup>
 </Project>
