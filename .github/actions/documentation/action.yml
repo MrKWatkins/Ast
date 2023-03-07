@@ -1,0 +1,32 @@
+name: Documentation
+description: "Builds and Deploys the documentation."
+inputs:
+  deploy:
+    description: "Whether to deploy the documentation or not."
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Install DocFX
+      shell: bash
+      run: dotnet tool update -g docfx 
+      
+    - name: Build Documentation
+      shell: bash
+      run: docfx doc/docfx.json
+      
+    - name: Setup Pages
+      if: ${{ inputs.deploy == 'true' }}
+      uses: actions/configure-pages@v3
+      
+    - name: Upload artifact
+      if: ${{ inputs.deploy == 'true' }}
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: './doc/_site'
+        
+    - name: Deploy to GitHub Pages
+      if: ${{ inputs.deploy == 'true' }}
+      uses: actions/deploy-pages@v2

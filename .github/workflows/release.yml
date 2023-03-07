@@ -8,15 +8,21 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: write
+  id-token: write
+  pages: write
+  
 jobs:
   Release:
-    name: Release
+    name: Release ${{ inputs.version }}
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -31,3 +37,8 @@ jobs:
 
       - name: Create Release
         run: gh release create v${{ inputs.version }} --generate-notes
+        
+      - name: Deploy Documentation
+        uses: ./.github/actions/documentation
+        with:
+          deploy: true

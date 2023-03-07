@@ -13,7 +13,8 @@ jobs:
         working-directory: ./src
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -58,3 +59,8 @@ jobs:
           name: Test Coverage
           title: Test Coverage
           body-file: code-coverage-results.md
+      
+      - name: Build Documentation
+        uses: ./.github/actions/documentation
+        with:
+          deploy: false
