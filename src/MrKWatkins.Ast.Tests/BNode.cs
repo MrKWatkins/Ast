@@ -1,6 +1,6 @@
 namespace MrKWatkins.Ast.Tests;
 
-public sealed class BNode : TestNode
+public class BNode : TestNode
 {
     public BNode()
     {
