@@ -29,6 +29,16 @@ public sealed class CompositeListenerTests : TreeTestFixture
     }
     
     [Test]
+    public void ToListener_ThrowsIfNoListenersRegistered()
+    {
+        var builder = CompositeListener<TestNode>.Build();
+
+        builder.Invoking(b => b.ToListener())
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("No listeners have been registered.");
+    }
+    
+    [Test]
     public void Listen_NoSubTypes()
     {
         var aListener = new TestListener<ANode>();
