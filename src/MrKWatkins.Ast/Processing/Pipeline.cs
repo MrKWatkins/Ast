@@ -23,14 +23,14 @@ public sealed class Pipeline<TNode>
     }
     
     /// <summary>
-    /// Runs the pipeline on the specified <param name="root" /> node.
+    /// Runs the pipeline on the specified root node.
     /// </summary>
     /// <param name="root">The root node to run the pipeline on.</param>
     /// <returns><c>true</c> if all stages ran successfully, <c>false</c> otherwise.</returns>
     public bool Run(TNode root) => Run(root, out _);
 
     /// <summary>
-    /// Runs the pipeline on the specified <param name="root" />.
+    /// Runs the pipeline on the specified root.
     /// </summary>
     /// <param name="root">The root node to run the pipeline on.</param>
     /// <param name="lastStageRan">

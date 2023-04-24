@@ -51,7 +51,7 @@ public abstract partial class Node<TNode>
     public void MoveTo(TNode newParent) => newParent.Children.MoveInto(This);
 
     /// <summary>
-    /// Removes this node from it's parent and puts <see cref="other" /> in its place.
+    /// Removes this node from it's parent and puts another node in its place.
     /// </summary>
     public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode) other);
     

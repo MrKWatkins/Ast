@@ -375,6 +375,31 @@ public sealed partial class ChildrenTests
         child2.HasParent.Should().BeFalse();
         new2.Parent.Should().BeSameAs(parent);
     }
+    
+    [Test]
+    public void Indexer_Set_ThrowsIfAlreadyInCollection()
+    {
+        var child1 = new BNode();
+        var child2 = new BNode();
+        var parent = new ANode(child1, child2);
+        
+        parent.Invoking(p => p.Children[0] = child2)
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Node is already in the collection.");
+    }
+    
+    [Test]
+    public void Indexer_Set_ThrowsIfNodeHasParent()
+    {
+        var child = new BNode();
+        var _ = new ANode(child);
+        
+        var newParent = new BNode(new ANode());
+
+        newParent.Invoking(p => p.Children[0] = child)
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Node is already the child of another node.");
+    }
 
     [Test]
     public void Replace_HasParent()
@@ -423,6 +448,18 @@ public sealed partial class ChildrenTests
 
         parent.Children.Invoking(c => c.Replace(new BNode(), new BNode()))
             .Should().Throw<ArgumentException>();
+    }
+    
+    [Test]
+    public void Replace_ThrowsIfAlreadyInCollection()
+    {
+        var child1 = new BNode();
+        var child2 = new BNode();
+        var parent = new ANode(child1, child2);
+        
+        parent.Invoking(p => p.Children.Replace(child1, child2))
+            .Should().Throw<ArgumentException>()
+            .WithParameters("Value is already in the collection.", "replacement");
     }
     
     [Test]

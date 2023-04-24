@@ -9,7 +9,7 @@ public sealed class TextFile : SourceFile
     /// Initialises a new instance of the <see cref="TextFile" /> class from a file on disk.
     /// </summary>
     /// <param name="file">
-    /// A <see cref="FileInfo" /> with details a file on disk to load. The <see cref="FileInfo.FullName" /> will be used for <see cref="SourceFile.Name" />.
+    /// A <see cref="FileInfo" /> with details a file on disk to load. The <see cref="FileSystemInfo.FullName" /> will be used for <see cref="SourceFile.Name" />.
     /// </param>
     public TextFile(FileInfo file)
         : this(file.FullName, File.ReadAllText(file.FullName))
