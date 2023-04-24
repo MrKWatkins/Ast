@@ -1,6 +1,10 @@
-namespace MrKWatkins.Ast.Enumeration;
+namespace MrKWatkins.Ast.Traversal;
 
-public interface IDescendentEnumerator<TNode>
+/// <summary>
+/// Strategy for traversing nodes in a tree.
+/// </summary>
+/// <typeparam name="TNode">The type of nodes in the tree.</typeparam>
+public interface ITraversal<TNode>
     where TNode : Node<TNode>
 {
     /// <summary>

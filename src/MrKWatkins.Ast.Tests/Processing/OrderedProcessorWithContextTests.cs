@@ -1,5 +1,5 @@
-using MrKWatkins.Ast.Enumeration;
 using MrKWatkins.Ast.Processing;
+using MrKWatkins.Ast.Traversal;
 
 namespace MrKWatkins.Ast.Tests.Processing;
 
@@ -10,7 +10,7 @@ public sealed class OrderedProcessorWithContextTests : TreeTestFixture
     {
         var processor = new TestOrderedProcessorWithContext();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
         processor.Context.Root.Should().BeSameAs(N1);
         processor.Context.NodesProcessed.Should().Be(NodeCount);
     }
@@ -18,9 +18,9 @@ public sealed class OrderedProcessorWithContextTests : TreeTestFixture
     [Test]
     public void Process_OverrideEnumerator()
     {
-        var processor = new TestOrderedProcessorWithContext { EnumeratorOverride = BreadthFirst<TestNode>.Instance };
+        var processor = new TestOrderedProcessorWithContext { EnumeratorOverride = BreadthFirstTraversal<TestNode>.Instance };
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.BreadthFirst(N1));
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.BreadthFirst(N1));
         processor.Context.Root.Should().BeSameAs(N1);
         processor.Context.NodesProcessed.Should().Be(NodeCount);
     }
@@ -78,7 +78,7 @@ public sealed class OrderedProcessorWithContextTests : TreeTestFixture
     {
         var processor = new TestTypedOrderedProcessorWithContext();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1).OfType<BNode>());
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1).OfType<BNode>());
         processor.Context.Root.Should().BeSameAs(N1);
         processor.Context.NodesProcessed.Should().Be(BNodeCount);
     }
@@ -128,11 +128,11 @@ public sealed class OrderedProcessorWithContextTests : TreeTestFixture
         public Func<TestNode, object?>? ProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; init; }
-        public IDescendentEnumerator<TestNode>? EnumeratorOverride { get; init; }
+        public ITraversal<TestNode>? EnumeratorOverride { get; init; }
 
         public IEnumerable<TestNode> Processed => processed;
 
-        protected override IDescendentEnumerator<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
+        protected override ITraversal<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
 
         protected override TestContext CreateContext(TestNode root)
         {

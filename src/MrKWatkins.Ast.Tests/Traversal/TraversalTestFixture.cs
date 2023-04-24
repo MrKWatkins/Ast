@@ -1,11 +1,11 @@
-using MrKWatkins.Ast.Enumeration;
+using MrKWatkins.Ast.Traversal;
 
-namespace MrKWatkins.Ast.Tests.Enumeration;
+namespace MrKWatkins.Ast.Tests.Traversal;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)] // Rider doesn't recognise sub-classes with no tests.
-public abstract class EnumerationTestFixture : TreeTestFixture
+public abstract class TraversalTestFixture : TreeTestFixture
 {
-    protected abstract IDescendentEnumerator<TestNode> Enumerator { get; }
+    protected abstract ITraversal<TestNode> Enumerator { get; }
 
     [Test]
     public void Enumerate_IncludeRoot() => Enumerator.Enumerate(N1).Should().HaveSameOrderAs(ExpectedOrderWithRoot);

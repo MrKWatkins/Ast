@@ -26,8 +26,8 @@ public sealed class PipelineTests : TreeTestFixture
 
         pipeline.Run(N1).Should().Be(lastStageShouldContinue);
         
-        processor1.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
-        processor2.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processor1.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
+        processor2.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
     }
     
     [Test]
@@ -47,8 +47,8 @@ public sealed class PipelineTests : TreeTestFixture
         pipeline.Run(N1, out var lastStageRan).Should().Be(lastStageShouldContinue);
         lastStageRan.Should().Be("Stage 2");
         
-        processor1.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
-        processor2.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processor1.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
+        processor2.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
     }
     
     [Test]
@@ -67,7 +67,7 @@ public sealed class PipelineTests : TreeTestFixture
 
         pipeline.Run(N1).Should().BeFalse();
         
-        processor1.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processor1.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
         processor2.Processed.Should().BeEmpty();
     }
     
@@ -88,7 +88,7 @@ public sealed class PipelineTests : TreeTestFixture
         pipeline.Run(N1, out var lastStageRan).Should().BeFalse();
         lastStageRan.Should().Be("Stage 1");
         
-        processor1.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processor1.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
         processor2.Processed.Should().BeEmpty();
     }
 }

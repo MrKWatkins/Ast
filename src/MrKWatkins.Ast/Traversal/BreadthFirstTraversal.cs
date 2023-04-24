@@ -1,14 +1,23 @@
-namespace MrKWatkins.Ast.Enumeration;
+namespace MrKWatkins.Ast.Traversal;
 
-public sealed class BreadthFirst<TNode> : IDescendentEnumerator<TNode>
+/// <summary>
+/// Strategy for traversing nodes in a tree breadth first.
+/// </summary>
+/// <seealso href="https://en.wikipedia.org/wiki/Breadth-first_search" />
+/// <typeparam name="TNode">The type of nodes in the tree.</typeparam>
+public sealed class BreadthFirstTraversal<TNode> : ITraversal<TNode>
     where TNode : Node<TNode>
 {
-    public static readonly IDescendentEnumerator<TNode> Instance = new BreadthFirst<TNode>();
+    /// <summary>
+    /// The singleton <see cref="BreadthFirstTraversal{TNode}" /> instance.
+    /// </summary>
+    public static readonly BreadthFirstTraversal<TNode> Instance = new();
 
-    private BreadthFirst()
+    private BreadthFirstTraversal()
     {
     }
 
+    /// <inheritdoc />
     public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null)
     {
         // Start by queuing and yielding the root.

@@ -9,7 +9,7 @@ public sealed class UnorderedProcessorTests : TreeTestFixture
     {
         var processor = new TestUnorderedProcessor();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
     }
 
     [Test]
@@ -41,7 +41,7 @@ public sealed class UnorderedProcessorTests : TreeTestFixture
     {
         var processor = new TestTypedProcessor();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1).OfType<BNode>());
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1).OfType<BNode>());
     }
 
     [Test]

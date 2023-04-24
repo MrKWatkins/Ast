@@ -186,10 +186,10 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Enumerates all descendents of this node in depth first order.
     /// </summary>
-    public IEnumerable<TNode> Descendents => Enumerate.DepthFirstPreOrder(This, false);
+    public IEnumerable<TNode> Descendents => Traverse.DepthFirstPreOrder(This, false);
 
     /// <summary>
     /// Enumerates this node then all descendents of this node in depth first order.
     /// </summary>
-    public IEnumerable<TNode> ThisAndDescendents => Enumerate.DepthFirstPreOrder(This);
+    public IEnumerable<TNode> ThisAndDescendents => Traverse.DepthFirstPreOrder(This);
 }

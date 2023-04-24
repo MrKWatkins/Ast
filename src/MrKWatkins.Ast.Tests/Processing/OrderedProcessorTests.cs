@@ -1,5 +1,5 @@
-using MrKWatkins.Ast.Enumeration;
 using MrKWatkins.Ast.Processing;
+using MrKWatkins.Ast.Traversal;
 
 namespace MrKWatkins.Ast.Tests.Processing;
 
@@ -10,15 +10,15 @@ public sealed class OrderedProcessorTests : TreeTestFixture
     {
         var processor = new TestOrderedProcessor();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
     }
 
     [Test]
     public void Process_OverrideEnumerator()
     {
-        var processor = new TestOrderedProcessor { EnumeratorOverride = BreadthFirst<TestNode>.Instance };
+        var processor = new TestOrderedProcessor { EnumeratorOverride = BreadthFirstTraversal<TestNode>.Instance };
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.BreadthFirst(N1));
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.BreadthFirst(N1));
     }
 
     [Test]
@@ -62,7 +62,7 @@ public sealed class OrderedProcessorTests : TreeTestFixture
     {
         var processor = new TestTypedProcessor();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1).OfType<BNode>());
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1).OfType<BNode>());
     }
 
     [Test]
@@ -108,11 +108,11 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         public Func<TestNode, object?>? ProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; init; }
-        public IDescendentEnumerator<TestNode>? EnumeratorOverride { get; init; }
+        public ITraversal<TestNode>? EnumeratorOverride { get; init; }
 
         public IEnumerable<TestNode> Processed => processed;
 
-        protected override IDescendentEnumerator<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
+        protected override ITraversal<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
 
         protected override void ProcessNode(TestNode node)
         {

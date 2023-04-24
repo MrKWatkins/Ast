@@ -24,7 +24,7 @@ public abstract class Processor<TNode>
     }
 
     [Pure]
-    private protected virtual IEnumerable<TNode> EnumerateNodes(ProcessorState<TNode> state, TNode root) => Node<TNode>.Enumerate.DepthFirstPreOrder(root);
+    private protected virtual IEnumerable<TNode> EnumerateNodes(ProcessorState<TNode> state, TNode root) => Node<TNode>.Traverse.DepthFirstPreOrder(root);
     
     [MustUseReturnValue]
     protected static TResult CatchAndRethrowExceptions<TResult>(TNode node, string method, Func<TNode, TResult> function)

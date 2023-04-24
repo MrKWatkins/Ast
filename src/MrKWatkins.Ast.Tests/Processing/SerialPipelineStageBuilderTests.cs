@@ -20,11 +20,11 @@ public sealed class SerialPipelineStageBuilderTests : PipelineStageBuilderTestFi
         stage.Name.Should().Be("123");
 
         stage.Run(N1).Should().BeTrue();
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
         
         N12.AddError("Default should continue checks the tree for errors.");
         stage.Run(N1).Should().BeFalse();
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1).Concat(TestNode.Enumerate.DepthFirstPreOrder(N1)));
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1).Concat(TestNode.Traverse.DepthFirstPreOrder(N1)));
     }    
     
     [Test]

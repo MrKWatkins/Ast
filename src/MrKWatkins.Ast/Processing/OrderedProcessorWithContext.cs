@@ -1,4 +1,4 @@
-using MrKWatkins.Ast.Enumeration;
+using MrKWatkins.Ast.Traversal;
 
 namespace MrKWatkins.Ast.Processing;
 
@@ -15,7 +15,7 @@ public abstract class OrderedProcessorWithContext<TContext, TNode> : Processor<T
     [Pure]
     protected abstract TContext CreateContext(TNode root);
 
-    protected virtual IDescendentEnumerator<TNode> Enumerator => DepthFirstPreOrder<TNode>.Instance;
+    protected virtual ITraversal<TNode> Enumerator => DepthFirstPreOrderTraversal<TNode>.Instance;
 
     private protected sealed override IEnumerable<TNode> EnumerateNodes(ProcessorState<TNode> state, TNode root) =>
         Enumerator.Enumerate(
@@ -46,7 +46,7 @@ public abstract class OrderedProcessorWithContext<TContext, TBaseNode, TNode> : 
     [Pure]
     protected abstract TContext CreateContext(TBaseNode root);
 
-    protected virtual IDescendentEnumerator<TBaseNode> Enumerator => DepthFirstPreOrder<TBaseNode>.Instance;
+    protected virtual ITraversal<TBaseNode> Enumerator => DepthFirstPreOrderTraversal<TBaseNode>.Instance;
 
     private protected sealed override IEnumerable<TBaseNode> EnumerateNodes(ProcessorState<TBaseNode> state, TBaseNode root) =>
         Enumerator.Enumerate(

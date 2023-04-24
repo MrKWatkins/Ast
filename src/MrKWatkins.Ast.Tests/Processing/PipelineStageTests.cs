@@ -25,8 +25,8 @@ public sealed class PipelineStageTests : TreeTestFixture
         stage.Name.Should().Be("Test Stage");
 
         stage.Run(N1).Should().Be(shouldContinue);
-        processors[0].Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
-        processors[1].Processed.Should().HaveSameOrderAs(TestNode.Enumerate.DepthFirstPreOrder(N1));
+        processors[0].Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
+        processors[1].Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
     }
 
     [Test]

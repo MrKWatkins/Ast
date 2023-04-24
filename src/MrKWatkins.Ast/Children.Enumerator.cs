@@ -5,6 +5,7 @@ namespace MrKWatkins.Ast;
 public sealed partial class Children<TNode>
     where TNode : Node<TNode>
 {
+    /// <inheritdoc />
     public IEnumerator<TNode> GetEnumerator() => new Enumerator(this);
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
