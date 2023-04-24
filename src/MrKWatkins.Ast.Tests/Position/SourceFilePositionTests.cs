@@ -41,10 +41,10 @@ public sealed class SourceFilePositionTests
             .WithMessage($"Value plus startIndex (8) must be less than file's length. (10) (Parameter 'length'){Environment.NewLine}Actual value was 3.");
     }
     
-    [TestCase(10, 0, 0, 0)]    // Zero length at start.
-    [TestCase(10, 9, 0, 9)]    // Zero length at end.
-    [TestCase(10, 0, 10, 9)]   // Full file.
-    [TestCase(10, 3, 3, 5)]   // Section.
+    [TestCase(10, 0, 0, 0)]     // Zero length at start.
+    [TestCase(10, 9, 0, 9)]     // Zero length at end.
+    [TestCase(10, 0, 10, 10)]   // Full file.
+    [TestCase(10, 3, 3, 6)]     // Section.
     public void Constructor(int fileLength, int startIndex, int length, int expectedEndIndex)
     {
         var file = new TestFile("Test Name", fileLength);
@@ -52,6 +52,7 @@ public sealed class SourceFilePositionTests
         position.File.Should().BeSameAs(file);
         position.StartIndex.Should().Be(startIndex);
         position.Length.Should().Be(length);
+        position.EndIndex.Should().Be(expectedEndIndex);
     }
 
     [Test]

@@ -2,7 +2,10 @@ using System.Text;
 
 namespace MrKWatkins.Ast.Position;
 
-public sealed  class TextFilePosition : SourceFilePosition<TextFilePosition, TextFile>, ITextSourcePosition
+/// <summary>
+/// A <see cref="SourcePosition" /> in a text source code file.
+/// </summary>
+public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, TextFile>, ITextSourcePosition
 {
     internal TextFilePosition(TextFile file, int startIndex, int length, int startLineIndex, int startColumnIndex) 
         : base(file, startIndex, length)
@@ -41,18 +44,37 @@ public sealed  class TextFilePosition : SourceFilePosition<TextFilePosition, Tex
         StartColumnIndex = startColumnIndex;
     }
 
+    /// <summary>
+    /// Zero based index of the start line of the position in the text file.
+    /// </summary>
     public int StartLineIndex { get; }
     
+    /// <summary>
+    /// Number, i.e. 1 based index, of the start line of the position in the text file.
+    /// </summary>
     public int StartLineNumber => StartLineIndex + 1;
 
+    /// <summary>
+    /// Zero based index of the start column of the position in the text file.
+    /// </summary>
     public int StartColumnIndex { get; }
     
+    /// <summary>
+    /// Number, i.e. 1 based index, of the start column of the position in the text file.
+    /// </summary>
     public int StartColumnNumber => StartColumnIndex + 1;
 
+    /// <summary>
+    /// The start line of the text source.
+    /// </summary>
     public string StartLine => File.Lines[StartLineIndex];
 
+    /// <summary>
+    /// The text source.
+    /// </summary>
     public string Text => File.Text.Substring(StartIndex, Length);
 
+    /// <inheritdoc />
     protected override TextFilePosition CreateCombination(TextFilePosition other)
     {
         int startIndex, startLineIndex, startColumnIndex;
@@ -71,12 +93,14 @@ public sealed  class TextFilePosition : SourceFilePosition<TextFilePosition, Tex
 
         var endIndex = EndIndex > other.EndIndex ? EndIndex : other.EndIndex;
 
-        return new TextFilePosition(File, startIndex, endIndex - startIndex + 1, startLineIndex, startColumnIndex);
+        return new TextFilePosition(File, startIndex, endIndex - startIndex, startLineIndex, startColumnIndex);
     }
 
     // Matches the C# compiler, with some extra spacing.
+    /// <inheritdoc />
     public override string ToString() => $"{File.Name} ({StartLineNumber}, {StartColumnNumber})";
-    
+
+    /// <inheritdoc />
     public void WriteSourceForMessage(StringBuilder builder)
     {
         var line = StartLine;
