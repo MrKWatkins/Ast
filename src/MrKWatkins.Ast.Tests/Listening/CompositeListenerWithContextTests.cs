@@ -168,7 +168,7 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
     {
         public int Count { get; private set; }
 
-        protected internal override void ListenToNode(TestContext context, TestNode node)
+        protected internal override void ListenToNode(TestContext context, TestNode _)
         {
             context.Count++;
             Count++;
@@ -180,7 +180,7 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
     {
         public int Count { get; private set; }
 
-        protected internal override void ListenToNode(TestContext context, TNode node)
+        protected override void ListenToNode(TestContext context, TNode _)
         {
             context.Count++;
             Count++;

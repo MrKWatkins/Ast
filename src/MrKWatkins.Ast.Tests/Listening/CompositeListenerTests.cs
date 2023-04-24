@@ -152,7 +152,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
     {
         public int Count { get; private set; }
 
-        protected internal override void ListenToNode(TestNode node) => Count++;
+        protected internal override void ListenToNode(TestNode _) => Count++;
     }
     
     private sealed class TestListener<TNode> : Listener<TestNode, TNode> 
@@ -160,6 +160,6 @@ public sealed class CompositeListenerTests : TreeTestFixture
     {
         public int Count { get; private set; }
 
-        protected internal override void ListenToNode(TNode node) => Count++;
+        protected override void ListenToNode(TNode _) => Count++;
     }
 }

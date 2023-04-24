@@ -52,28 +52,28 @@ public sealed class ListenerWithContextTests : TreeTestFixture
     
     private sealed class TypedTestListenerWithContext : ListenerWithContext<StringBuilder, TestNode, ANode>
     {
-        protected internal override void BeforeListenToNode(StringBuilder context, ANode node) => context.Append('(');
+        protected override void BeforeListenToNode(StringBuilder context, ANode node) => context.Append('(');
 
-        protected internal override void ListenToNode(StringBuilder context, ANode node) => context.Append(node.Name);
+        protected override void ListenToNode(StringBuilder context, ANode node) => context.Append(node.Name);
 
-        protected internal override void AfterListenToNode(StringBuilder context, ANode node) => context.Append(')');
+        protected override void AfterListenToNode(StringBuilder context, ANode node) => context.Append(')');
     }
     
     private sealed class CallsBaseTypedTestListenerWithContext : ListenerWithContext<StringBuilder, TestNode, ANode>
     {
-        protected internal override void BeforeListenToNode(StringBuilder context, ANode node)
+        protected override void BeforeListenToNode(StringBuilder context, ANode node)
         {
             base.BeforeListenToNode(context, node);
             context.Append('(');
         }
 
-        protected internal override void ListenToNode(StringBuilder context, ANode node)
+        protected override void ListenToNode(StringBuilder context, ANode node)
         {
             base.ListenToNode(context, node);
             context.Append(node.Name);
         }
 
-        protected internal override void AfterListenToNode(StringBuilder context, ANode node)
+        protected override void AfterListenToNode(StringBuilder context, ANode node)
         {
             base.AfterListenToNode(context, node);
             context.Append(')');

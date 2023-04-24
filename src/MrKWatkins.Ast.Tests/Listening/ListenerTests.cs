@@ -60,11 +60,11 @@ public sealed class ListenerTests : TreeTestFixture
     {
         private readonly StringBuilder stringBuilder = new();
 
-        protected internal override void BeforeListenToNode(ANode node) => stringBuilder.Append('(');
+        protected override void BeforeListenToNode(ANode node) => stringBuilder.Append('(');
 
-        protected internal override void ListenToNode(ANode node) => stringBuilder.Append(node.Name);
+        protected override void ListenToNode(ANode node) => stringBuilder.Append(node.Name);
 
-        protected internal override void AfterListenToNode(ANode node) => stringBuilder.Append(')');
+        protected override void AfterListenToNode(ANode node) => stringBuilder.Append(')');
 
         public override string ToString() => stringBuilder.ToString();
     }
@@ -73,19 +73,19 @@ public sealed class ListenerTests : TreeTestFixture
     {
         private readonly StringBuilder stringBuilder = new();
 
-        protected internal override void BeforeListenToNode(ANode node)
+        protected override void BeforeListenToNode(ANode node)
         {
             base.BeforeListenToNode(node);
             stringBuilder.Append('(');
         }
 
-        protected internal override void ListenToNode(ANode node)
+        protected override void ListenToNode(ANode node)
         {
             base.ListenToNode(node);
             stringBuilder.Append(node.Name);
         }
 
-        protected internal override void AfterListenToNode(ANode node)
+        protected override void AfterListenToNode(ANode node)
         {
             base.AfterListenToNode(node);
             stringBuilder.Append(')');
