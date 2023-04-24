@@ -1,11 +1,11 @@
 namespace MrKWatkins.Ast.Tests;
 
-public sealed class NodeFactoryTests
+public sealed class DefaultNodeFactoryTests
 {
     [Test]
     public void Create_CanCreateAllTestNodes()
     {
-        var factory = NodeFactory<TestNode>.Default;
+        var factory = DefaultNodeFactory<TestNode>.Instance;
 
         factory.Create(typeof(ANode)).Should().BeOfType<ANode>();
         factory.Create(typeof(BNode)).Should().BeOfType<BNode>();
@@ -15,7 +15,7 @@ public sealed class NodeFactoryTests
     [Test]
     public void Create_TypeParameter_CanCreateAllTestNodes()
     {
-        var factory = NodeFactory<TestNode>.Default;
+        var factory = DefaultNodeFactory<TestNode>.Instance;
 
         factory.Create<ANode>().Should().BeOfType<ANode>();
         factory.Create<BNode>().Should().BeOfType<BNode>();
@@ -24,13 +24,13 @@ public sealed class NodeFactoryTests
 
     [Test]
     public void Create_ThrowsIfANodeDoesNotHaveAParameterlessConstructor() =>
-        FluentActions.Invoking(() => NodeFactory<NoParameterlessConstructor>.Default.Create<NoParameterlessConstructor>())
+        FluentActions.Invoking(() => DefaultNodeFactory<NoParameterlessConstructor>.Instance.Create<NoParameterlessConstructor>())
             .Should().Throw<InvalidOperationException>()
             .WithMessage($"Could not find a parameterless constructor for the node type {nameof(NoParameterlessConstructor)}.");
         
     [Test]
     public void Create_ThrowsIfANodeConstructorThrows() =>
-        FluentActions.Invoking(() => NodeFactory<ThrowOnConstruction>.Default.Create<ThrowOnConstruction>())
+        FluentActions.Invoking(() => DefaultNodeFactory<ThrowOnConstruction>.Instance.Create<ThrowOnConstruction>())
             .Should().Throw<InvalidOperationException>()
             .WithMessage($"Exception calling the constructor for {nameof(ThrowOnConstruction)}.");
 

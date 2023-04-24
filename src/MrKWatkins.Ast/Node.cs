@@ -22,7 +22,7 @@ public abstract partial class Node<TNode>
     }
     
     [Pure]
-    public TNode Copy() => Copy(NodeFactory<TNode>.Default);
+    public TNode Copy() => Copy(DefaultNodeFactory<TNode>.Instance);
         
     [Pure]
     public TNode Copy(INodeFactory<TNode> nodeFactory)

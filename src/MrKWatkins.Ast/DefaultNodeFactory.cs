@@ -4,14 +4,14 @@ using System.Reflection;
 
 namespace MrKWatkins.Ast;
 
-public sealed class NodeFactory<TNode> : INodeFactory<TNode>
+public sealed class DefaultNodeFactory<TNode> : INodeFactory<TNode>
     where TNode : Node<TNode>
 {
-    public static readonly INodeFactory<TNode> Default = new NodeFactory<TNode>();
+    public static readonly INodeFactory<TNode> Instance = new DefaultNodeFactory<TNode>();
 
     private readonly ConcurrentDictionary<Type, Func<TNode>> constructorsByNodeType = new();
         
-    private NodeFactory()
+    private DefaultNodeFactory()
     {
     }
 
