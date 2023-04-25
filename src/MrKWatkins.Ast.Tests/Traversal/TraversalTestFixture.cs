@@ -5,33 +5,33 @@ namespace MrKWatkins.Ast.Tests.Traversal;
 [UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)] // Rider doesn't recognise sub-classes with no tests.
 public abstract class TraversalTestFixture : TreeTestFixture
 {
-    protected abstract ITraversal<TestNode> Enumerator { get; }
+    protected abstract ITraversal<TestNode> Traversal { get; }
 
     [Test]
-    public void Enumerate_IncludeRoot() => Enumerator.Enumerate(N1).Should().HaveSameOrderAs(ExpectedOrderWithRoot);
+    public void Enumerate_IncludeRoot() => Traversal.Enumerate(N1).Should().HaveSameOrderAs(ExpectedOrderWithRoot);
 
     protected virtual IEnumerable<TestNode> ExpectedOrderWithRoot => ExpectedOrderWithoutRoot.Prepend(N1);
 
     [Test]
-    public void Enumerate_WithoutRoot() => Enumerator.Enumerate(N1, false).Should().HaveSameOrderAs(ExpectedOrderWithoutRoot);
+    public void Enumerate_WithoutRoot() => Traversal.Enumerate(N1, false).Should().HaveSameOrderAs(ExpectedOrderWithoutRoot);
 
     protected abstract IEnumerable<TestNode> ExpectedOrderWithoutRoot { get; }
 
     [Test]
     public void Enumerate_IncludeRoot_ShouldEnumerateDescendents() => 
-        Enumerator.Enumerate(N1, true, c => c != N12).Should().HaveSameOrderAs(ExpectedOrderWithRoot.Except(N12.Descendents));
+        Traversal.Enumerate(N1, true, c => c != N12).Should().HaveSameOrderAs(ExpectedOrderWithRoot.Except(N12.Descendents));
 
     [Test]
     public void Enumerate_WithoutRoot_ShouldEnumerateDescendents() => 
-        Enumerator.Enumerate(N1, false, c => c != N12).Should().HaveSameOrderAs(ExpectedOrderWithoutRoot.Except(N12.Descendents));
+        Traversal.Enumerate(N1, false, c => c != N12).Should().HaveSameOrderAs(ExpectedOrderWithoutRoot.Except(N12.Descendents));
 
     [Test]
     public void Enumerate_IncludeRoot_ShouldEnumerateDescendents_ExcludeDescendentsOfRoot() => 
-        Enumerator.Enumerate(N1, true, c => c != N1).Should().HaveSameOrderAs(N1);
+        Traversal.Enumerate(N1, true, c => c != N1).Should().HaveSameOrderAs(N1);
 
     [Test]
     public void Enumerate_WithoutRoot_ShouldEnumerateDescendents_ExcludeDescendentsOfRoot() =>
-        Enumerator.Enumerate(N1, false, c => c != N1).Should().BeEmpty();
+        Traversal.Enumerate(N1, false, c => c != N1).Should().BeEmpty();
 
     [Test]
     public void Enumerate_ReplaceDuringEnumeration()
@@ -39,7 +39,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
         var replacement = new ANode { Name = "NRep" };
 
         var actual = new List<TestNode>();
-        foreach (var node in Enumerator.Enumerate(N1))
+        foreach (var node in Traversal.Enumerate(N1))
         {
             actual.Add(node);
 
@@ -54,14 +54,14 @@ public abstract class TraversalTestFixture : TreeTestFixture
         
         // Replacement will appear on a subsequent enumeration because the tree has been mutated.
         var expected = ExpectedOrderWithRoot.Select(n => n == N122 ? replacement : n);
-        Enumerator.Enumerate(N1).Should().HaveSameOrderAs(expected);
+        Traversal.Enumerate(N1).Should().HaveSameOrderAs(expected);
     }
     
     [Test]
     public void Enumerate_RemoveDuringEnumeration()
     {
         var actual = new List<TestNode>();
-        foreach (var node in Enumerator.Enumerate(N1))
+        foreach (var node in Traversal.Enumerate(N1))
         {
             actual.Add(node);
 
@@ -76,7 +76,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
         
         // Node will be removed on subsequent enumeration because the tree has been mutated.
         var expected = ExpectedOrderWithRoot.Where(n => n != N122);
-        Enumerator.Enumerate(N1).Should().HaveSameOrderAs(expected);
+        Traversal.Enumerate(N1).Should().HaveSameOrderAs(expected);
     }
     
     [Test]
@@ -85,7 +85,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
         var sibling = new ANode { Name = "NSib" };
 
         var actual = new List<TestNode>();
-        foreach (var node in Enumerator.Enumerate(N1))
+        foreach (var node in Traversal.Enumerate(N1))
         {
             actual.Add(node);
 
@@ -100,14 +100,14 @@ public abstract class TraversalTestFixture : TreeTestFixture
         actual.Should().HaveSameOrderAs(expected);
         
         // Tree has been mutated so sibling will appear in subsequent enumerations.
-        Enumerator.Enumerate(N1).Should().HaveSameOrderAs(expected);
+        Traversal.Enumerate(N1).Should().HaveSameOrderAs(expected);
     }
     
     [Test]
     public void Enumerate_RemoveNextSiblingDuringEnumeration()
     {
         var actual = new List<TestNode>();
-        foreach (var node in Enumerator.Enumerate(N1))
+        foreach (var node in Traversal.Enumerate(N1))
         {
             actual.Add(node);
 
@@ -122,7 +122,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
         actual.Should().HaveSameOrderAs(expected);
         
         // Tree has been mutated so sibling will not appear in subsequent enumerations.
-        Enumerator.Enumerate(N1).Should().HaveSameOrderAs(expected);
+        Traversal.Enumerate(N1).Should().HaveSameOrderAs(expected);
     }
     
     [Test]
@@ -131,7 +131,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
         var sibling = new ANode { Name = "PSib" };
 
         var actual = new List<TestNode>();
-        foreach (var node in Enumerator.Enumerate(N1))
+        foreach (var node in Traversal.Enumerate(N1))
         {
             actual.Add(node);
 
@@ -146,14 +146,14 @@ public abstract class TraversalTestFixture : TreeTestFixture
         
         // Tree has been mutated so sibling will appear in subsequent enumerations.
         var expected = ExpectedOrderWithRoot.SelectMany(n => n == N122 ? new [] { sibling, N122 } : new [] { n }).ToList();
-        Enumerator.Enumerate(N1).Should().HaveSameOrderAs(expected);
+        Traversal.Enumerate(N1).Should().HaveSameOrderAs(expected);
     }
     
     [Test]
     public void Enumerate_RemovePreviousSiblingDuringEnumeration()
     {
         var actual = new List<TestNode>();
-        foreach (var node in Enumerator.Enumerate(N1))
+        foreach (var node in Traversal.Enumerate(N1))
         {
             actual.Add(node);
 
@@ -168,7 +168,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
 
         // Tree has been mutated so sibling will not appear in subsequent enumerations.
         var expected = ExpectedOrderWithRoot.Where(n => n != N121).ToList();
-        Enumerator.Enumerate(N1).Should().HaveSameOrderAs(expected);
+        Traversal.Enumerate(N1).Should().HaveSameOrderAs(expected);
     }
     
     [Test]
@@ -176,7 +176,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
     {
         FluentActions.Invoking(() =>
         {
-            foreach (var node in Enumerator.Enumerate(N1))
+            foreach (var node in Traversal.Enumerate(N1))
             {
                 if (node == N122)
                 {

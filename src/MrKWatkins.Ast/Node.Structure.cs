@@ -6,11 +6,22 @@ public abstract partial class Node<TNode>
     private TNode? parent;
     private Children<TNode>? children;
     
+    /// <summary>
+    /// Initialises a new instance of the <see cref="Node{TNode}" /> class with the specified children.
+    /// </summary>
+    /// <param name="children">The children to add.</param>
+    /// <exception cref="InvalidOperationException">If any of <see cref="children" /> already have a <see cref="Parent" />.</exception>
     protected Node([InstantHandle] IEnumerable<TNode> children)
     {
-        this.children = new Children<TNode>(This, children);
+        this.children = new Children<TNode>(Self, children);
     }
     
+    /// <summary>
+    /// The parent of this node.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">
+    /// On get if the node has no parent. Use <see cref="HasParent" /> to check. On set if <paramref name="value" /> already has a parent or is this node.
+    /// </exception>
     public TNode Parent
     {
         get => parent ?? throw new InvalidOperationException("Node has no parent.");
@@ -32,29 +43,41 @@ public abstract partial class Node<TNode>
     }
     
     /// <summary>
-    /// Does this node have a parent? Nodes will not have parents if they are the root node or they have just been
-    /// constructed and not yet added to a parent.
+    /// Returns <c>true</c> if this node has a <see cref="Parent" />, <c>false</c> otherwise. Nodes will not have parents if they are the
+    /// root node or they have just been constructed and not yet added to a parent.
     /// </summary>
     public bool HasParent => parent != null;
 
     internal void RemoveParent() => parent = null;
 
-    public void RemoveFromParent() => Parent.Children.Remove(This);
+    /// <summary>
+    /// Removes this node from its <see cref="Parent" />.
+    /// </summary>
+    public void RemoveFromParent() => Parent.Children.Remove(Self);
         
-    public Children<TNode> Children => children ??= new Children<TNode>(This);
+    /// <summary>
+    /// The children of this node.
+    /// </summary>
+    public Children<TNode> Children => children ??= new Children<TNode>(Self);
 
+    /// <summary>
+    /// Returns <c>true</c> if this node has any <see cref="Children" />, <c>false</c> otherwise. 
+    /// </summary>
     public bool HasChildren => children is { Count: > 0 };
     
     /// <summary>
     /// Moves this node to a new parent.
     /// </summary>
-    public void MoveTo(TNode newParent) => newParent.Children.MoveInto(This);
+    public void MoveTo(TNode newParent) => newParent.Children.MoveInto(Self);
 
     /// <summary>
     /// Removes this node from it's parent and puts another node in its place.
     /// </summary>
-    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode) other);
+    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(Self, (TNode) other);
     
+    /// <summary>
+    /// Lazily enumerates over the ancestors of this node, i.e. the <see cref="Parent"/>, grandparent, great-grandparent and so on up to the root node.
+    /// </summary>
     public IEnumerable<TNode> Ancestors
     {
         get
@@ -67,11 +90,17 @@ public abstract partial class Node<TNode>
             }
         }
     }
+    
+    /// <summary>
+    /// Lazily enumerates over this node and then the specified enumeration of nodes.
+    /// </summary>
+    /// <param name="and">The nodes to enumerate over after this.</param>
+    /// <returns>A lazy enumeration of this node and <paramref name="and" />.</returns>
     [Pure]
     [PublicAPI]
     protected IEnumerable<TNode> ThisAnd(IEnumerable<TNode> and)
     {
-        yield return This;
+        yield return Self;
             
         foreach (var node in and)
         {
@@ -79,6 +108,10 @@ public abstract partial class Node<TNode>
         }
     }
 
+    /// <summary>
+    /// Lazily enumerates over this node and its <see cref="Ancestors" />, i.e. this node, the <see cref="Parent" />, grandparent, great-grandparent
+    /// and so on up to the root node.
+    /// </summary>
     public IEnumerable<TNode> ThisAndAncestors => ThisAnd(Ancestors);
 
     /// <summary>
@@ -87,8 +120,11 @@ public abstract partial class Node<TNode>
     public TNode Root => ThisAndAncestors.Last();
 
     [Pure]
-    private int GetIndexOfSelf() => Parent.Children.IndexOf(This);  // Can never be -1.
+    private int GetIndexOfSelf() => Parent.Children.IndexOf(Self);  // Can never be -1.
 
+    /// <summary>
+    /// The next sibling, i.e. the child from the same <see cref="Parent" /> at the next positional index. Returns <c>null</c> if this node is the last child.
+    /// </summary>
     public TNode? NextSibling
     {
         get
@@ -104,10 +140,23 @@ public abstract partial class Node<TNode>
         }
     }
 
+    /// <summary>
+    /// Lazily enumerates over the next siblings, i.e. the children from the same <see cref="Parent" /> at subsequent positional indices in ascending
+    /// index order.
+    /// </summary>
     public IEnumerable<TNode> NextSiblings => HasParent ? Parent.Children.Skip(GetIndexOfSelf() + 1) : Enumerable.Empty<TNode>();
 
+    /// <summary>
+    /// Lazily enumerates over this node then the next siblings, i.e. the children from the same <see cref="Parent" /> at subsequent positional indices
+    /// in ascending index order.
+    /// </summary>
     public IEnumerable<TNode> ThisAndNextSiblings => ThisAnd(NextSiblings);
 
+    /// <summary>
+    /// Adds the specified node as the <see cref="NextSibling" /> to this node. Existing next siblings will be moved on index to the right to accommodate.
+    /// </summary>
+    /// <param name="nextSibling">The node to add.</param>
+    /// <exception cref="InvalidOperationException">This node is the root node or the sibling already has a <see cref="Parent" /> or it is this node.</exception>
     public void AddNextSibling(TNode nextSibling)
     {
         if (!HasParent)
@@ -119,13 +168,20 @@ public abstract partial class Node<TNode>
         Parent.Children.Insert(index + 1, nextSibling);
     }
     
+    /// <summary>
+    /// Removes the <see cref="NextSibling" /> from <see cref="Parent" /> if it exists.
+    /// </summary>
+    /// <returns>The <see cref="NextSibling"/> removed or <c>null</c> if there was no next sibling.</returns>
     public TNode? RemoveNextSibling()
     {
         var nextSibling = NextSibling;
         nextSibling?.RemoveFromParent();
         return nextSibling;
     }
-
+    
+    /// <summary>
+    /// The previous sibling, i.e. the child from the same <see cref="Parent" /> at the previous positional index. Returns <c>null</c> if this node is the first child.
+    /// </summary>
     public TNode? PreviousSibling
     {
         get
@@ -142,8 +198,8 @@ public abstract partial class Node<TNode>
     }
 
     /// <summary>
-    /// Returns the siblings that come before this node. Returns in closest to this order first, e.g. if parent
-    /// has children a, b, c, d then c.PreviousSiblings will return b, a.
+    /// Lazily enumerates over the previous siblings, i.e. the children from the same <see cref="Parent" /> at precedent positional indices in
+    /// descending index order.
     /// </summary>
     public IEnumerable<TNode> PreviousSiblings
     {
@@ -163,8 +219,17 @@ public abstract partial class Node<TNode>
         }
     }
 
+    /// <summary>
+    /// Lazily enumerates over this node then the previous siblings, i.e. the children from the same <see cref="Parent" /> at precedent positional indices in
+    /// descending index order.
+    /// </summary>
     public IEnumerable<TNode> ThisAndPreviousSiblings => ThisAnd(PreviousSiblings);
 
+    /// <summary>
+    /// Adds the specified node as the <see cref="PreviousSibling" /> to this node. This and any next siblings will be moved one index to the right to accommodate.
+    /// </summary>
+    /// <param name="previousSibling">The node to add.</param>
+    /// <exception cref="InvalidOperationException">This node is the root node or the sibling already has a <see cref="Parent" /> or it is this node.</exception>
     public void AddPreviousSibling(TNode previousSibling)
     {
         if (!HasParent)
@@ -176,6 +241,10 @@ public abstract partial class Node<TNode>
         Parent.Children.Insert(index, previousSibling);
     }
     
+    /// <summary>
+    /// Removes the <see cref="PreviousSibling" /> from <see cref="Parent" /> if it exists.
+    /// </summary>
+    /// <returns>The <see cref="PreviousSibling"/> removed or <c>null</c> if there was no previous sibling.</returns>
     public TNode? RemovePreviousSibling()
     {
         var previousSibling = PreviousSibling;
@@ -184,12 +253,14 @@ public abstract partial class Node<TNode>
     }
 
     /// <summary>
-    /// Enumerates all descendents of this node in depth first order.
+    /// Enumerates all descendents of this node in depth first pre-order.
     /// </summary>
-    public IEnumerable<TNode> Descendents => Traverse.DepthFirstPreOrder(This, false);
+    /// <seealso cref="Traverse.DepthFirstPreOrder" />
+    public IEnumerable<TNode> Descendents => Traverse.DepthFirstPreOrder(Self, false);
 
     /// <summary>
-    /// Enumerates this node then all descendents of this node in depth first order.
+    /// Enumerates this node then all descendents of this node in depth first pre-order.
     /// </summary>
-    public IEnumerable<TNode> ThisAndDescendents => Traverse.DepthFirstPreOrder(This);
+    /// <seealso cref="Traverse.DepthFirstPreOrder" />
+    public IEnumerable<TNode> ThisAndDescendents => Traverse.DepthFirstPreOrder(Self);
 }

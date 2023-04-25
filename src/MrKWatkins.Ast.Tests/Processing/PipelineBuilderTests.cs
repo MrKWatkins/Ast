@@ -98,7 +98,27 @@ public sealed class PipelineBuilderTests : TreeTestFixture
     }
     
     [Test]
-    public void AddParallelStage()
+    public void AddParallelStage_Builder()
+    {
+        var processors = new [] { new TestUnorderedProcessor(), new TestUnorderedProcessor(), new TestUnorderedProcessor() };
+        
+        var pipeline = Pipeline<TestNode>.Build(p => p
+            .AddParallelStage(s => s.Add(processors[0], processors[1], processors[2]).WithName("Test Name")));
+        
+        pipeline.Stages.Should().HaveCount(1);
+        
+        pipeline.Stages[0].Name.Should().Be("Test Name");
+        pipeline.Stages[0].Processors[0].Should().BeOfType<ParallelProcessor<TestNode>>()
+            .Which.MaxDegreeOfParallelism.Should().Be(Environment.ProcessorCount);
+        
+        pipeline.Run(N1).Should().BeTrue();
+        processors[0].Processed.Should().HaveCount(NodeCount);
+        processors[1].Processed.Should().HaveCount(NodeCount);
+        processors[2].Processed.Should().HaveCount(NodeCount);
+    }
+    
+    [Test]
+    public void AddParallelStage_Processors()
     {
         var processors = new [] { new TestUnorderedProcessor(), new TestUnorderedProcessor(), new TestUnorderedProcessor() };
         
@@ -117,7 +137,7 @@ public sealed class PipelineBuilderTests : TreeTestFixture
     }
     
     [Test]
-    public void AddParallelStage_Name()
+    public void AddParallelStage_Name_Processors()
     {
         var processors = new [] { new TestUnorderedProcessor(), new TestUnorderedProcessor(), new TestUnorderedProcessor() };
         
@@ -136,7 +156,7 @@ public sealed class PipelineBuilderTests : TreeTestFixture
     }
     
     [Test]
-    public void AddParallelStage_MaxDegreeOfParallelism()
+    public void AddParallelStage_MaxDegreeOfParallelism_Processors()
     {
         var maxDegreeOfParallelism = Environment.ProcessorCount + 1;
         var processors = new [] { new TestUnorderedProcessor(), new TestUnorderedProcessor(), new TestUnorderedProcessor() };
@@ -156,12 +176,12 @@ public sealed class PipelineBuilderTests : TreeTestFixture
     }
     
     [Test]
-    public void AddParallelStage_MaxDegreeOfParallelism_Name()
+    public void AddParallelStage_Name_MaxDegreeOfParallelism_Processors()
     {
         var maxDegreeOfParallelism = Environment.ProcessorCount + 1;
         var processors = new [] { new TestUnorderedProcessor(), new TestUnorderedProcessor(), new TestUnorderedProcessor() };
         
-        var pipeline = Pipeline<TestNode>.Build(p => p.AddParallelStage(maxDegreeOfParallelism, "Test Stage", processors[0], processors[1], processors[2]));
+        var pipeline = Pipeline<TestNode>.Build(p => p.AddParallelStage("Test Stage", maxDegreeOfParallelism, processors[0], processors[1], processors[2]));
         
         pipeline.Stages.Should().HaveCount(1);
         

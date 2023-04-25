@@ -16,9 +16,9 @@ public sealed class OrderedProcessorWithContextTests : TreeTestFixture
     }
 
     [Test]
-    public void Process_OverrideEnumerator()
+    public void Process_OverrideTraversal()
     {
-        var processor = new TestOrderedProcessorWithContext { EnumeratorOverride = BreadthFirstTraversal<TestNode>.Instance };
+        var processor = new TestOrderedProcessorWithContext { TraversalOverride = BreadthFirstTraversal<TestNode>.Instance };
         processor.Process(N1);
         processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.BreadthFirst(N1));
         processor.Context.Root.Should().BeSameAs(N1);
@@ -128,11 +128,11 @@ public sealed class OrderedProcessorWithContextTests : TreeTestFixture
         public Func<TestNode, object?>? ProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; init; }
-        public ITraversal<TestNode>? EnumeratorOverride { get; init; }
+        public ITraversal<TestNode>? TraversalOverride { get; init; }
 
         public IEnumerable<TestNode> Processed => processed;
 
-        protected override ITraversal<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
+        protected override ITraversal<TestNode> Traversal => TraversalOverride ?? base.Traversal;
 
         protected override TestContext CreateContext(TestNode root)
         {

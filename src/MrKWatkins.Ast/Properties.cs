@@ -3,6 +3,10 @@ using System.Linq.Expressions;
 
 namespace MrKWatkins.Ast;
 
+/// <summary>
+/// A collection of properties for a node. Properties allow you to store arbitrary data against a node and will be copying during
+/// calls to <see cref="Node{TNode}.Copy()"/>. Properties can have a single value or multiple values.
+/// </summary>
 public sealed class Properties
 {
     private static readonly ConcurrentDictionary<Type, Func<object, object>> ListCopiers = new();
@@ -18,24 +22,64 @@ public sealed class Properties
         this.properties = properties;
     }
 
+    /// <summary>
+    /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns>The value of the property.</returns>
+    /// <exception cref="KeyNotFoundException">No property with the specified <paramref name="key" /> exists.</exception>
+    /// <exception cref="InvalidOperationException">
+    /// The property is a multiple value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     [Pure]
     public T GetOrThrow<T>(string key)
         where T : notnull =>
         GetOrThrow<T>(key, k => new KeyNotFoundException($"No value for property with key \"{k}\"."));
 
+    /// <summary>
+    /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="exceptionCreator">Function to create an exception to throw if the no property with the specified <paramref name="key" /> exists.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns>The value of the property.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// The property is a multiple value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     [Pure]
     public T GetOrThrow<T>(string key, [InstantHandle] Func<string, Exception> exceptionCreator)
         where T : notnull =>
         TryGet<T>(key, out var value) ? value : throw exceptionCreator(key);
 
+    /// <summary>
+    /// Gets the value of a single valued property with the specified key or returns a default value if the property does not exist.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="default">The value to return if the property does not exist.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns>The value of the property.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// The property is a multiple value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     [Pure]
     [return: NotNullIfNotNull("default")]
     public T? GetOrDefault<T>(string key, T? @default = default)
         where T : notnull =>
         TryGet<T>(key, out var value) ? value : @default;
 
+    /// <summary>
+    /// Gets the value of a single valued property with the specified key or returns a default value if the property does not exist.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="defaultCreator">Function to create the value to return if the property does not exist.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns>The value of the property.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// The property is a multiple value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     [MustUseReturnValue]
-    public T GetOrAdd<T>(string key, [InstantHandle] Func<string, T> creator)
+    public T GetOrAdd<T>(string key, [InstantHandle] Func<string, T> defaultCreator)
         where T : notnull
     {
         if (TryGet<T>(key, out var value))
@@ -43,11 +87,21 @@ public sealed class Properties
             return value;
         }
 
-        value = creator(key);
+        value = defaultCreator(key);
         Set(key, value);
         return value;
     }
 
+    /// <summary>
+    /// Tries to get the value of a single valued property with the specified key.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="value">The value of the property if it exists.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns><c>true</c> if the property exists, <c>false</c> otherwise.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// The property is a multiple value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     [Pure]
     public bool TryGet<T>(string key, [MaybeNullWhen(false)] out T value)
         where T : notnull
@@ -62,12 +116,29 @@ public sealed class Properties
         return false;
     }
 
+    /// <summary>
+    /// Tests whether a property exists with the specified key.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <returns><c>true</c> if the property exists, <c>false</c> otherwise.</returns>
     [Pure]
     public bool ContainsKey(string key) => properties.ContainsKey(key);
 
+    /// <summary>
+    /// The number of properties in the collection.
+    /// </summary>
     [Pure]
     public int Count => properties.Count;
-
+    
+    /// <summary>
+    /// Sets the value of a single valued property with the specified key.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="value">The value of the property.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <exception cref="InvalidOperationException">
+    /// The property already has a value and is a multiple value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     public void Set<T>(string key, T value)
         where T : notnull
     {
@@ -79,11 +150,29 @@ public sealed class Properties
         properties[key] = new Property(false, typeof(T), value);
     }
 
+    /// <summary>
+    /// Gets the values of a multiple valued property with the specified key.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns>The values of the property.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// The property is a single value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     [Pure]
     public IReadOnlyList<T> GetMultiple<T>(string key)
         where T : notnull =>
         properties.TryGetValue(key, out var property) ? VerifyMultiple<T>(key, property) : Array.Empty<T>();
 
+    /// <summary>
+    /// Sets the values of a multiple valued property with the specified key. Any existing values are replaced.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="values">The values of the property.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <exception cref="InvalidOperationException">
+    /// The property already has a value and is a single value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     public void SetMultiple<T>(string key, [InstantHandle] IEnumerable<T> values)
         where T : notnull
     {
@@ -94,7 +183,16 @@ public sealed class Properties
         
         properties[key] =  new Property(true, typeof(T), values.ToList());
     }
-
+    
+    /// <summary>
+    /// Adds a value to a multiple valued property with the specified key.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="value">The value to add to the property.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <exception cref="InvalidOperationException">
+    /// The property already has a value and is a single value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     public void AddToMultiple<T>(string key, T value)
         where T : notnull
     {
@@ -111,7 +209,16 @@ public sealed class Properties
 
         list.Add(value);
     }
-        
+    
+    /// <summary>
+    /// Adds values to a multiple valued property with the specified key.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="values">The values to add to the property.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <exception cref="InvalidOperationException">
+    /// The property already has a value and is a single value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
     public void AddRangeToMultiple<T>(string key, IEnumerable<T> values)
         where T : notnull
     {
@@ -130,7 +237,7 @@ public sealed class Properties
     }
 
     [Pure]
-    public Properties Copy()
+    internal Properties Copy()
     {
         var newProperties = new Dictionary<string, Property>(properties.Count);
         foreach (var (key, property) in properties)

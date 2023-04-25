@@ -3,6 +3,10 @@ namespace MrKWatkins.Ast;
 /// <summary>
 /// Collection of child nodes for a <see cref="Node{TNode}"/>.
 /// </summary>
+/// <remarks>
+/// Enumerating over children tries to accommodate changes to the collection whilst enumerating. However not all changes can be
+/// accommodated and an <see cref="InvalidOperationException" /> will be thrown if enumeration cannot continue.
+/// </remarks>
 /// <typeparam name="TNode">The base node type for the collection.</typeparam>
 public sealed partial class Children<TNode> : IList<TNode>
     where TNode : Node<TNode>

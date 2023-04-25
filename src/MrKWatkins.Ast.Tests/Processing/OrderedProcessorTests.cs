@@ -14,9 +14,9 @@ public sealed class OrderedProcessorTests : TreeTestFixture
     }
 
     [Test]
-    public void Process_OverrideEnumerator()
+    public void Process_OverrideTraversal()
     {
-        var processor = new TestOrderedProcessor { EnumeratorOverride = BreadthFirstTraversal<TestNode>.Instance };
+        var processor = new TestOrderedProcessor { TraversalOverride = BreadthFirstTraversal<TestNode>.Instance };
         processor.Process(N1);
         processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.BreadthFirst(N1));
     }
@@ -66,6 +66,14 @@ public sealed class OrderedProcessorTests : TreeTestFixture
     }
 
     [Test]
+    public void Process_Typed_OverrideTraversal()
+    {
+        var processor = new TestTypedProcessor { TraversalOverride = BreadthFirstTraversal<TestNode>.Instance };
+        processor.Process(N1);
+        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.BreadthFirst(N1).OfType<BNode>());
+    }
+
+    [Test]
     public void Process_Typed_ShouldProcessNodeThrows()
     {
         var exception = new InvalidOperationException("Test");
@@ -108,11 +116,11 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         public Func<TestNode, object?>? ProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; init; }
-        public ITraversal<TestNode>? EnumeratorOverride { get; init; }
+        public ITraversal<TestNode>? TraversalOverride { get; init; }
 
         public IEnumerable<TestNode> Processed => processed;
 
-        protected override ITraversal<TestNode> Enumerator => EnumeratorOverride ?? base.Enumerator;
+        protected override ITraversal<TestNode> Traversal => TraversalOverride ?? base.Traversal;
 
         protected override void ProcessNode(TestNode node)
         {
@@ -132,9 +140,12 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         public Func<TestNode, object?>? ProcessNodeOverride { get; init; }
         public Func<BNode, bool>? ShouldProcessNodeOverride { get; init; }
         public Func<TestNode, bool>? ShouldProcessChildrenOverride { get; init; }
+        public ITraversal<TestNode>? TraversalOverride { get; init; }
 
         public IReadOnlyList<TestNode> Processed => processed;
 
+        protected override ITraversal<TestNode> Traversal => TraversalOverride ?? base.Traversal;
+        
         protected override void ProcessNode(BNode node)
         {
             processed.Add(node);

@@ -6,6 +6,10 @@ public sealed partial class Children<TNode>
     where TNode : Node<TNode>
 {
     /// <inheritdoc />
+    /// <remarks>
+    /// Enumerating over children tries to accommodate changes to the collection whilst enumerating. However not all changes can be
+    /// accommodated and an <see cref="InvalidOperationException" /> will be thrown if enumeration cannot continue.
+    /// </remarks>
     public IEnumerator<TNode> GetEnumerator() => new Enumerator(this);
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

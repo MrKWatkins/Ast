@@ -1,5 +1,8 @@
 namespace MrKWatkins.Ast.Processing;
 
+/// <summary>
+/// Exception thrown by <see cref="Processor{TNode}">Processors</see> when a problem occurs.
+/// </summary>
 public class ProcessingException : Exception
 {
     internal ProcessingException(string message, Exception innerException)
@@ -8,6 +11,9 @@ public class ProcessingException : Exception
     }
 }
 
+/// <summary>
+/// Exception thrown by <see cref="Processor{TNode}">Processors</see> when a problem occurs with details of the node that caused the problem.
+/// </summary>
 public sealed class ProcessingException<TNode> : ProcessingException
     where TNode : Node<TNode>
 {
@@ -17,7 +23,11 @@ public sealed class ProcessingException<TNode> : ProcessingException
         Node = node;
     }
     
+    /// <summary>
+    /// The node that caused the problem.
+    /// </summary>
     public TNode Node { get; }
 
+    /// <inheritdoc />
     public override string Message => $"{base.Message} (Node '{Node}')";
 }
