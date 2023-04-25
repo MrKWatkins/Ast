@@ -23,10 +23,16 @@ public sealed class DefaultNodeFactoryTests
     }
 
     [Test]
+    public void Create_ThrowsIfNodeTypeDoesNotInheritFromBaseType() =>
+        FluentActions.Invoking(() => DefaultNodeFactory<NoParameterlessConstructor>.Instance.Create(typeof(ANode)))
+            .Should().Throw<ArgumentException>()
+            .WithParameters($"{nameof(ANode)} is not a {nameof(NoParameterlessConstructor)}.", "nodeType");
+        
+    [Test]
     public void Create_ThrowsIfANodeDoesNotHaveAParameterlessConstructor() =>
         FluentActions.Invoking(() => DefaultNodeFactory<NoParameterlessConstructor>.Instance.Create<NoParameterlessConstructor>())
-            .Should().Throw<InvalidOperationException>()
-            .WithMessage($"Could not find a parameterless constructor for the node type {nameof(NoParameterlessConstructor)}.");
+            .Should().Throw<ArgumentException>()
+            .WithParameters($"Could not find a parameterless constructor for the node type {nameof(NoParameterlessConstructor)}.", "nodeType");
         
     [Test]
     public void Create_ThrowsIfANodeConstructorThrows() =>
