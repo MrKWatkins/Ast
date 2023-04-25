@@ -279,7 +279,7 @@ public sealed partial class Children<TNode> : IList<TNode>
             }
             else
             {
-                throw new InvalidOperationException($"Expected {parent.GetType().Name} to have 0 or 1 children of type {type} but found multiple.");
+                throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 0 or 1 children of type {type} but found multiple.");
             }
         }
         return single;
@@ -309,9 +309,9 @@ public sealed partial class Children<TNode> : IList<TNode>
             }
             else
             {
-                throw new InvalidOperationException($"Expected {parent.GetType().Name} to have 1 child of type {type} but found multiple.");
+                throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 1 child of type {type} but found multiple.");
             }
         }
-        return single ?? throw new InvalidOperationException($"Expected {parent.GetType().Name} to have 1 child of type {type} but found none.");
+        return single ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 1 child of type {type} but found none.");
     }
 }

@@ -36,5 +36,6 @@ public abstract partial class Node<TNode>
         return copy;
     }
 
+    /// <inheritdoc />
     public override string ToString() => GetType().Name;
 }

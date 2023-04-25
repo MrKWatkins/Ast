@@ -31,7 +31,7 @@ internal sealed class PipelineStage<TNode>
             }
             catch (Exception exception)
             {
-                throw new PipelineException($"Exception occurred executing processor {processor.GetType().Name}.", Name, exception);
+                throw new PipelineException($"Exception occurred executing processor {processor.GetType().SimpleName()}.", Name, exception);
             }
         }
 

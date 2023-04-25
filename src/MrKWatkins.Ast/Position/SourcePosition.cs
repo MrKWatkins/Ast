@@ -28,7 +28,7 @@ public abstract class SourcePosition<TSelf> : SourcePosition
     public sealed override TSelf Combine(SourcePosition other) => 
         other is TSelf typedOther 
             ? Combine(typedOther) 
-            : throw new ArgumentException($"Value is not of type {typeof(TSelf).Name}.", nameof(other));
+            : throw new ArgumentException($"Value is not of type {typeof(TSelf).SimpleName()}.", nameof(other));
     
     /// <summary>
     /// Combines two <see cref="SourcePosition" />s to give a new SourcePosition that includes both

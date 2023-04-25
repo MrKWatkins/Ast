@@ -20,6 +20,7 @@ public sealed class DepthFirstPreOrderTraversal<TNode> : ITraversal<TNode>
     {
     }
 
+    /// <inheritdoc />
     public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null)
     {
         if (includeRoot)

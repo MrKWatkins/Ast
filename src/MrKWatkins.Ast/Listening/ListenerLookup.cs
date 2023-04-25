@@ -44,7 +44,7 @@ internal sealed class ListenerLookup<TBaseNode, TListener>
     {
         if (!listeners.TryAdd(typeof(TNode), listener))
         {
-            throw new InvalidOperationException($"A listener has already been registered for {typeof(TNode).Name}.");
+            throw new InvalidOperationException($"A listener has already been registered for {typeof(TNode).SimpleName()}.");
         }
     }
 }
