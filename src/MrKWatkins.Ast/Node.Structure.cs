@@ -263,4 +263,20 @@ public abstract partial class Node<TNode>
     /// </summary>
     /// <seealso cref="Traverse.DepthFirstPreOrder" />
     public IEnumerable<TNode> ThisAndDescendents => Traverse.DepthFirstPreOrder(Self);
+
+    /// <summary>
+    /// The index of this node in the <see cref="Parent" /> or -1 if this node has no <see cref="Parent" />.
+    /// </summary>
+    /// <seealso cref="HasParent" />
+    public int IndexInParent => HasParent ? Parent.Children.IndexOf(Self) : -1;
+
+    /// <summary>
+    /// <c>true</c> if this node is the first child in <see cref="Parent" />, <c>false</c> if not or if the node has no <see cref="Parent" />.
+    /// </summary>
+    public bool IsFirstChild => HasParent && Parent.Children[0] == Self;
+
+    /// <summary>
+    /// <c>true</c> if this node is the last child in <see cref="Parent" />, <c>false</c> if not or if the node has no <see cref="Parent" />.
+    /// </summary>
+    public bool IsLastChild => HasParent && Parent.Children[^1] == Self;
 }

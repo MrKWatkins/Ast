@@ -465,4 +465,43 @@ public sealed partial class NodeTests
         grandChildren1[0].ThisAndDescendents.Should().Equal(grandChildren1[0]);
         grandChildren1[1].ThisAndDescendents.Should().Equal(grandChildren1[1]);
     }
+
+    [Test]
+    public void IndexInParent()
+    {
+        var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
+
+        var root = new ANode(children);
+
+        root.IndexInParent.Should().Be(-1);
+        children[0].IndexInParent.Should().Be(0);
+        children[1].IndexInParent.Should().Be(1);
+        children[2].IndexInParent.Should().Be(2);
+    }
+
+    [Test]
+    public void IsFirstChild()
+    {
+        var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
+
+        var root = new ANode(children);
+
+        root.IsFirstChild.Should().BeFalse();
+        children[0].IsFirstChild.Should().BeTrue();
+        children[1].IsFirstChild.Should().BeFalse();
+        children[2].IsFirstChild.Should().BeFalse();
+    }
+
+    [Test]
+    public void IsLastChild()
+    {
+        var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
+
+        var root = new ANode(children);
+
+        root.IsLastChild.Should().BeFalse();
+        children[0].IsLastChild.Should().BeFalse();
+        children[1].IsLastChild.Should().BeFalse();
+        children[2].IsLastChild.Should().BeTrue();
+    }
 }
