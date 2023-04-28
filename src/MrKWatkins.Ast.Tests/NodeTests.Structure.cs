@@ -504,4 +504,48 @@ public sealed partial class NodeTests
         children[1].IsLastChild.Should().BeFalse();
         children[2].IsLastChild.Should().BeTrue();
     }
+    
+    [Test]
+    public void FirstChild()
+    {
+        var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
+
+        var root = new ANode(children);
+
+        root.FirstChild.Should().BeSameAs(children[0]);
+        children[0].Invoking(n => n.FirstChild).Should().Throw<InvalidOperationException>().WithMessage("Node has no children.");
+    }
+    
+    [Test]
+    public void FirstChildOrNull()
+    {
+        var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
+
+        var root = new ANode(children);
+
+        root.FirstChild.Should().BeSameAs(children[0]);
+        children[0].FirstChildOrNull.Should().BeNull();
+    }
+    
+    [Test]
+    public void LastChild()
+    {
+        var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
+
+        var root = new ANode(children);
+
+        root.LastChild.Should().BeSameAs(children[2]);
+        children[0].Invoking(n => n.LastChild).Should().Throw<InvalidOperationException>().WithMessage("Node has no children.");
+    }
+    
+    [Test]
+    public void LastChildOrNull()
+    {
+        var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
+
+        var root = new ANode(children);
+
+        root.LastChild.Should().BeSameAs(children[2]);
+        children[0].LastChildOrNull.Should().BeNull();
+    }
 }
