@@ -1,4 +1,4 @@
-name: Build
+name: Build and Test
 
 on:
   push:
@@ -6,13 +6,11 @@ on:
 
 jobs:
   Build:
-    name: Build
+    name: Build and Test
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./src
-    env:
-      Version: "0.9.${{ github.RUN_NUMBER }}"
 
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +24,7 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build /p:Version=$Version --no-restore --configuration Release
+        run: dotnet build --no-restore --configuration Release
 
       - name: Test
         run: dotnet test --no-restore --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
@@ -60,14 +58,3 @@ jobs:
           name: Test Coverage
           title: Test Coverage
           body-file: code-coverage-results.md
-
-      - name: Publish to NuGet
-        uses: tedd/publish-nuget-neo@v1.0.2
-        if: ${{ github.ref == 'refs/heads/main' }}
-        with:
-          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
-          PROJECT_FILE_PATH: src/MrKWatkins.Ast/MrKWatkins.Ast.csproj
-          TAG_COMMIT: true
-          PACKAGE_NAME: MrKWatkins.Ast
-          VERSION_STATIC: ${{ env.Version }}
-          INCLUDE_SYMBOLS: true

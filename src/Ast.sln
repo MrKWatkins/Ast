@@ -11,8 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Packages.props = Directory.Packages.props
 		..\License.md = ..\License.md
 		..\ReadMe.md = ..\ReadMe.md
-		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
 		..\.gitignore = ..\.gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C893FF4B-FA20-4B58-B7D3-3DA372503F01}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{2DC33C7E-4983-471B-B34B-9FFCCB0A62F9}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
+		..\.github\workflows\release.yml = ..\.github\workflows\release.yml
 	EndProjectSection
 EndProject
 Global
@@ -29,5 +36,9 @@ Global
 		{5ABE9485-D233-4371-91C0-9F66B1BAC287}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5ABE9485-D233-4371-91C0-9F66B1BAC287}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ABE9485-D233-4371-91C0-9F66B1BAC287}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C893FF4B-FA20-4B58-B7D3-3DA372503F01} = {0EE2E846-632C-4EA4-88D8-82A90776FC8D}
+		{2DC33C7E-4983-471B-B34B-9FFCCB0A62F9} = {C893FF4B-FA20-4B58-B7D3-3DA372503F01}
 	EndGlobalSection
 EndGlobal

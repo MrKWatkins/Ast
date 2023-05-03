@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version Number'
+        required: true
+        type: string
+
+jobs:
+  Release:
+    name: Release
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Create Package
+        run: dotnet pack ./src/ /p:Version=${{ inputs.version }} -p:SymbolPackageFormat=snupkg --configuration Release --include-symbols --output ./packages/
+
+      - name: Publish to NuGet
+        run: dotnet nuget push ./packages/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+
+      - name: Create Release
+        run: gh release create v${{ inputs.version }} --generate-notes
