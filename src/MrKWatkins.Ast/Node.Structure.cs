@@ -10,7 +10,7 @@ public abstract partial class Node<TNode>
     /// Initialises a new instance of the <see cref="Node{TNode}" /> class with the specified children.
     /// </summary>
     /// <param name="children">The children to add.</param>
-    /// <exception cref="InvalidOperationException">If any of <see cref="children" /> already have a <see cref="Parent" />.</exception>
+    /// <exception cref="InvalidOperationException">If any of <see cref="Children" /> already have a <see cref="Parent" />.</exception>
     protected Node([InstantHandle] IEnumerable<TNode> children)
     {
         this.children = new Children<TNode>(Self, children);
@@ -255,13 +255,13 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Enumerates all descendents of this node in depth first pre-order.
     /// </summary>
-    /// <seealso cref="Traverse.DepthFirstPreOrder" />
+    /// <seealso cref="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal{TNode}" />
     public IEnumerable<TNode> Descendents => Traverse.DepthFirstPreOrder(Self, false);
 
     /// <summary>
     /// Enumerates this node then all descendents of this node in depth first pre-order.
     /// </summary>
-    /// <seealso cref="Traverse.DepthFirstPreOrder" />
+    /// <seealso cref="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal{TNode}" />
     public IEnumerable<TNode> ThisAndDescendents => Traverse.DepthFirstPreOrder(Self);
 
     /// <summary>
