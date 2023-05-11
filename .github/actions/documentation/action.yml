@@ -9,13 +9,10 @@ runs:
   using: composite
 
   steps:
-    - name: Install DocFX
-      shell: bash
-      run: dotnet tool update -g docfx 
-      
     - name: Build Documentation
       shell: bash
-      run: docfx doc/docfx.json
+      working-directory: ./doc
+      run: ./build.sh
       
     - name: Setup Pages
       if: ${{ inputs.deploy == 'true' }}
