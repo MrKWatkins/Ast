@@ -7,11 +7,6 @@ on:
         description: 'Version Number'
         required: true
         type: string
-
-permissions:
-  contents: write
-  id-token: write
-  pages: write
   
 jobs:
   Release:
@@ -37,8 +32,3 @@ jobs:
 
       - name: Create Release
         run: gh release create v${{ inputs.version }} --generate-notes
-        
-      - name: Deploy Documentation
-        uses: ./.github/actions/documentation
-        with:
-          deploy: true

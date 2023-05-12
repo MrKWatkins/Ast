@@ -4,6 +4,12 @@ on:
   push:
   pull_request:
 
+permissions:
+  checks: write
+  contents: write
+  id-token: write
+  pages: write
+
 jobs:
   Build:
     name: Build and Test
@@ -20,47 +26,25 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
-
-      - name: Restore Dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
-
-      - name: Test
-        run: dotnet test --no-restore --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
-
-      - name: Test Report
-        uses: dorny/test-reporter@v1.6.0
-        if: success() || failure()
+          
+      - name: Build and Test MrKWatkins.Ast
+        uses: ./.github/actions/build
         with:
-          name: Test Results
-          path: "**/TestResults/test-results.trx"
-          reporter: dotnet-trx
-
-      - name: Aggregate Coverage Reports
-        run: |
-          dotnet new tool-manifest
-          dotnet tool install dotnet-reportgenerator-globaltool
-          dotnet tool run reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:." "-reportTypes:Cobertura"
-
-      - name: Generate Coverage Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
+          name: MrKWatkins.Ast
+          directory: ./src
+          
+      - name: Build and Test Examples
+        uses: ./.github/actions/build
         with:
-          filename: src/Cobertura.xml
-          format: markdown
-          indicators: true
-          output: file
-          thresholds: '50 60'
-
-      - name: Attach Coverage Report to Build
-        uses: dtinth/markdown-report-action@v1
-        with:
-          name: Test Coverage
-          title: Test Coverage
-          body-file: code-coverage-results.md
-      
+          name: Examples
+          directory: ./examples
+          assembly-filter: "+*;-MrKWatkins.Ast"
+          
       - name: Build Documentation
-        uses: ./.github/actions/documentation
-        with:
-          deploy: false
+        shell: bash
+        working-directory: ./doc
+        run: ./build.sh
+
+      - name: Deploy Documentation
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: ./.github/actions/deploy-documentation

@@ -419,7 +419,7 @@ legend, pre {
     font-style: normal;
 }
 
-p .xref, code {
+code {
     background-color: var(--ref-bg-color);
     color: var(--ref-color);
     padding: 2px 3px;

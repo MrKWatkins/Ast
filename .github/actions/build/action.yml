@@ -1,0 +1,64 @@
+name: Build
+description: "Builds a C# solution."
+inputs:
+  name:
+    description: "Name of the solution."
+    required: true
+  directory:
+    description: "Directory containing the solution."
+    required: true
+  assembly-filter:
+    description: "Optional code coverage assembly filter."
+    required: false
+    default: "+*"
+
+runs:
+  using: composite
+
+  steps:
+    - name: Restore Dependencies
+      shell: bash
+      working-directory: ${{ inputs.directory }}
+      run: dotnet restore
+
+    - name: Build
+      shell: bash
+      working-directory: ${{ inputs.directory }}
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Test
+      shell: bash
+      working-directory: ${{ inputs.directory }}
+      run: dotnet test --no-restore --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
+
+    - name: Test Report
+      uses: dorny/test-reporter@v1.6.0
+      if: success() || failure()
+      with:
+        name: ${{ inputs.name }} Test Results
+        path: "${{ inputs.directory }}/**/TestResults/test-results.trx"
+        reporter: dotnet-trx
+
+    - name: Aggregate Coverage Reports
+      shell: bash
+      working-directory: ${{ inputs.directory }}
+      run: |
+        dotnet new tool-manifest
+        dotnet tool install dotnet-reportgenerator-globaltool
+        dotnet tool run reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:." "-reportTypes:Cobertura" "-assemblyfilters:${{ inputs.assembly-filter }}"
+
+    - name: Generate Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      with:
+        filename: ${{ inputs.directory }}/Cobertura.xml
+        format: markdown
+        indicators: true
+        output: file
+        thresholds: '95 100'
+
+    - name: Attach Coverage Report to Build
+      uses: dtinth/markdown-report-action@v1
+      with:
+        name: ${{ inputs.name }} Test Coverage
+        title: ${{ inputs.name }} Test Coverage
+        body-file: code-coverage-results.md

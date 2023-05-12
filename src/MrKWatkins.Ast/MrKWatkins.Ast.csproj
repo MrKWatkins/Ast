@@ -4,7 +4,7 @@
         <Title>MrKWatkins.Ast</Title>
         <Authors>Kevin Watkins</Authors>
         <Description>Library to build an abstract syntax tree for use in compilers.</Description>
-        <Copyright>Kevin Watkins 2022</Copyright>
+        <Copyright>Kevin Watkins 2023</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/MrKWatkins/Ast</PackageProjectUrl>
         <RepositoryUrl>https://github.com/MrKWatkins/Ast</RepositoryUrl>
