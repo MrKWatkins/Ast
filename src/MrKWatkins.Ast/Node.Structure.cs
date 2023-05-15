@@ -141,6 +141,11 @@ public abstract partial class Node<TNode>
     }
 
     /// <summary>
+    /// Returns <c>true</c> if this node has a <see cref="NextSibling" />, <c>false</c> otherwise.
+    /// </summary>
+    public bool HasNextSibling => HasParent && GetIndexOfSelf() < Parent.Children.Count - 1;
+
+    /// <summary>
     /// Lazily enumerates over the next siblings, i.e. the children from the same <see cref="Parent" /> at subsequent positional indices in ascending
     /// index order.
     /// </summary>
@@ -196,6 +201,11 @@ public abstract partial class Node<TNode>
             return indexOfSelf > 0 ? Parent.Children[indexOfSelf - 1] : null;
         }
     }
+
+    /// <summary>
+    /// Returns <c>true</c> if this node has a <see cref="PreviousSibling" />, <c>false</c> otherwise.
+    /// </summary>
+    public bool HasPreviousSibling => HasParent && GetIndexOfSelf() > 0;
 
     /// <summary>
     /// Lazily enumerates over the previous siblings, i.e. the children from the same <see cref="Parent" /> at precedent positional indices in

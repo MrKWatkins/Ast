@@ -141,28 +141,25 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        var root = new ANode(children);
 
+        root.NextSibling.Should().BeNull();
         children[0].NextSibling.Should().Be(children[1]);
         children[1].NextSibling.Should().Be(children[2]);
+        children[2].NextSibling.Should().BeNull();
     }
-
+    
     [Test]
-    public void NextSibling_ReturnsNullIfNoNextSibling()
+    public void HasNextSibling()
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        var root = new ANode(children);
 
-        children[2].NextSibling.Should().BeNull();
-    }
-
-    [Test]
-    public void NextSibling_ReturnsNullForTheRootNode()
-    {
-        var root = new ANode(new ANode(), new BNode(), new CNode());
-
-        root.NextSibling.Should().BeNull();
+        root.HasNextSibling.Should().BeFalse();
+        children[0].HasNextSibling.Should().BeTrue();
+        children[1].HasNextSibling.Should().BeTrue();
+        children[2].HasNextSibling.Should().BeFalse();
     }
 
     [Test]
@@ -286,28 +283,25 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        var root = new ANode(children);
 
+        root.PreviousSibling.Should().BeNull();
+        children[0].PreviousSibling.Should().BeNull();
         children[1].PreviousSibling.Should().Be(children[0]);
         children[2].PreviousSibling.Should().Be(children[1]);
     }
-
+    
     [Test]
-    public void PreviousSibling_ReturnsNullIfNoPreviousSibling()
+    public void HasPreviousSibling()
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        var root = new ANode(children);
 
-        children[0].PreviousSibling.Should().BeNull();
-    }
-
-    [Test]
-    public void PreviousSibling_ReturnsNullForTheRootNode()
-    {
-        var root = new ANode(new ANode(), new BNode(), new CNode());
-
-        root.PreviousSibling.Should().BeNull();
+        root.HasPreviousSibling.Should().BeFalse();
+        children[0].HasPreviousSibling.Should().BeFalse();
+        children[1].HasPreviousSibling.Should().BeTrue();
+        children[2].HasPreviousSibling.Should().BeTrue();
     }
 
     [Test]
