@@ -517,7 +517,7 @@ public sealed partial class NodeTests
 
         var root = new ANode(children);
 
-        root.FirstChild.Should().BeSameAs(children[0]);
+        root.FirstChildOrNull.Should().BeSameAs(children[0]);
         children[0].FirstChildOrNull.Should().BeNull();
     }
     
@@ -539,7 +539,7 @@ public sealed partial class NodeTests
 
         var root = new ANode(children);
 
-        root.LastChild.Should().BeSameAs(children[2]);
+        root.LastChildOrNull.Should().BeSameAs(children[2]);
         children[0].LastChildOrNull.Should().BeNull();
     }
 }

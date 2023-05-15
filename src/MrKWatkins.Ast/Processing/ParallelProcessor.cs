@@ -87,7 +87,10 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
             foreach (var state in ProcessorStates)
             {
                 parallelState.Exceptions.Add(state.Exceptions);
-                state.OnComplete?.Invoke(state);
+                
+                // No need to invoke state.OnComplete as it will always be null. The only thing that sets an OnComplete
+                // is a parallel processing state, and parallel processing states cannot be built from other parallel
+                // processing states.
             }
         }
         
