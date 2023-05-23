@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Listeners", "Listeners\List
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Listeners.Tests", "Listeners.Tests\Listeners.Tests.csproj", "{3D245A77-DDA2-4064-99B9-410167FB3B14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maths", "Maths\Maths.csproj", "{E3A2D8FB-F376-468C-8BDA-A54B3453E39F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maths.Tests", "Maths.Tests\Maths.Tests.csproj", "{849D2EFC-28D3-476F-BB19-347001E79BAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{DA10635D-B18C-45A1-883B-C60CF293D7D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA10635D-B18C-45A1-883B-C60CF293D7D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA10635D-B18C-45A1-883B-C60CF293D7D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3A2D8FB-F376-468C-8BDA-A54B3453E39F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3A2D8FB-F376-468C-8BDA-A54B3453E39F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3A2D8FB-F376-468C-8BDA-A54B3453E39F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3A2D8FB-F376-468C-8BDA-A54B3453E39F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{849D2EFC-28D3-476F-BB19-347001E79BAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{849D2EFC-28D3-476F-BB19-347001E79BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{849D2EFC-28D3-476F-BB19-347001E79BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{849D2EFC-28D3-476F-BB19-347001E79BAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

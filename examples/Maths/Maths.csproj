@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>MrKWatkins.Ast.Examples.Maths</RootNamespace>
+    </PropertyGroup>
+</Project>
