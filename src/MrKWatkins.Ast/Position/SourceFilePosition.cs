@@ -118,4 +118,28 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
 
     /// <inheritdoc />
     public override string ToString() => $"{File.Name} ({StartIndex}, {Length})";
+    
+    /// <inheritdoc />
+    public sealed override bool Equals(SourcePosition? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        if (other is not SourceFilePosition<TSelf, TFile> otherFilePosition)
+        {
+            return false;
+        }
+
+        return File == otherFilePosition.File && StartIndex == otherFilePosition.StartIndex && Length == otherFilePosition.Length;
+    }
+
+    /// <inheritdoc />
+    public sealed override int GetHashCode() => HashCode.Combine(File, StartIndex, Length);
 }

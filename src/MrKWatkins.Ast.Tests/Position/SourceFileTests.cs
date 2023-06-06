@@ -2,7 +2,7 @@ using MrKWatkins.Ast.Position;
 
 namespace MrKWatkins.Ast.Tests.Position;
 
-public sealed class SourceFileTests
+public sealed class SourceFileTests : EqualityTestFixture
 {
     [TestCase(0)]
     [TestCase(-1)]
@@ -25,74 +25,22 @@ public sealed class SourceFileTests
         var file = new TestSourceFile("Test Name", 100);
         file.ToString().Should().Be("Test Name");
     }
+
+    [TestCaseSource(nameof(EqualityTestCases))]
+    public void Equality(SourceFile x, object? y, bool expected) => AssertEqual(x, y, expected);
     
-    
-    [Test]
-    public void Equality_SameReference()
+    [Pure]
+    public static IEnumerable<TestCaseData> EqualityTestCases()
     {
         var file = new TestSourceFile("Test Name", 100);
-        AssertEqual(file, file, true);
-    }
-    
-    [Test]
-    public void Equality_SameName()
-    {
-        var x = new TestSourceFile("Test Name", 100);
-        var y = new TestSourceFile("Test Name", 100);
-        AssertEqual(x, y, true);
-    }
-    
-    [Test]
-    public void Equality_DifferentName()
-    {
-        var x = new TestSourceFile("Test Name 1", 100);
-        var y = new TestSourceFile("Test Name 2", 100);
-        AssertEqual(x, y, false);
-    }
-    
-    [Test]
-    public void Equality_DifferentLength()
-    {
-        var x = new TestSourceFile("Test Name", 100);
-        var y = new TestSourceFile("Test Name", 200);
-        AssertEqual(x, y, true);   // Equality ignores length, just checks name.
-    }
-    
-    [Test]
-    public void Equality_DifferentType()
-    {
-        var x = new TestSourceFile("Test Name", 100);
-        var y = new OtherSourceFile("Test Name", 100);
-        AssertEqual(x, y, false);
-    }
-    
-    [Test]
-    public void Equals_DifferentType()
-    {
-        var x = new TestSourceFile("Test Name", 100);
-        object y = "Not A SourceFile";
-        x.Equals(y).Should().BeFalse();
-    }
-    
-    private static void AssertEqual(SourceFile x, SourceFile y, bool expected)
-    {
-        x.Equals(y).Should().Be(expected);
-        y.Equals(x).Should().Be(expected);
 
-        ((object) x).Equals(y).Should().Be(expected);
-        ((object) y).Equals(x).Should().Be(expected);
-        
-        (x == y).Should().Be(expected);
-        (y == x).Should().Be(expected);
-        
-        (x != y).Should().Be(!expected);
-        (y != x).Should().Be(!expected);
-
-        if (expected)
-        {
-            x.GetHashCode().Should().Be(y.GetHashCode());
-            y.GetHashCode().Should().Be(x.GetHashCode());
-        }
+        yield return new TestCaseData(file, file, true).SetName("Reference equals");
+        yield return new TestCaseData(file, new TestSourceFile("Test Name", 100), true).SetName("Value equals");
+        yield return new TestCaseData(file, new TestSourceFile("Another Name", 100), false).SetName("Different name");
+        yield return new TestCaseData(file, new TestSourceFile("Test Name", 101), true).SetName("Different length");    // Only name is checked.
+        yield return new TestCaseData(file, null, false).SetName("Null");
+        yield return new TestCaseData(file, new OtherSourceFile("Test Name", 100), false).SetName("Different SourceFile type");
+        yield return new TestCaseData(file, "Different", false).SetName("Different type");
     }
 
     private sealed class TestSourceFile : SourceFile

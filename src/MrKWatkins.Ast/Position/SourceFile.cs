@@ -1,9 +1,11 @@
+using System.Numerics;
+
 namespace MrKWatkins.Ast.Position;
 
 /// <summary>
 /// A file of source code.
 /// </summary>
-public abstract class SourceFile : IEquatable<SourceFile>
+public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<SourceFile, SourceFile, bool>
 {
     /// <summary>
     /// Initialises a new instance of the <see cref="SourceFile" /> class.

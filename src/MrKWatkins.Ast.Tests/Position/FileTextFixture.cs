@@ -1,6 +1,6 @@
 namespace MrKWatkins.Ast.Tests.Position;
 
-public abstract class FileTextFixture
+public abstract class FileTextFixture : EqualityTestFixture
 {
     protected static void WithTempFile(Action<FileInfo> action)
     {

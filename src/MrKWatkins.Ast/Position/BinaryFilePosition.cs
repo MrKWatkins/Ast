@@ -18,4 +18,9 @@ public sealed class BinaryFilePosition : SourceFilePosition<BinaryFilePosition, 
 
         return new BinaryFilePosition(File, startIndex, endIndex - startIndex);
     }
+
+    /// <summary>
+    /// Create a new <see cref="BinaryFilePosition" /> with zero width at the start of this <see cref="BinaryFilePosition" />.
+    /// </summary>
+    public override BinaryFilePosition CreateZeroWidthPrefix() => new(File, StartIndex, 0);
 }

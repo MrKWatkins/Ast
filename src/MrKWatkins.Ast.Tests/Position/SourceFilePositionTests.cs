@@ -12,7 +12,7 @@ public sealed class SourceFilePositionTests
             .Should().Throw<ArgumentOutOfRangeException>()
             .WithMessage($"Value must be 0 or greater. (Parameter 'startIndex'){Environment.NewLine}Actual value was -1.");
     }
-    
+
     [Test]
     public void Constructor_ThrowsIfLengthIsLessThanZero()
     {
@@ -21,7 +21,7 @@ public sealed class SourceFilePositionTests
             .Should().Throw<ArgumentOutOfRangeException>()
             .WithMessage($"Value must be 0 or greater. (Parameter 'length'){Environment.NewLine}Actual value was -1.");
     }
-    
+
     [TestCase(10, 10)]
     [TestCase(10, 11)]
     public void Constructor_ThrowsIfStartIndexIsGreaterThanOrEqualToTheFileLength(int fileLength, int startIndex)
@@ -31,7 +31,7 @@ public sealed class SourceFilePositionTests
             .Should().Throw<ArgumentOutOfRangeException>()
             .WithMessage($"Value must be less than file's length. ({fileLength}) (Parameter 'startIndex'){Environment.NewLine}Actual value was {startIndex}.");
     }
-    
+
     [Test]
     public void Constructor_ThrowsIfPositionExtendsOutsideTheFile()
     {
@@ -40,11 +40,11 @@ public sealed class SourceFilePositionTests
             .Should().Throw<ArgumentOutOfRangeException>()
             .WithMessage($"Value plus startIndex (8) must be less than file's length. (10) (Parameter 'length'){Environment.NewLine}Actual value was 3.");
     }
-    
-    [TestCase(10, 0, 0, 0)]     // Zero length at start.
-    [TestCase(10, 9, 0, 9)]     // Zero length at end.
-    [TestCase(10, 0, 10, 10)]   // Full file.
-    [TestCase(10, 3, 3, 6)]     // Section.
+
+    [TestCase(10, 0, 0, 0)] // Zero length at start.
+    [TestCase(10, 9, 0, 9)] // Zero length at end.
+    [TestCase(10, 0, 10, 10)] // Full file.
+    [TestCase(10, 3, 3, 6)] // Section.
     public void Constructor(int fileLength, int startIndex, int length, int expectedEndIndex)
     {
         var file = new TestFile("Test Name", fileLength);
@@ -64,7 +64,7 @@ public sealed class SourceFilePositionTests
         positionX.Overlaps(positionY).Should().BeFalse();
         positionY.Overlaps(positionX).Should().BeFalse();
     }
-    
+
     [TestCase(0, 0, 0, 0, false)]
     [TestCase(0, 10, 0, 0, false)]
     [TestCase(0, 10, 9, 0, false)]
@@ -93,7 +93,7 @@ public sealed class SourceFilePositionTests
         var position = new TestPosition(file, 3, 2);
         position.ToString().Should().Be("Test Name (3, 2)");
     }
-    
+
     [Test]
     public void Combine_DifferentFiles()
     {
@@ -108,7 +108,7 @@ public sealed class SourceFilePositionTests
             .Should().Throw<ArgumentException>()
             .WithMessage("Value is for a different file. (Parameter 'other')");
     }
-    
+
     [Test]
     public void Combine()
     {
@@ -119,9 +119,19 @@ public sealed class SourceFilePositionTests
         positionX.Combine(positionY).Should().BeSameAs(combined);
     }
 
+    [Test]
+    public void Addition()
+    {
+        var combined = new TestPosition(new TestFile("Test File", 10), 0, 5);
+        var positionX = new TestPosition(new TestFile("Test File", 10), 0, 5) { Combined = combined };
+        var positionY = new TestPosition(new TestFile("Test File", 10), 0, 5);
+
+        (positionX + positionY).Should().BeSameAs(combined);
+    }
+
     private sealed class TestFile : SourceFile
     {
-        public TestFile(string name, int length) 
+        public TestFile(string name, int length)
             : base(name, length)
         {
         }
@@ -129,7 +139,7 @@ public sealed class SourceFilePositionTests
 
     private sealed class TestPosition : SourceFilePosition<TestPosition, TestFile>
     {
-        public TestPosition(TestFile file, int startIndex, int length) 
+        public TestPosition(TestFile file, int startIndex, int length)
             : base(file, startIndex, length)
         {
         }
@@ -137,5 +147,7 @@ public sealed class SourceFilePositionTests
         protected override TestPosition CreateCombination(TestPosition other) => Combined;
 
         public TestPosition Combined { get; init; } = null!;
+
+        public override SourcePosition CreateZeroWidthPrefix() => throw new NotSupportedException();
     }
 }

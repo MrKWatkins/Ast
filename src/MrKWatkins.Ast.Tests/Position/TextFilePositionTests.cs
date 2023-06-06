@@ -3,7 +3,7 @@ using MrKWatkins.Ast.Position;
 
 namespace MrKWatkins.Ast.Tests.Position;
 
-public sealed class TextFilePositionTests
+public sealed class TextFilePositionTests : EqualityTestFixture
 {
     [Test]
     public void Constructor_ThrowsIfStartLineIndexIsLessThanZero()
@@ -14,7 +14,7 @@ public sealed class TextFilePositionTests
             .Should().Throw<ArgumentOutOfRangeException>()
             .WithMessage($"Value must be 0 or greater. (Parameter 'startLineIndex'){Environment.NewLine}Actual value was -1.");
     }
-    
+
     [Test]
     public void Constructor_ThrowsIfStartColumnIndexIsLessThanZero()
     {
@@ -24,7 +24,7 @@ public sealed class TextFilePositionTests
             .Should().Throw<ArgumentOutOfRangeException>()
             .WithMessage($"Value must be 0 or greater. (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was -1.");
     }
-    
+
     [TestCase(2)]
     [TestCase(3)]
     public void Constructor_ThrowsIfStartLineIndexIsGreaterThanOrEqualToTheNumberOfLines(int startLineIndex)
@@ -35,7 +35,7 @@ public sealed class TextFilePositionTests
             .Should().Throw<ArgumentOutOfRangeException>()
             .WithMessage($"Value must be less than the number of lines in file. (2) (Parameter 'startLineIndex'){Environment.NewLine}Actual value was {startLineIndex}.");
     }
-    
+
     [TestCase(11)]
     [TestCase(12)]
     public void Constructor_ThrowsIfStartColumnIndexIsGreaterThanOrEqualToTheLengthOfTheLine(int startColumnIndex)
@@ -46,7 +46,7 @@ public sealed class TextFilePositionTests
             .Should().Throw<ArgumentOutOfRangeException>()
             .WithMessage($"Value must be less than the length of the start line. (11) (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was {startColumnIndex}.");
     }
-    
+
     [Test]
     public void Constructor_ThrowsIfStartColumnIndexIsGreaterThanZeroForEmptyLine()
     {
@@ -108,8 +108,8 @@ public sealed class TextFilePositionTests
         18, 4, 1, 5,
         5, 17, 0, 5)]
     public void CreateCombination(
-        int startIndexX, int lengthX, int startLineIndexX, int startColumnIndexX, 
-        int startIndexY, int lengthY, int startLineIndexY, int startColumnIndexY, 
+        int startIndexX, int lengthX, int startLineIndexX, int startColumnIndexX,
+        int startIndexY, int lengthY, int startLineIndexY, int startColumnIndexY,
         int expectedStartIndex, int expectedLength, int expectedStartLineIndex, int expectedStartColumnIndex)
     {
         var textFile = new TextFile("Test Name", "Test Line 0\nTest Line 1");
@@ -122,12 +122,23 @@ public sealed class TextFilePositionTests
         combined.Length.Should().Be(expectedLength);
         combined.StartLineIndex.Should().Be(expectedStartLineIndex);
         combined.StartColumnIndex.Should().Be(expectedStartColumnIndex);
-        
+
         combined = positionY.Combine(positionX);
         combined.StartIndex.Should().Be(expectedStartIndex);
         combined.Length.Should().Be(expectedLength);
         combined.StartLineIndex.Should().Be(expectedStartLineIndex);
         combined.StartColumnIndex.Should().Be(expectedStartColumnIndex);
+    }
+
+    [Test]
+    public void CreateZeroWidthPrefix()
+    {
+        var textFile = new TextFile("Test Name", "Test Line 0\nTest Line 1");
+        var position = new TextFilePosition(textFile, 18, 4, 1, 5);
+
+        var zeroWidth = position.CreateZeroWidthPrefix();
+
+        zeroWidth.Should().Be(new TextFilePosition(textFile, 18, 0, 1, 5));
     }
 
     [Test]
@@ -158,5 +169,24 @@ public sealed class TextFilePositionTests
         var stringBuilder = new StringBuilder();
         position.WriteSourceForMessage(stringBuilder);
         stringBuilder.ToString().Should().BeEquivalentTo($" \t Test Line 0{Environment.NewLine} \t      ------");
+    }
+
+    [TestCaseSource(nameof(EqualityTestCases))]
+    public void Equality(SourcePosition x, object? y, bool expected) => AssertEqual(x, y, expected);
+
+    [Pure]
+    public static IEnumerable<TestCaseData> EqualityTestCases()
+    {
+        var textFile = new TextFile("Test Name", " \t Test Line 0\n   Test Line 1");
+        var position = new TextFilePosition(textFile, 8, 20, 0, 8);
+
+        yield return new TestCaseData(position, position, true).SetName("Reference equals");
+        yield return new TestCaseData(position, new TextFilePosition(new TextFile("Test Name", " \t Test Line 0\n   Test Line 1"), 8, 20, 0, 8), true).SetName("Value equals");
+        yield return new TestCaseData(position, new TextFilePosition(new TextFile("Other Name", " \t Test Line 0\n   Test Line 1"), 8, 20, 0, 8), false).SetName("Different file");
+        yield return new TestCaseData(position, new TextFilePosition(textFile, 7, 20, 0, 7), false).SetName("Different start index");
+        yield return new TestCaseData(position, new TextFilePosition(textFile, 8, 19, 0, 8), false).SetName("Different length");
+        yield return new TestCaseData(position, null, false).SetName("Null");
+        yield return new TestCaseData(position, new BinaryFilePosition(new BinaryFile("Test", new byte[] { 1, 2, 3 }), 0, 1), false).SetName("Different SourceFilePosition type");
+        yield return new TestCaseData(position, "Different", false).SetName("Different type");
     }
 }

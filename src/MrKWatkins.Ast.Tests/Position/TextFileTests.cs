@@ -63,4 +63,20 @@ public sealed class TextFileTests : FileTextFixture
         position.StartLine.Should().Be("Some More Text");
         position.Text.Should().Be("More");
     }
+
+    [TestCaseSource(nameof(EqualityTestCases))]
+    public void Equality(SourceFile x, object? y, bool expected) => AssertEqual(x, y, expected);
+    
+    [Pure]
+    public static IEnumerable<TestCaseData> EqualityTestCases()
+    {
+        var file = new TextFile("Test Name", " \t Test Line 0\n   Test Line 1");
+
+        yield return new TestCaseData(file, file, true).SetName("Reference equals");
+        yield return new TestCaseData(file, new TextFile("Test Name", " \t Test Line 0\n   Test Line 1"), true).SetName("Value equals");
+        yield return new TestCaseData(file, new TextFile("Another Name", " \t Test Line 0\n   Test Line 1"), false).SetName("Different name");
+        yield return new TestCaseData(file, null, false).SetName("Null");
+        yield return new TestCaseData(file, new BinaryFile("Test", new byte[] { 1, 2, 3 }), false).SetName("Different SourceFile type");
+        yield return new TestCaseData(file, "Different", false).SetName("Different type");
+    }
 }

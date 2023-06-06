@@ -96,6 +96,11 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
         return new TextFilePosition(File, startIndex, endIndex - startIndex, startLineIndex, startColumnIndex);
     }
 
+    /// <summary>
+    /// Create a new <see cref="TextFilePosition" /> with zero width at the start of this <see cref="TextFilePosition" />.
+    /// </summary>
+    public override TextFilePosition CreateZeroWidthPrefix() => new(File, StartIndex, 0, StartLineIndex, StartColumnIndex);
+
     // Matches the C# compiler, with some extra spacing.
     /// <inheritdoc />
     public override string ToString() => $"{File.Name} ({StartLineNumber}, {StartColumnNumber})";
