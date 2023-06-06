@@ -48,6 +48,21 @@ public sealed class Properties
     /// The property is a multiple value property or the type of the property does not match <typeparamref name="T"/>.
     /// </exception>
     [Pure]
+    public T GetOrThrow<T>(string key, [InstantHandle] Func<Exception> exceptionCreator)
+        where T : notnull =>
+        TryGet<T>(key, out var value) ? value : throw exceptionCreator();
+    
+    /// <summary>
+    /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="exceptionCreator">Function to create an exception to throw if the no property with the specified <paramref name="key" /> exists.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns>The value of the property.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// The property is a multiple value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
+    [Pure]
     public T GetOrThrow<T>(string key, [InstantHandle] Func<string, Exception> exceptionCreator)
         where T : notnull =>
         TryGet<T>(key, out var value) ? value : throw exceptionCreator(key);
@@ -208,6 +223,41 @@ public sealed class Properties
         }
 
         list.Add(value);
+    }
+
+    /// <summary>
+    /// Tries to add a value to a multiple valued property with the specified key. If the value already exists in the multiple
+    /// then it is not added.
+    /// </summary>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="value">The value to add to the property.</param>
+    /// <param name="valueComparer">An equality comparer to compare values or <c>null</c> for the default comparer.</param>
+    /// <returns><c>true</c> if the value was added, <c>false</c> otherwise.</returns>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <exception cref="InvalidOperationException">
+    /// The property already has a value and is a single value property or the type of the property does not match <typeparamref name="T"/>.
+    /// </exception>
+    public bool TryAddToMultiple<T>(string key, T value, IEqualityComparer<T>? valueComparer = null)
+        where T : notnull
+    {
+        List<T> list;
+        if (properties.TryGetValue(key, out var property))
+        {
+            list = VerifyMultiple<T>(key, property);
+            if (!list.Contains(value, valueComparer))
+            {
+                list.Add(value);
+                return true;
+            }
+
+            return false;
+        }
+
+        list = new List<T>();
+        properties.Add(key, new Property(true, typeof(T), list));
+
+        list.Add(value);
+        return true;
     }
     
     /// <summary>

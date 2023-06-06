@@ -42,6 +42,20 @@ public sealed class PropertiesTests
         
         var exception = new InvalidOperationException("Test");
 
+        Exception Creator() => exception;
+
+        properties.Invoking(p => p.GetOrThrow<string>("Key", Creator))
+            .Should().Throw<InvalidOperationException>()
+            .Which.Should().BeSameAs(exception);
+    }
+    
+    [Test]
+    public void GetOrThrow_KeyedExceptionCreator_ThrowsIfNoValueFoundForKey()
+    {
+        var properties = new Properties();
+        
+        var exception = new InvalidOperationException("Test");
+
         Exception Creator(string key)
         {
             key.Should().Be("Key");
@@ -297,10 +311,10 @@ public sealed class PropertiesTests
         properties.GetMultiple<int>("Key").Should().BeEmpty();
         
         properties.AddToMultiple("Key", 1);
-        properties.GetMultiple<int>("Key").Should().BeEquivalentTo(new[] { 1 });
+        properties.GetMultiple<int>("Key").Should().Equal(1);
 
         properties.AddToMultiple("Key", 2);
-        properties.GetMultiple<int>("Key").Should().BeEquivalentTo(new[] { 1, 2 }, c => c.WithStrictOrdering());
+        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
     }
 
     [Test]
@@ -332,10 +346,10 @@ public sealed class PropertiesTests
         properties.GetMultiple<int>("Key").Should().BeEmpty();
         
         properties.SetMultiple("Key", new[] { 1 });
-        properties.GetMultiple<int>("Key").Should().BeEquivalentTo(new[] { 1 });
+        properties.GetMultiple<int>("Key").Should().Equal(1);
 
         properties.SetMultiple("Key", new[] { 1, 2 });
-        properties.GetMultiple<int>("Key").Should().BeEquivalentTo(new[] { 1, 2 }, c => c.WithStrictOrdering());
+        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
     }
     
     [Test]
@@ -376,7 +390,7 @@ public sealed class PropertiesTests
 
         properties.SetMultiple<object>("Key", new [] { "Value" });
 
-        properties.GetMultiple<object>("Key").Should().BeEquivalentTo(new [] { "Value" });
+        properties.GetMultiple<object>("Key").Should().Equal("Value");
     }
     
     [Test]
@@ -386,10 +400,10 @@ public sealed class PropertiesTests
         properties.GetMultiple<int>("Key").Should().BeEmpty();
         
         properties.AddToMultiple("Key", 1);
-        properties.GetMultiple<int>("Key").Should().BeEquivalentTo(new[] { 1 });
+        properties.GetMultiple<int>("Key").Should().Equal(1);
 
         properties.AddToMultiple("Key", 2);
-        properties.GetMultiple<int>("Key").Should().BeEquivalentTo(new[] { 1, 2 }, c => c.WithStrictOrdering());
+        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
     }
     
     [Test]
@@ -421,7 +435,69 @@ public sealed class PropertiesTests
 
         properties.AddToMultiple<object>("Key", "Value");
 
-        properties.GetMultiple<object>("Key").Should().BeEquivalentTo(new [] { "Value" });
+        properties.GetMultiple<object>("Key").Should().Equal("Value");
+    }
+    
+    [Test]
+    public void TryAddToMultiple()
+    {
+        var properties = new Properties();
+        properties.GetMultiple<int>("Key").Should().BeEmpty();
+        
+        properties.TryAddToMultiple("Key", 1).Should().BeTrue();
+        properties.GetMultiple<int>("Key").Should().Equal(1);
+
+        properties.TryAddToMultiple("Key", 2).Should().BeTrue();
+        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
+        
+        properties.TryAddToMultiple("Key", 1).Should().BeFalse();
+        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
+    }
+    
+    [Test]
+    public void TryAddToMultiple_ValueComparer()
+    {
+        var properties = new Properties();
+        properties.TryAddToMultiple("Key", "One", StringComparer.OrdinalIgnoreCase).Should().BeTrue();
+        properties.GetMultiple<string>("Key").Should().Equal("One");
+        
+        properties.TryAddToMultiple("Key", "one", StringComparer.OrdinalIgnoreCase).Should().BeFalse();
+        properties.GetMultiple<string>("Key").Should().Equal("One");
+        
+        properties.TryAddToMultiple("Key", "one").Should().BeTrue();
+        properties.GetMultiple<string>("Key").Should().Equal("One", "one");
+    }
+    
+    [Test]
+    public void TryAddToMultiple_ThrowsIfValueIsASingle()
+    {
+        var properties = new Properties();
+        properties.Set("Key", 1);
+
+        properties.Invoking(p => p.TryAddToMultiple("Key", 1))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Property \"Key\" is a single value.");
+    }
+    
+    [Test]
+    public void TryAddToMultiple_ThrowsIfExistingValueOfADifferentType()
+    {
+        var properties = new Properties();
+        properties.AddToMultiple("One", 1);
+
+        properties.Invoking(p => p.TryAddToMultiple("One", "2"))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Property \"One\" has values of type Int32; cannot change to String.");
+    }
+
+    [Test]
+    public void TryAddToMultiple_CanAddSubTypes()
+    {
+        var properties = new Properties();
+
+        properties.TryAddToMultiple<object>("Key", "Value").Should().BeTrue();
+
+        properties.GetMultiple<object>("Key").Should().Equal("Value");
     }
     
     [Test]
@@ -431,10 +507,10 @@ public sealed class PropertiesTests
         properties.GetMultiple<int>("Key").Should().BeEmpty();
         
         properties.AddRangeToMultiple("Key", new [] { 1, 2 });
-        properties.GetMultiple<int>("Key").Should().BeEquivalentTo(new[] { 1, 2 }, c => c.WithStrictOrdering());
+        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
 
         properties.AddRangeToMultiple("Key", new [] { 3, 4 });
-        properties.GetMultiple<int>("Key").Should().BeEquivalentTo(new[] { 1, 2, 3, 4 }, c => c.WithStrictOrdering());
+        properties.GetMultiple<int>("Key").Should().Equal(1, 2, 3, 4);
     }
     
     [Test]
@@ -466,7 +542,7 @@ public sealed class PropertiesTests
 
         properties.AddRangeToMultiple<object>("Key", new[] { "1", "2" });
 
-        properties.GetMultiple<object>("Key").Should().BeEquivalentTo(new[] { "1", "2" }, c => c.WithStrictOrdering());
+        properties.GetMultiple<object>("Key").Should().Equal("1", "2");
     }
 
     [Test]
@@ -486,16 +562,16 @@ public sealed class PropertiesTests
         copy.GetOrThrow<string>("SingleTwo").Should().Be("Two");
         copy.GetOrThrow<object>("SingleThree").Should().Be("Two");
 
-        copy.GetMultiple<int>("MultipleOne").Should().BeEquivalentTo(new[] { 1, 2 }, c => c.WithStrictOrdering());
-        copy.GetMultiple<string>("MultipleTwo").Should().BeEquivalentTo(new [] { "1", "2" }, c => c.WithStrictOrdering());
-        copy.GetMultiple<object>("MultipleThree").Should().BeEquivalentTo(new object[] { 1, "2" }, c => c.WithStrictOrdering());
+        copy.GetMultiple<int>("MultipleOne").Should().Equal(1, 2);
+        copy.GetMultiple<string>("MultipleTwo").Should().Equal("1", "2");
+        copy.GetMultiple<object>("MultipleThree").Should().Equal(1, "2");
         
         // Mutating the copy should not change the original.
         copy.Set("SingleOne", 2);
         properties.GetOrThrow<int>("SingleOne").Should().Be(1);
         
         copy.AddToMultiple("MultipleOne", 3);
-        properties.GetMultiple<int>("MultipleOne").Should().BeEquivalentTo(new[] { 1, 2 }, c => c.WithStrictOrdering());
+        properties.GetMultiple<int>("MultipleOne").Should().Equal(1, 2);
     }
     
     [DoesNotReturn]
