@@ -121,6 +121,52 @@ public sealed partial class NodeTests
 
         root.ThisAndAncestors.Should().Equal(root);
     }
+    
+    [Test]
+    public void AncestorsOfType()
+    {
+        var grandChild00 = new ANode();
+        var grandChild01 = new BNode();
+        var child0 = new ANode(grandChild00, grandChild01);
+        
+        var grandChild10 = new BNode();
+        var grandChild11 = new CNode();
+        var child1 = new BNode(grandChild10, grandChild11);
+        
+        var root = new ANode(child0, child1);
+
+        child0.AncestorsOfType<ANode>().Should().Equal(root);
+        child0.AncestorsOfType<BNode>().Should().BeEmpty();
+
+        grandChild00.AncestorsOfType<ANode>().Should().Equal(child0, root);
+        grandChild01.AncestorsOfType<BNode>().Should().BeEmpty();
+        
+        grandChild10.AncestorsOfType<ANode>().Should().Equal(root);
+        grandChild10.AncestorsOfType<BNode>().Should().Equal(child1);
+    }
+    
+    [Test]
+    public void ThisAndAncestorsOfType()
+    {
+        var grandChild00 = new ANode();
+        var grandChild01 = new BNode();
+        var child0 = new ANode(grandChild00, grandChild01);
+        
+        var grandChild10 = new BNode();
+        var grandChild11 = new CNode();
+        var child1 = new BNode(grandChild10, grandChild11);
+        
+        var root = new ANode(child0, child1);
+
+        child0.ThisAndAncestorsOfType<ANode>().Should().Equal(child0, root);
+        child0.ThisAndAncestorsOfType<BNode>().Should().BeEmpty();
+
+        grandChild00.ThisAndAncestorsOfType<ANode>().Should().Equal(grandChild00, child0, root);
+        grandChild01.ThisAndAncestorsOfType<BNode>().Should().Equal(grandChild01);
+        
+        grandChild10.ThisAndAncestorsOfType<ANode>().Should().Equal(root);
+        grandChild10.ThisAndAncestorsOfType<BNode>().Should().Equal(grandChild10, child1);
+    }
 
     [Test]
     public void Root()

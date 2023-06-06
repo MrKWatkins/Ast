@@ -13,7 +13,7 @@ public abstract partial class Node<TNode>
     /// <exception cref="InvalidOperationException">If any of <see cref="Children" /> already have a <see cref="Parent" />.</exception>
     protected Node([InstantHandle] IEnumerable<TNode> children)
     {
-        this.children = new Children<TNode>(Self, children);
+        this.children = new Children<TNode>(This, children);
     }
     
     /// <summary>
@@ -53,12 +53,12 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Removes this node from its <see cref="Parent" />.
     /// </summary>
-    public void RemoveFromParent() => Parent.Children.Remove(Self);
+    public void RemoveFromParent() => Parent.Children.Remove(This);
         
     /// <summary>
     /// The children of this node.
     /// </summary>
-    public Children<TNode> Children => children ??= new Children<TNode>(Self);
+    public Children<TNode> Children => children ??= new Children<TNode>(This);
 
     /// <summary>
     /// Returns <c>true</c> if this node has any <see cref="Children" />, <c>false</c> otherwise. 
@@ -68,12 +68,29 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Moves this node to a new parent.
     /// </summary>
-    public void MoveTo(TNode newParent) => newParent.Children.MoveInto(Self);
+    public void MoveTo(TNode newParent) => newParent.Children.MoveInto(This);
 
     /// <summary>
     /// Removes this node from it's parent and puts another node in its place.
     /// </summary>
-    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(Self, (TNode) other);
+    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode) other);
+    
+    /// <summary>
+    /// Lazily enumerates over this node and then the specified enumeration of nodes.
+    /// </summary>
+    /// <param name="and">The nodes to enumerate over after this.</param>
+    /// <returns>A lazy enumeration of this node and <paramref name="and" />.</returns>
+    [Pure]
+    [PublicAPI]
+    protected IEnumerable<TNode> ThisAnd(IEnumerable<TNode> and)
+    {
+        yield return This;
+            
+        foreach (var node in and)
+        {
+            yield return node;
+        }
+    }
     
     /// <summary>
     /// Lazily enumerates over the ancestors of this node, i.e. the <see cref="Parent"/>, grandparent, great-grandparent and so on up to the root node.
@@ -90,23 +107,6 @@ public abstract partial class Node<TNode>
             }
         }
     }
-    
-    /// <summary>
-    /// Lazily enumerates over this node and then the specified enumeration of nodes.
-    /// </summary>
-    /// <param name="and">The nodes to enumerate over after this.</param>
-    /// <returns>A lazy enumeration of this node and <paramref name="and" />.</returns>
-    [Pure]
-    [PublicAPI]
-    protected IEnumerable<TNode> ThisAnd(IEnumerable<TNode> and)
-    {
-        yield return Self;
-            
-        foreach (var node in and)
-        {
-            yield return node;
-        }
-    }
 
     /// <summary>
     /// Lazily enumerates over this node and its <see cref="Ancestors" />, i.e. this node, the <see cref="Parent" />, grandparent, great-grandparent
@@ -115,12 +115,30 @@ public abstract partial class Node<TNode>
     public IEnumerable<TNode> ThisAndAncestors => ThisAnd(Ancestors);
 
     /// <summary>
+    /// Lazily enumerates over this node and its <see cref="Ancestors" />, returning only ancestors of the specified type.
+    /// </summary>
+    /// <typeparam name="TAncestor">The type of ancestors to return.</typeparam>
+    [Pure]
+    public IEnumerable<TAncestor> AncestorsOfType<TAncestor>() 
+        where TAncestor : TNode
+        => Ancestors.OfType<TAncestor>();
+    
+    /// <summary>
+    /// Lazily enumerates over the <see cref="Ancestors" /> of this node, returning only ancestors of the specified type.
+    /// </summary>
+    /// <typeparam name="TAncestor">The type of ancestors to return.</typeparam>
+    [Pure]
+    public IEnumerable<TAncestor> ThisAndAncestorsOfType<TAncestor>() 
+        where TAncestor : TNode
+        => ThisAndAncestors.OfType<TAncestor>();
+
+    /// <summary>
     /// The root node, i.e. the highest parent above this node. Returns this node if it is the root, i.e. it has no parents.
     /// </summary>
-    public TNode Root => ThisAndAncestors.Last();
+    public TNode Root => HasParent ? Ancestors.Last() : This;
 
     [Pure]
-    private int GetIndexOfSelf() => Parent.Children.IndexOf(Self);  // Can never be -1.
+    private int GetIndexOfSelf() => Parent.Children.IndexOf(This);  // Can never be -1.
 
     /// <summary>
     /// The next sibling, i.e. the child from the same <see cref="Parent" /> at the next positional index. Returns <c>null</c> if this node is the last child.
@@ -266,29 +284,29 @@ public abstract partial class Node<TNode>
     /// Enumerates all descendents of this node in depth first pre-order.
     /// </summary>
     /// <seealso cref="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal{TNode}" />
-    public IEnumerable<TNode> Descendents => Traverse.DepthFirstPreOrder(Self, false);
+    public IEnumerable<TNode> Descendents => Traverse.DepthFirstPreOrder(This, false);
 
     /// <summary>
     /// Enumerates this node then all descendents of this node in depth first pre-order.
     /// </summary>
     /// <seealso cref="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal{TNode}" />
-    public IEnumerable<TNode> ThisAndDescendents => Traverse.DepthFirstPreOrder(Self);
+    public IEnumerable<TNode> ThisAndDescendents => Traverse.DepthFirstPreOrder(This);
 
     /// <summary>
     /// The index of this node in the <see cref="Parent" /> or -1 if this node has no <see cref="Parent" />.
     /// </summary>
     /// <seealso cref="HasParent" />
-    public int IndexInParent => HasParent ? Parent.Children.IndexOf(Self) : -1;
+    public int IndexInParent => HasParent ? Parent.Children.IndexOf(This) : -1;
 
     /// <summary>
     /// <c>true</c> if this node is the first child in <see cref="Parent" />, <c>false</c> if not or if the node has no <see cref="Parent" />.
     /// </summary>
-    public bool IsFirstChild => HasParent && Parent.Children[0] == Self;
+    public bool IsFirstChild => HasParent && Parent.Children[0] == This;
 
     /// <summary>
     /// <c>true</c> if this node is the last child in <see cref="Parent" />, <c>false</c> if not or if the node has no <see cref="Parent" />.
     /// </summary>
-    public bool IsLastChild => HasParent && Parent.Children[^1] == Self;
+    public bool IsLastChild => HasParent && Parent.Children[^1] == This;
 
     /// <summary>
     /// Returns the first child of this node.

@@ -18,7 +18,7 @@ public abstract partial class Node<TNode>
     {
     }
         
-    private TNode Self => (TNode) this;
+    private TNode This => (TNode) this;
     
     /// <summary>
     /// The <see cref="MrKWatkins.Ast.Properties" /> associated with this node.
