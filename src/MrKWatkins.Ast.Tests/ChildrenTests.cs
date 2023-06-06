@@ -491,7 +491,7 @@ public sealed partial class ChildrenTests
     }
     
     [Test]
-    public void SingleOfTypeOrNull_NodeType()
+    public void FirstOfTypeOrDefault()
     {
         var a = new ANode();
         var b1 = new BNode();
@@ -499,11 +499,45 @@ public sealed partial class ChildrenTests
         
         var parent = new ANode(b1, a, b2);
 
-        parent.Children.SingleOfTypeOrNull<ANode>().Should().BeSameAs(a);
-        parent.Children.Invoking(c => c.SingleOfTypeOrNull<BNode>())
+        var @default = new CNode();
+
+        parent.Children.FirstOfTypeOrDefault<ANode>().Should().BeSameAs(a);
+        parent.Children.FirstOfTypeOrDefault<BNode>().Should().BeSameAs(b1);
+        parent.Children.FirstOfTypeOrDefault(@default).Should().BeSameAs(@default);
+    }
+    
+    [Test]
+    public void FirstOfType()
+    {
+        var a = new ANode();
+        var b1 = new BNode();
+        var b2 = new BNode();
+        
+        var parent = new ANode(b1, a, b2);
+
+        parent.Children.FirstOfType<ANode>().Should().BeSameAs(a);
+        parent.Children.FirstOfType<BNode>().Should().BeSameAs(b1);
+        parent.Children.Invoking(c => c.FirstOfType<CNode>())
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Expected ANode to have a child of type CNode but found none.");
+    }
+    
+    [Test]
+    public void SingleOfTypeOrDefault()
+    {
+        var a = new ANode();
+        var b1 = new BNode();
+        var b2 = new BNode();
+        
+        var parent = new ANode(b1, a, b2);
+
+        var @default = new CNode();
+
+        parent.Children.SingleOfTypeOrDefault<ANode>().Should().BeSameAs(a);
+        parent.Children.Invoking(c => c.SingleOfTypeOrDefault<BNode>())
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Expected ANode to have 0 or 1 children of type BNode but found multiple.");
-        parent.Children.SingleOfTypeOrNull<CNode>().Should().BeNull();
+        parent.Children.SingleOfTypeOrDefault(@default).Should().BeSameAs(@default);
     }
     
     [Test]

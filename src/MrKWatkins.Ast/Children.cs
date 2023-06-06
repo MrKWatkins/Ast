@@ -19,7 +19,7 @@ public sealed partial class Children<TNode> : IList<TNode>
         this.parent = parent;
         nodes = new List<TNode>();
     }
-        
+
     internal Children(TNode parent, [InstantHandle] IEnumerable<TNode> nodes)
     {
         this.parent = parent;
@@ -72,6 +72,7 @@ public sealed partial class Children<TNode> : IList<TNode>
         {
             node.RemoveParent();
         }
+
         nodes.Clear();
     }
 
@@ -113,9 +114,10 @@ public sealed partial class Children<TNode> : IList<TNode>
             {
                 throw new InvalidOperationException($"{nameof(node)} is already in this collection.");
             }
+
             node.RemoveFromParent();
         }
-            
+
         Add(node);
     }
 
@@ -172,7 +174,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     }
 
     void IList<TNode>.RemoveAt(int index) => RemoveAt(index);
-        
+
     /// <summary>
     /// Removes the node at the specified position from the collection and reset its <see cref="Node{TNode}.Parent" /> property to <c>null</c>.
     /// </summary>
@@ -202,7 +204,7 @@ public sealed partial class Children<TNode> : IList<TNode>
             {
                 throw new InvalidOperationException("Node is already in the collection.");
             }
-            
+
             var current = nodes[index];
             value.Parent = parent;
             nodes[index] = value;
@@ -222,7 +224,7 @@ public sealed partial class Children<TNode> : IList<TNode>
         {
             throw new ArgumentException("Value is already in the collection.", nameof(replacement));
         }
-        
+
         var index = IndexOf(child);
         if (index == -1)
         {
@@ -230,12 +232,12 @@ public sealed partial class Children<TNode> : IList<TNode>
         }
 
         RemoveAt(index);
-            
+
         if (replacement.HasParent)
         {
             replacement.RemoveFromParent();
         }
-            
+
         Insert(index, replacement);
     }
 
@@ -260,22 +262,41 @@ public sealed partial class Children<TNode> : IList<TNode>
         nodes.Where(n => n is not TChild);
 
     /// <summary>
-    /// Returns the only node in the collection if it is of the specified type or <c>null</c> if it is of a different type or the collection is empty.
+    /// Returns the first node in the collection of the specified type or a specified default if it doesn't contain any nodes of the specified type.
     /// </summary>
     /// <typeparam name="TChild">The type of the node to return.</typeparam>
-    /// <returns>The single node if it is of the specified type or <c>null</c> if it is of a different type or the collection is empty.</returns>
-    /// <exception cref="InvalidOperationException">The collection has more than one node.</exception>
+    /// <param name="default">The default value to return if the collection does not contain any nodes of type <typeparamref name="TChild"/>.</param>
+    /// <returns>The first node if it is of the specified type or <paramref name="default"/> if it doesn't contain any nodes of the specified type.</returns>
     [Pure]
-    public TChild? SingleOfTypeOrNull<TChild>()
-        where TChild : TNode => 
-        (TChild?) SingleOfTypeOrNull(typeof(TChild).Name, OfType<TChild>());
-    
-    // Hand rolling to give a better exception message than SingleOrDefault().
+    public TChild? FirstOfTypeOrDefault<TChild>(TChild? @default = null)
+        where TChild : TNode =>
+        OfType<TChild>().FirstOrDefault(@default);
+
+    /// <summary>
+    /// Returns the first node in the collection of the specified type or throws otherwise.
+    /// </summary>
+    /// <typeparam name="TChild">The type of the node to return.</typeparam>
+    /// <returns>The first node if it is of the specified type.</returns>
+    /// <exception cref="InvalidOperationException">If the collection doesn't contain any nodes of the specified type.</exception>
     [Pure]
-    private TNode? SingleOfTypeOrNull(string type, [InstantHandle] IEnumerable<TNode> childrenOfType)
+    public TChild FirstOfType<TChild>()
+        where TChild : TNode =>
+        FirstOfTypeOrDefault<TChild>() ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have a child of type {typeof(TChild).SimpleName()} but found none.");
+
+    /// <summary>
+    /// Returns the only node in the collection of the specified type. Returns the specified default if there are no nodes in the collection of the
+    /// specified type. Throws if there are multiple nodes in the collection of the specified type.
+    /// </summary>
+    /// <typeparam name="TChild">The type of the node to return.</typeparam>
+    /// <param name="default">The default value to return if the collection does not contain any nodes of type <typeparamref name="TChild"/>.</param>
+    /// <returns>The single node if it is of type <typeparamref name="TChild"/> or <paramref name="default"/> if there are no nodes of type <typeparamref name="TChild"/>.</returns>
+    /// <exception cref="InvalidOperationException">The collection has more than one node of type <typeparamref name="TChild"/>.</exception>
+    [Pure]
+    public TChild? SingleOfTypeOrDefault<TChild>(TChild? @default = null)
+        where TChild : TNode
     {
-        TNode? single = null;
-        foreach (var child in childrenOfType)
+        TChild? single = null;
+        foreach (var child in OfType<TChild>())
         {
             if (single == null)
             {
@@ -283,29 +304,25 @@ public sealed partial class Children<TNode> : IList<TNode>
             }
             else
             {
-                throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 0 or 1 children of type {type} but found multiple.");
+                throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 0 or 1 children of type {typeof(TChild).SimpleName()} but found multiple.");
             }
         }
-        return single;
+
+        return single ?? @default;
     }
-        
+
     /// <summary>
-    /// Returns the only node in the collection if it is of the specified type.
+    /// Returns the only node in the collection of the specified type. Throws if there is not exactly one node in the collection of the specified type.
     /// </summary>
     /// <typeparam name="TChild">The type of the node to return.</typeparam>
-    /// <returns>The single node if it is of the specified type.</returns>
-    /// <exception cref="InvalidOperationException">The collection has more than one node or the node is of a different type.</exception>
+    /// <returns>The single node in the collection of type <typeparamref name="TChild"/>.</returns>
+    /// <exception cref="InvalidOperationException">The collection has zero or more than one node of type <typeparamref name="TChild"/>.</exception>
     [Pure]
     public TChild SingleOfType<TChild>()
-        where TChild : TNode => 
-        (TChild) SingleOfType(typeof(TChild).Name, OfType<TChild>());
-
-    // Hand rolling to give a better exception message than Single().
-    [Pure]
-    private TNode SingleOfType(string type, [InstantHandle] IEnumerable<TNode> childrenOfType)
+        where TChild : TNode
     {
-        TNode? single = null;
-        foreach (var child in childrenOfType)
+        TChild? single = null;
+        foreach (var child in OfType<TChild>())
         {
             if (single == null)
             {
@@ -313,9 +330,10 @@ public sealed partial class Children<TNode> : IList<TNode>
             }
             else
             {
-                throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 1 child of type {type} but found multiple.");
+                throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 1 child of type {typeof(TChild).SimpleName()} but found multiple.");
             }
         }
-        return single ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 1 child of type {type} but found none.");
+
+        return single ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 1 child of type {typeof(TChild).SimpleName()} but found none.");
     }
 }
