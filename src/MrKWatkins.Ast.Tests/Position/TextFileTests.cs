@@ -64,6 +64,25 @@ public sealed class TextFileTests : FileTextFixture
         position.Text.Should().Be("More");
     }
 
+    [Test]
+    public void CreateEntireFilePosition()
+    {
+        const string text = "Some Text\nSome More Text";
+        
+        var textFile = new TextFile("Test Filename", text);
+
+        var position = textFile.CreateEntireFilePosition();
+        position.File.Should().BeSameAs(textFile);
+        position.StartIndex.Should().Be(0);
+        position.Length.Should().Be(24);
+        position.StartLineIndex.Should().Be(0);
+        position.StartLineNumber.Should().Be(1);
+        position.StartColumnIndex.Should().Be(0);
+        position.StartColumnNumber.Should().Be(1);
+        position.StartLine.Should().Be("Some Text");
+        position.Text.Should().Be(text);
+    }
+
     [TestCaseSource(nameof(EqualityTestCases))]
     public void Equality(SourceFile x, object? y, bool expected) => AssertEqual(x, y, expected);
     

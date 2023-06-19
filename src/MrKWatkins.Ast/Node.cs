@@ -28,7 +28,7 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// The position of the node in the source code.
     /// </summary>
-    public SourcePosition SourcePosition
+    public virtual SourcePosition SourcePosition
     {
         get => Properties.GetOrDefault(nameof(SourcePosition), SourcePosition.None);
         set => Properties.Set(nameof(SourcePosition), value);

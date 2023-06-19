@@ -51,6 +51,13 @@ public sealed class BinaryFile : SourceFile
     [Pure]
     public BinaryFilePosition CreatePosition(int startIndex, int length) =>
         new(this, startIndex, length);
+    
+    /// <summary>
+    /// Creates a <see cref="BinaryFilePosition" /> from this <see cref="BinaryFile" /> that represents the whole file.
+    /// </summary>
+    /// <returns>A new <see cref="BinaryFilePosition" /> instance.</returns>
+    [Pure]
+    public BinaryFilePosition CreateEntireFilePosition() => new(this, 0, Length);
 
     [Pure]
     private static IReadOnlyList<byte> ReadStream(Stream stream)

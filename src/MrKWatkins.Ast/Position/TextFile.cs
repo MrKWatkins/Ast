@@ -52,7 +52,7 @@ public sealed class TextFile : SourceFile
     public IReadOnlyList<string> Lines { get; }
 
     /// <summary>
-    /// Creates a <see cref="TextFilePosition" /> from this <see cref="BinaryFile" />.
+    /// Creates a <see cref="TextFilePosition" /> from this <see cref="TextFile" />.
     /// </summary>
     /// <param name="startIndex">The start index of the position in the file.</param>
     /// <param name="length">The length of the file.</param>
@@ -62,6 +62,13 @@ public sealed class TextFile : SourceFile
     [Pure]
     public TextFilePosition CreatePosition(int startIndex, int length, int startLineIndex, int startColumnIndex) =>
         new(this, startIndex, length, startLineIndex, startColumnIndex);
+    
+    /// <summary>
+    /// Creates a <see cref="TextFilePosition" /> from this <see cref="TextFile" /> that represents the whole file.
+    /// </summary>
+    /// <returns>A new <see cref="TextFilePosition" /> instance.</returns>
+    [Pure]
+    public TextFilePosition CreateEntireFilePosition() => new(this, 0, Length, 0, 0);
 
     [Pure]
     private static string ReadStream(Stream stream)

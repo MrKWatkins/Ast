@@ -55,6 +55,19 @@ public sealed class BinaryFileTests : FileTextFixture
         position.StartIndex.Should().Be(1);
         position.Length.Should().Be(2);
     }
+    
+    [Test]
+    public void CreateEntireFilePosition()
+    {
+        var bytes = new byte[] { 1, 2, 3, 4, 5 };
+        
+        var binaryFile = new BinaryFile("Test Filename", bytes);
+
+        var position = binaryFile.CreateEntireFilePosition();
+        position.File.Should().BeSameAs(binaryFile);
+        position.StartIndex.Should().Be(0);
+        position.Length.Should().Be(5);
+    }
 
     [TestCaseSource(nameof(EqualityTestCases))]
     public void Equality(SourceFile x, object? y, bool expected) => AssertEqual(x, y, expected);
