@@ -97,6 +97,13 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
     }
 
     /// <summary>
+    /// Combines two <see cref="TextFilePosition" />s to give a new SourcePosition that includes both
+    /// <paramref name="x" /> and <paramref name="y" /> along with any source in-between the two.
+    /// </summary>
+    [Pure]
+    public static TextFilePosition operator +(TextFilePosition x, TextFilePosition y) => x.Combine(y);
+
+    /// <summary>
     /// Create a new <see cref="TextFilePosition" /> with zero width at the start of this <see cref="TextFilePosition" />.
     /// </summary>
     public override TextFilePosition CreateZeroWidthPrefix() => new(File, StartIndex, 0, StartLineIndex, StartColumnIndex);

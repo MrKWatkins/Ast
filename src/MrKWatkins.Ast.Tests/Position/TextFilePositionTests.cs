@@ -131,6 +131,18 @@ public sealed class TextFilePositionTests : EqualityTestFixture
     }
 
     [Test]
+    public void Addition()
+    {
+        var textFile = new TextFile("Test Name", "Test Line 0\nTest Line 1");
+
+        var positionX = new TextFilePosition(textFile, 5, 4, 0, 5);
+        var positionY = new TextFilePosition(textFile, 18, 4, 1, 5);
+
+        (positionX + positionY).Should().Be(positionX.Combine(positionY));
+        (positionY + positionX).Should().Be(positionY.Combine(positionX));
+    }
+
+    [Test]
     public void CreateZeroWidthPrefix()
     {
         var textFile = new TextFile("Test Name", "Test Line 0\nTest Line 1");

@@ -40,6 +40,19 @@ public sealed class BinaryFilePositionTests : EqualityTestFixture
     }
 
     [Test]
+    public void Addition()
+    {
+        var bytes = new byte[] { 1, 2, 3, 4, 5 };
+        var file = new BinaryFile("Test Filename", bytes);
+
+        var positionX = new BinaryFilePosition(file, 0, 5);
+        var positionY = new BinaryFilePosition(file, 2, 2);
+
+        (positionX + positionY).Should().Be(positionX.Combine(positionY));
+        (positionY + positionX).Should().Be(positionY.Combine(positionX));
+    }
+
+    [Test]
     public void CreateZeroWidthPrefix()
     {
         var file = new BinaryFile("Test Filename", new byte[] { 1, 2, 3, 4, 5 });

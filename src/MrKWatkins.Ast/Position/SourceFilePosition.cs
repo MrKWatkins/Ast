@@ -82,7 +82,7 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
     /// <returns></returns>
     [Pure]
     protected abstract TSelf CreateCombination(TSelf other);
-    
+
     /// <summary>
     /// Returns <c>true</c> if two positions for the same file overlap. Zero length positions will overlap only if they are inside
     /// the other position. If they are at the start or end index of the other position they will not overlap. Two zero length positions

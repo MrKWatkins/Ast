@@ -21,7 +21,7 @@ public abstract class SourcePosition : IEquatable<SourcePosition>, IEqualityOper
 
     /// <summary>
     /// Combines two <see cref="SourcePosition" />s to give a new SourcePosition that includes both
-    /// <paramref name="x" /> and <paramref name="y" /> along any source in-between the two.
+    /// <paramref name="x" /> and <paramref name="y" /> along with any source in-between the two.
     /// </summary>
     [Pure]
     public static SourcePosition operator +(SourcePosition x, SourcePosition y) => x.Combine(y);
