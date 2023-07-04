@@ -523,6 +523,38 @@ public sealed partial class ChildrenTests
     }
     
     [Test]
+    public void LastOfTypeOrDefault()
+    {
+        var a = new ANode();
+        var b1 = new BNode();
+        var b2 = new BNode();
+        
+        var parent = new ANode(b1, a, b2);
+
+        var @default = new CNode();
+
+        parent.Children.LastOfTypeOrDefault<ANode>().Should().BeSameAs(a);
+        parent.Children.LastOfTypeOrDefault<BNode>().Should().BeSameAs(b2);
+        parent.Children.LastOfTypeOrDefault(@default).Should().BeSameAs(@default);
+    }
+    
+    [Test]
+    public void LastOfType()
+    {
+        var a = new ANode();
+        var b1 = new BNode();
+        var b2 = new BNode();
+        
+        var parent = new ANode(b1, a, b2);
+
+        parent.Children.LastOfType<ANode>().Should().BeSameAs(a);
+        parent.Children.LastOfType<BNode>().Should().BeSameAs(b2);
+        parent.Children.Invoking(c => c.LastOfType<CNode>())
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Expected ANode to have a child of type CNode but found none.");
+    }
+    
+    [Test]
     public void SingleOfTypeOrDefault()
     {
         var a = new ANode();

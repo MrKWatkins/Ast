@@ -284,6 +284,39 @@ public sealed partial class Children<TNode> : IList<TNode>
         FirstOfTypeOrDefault<TChild>() ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have a child of type {typeof(TChild).SimpleName()} but found none.");
 
     /// <summary>
+    /// Returns the last node in the collection of the specified type or a specified default if it doesn't contain any nodes of the specified type.
+    /// </summary>
+    /// <typeparam name="TChild">The type of the node to return.</typeparam>
+    /// <param name="default">The default value to return if the collection does not contain any nodes of type <typeparamref name="TChild"/>.</param>
+    /// <returns>The last node if it is of the specified type or <paramref name="default"/> if it doesn't contain any nodes of the specified type.</returns>
+    [Pure]
+    public TChild? LastOfTypeOrDefault<TChild>(TChild? @default = null)
+        where TChild : TNode
+    {
+        // Manually iterating for performance. Looks like LINQ's Reverse() doesn't optimise for IList<T>.
+        for (var f = Count - 1; f >= 0; f--)
+        {
+            if (nodes[f] is TChild child)
+            {
+                return child;
+            }
+        }
+
+        return @default;
+    }
+
+    /// <summary>
+    /// Returns the last node in the collection of the specified type or throws otherwise.
+    /// </summary>
+    /// <typeparam name="TChild">The type of the node to return.</typeparam>
+    /// <returns>The last node if it is of the specified type.</returns>
+    /// <exception cref="InvalidOperationException">If the collection doesn't contain any nodes of the specified type.</exception>
+    [Pure]
+    public TChild LastOfType<TChild>()
+        where TChild : TNode =>
+        LastOfTypeOrDefault<TChild>() ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have a child of type {typeof(TChild).SimpleName()} but found none.");
+
+    /// <summary>
     /// Returns the only node in the collection of the specified type. Returns the specified default if there are no nodes in the collection of the
     /// specified type. Throws if there are multiple nodes in the collection of the specified type.
     /// </summary>
