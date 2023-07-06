@@ -68,7 +68,7 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Moves this node to a new parent.
     /// </summary>
-    public void MoveTo(TNode newParent) => newParent.Children.MoveInto(This);
+    public void MoveTo(TNode newParent) => newParent.Children.Move(This);
 
     /// <summary>
     /// Removes this node from it's parent and puts another node in its place.

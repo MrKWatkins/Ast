@@ -160,35 +160,35 @@ public sealed partial class ChildrenTests
     }
 
     [Test]
-    public void MoveInto_ThrowsIfAlreadyInChildren()
+    public void Move_ThrowsIfAlreadyInChildren()
     {
         var child = new BNode();
         var parent = new ANode(child);
-        parent.Children.Invoking(c => c.MoveInto(child))
+        parent.Children.Invoking(c => c.Move(child))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("node is already in this collection.");
     }
 
     [Test]
-    public void MoveInto_Node_DoesNotHaveParent()
+    public void Move_Node_DoesNotHaveParent()
     {
         var child = new BNode();
 
         var newParent = new CNode();
-        newParent.Children.MoveInto(child);
+        newParent.Children.Move(child);
 
         newParent.Children.Should().BeEquivalentTo(new[] { child });
         child.Parent.Should().BeSameAs(newParent);
     }
     
     [Test]
-    public void MoveInto_Node_HasParent()
+    public void Move_Node_HasParent()
     {
         var child = new BNode();
         var parent = new ANode(child);
 
         var newParent = new CNode();
-        newParent.Children.MoveInto(child);
+        newParent.Children.Move(child);
 
         parent.Children.Should().BeEmpty();
 
@@ -197,17 +197,17 @@ public sealed partial class ChildrenTests
     }
     
     [Test]
-    public void MoveInto_IEnumerable_ThrowsIfAnyNodeAlreadyInChildren()
+    public void Move_IEnumerable_ThrowsIfAnyNodeAlreadyInChildren()
     {
         var child = new BNode();
         var parent = new ANode(child);
-        parent.Children.Invoking(c => c.MoveInto((IEnumerable<BNode>) new [] { new BNode(), child }))
+        parent.Children.Invoking(c => c.Move((IEnumerable<BNode>) new [] { new BNode(), child }))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("node is already in this collection.");
     }
     
     [Test]
-    public void MoveInto_IEnumerable_HasParent()
+    public void Move_IEnumerable_HasParent()
     {
         var child1 = new BNode();
         var parent = new ANode(child1);
@@ -217,7 +217,7 @@ public sealed partial class ChildrenTests
         IEnumerable<TestNode> children = new[] { child1, child2 };
         
         var newParent = new CNode();
-        newParent.Children.MoveInto(children);
+        newParent.Children.Move(children);
 
         parent.Children.Should().BeEmpty();
 
@@ -227,7 +227,7 @@ public sealed partial class ChildrenTests
     }
 
     [Test]
-    public void MoveInto_Children()
+    public void Move_Children()
     {
         var child1 = new BNode();
         var child2 = new BNode();
@@ -237,7 +237,7 @@ public sealed partial class ChildrenTests
         var newParent = new BNode(newParentChild);
         
         // Explicit test with parent.Children as we do not want it to throw a "collection was modified" exception.
-        newParent.Children.MoveInto(parent.Children);
+        newParent.Children.Move(parent.Children);
 
         parent.Children.Should().BeEmpty();
 
@@ -247,17 +247,17 @@ public sealed partial class ChildrenTests
     }
     
     [Test]
-    public void MoveInto_Params_ThrowsIfAnyNodeAlreadyInChildren()
+    public void Move_Params_ThrowsIfAnyNodeAlreadyInChildren()
     {
         var child = new BNode();
         var parent = new ANode(child);
-        parent.Children.Invoking(c => c.MoveInto(new BNode(), child))
+        parent.Children.Invoking(c => c.Move(new BNode(), child))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("node is already in this collection.");
     }
     
     [Test]
-    public void MoveInto_Params_HasParent()
+    public void Move_Params_HasParent()
     {
         var child1 = new BNode();
         var parent = new ANode(child1);
@@ -265,7 +265,7 @@ public sealed partial class ChildrenTests
         var child2 = new BNode();
 
         var newParent = new CNode();
-        newParent.Children.MoveInto(child1, child2);
+        newParent.Children.Move(child1, child2);
 
         parent.Children.Should().BeEmpty();
 

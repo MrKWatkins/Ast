@@ -106,7 +106,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// </summary>
     /// <param name="node">The node to move.</param>
     /// <exception cref="InvalidOperationException">If <paramref name="node" /> is already in this collection.</exception>
-    public void MoveInto(TNode node)
+    public void Move(TNode node)
     {
         if (node.HasParent)
         {
@@ -127,11 +127,11 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <param name="nodes">The nodes to move.</param>
     /// <exception cref="InvalidOperationException">If <paramref name="nodes" /> contains a node that is already in this collection.</exception>
     // ReSharper disable once ParameterHidesMember
-    public void MoveInto([InstantHandle] IEnumerable<TNode> nodes)
+    public void Move([InstantHandle] IEnumerable<TNode> nodes)
     {
         foreach (var node in nodes)
         {
-            MoveInto(node);
+            Move(node);
         }
     }
 
@@ -141,7 +141,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <param name="nodes">The nodes to move.</param>
     /// <exception cref="InvalidOperationException">If <paramref name="nodes" /> contains a node that is already in this collection.</exception>
     // ReSharper disable once ParameterHidesMember
-    public void MoveInto(params TNode[] nodes) => MoveInto((IEnumerable<TNode>) nodes);
+    public void Move(params TNode[] nodes) => Move((IEnumerable<TNode>) nodes);
 
     /// <summary>
     /// The number of nodes in the collection.
