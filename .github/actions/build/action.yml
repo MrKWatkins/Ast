@@ -21,6 +21,11 @@ runs:
       working-directory: ${{ inputs.directory }}
       run: dotnet restore
 
+    - name: Verify Code Is Correctly Formatted
+      shell: bash
+      working-directory: ${{ inputs.directory }}
+      run: dotnet format --verify-no-changes
+
     - name: Build
       shell: bash
       working-directory: ${{ inputs.directory }}
