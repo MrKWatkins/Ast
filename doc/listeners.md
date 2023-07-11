@@ -34,4 +34,5 @@ types.
 
 ## Example
 
-Find an example of using listeners to produce a string representation of a tree at <https://github.com/MrKWatkins/Ast/tree/main/examples/Listeners>.
+Find an example of using listeners to produce a string representation of a tree at <https://github.com/MrKWatkins/Ast/tree/main/examples/Listeners>. The
+maths example at <https://github.com/MrKWatkins/Ast/tree/main/examples/Maths> also uses listeners to evaluate and compile mathematical expressions.
