@@ -7,11 +7,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0EE2E846-632C-4EA4-88D8-82A90776FC8D}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
-		.editorconfig = .editorconfig
 		Directory.Packages.props = Directory.Packages.props
 		..\License.md = ..\License.md
 		..\ReadMe.md = ..\ReadMe.md
 		..\.gitignore = ..\.gitignore
+		..\.editorconfig = ..\.editorconfig
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C893FF4B-FA20-4B58-B7D3-3DA372503F01}"

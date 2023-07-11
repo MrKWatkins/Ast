@@ -63,7 +63,7 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
     public sealed override bool Equals(object? obj) => Equals(obj as SourceFile);
 
     /// <inheritdoc />
-    public override int GetHashCode() => Name.GetHashCode();
+    public override int GetHashCode() => Name.GetHashCode(StringComparison.Ordinal);
 
     /// <summary>
     /// Determines whether two specified <see cref="SourceFile"/>s have the same value.

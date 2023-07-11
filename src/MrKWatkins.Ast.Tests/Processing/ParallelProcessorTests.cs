@@ -13,6 +13,7 @@ public sealed class ParallelProcessorTests : TreeTestFixture
 
     [TestCase(0)]
     [TestCase(-1)]
+    [SuppressMessage("Maintainability", "CA1507:Use nameof in place of string", Justification = "Name coincidentally is shared with parameter.")]
     public void Constructor_InvalidMaxDegreeOfParallelismThrows(int maxDegreeOfParallelism) =>
         FluentActions.Invoking(() => new ParallelProcessor<TestNode>(new List<Processor<TestNode>> { new TestValidator() }, maxDegreeOfParallelism))
             .Should().Throw<ArgumentOutOfRangeException>()
@@ -94,6 +95,7 @@ public sealed class ParallelProcessorTests : TreeTestFixture
     }
 
     [Test]
+    [SuppressMessage("Reliability", "CA2007:Do not directly await a Task", Justification = "Not relevant in test code.")]
     public async Task Process_RunsInParallel()
     {
         var validator1LastNodeCalled = new TaskCompletionSource();

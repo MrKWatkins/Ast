@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace MrKWatkins.Ast.Examples.Maths.Lexing;
 
 /// <summary>
@@ -13,5 +15,5 @@ public sealed record Number : Token
 
     public int Value { get; }
 
-    public override string ToString() => Value.ToString();
+    public override string ToString() => Value.ToString(NumberFormatInfo.InvariantInfo);
 }

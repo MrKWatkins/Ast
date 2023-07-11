@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
@@ -11,7 +13,7 @@ public abstract class PipelineStageBuilder<TSelf, TProcessor, TNode>
 {
     private protected PipelineStageBuilder(int number)
     {
-        Name = number.ToString();
+        Name = number.ToString(NumberFormatInfo.InvariantInfo);
     }
 
     private protected TSelf Self => (TSelf)this;

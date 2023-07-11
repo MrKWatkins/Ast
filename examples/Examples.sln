@@ -3,8 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0EE2E846-632C-4EA4-88D8-82A90776FC8D}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
-		.editorconfig = .editorconfig
 		Directory.Packages.props = Directory.Packages.props
+		..\.editorconfig = ..\.editorconfig
+		..\.gitignore = ..\.gitignore
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Listeners", "Listeners\Listeners.csproj", "{3B62545F-1987-4B56-BAF1-A2BFE21EA74D}"

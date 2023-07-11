@@ -43,6 +43,7 @@ public sealed class ParallelPipelineStageBuilderTests : PipelineStageBuilderTest
 
     [TestCase(0)]
     [TestCase(-1)]
+    [SuppressMessage("Maintainability", "CA1507:Use nameof in place of string", Justification = "Name coincidentally is shared with parameter.")]
     public void WithMaxDegreeOfParallelism_ThrowsInvalidValue(int maxDegreeOfParallelism) =>
         CreateBuilder(123)
             .Add(new TestUnorderedProcessor())

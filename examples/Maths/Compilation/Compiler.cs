@@ -7,6 +7,7 @@ namespace MrKWatkins.Ast.Examples.Maths.Compilation;
 /// <summary>
 /// Compiles an expression to a .NET function.
 /// </summary>
+[SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Just example code.")]
 public static class Compiler
 {
     private static readonly CompositeListenerWithContext<CompilationContext, MathsNode> Listener =
@@ -23,7 +24,7 @@ public static class Compiler
     /// <param name="function">The function.</param>
     /// <returns>The evaluated value.</returns>
     /// <exception cref="ArgumentException">
-    /// If <paramref name="function"/> has errors or the number of <paramref name="arguments"/> does not match the parameter count.
+    /// If <paramref name="function"/> has errors.
     /// </exception>
     [Pure]
     public static Delegate Compile(Function function)

@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <RootNamespace>MrKWatkins.Ast.Examples.Maths.Tests</RootNamespace>
+        <!-- Allow underscores in test method names. -->
+        <NoWarn>CA1707</NoWarn>
     </PropertyGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\Maths\Maths.csproj" />
     </ItemGroup>

@@ -20,6 +20,10 @@
     </PropertyGroup>
     
     <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
     </ItemGroup>
     
