@@ -14,7 +14,7 @@ public sealed class ReducerTests : TestFixture
     public void Process(string expression, string reduced)
     {
         var function = ParseWithoutProcessing(expression);
-        
+
         new Reducer().Process(function);
 
         function.ToString().Should().BeEquivalentTo(reduced);

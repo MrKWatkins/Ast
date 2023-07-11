@@ -9,12 +9,12 @@ public enum MessageLevel
     /// An information message.
     /// </summary>
     Info,
-    
+
     /// <summary>
     /// A warning message.
     /// </summary>
     Warning,
-    
+
     /// <summary>
     /// An error message.
     /// </summary>

@@ -9,7 +9,7 @@ namespace MrKWatkins.Ast.Examples.Maths.Compilation;
 /// on the stack representing the right and left values. (Left will be processed first and therefore lower in the stack) These can be
 /// popped off and evaluated and then the result pushed back on.
 /// </summary>
-internal sealed class BinaryOperationListener : ListenerWithContext<CompilationContext, MathsNode, BinaryOperation> 
+internal sealed class BinaryOperationListener : ListenerWithContext<CompilationContext, MathsNode, BinaryOperation>
 {
     protected override void AfterListenToNode(CompilationContext context, BinaryOperation operation)
     {

@@ -15,7 +15,7 @@ public sealed class ParserTests : TestFixture
 
         function.ToString().Should().BeEquivalentTo(expected);
     }
-    
+
     [TestCase("(1", "EndOfFile EOF", 2)]
     [TestCase(")", "CloseBracket )", 0)]
     [TestCase("1 2", "Number 2", 2)]

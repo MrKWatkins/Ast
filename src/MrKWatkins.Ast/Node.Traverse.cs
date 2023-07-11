@@ -28,9 +28,9 @@ public abstract partial class Node<TNode>
         /// </returns>
         /// <seealso href="https://en.wikipedia.org/wiki/Breadth-first_search" />
         [Pure]
-        public static IEnumerable<TNode> BreadthFirst(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null) => 
+        public static IEnumerable<TNode> BreadthFirst(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null) =>
             BreadthFirstTraversal<TNode>.Instance.Enumerate(root, includeRoot, shouldEnumerateDescendents);
-        
+
         /// <summary>
         /// Enumerates over a node and its descendents depth first, pre-order.
         /// </summary>
@@ -50,7 +50,7 @@ public abstract partial class Node<TNode>
         /// <seealso cref="DepthFirstPreOrderTraversal{TNode}"/>
         /// <seealso href="https://en.wikipedia.org/wiki/Depth-first_search" />
         [Pure]
-        public static IEnumerable<TNode> DepthFirstPreOrder(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null) => 
+        public static IEnumerable<TNode> DepthFirstPreOrder(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null) =>
             DepthFirstPreOrderTraversal<TNode>.Instance.Enumerate(root, includeRoot, shouldEnumerateDescendents);
 
         /// <summary>
@@ -72,7 +72,7 @@ public abstract partial class Node<TNode>
         /// <seealso cref="DepthFirstPostOrderTraversal{TNode}"/>
         /// <seealso href="https://en.wikipedia.org/wiki/Depth-first_search" />
         [Pure]
-        public static IEnumerable<TNode> DepthFirstPostOrder(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null) => 
+        public static IEnumerable<TNode> DepthFirstPostOrder(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null) =>
             DepthFirstPostOrderTraversal<TNode>.Instance.Enumerate(root, includeRoot, shouldEnumerateDescendents);
     }
 }

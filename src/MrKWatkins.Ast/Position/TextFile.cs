@@ -21,17 +21,17 @@ public sealed class TextFile : SourceFile
     /// </summary>
     /// <param name="name">The name of the file.</param>
     /// <param name="text">A <see cref="Stream" /> containing the file. The stream will be read to the end and left open.</param>
-    public TextFile(string name, Stream text) 
+    public TextFile(string name, Stream text)
         : this(name, ReadStream(text))
     {
     }
-    
+
     /// <summary>
     /// Initialises a new instance of the <see cref="BinaryFile" /> class from a string containing the file.
     /// </summary>
     /// <param name="name">The name of the file.</param>
     /// <param name="text">The contents of the file.</param>
-    public TextFile(string name, string text) 
+    public TextFile(string name, string text)
         : base(name, text.Length)
     {
         Text = text;
@@ -40,7 +40,7 @@ public sealed class TextFile : SourceFile
         // TextFilePosition.
         Lines = ReadLines(text);
     }
-    
+
     /// <summary>
     /// The text of the file.
     /// </summary>
@@ -62,7 +62,7 @@ public sealed class TextFile : SourceFile
     [Pure]
     public TextFilePosition CreatePosition(int startIndex, int length, int startLineIndex, int startColumnIndex) =>
         new(this, startIndex, length, startLineIndex, startColumnIndex);
-    
+
     /// <summary>
     /// Creates a <see cref="TextFilePosition" /> from this <see cref="TextFile" /> that represents the whole file.
     /// </summary>

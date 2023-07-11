@@ -23,13 +23,13 @@ internal sealed class Reducer : Replacer<MathsNode, BinaryOperation>
             {
                 case '+':
                     return new Constant(left.Value + right.Value);
-                
+
                 case '-':
                     return new Constant(left.Value - right.Value);
-                
+
                 case '*':
                     return new Constant(left.Value * right.Value);
-                
+
                 case '/':
                     if (right.Value != 0)
                     {

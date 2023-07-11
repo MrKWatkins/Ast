@@ -36,7 +36,7 @@ public sealed class Lexer : IEnumerable<Token>
         {
             token = ReadToken(currentIndex);
         }
-        
+
         // Update the state from the token.
         currentIndex = token.StartIndex + token.Length;
         if (token is EndOfFile)
@@ -45,7 +45,7 @@ public sealed class Lexer : IEnumerable<Token>
         }
         return token;
     }
-    
+
     public Token Peek()
     {
         if (isFinished)
@@ -72,7 +72,7 @@ public sealed class Lexer : IEnumerable<Token>
                 return new EndOfFile(currentIndex);
             }
 
-            var character = (char) value;
+            var character = (char)value;
             if (char.IsWhiteSpace(character))
             {
                 startIndex += 1;
@@ -83,7 +83,7 @@ public sealed class Lexer : IEnumerable<Token>
             {
                 return ReadNumber(startIndex, character);
             }
-            
+
             if (char.IsAsciiLetter(character))
             {
                 return ReadVariable(startIndex, character);
@@ -103,7 +103,7 @@ public sealed class Lexer : IEnumerable<Token>
     {
         var length = 1;
         var number = firstDigit - '0';
-        while (char.IsAsciiDigit((char) input.Peek()))
+        while (char.IsAsciiDigit((char)input.Peek()))
         {
             length++;
             number = number * 10 + (input.Read() - '0');
@@ -111,14 +111,14 @@ public sealed class Lexer : IEnumerable<Token>
 
         return new Number(startIndex, length, number);
     }
-    
+
     private Identifier ReadVariable(int startIndex, char firstCharacter)
     {
         var variable = new StringBuilder();
         variable.Append(firstCharacter);
-        while (char.IsAsciiLetter((char) input.Peek()))
+        while (char.IsAsciiLetter((char)input.Peek()))
         {
-            variable.Append((char) input.Read());
+            variable.Append((char)input.Read());
         }
 
         return new Identifier(startIndex, variable.ToString());

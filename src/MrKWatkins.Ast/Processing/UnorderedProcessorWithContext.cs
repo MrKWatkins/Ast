@@ -12,10 +12,10 @@ public abstract class UnorderedProcessorWithContext<TContext, TNode> : Processor
     internal override ProcessorState<TNode> CreateState(TNode root)
     {
         var context = CatchAndRethrowExceptions(root, nameof(CreateContext), CreateContext);
-        
+
         return ProcessorState<TNode>.CreateWithContext(context, ShouldProcessNode, ProcessNode);
     }
-    
+
     /// <summary>
     /// Override to create the context object. 
     /// </summary>
@@ -23,7 +23,7 @@ public abstract class UnorderedProcessorWithContext<TContext, TNode> : Processor
     /// <returns>The context object.</returns>
     [Pure]
     protected abstract TContext CreateContext(TNode root);
-    
+
     /// <summary>
     /// Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes.
     /// </summary>
@@ -32,7 +32,7 @@ public abstract class UnorderedProcessorWithContext<TContext, TNode> : Processor
     /// <returns><c>true</c> if <paramref name="node"/> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     protected virtual bool ShouldProcessNode(TContext context, TNode node) => true;
-    
+
     /// <summary>
     /// Process the specified node.
     /// </summary>
@@ -55,7 +55,7 @@ public abstract class UnorderedProcessorWithContext<TContext, TBaseNode, TNode> 
     internal override ProcessorState<TBaseNode> CreateState(TBaseNode root)
     {
         var context = CatchAndRethrowExceptions(root, nameof(CreateContext), CreateContext);
-        
+
         return ProcessorState<TBaseNode>.CreateWithContext<TContext, TNode>(context, ShouldProcessNode, ProcessNode);
     }
 
@@ -75,7 +75,7 @@ public abstract class UnorderedProcessorWithContext<TContext, TBaseNode, TNode> 
     /// <returns><c>true</c> if <paramref name="node"/> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     protected virtual bool ShouldProcessNode(TContext context, TNode node) => true;
-    
+
     /// <summary>
     /// Process the specified node.
     /// </summary>

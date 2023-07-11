@@ -10,7 +10,7 @@ public sealed class CompositeListener<TBaseNode> : Listener<TBaseNode>, IComposi
     where TBaseNode : Node<TBaseNode>
 {
     private readonly ListenerLookup<TBaseNode, Listener<TBaseNode>> listeners = new();
-    
+
     /// <summary>
     /// Fluent interface to build a <see cref="CompositeListener{TBaseNode}"/>.
     /// </summary>
@@ -24,7 +24,7 @@ public sealed class CompositeListener<TBaseNode> : Listener<TBaseNode>, IComposi
     /// <returns>A fluent builder.</returns>
     [Pure]
     public static ICompositeListenerWithContextBuilder<TContext, TBaseNode> BuildWithContext<TContext>() => new CompositeListenerWithContext<TContext, TBaseNode>();
-    
+
     private CompositeListener()
     {
     }
@@ -47,7 +47,7 @@ public sealed class CompositeListener<TBaseNode> : Listener<TBaseNode>, IComposi
     }
 
     [MustUseReturnValue]
-    ICompositeListenerBuilder<TBaseNode> ICompositeListenerBuilder<TBaseNode>.With<TNode>(Listener<TBaseNode, TNode> listener) 
+    ICompositeListenerBuilder<TBaseNode> ICompositeListenerBuilder<TBaseNode>.With<TNode>(Listener<TBaseNode, TNode> listener)
     {
         listeners.Add<TNode>(listener);
 

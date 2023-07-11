@@ -5,7 +5,7 @@ namespace MrKWatkins.Ast.Position;
 /// </summary>
 public sealed class BinaryFilePosition : SourceFilePosition<BinaryFilePosition, BinaryFile>
 {
-    internal BinaryFilePosition(BinaryFile file, int startIndex, int length) 
+    internal BinaryFilePosition(BinaryFile file, int startIndex, int length)
         : base(file, startIndex, length)
     {
     }

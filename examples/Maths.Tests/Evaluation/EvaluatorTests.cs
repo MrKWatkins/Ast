@@ -12,7 +12,7 @@ public sealed class EvaluatorTests
 
         FluentActions.Invoking(() => Evaluator.Evaluate(function)).Should().Throw<ArgumentException>();
     }
-    
+
     [Test]
     public void Evaluate_WrongNumberOfArguments()
     {
@@ -20,7 +20,7 @@ public sealed class EvaluatorTests
 
         FluentActions.Invoking(() => Evaluator.Evaluate(function, 5)).Should().Throw<ArgumentException>();
     }
-    
+
     [TestCase("1", 1)]
     [TestCase("1 + 2", 3)]
     [TestCase("1 + 2 * 3", 7)]

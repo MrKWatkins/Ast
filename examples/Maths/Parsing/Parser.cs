@@ -21,7 +21,7 @@ public static class Parser
         using var reader = new StringReader(expression);
         return Parse(reader);
     }
-    
+
     /// <summary>
     /// Parses the expression contained in the specified <see cref="TextReader" />.
     /// </summary>
@@ -68,7 +68,7 @@ public static class Parser
             case Number number:
                 left = new Constant(number.Value);
                 break;
-            
+
             case OpenBracket:
                 left = ParseExpression(lexer, 0);
                 var next = lexer.Next();
@@ -77,11 +77,11 @@ public static class Parser
                     throw CreateUnexpectedTokenException(next);
                 }
                 break;
-            
+
             case Identifier identifier:
                 left = new Variable(identifier.Name);
                 break;
-            
+
             case var token:
                 throw CreateUnexpectedTokenException(token);
         }
@@ -118,5 +118,5 @@ public static class Parser
     private static (int Left, int Right) GetBindingPower(Operator @operator) => @operator.Symbol is '+' or '-' ? (1, 2) : (3, 4);
 
     [Pure]
-    private static InvalidOperationException CreateUnexpectedTokenException(Token token) => new ($"Unexpected token {token.GetType().Name} {token} at index {token.StartIndex}.");
+    private static InvalidOperationException CreateUnexpectedTokenException(Token token) => new($"Unexpected token {token.GetType().Name} {token} at index {token.StartIndex}.");
 }

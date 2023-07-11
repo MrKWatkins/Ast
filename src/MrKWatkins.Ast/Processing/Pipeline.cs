@@ -17,9 +17,9 @@ public sealed class Pipeline<TNode>
         }
         Stages = stages;
     }
-    
+
     internal IReadOnlyList<PipelineStage<TNode>> Stages { get; }
-    
+
     /// <summary>
     /// Fluent interface to build a <see cref="Pipeline{TNode}"/>.
     /// </summary>
@@ -32,7 +32,7 @@ public sealed class Pipeline<TNode>
         build(builder);
         return builder.Build();
     }
-    
+
     /// <summary>
     /// Runs the pipeline on the specified root node.
     /// </summary>

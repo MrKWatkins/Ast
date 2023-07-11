@@ -22,7 +22,7 @@ public sealed class ProcessingException<TNode> : ProcessingException
     {
         Node = node;
     }
-    
+
     /// <summary>
     /// The node that caused the problem.
     /// </summary>

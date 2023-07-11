@@ -44,7 +44,7 @@ public sealed partial class ChildrenTests
         Children,
         // Second enumeration will be missing the removed child.
         Children.Where(c => c.Name != toRemove));
-    
+
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
     [TestCase(nameof(C3))]
@@ -73,8 +73,8 @@ public sealed partial class ChildrenTests
             }
         },
         // First and second enumerations will contain the new sibling as we add it after the child.
-        Children.SelectMany(c => c.Name == toAdd ? new [] { c, New1 } : new [] { c }));
-    
+        Children.SelectMany(c => c.Name == toAdd ? new[] { c, New1 } : new[] { c }));
+
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
     [TestCase(nameof(C3))]
@@ -88,7 +88,7 @@ public sealed partial class ChildrenTests
             }
         },
         // First and second enumerations will contain the new siblings as we add them after the child.
-        Children.SelectMany(c => c.Name == toAdd ? new [] { c, New1, New2 } : new [] { c }));
+        Children.SelectMany(c => c.Name == toAdd ? new[] { c, New1, New2 } : new[] { c }));
 
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
@@ -104,8 +104,8 @@ public sealed partial class ChildrenTests
         // First enumerations will not contain the new sibling as we add it before the child.
         Children,
         // Second enumerations will contain the new sibling.
-        Children.SelectMany(c => c.Name == toAdd ? new [] { New1, c  } : new [] { c }));
-    
+        Children.SelectMany(c => c.Name == toAdd ? new[] { New1, c } : new[] { c }));
+
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
     [TestCase(nameof(C3))]
@@ -121,7 +121,7 @@ public sealed partial class ChildrenTests
         // First enumerations will not contain the new sibling sas we add them before the child.
         Children,
         // Second enumerations will contain the new siblings.
-        Children.SelectMany(c => c.Name == toAdd ? new [] { New2, New1, c  } : new [] { c }));
+        Children.SelectMany(c => c.Name == toAdd ? new[] { New2, New1, c } : new[] { c }));
 
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
@@ -139,7 +139,7 @@ public sealed partial class ChildrenTests
             // First and second enumerations will not contain the removed sibling as we remove it after the child.
             Children.Where(c => c != (removed ?? throw new InvalidOperationException("No node removed"))));
     }
-    
+
     [Test]
     public void Enumeration_RemoveMultipleNextSiblingsDuringEnumeration() =>
         TestEnumeration(
@@ -152,7 +152,7 @@ public sealed partial class ChildrenTests
                 }
             },
             // First and second enumerations will not contain the removed sibling as we remove it after the child.
-            new [] { C1 });
+            new[] { C1 });
 
     [TestCase(nameof(C2))]
     [TestCase(nameof(C3))]
@@ -201,7 +201,7 @@ public sealed partial class ChildrenTests
         firstEnumeration.Should().HaveSameOrderAs(expectedFirstEnumeration);
         P.Children.Should().HaveSameOrderAs(expectedSecondEnumeration ?? expectedFirstEnumeration);
     }
-    
+
     [Test]
     public void Enumerate_TooManyMutationsHaltsEnumeration()
     {
@@ -224,13 +224,13 @@ public sealed partial class ChildrenTests
     public void GetEnumerator()
     {
         using var enumerator = P.Children.GetEnumerator();
-        
+
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C1);
-        
+
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C2);
-        
+
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C3);
 
@@ -241,31 +241,31 @@ public sealed partial class ChildrenTests
     public void GetEnumerator_Reset()
     {
         using var enumerator = P.Children.GetEnumerator();
-        
+
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C1);
-        
+
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C2);
-        
+
         enumerator.Reset();
-        
+
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C1);
-        
+
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C2);
-        
+
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C3);
 
         enumerator.MoveNext().Should().BeFalse();
     }
-    
+
     [Test]
     public void GetEnumerator_Untyped()
     {
-        var enumerator = ((IEnumerable) P.Children).GetEnumerator();
+        var enumerator = ((IEnumerable)P.Children).GetEnumerator();
 
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C1);

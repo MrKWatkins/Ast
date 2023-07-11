@@ -12,7 +12,7 @@ public sealed class CompilerTests
 
         FluentActions.Invoking(() => Compiler.Compile(function)).Should().Throw<ArgumentException>();
     }
-    
+
     [TestCase("1", 1)]
     [TestCase("1 + 2", 3)]
     [TestCase("1 + 2 * 3", 7)]
@@ -23,10 +23,10 @@ public sealed class CompilerTests
         var compiled = Compiler.Compile(function);
 
         var func = compiled.Should().BeOfType<Func<int>>().Subject;
-        
+
         func().Should().Be(expected);
     }
-    
+
     [TestCase("2 + a", 7, 5)]
     [TestCase("(a - 2) / 5", 2, 12)]
     public void Compile_OneParameter(string expression, int expected, int argument)
@@ -36,10 +36,10 @@ public sealed class CompilerTests
         var compiled = Compiler.Compile(function);
 
         var func = compiled.Should().BeOfType<Func<int, int>>().Subject;
-        
+
         func(argument).Should().Be(expected);
     }
-    
+
     [TestCase("a * b", 35, 5, 7)]
     [TestCase("(a - 2) / b", 5, 12, 2)]
     public void Compile_TwoParameters(string expression, int expected, int argument0, int argument1)
@@ -49,7 +49,7 @@ public sealed class CompilerTests
         var compiled = Compiler.Compile(function);
 
         var func = compiled.Should().BeOfType<Func<int, int, int>>().Subject;
-        
+
         func(argument0, argument1).Should().Be(expected);
     }
 }

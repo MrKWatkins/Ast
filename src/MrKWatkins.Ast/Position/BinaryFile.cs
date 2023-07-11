@@ -51,7 +51,7 @@ public sealed class BinaryFile : SourceFile
     [Pure]
     public BinaryFilePosition CreatePosition(int startIndex, int length) =>
         new(this, startIndex, length);
-    
+
     /// <summary>
     /// Creates a <see cref="BinaryFilePosition" /> from this <see cref="BinaryFile" /> that represents the whole file.
     /// </summary>

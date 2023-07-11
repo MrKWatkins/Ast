@@ -16,7 +16,7 @@ public static class Compiler
             .With(new ConstantListener())
             .With(new VariableListener())
             .ToListener();
-    
+
     /// <summary>
     /// Evaluates a <see cref="Function" />.
     /// </summary>
@@ -36,7 +36,7 @@ public static class Compiler
         var parameters = function.Parameters.ToDictionary(p => p.Name, p => LinqExpression.Parameter(typeof(int), p.Name));
 
         var context = new CompilationContext(parameters);
-        
+
         Listener.Listen(context, function.Expression);
 
         var body = context.Values.Pop();

@@ -17,7 +17,7 @@ public static class MessageFormatter
     /// <returns>A lazy enumeration of formatted errors.</returns>
     [Pure]
     public static IEnumerable<string> FormatErrors<TNode>(Node<TNode> node, bool includeSource = true)
-        where TNode : Node<TNode> => 
+        where TNode : Node<TNode> =>
         Format(node, MessageLevel.Error, includeSource);
 
     /// <summary>
@@ -43,7 +43,7 @@ public static class MessageFormatter
     /// <typeparam name="TNode">The type of the node.</typeparam>
     /// <returns>A lazy enumeration of formatted <see cref="Message">Messages</see> grouped by <see cref="Message.Level" />.</returns>
     [Pure]
-	public static IEnumerable<IGrouping<MessageLevel, string>> Format<TNode>(Node<TNode> node, bool includeSource = true)
+    public static IEnumerable<IGrouping<MessageLevel, string>> Format<TNode>(Node<TNode> node, bool includeSource = true)
         where TNode : Node<TNode> =>
         node.ThisAndDescendents
             .SelectMany(n => n.Messages.Select(m => (m.Level, Message: FormatMessage(n, m, includeSource))))

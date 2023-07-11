@@ -5,9 +5,9 @@ namespace MrKWatkins.Ast.Tests.Processing;
 public sealed class SerialPipelineStageBuilderTests : PipelineStageBuilderTestFixture<SerialPipelineStageBuilder<TestNode>, Processor<TestNode>>
 {
     protected override Processor<TestNode> CreateProcessor() => new TestProcessor();
-    
+
     protected override SerialPipelineStageBuilder<TestNode> CreateBuilder(int number) => new(number);
-    
+
     [Test]
     public void Build_DefaultOptions()
     {
@@ -21,12 +21,12 @@ public sealed class SerialPipelineStageBuilderTests : PipelineStageBuilderTestFi
 
         stage.Run(N1).Should().BeTrue();
         processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
-        
+
         N12.AddError("Default should continue checks the tree for errors.");
         stage.Run(N1).Should().BeFalse();
         processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1).Concat(TestNode.Traverse.DepthFirstPreOrder(N1)));
-    }    
-    
+    }
+
     [Test]
     public void Add_ByType()
     {
@@ -37,11 +37,11 @@ public sealed class SerialPipelineStageBuilderTests : PipelineStageBuilderTestFi
         stage.Processors.Should().HaveCount(1);
         stage.Processors[0].Should().BeOfType<TestProcessor>();
     }
-    
+
     [Test]
     public void Add_Multiple()
     {
-        var processors = new [] { CreateProcessor(), CreateProcessor(), CreateProcessor() };
+        var processors = new[] { CreateProcessor(), CreateProcessor(), CreateProcessor() };
 
         var stage = CreateBuilder(123)
             .Add(processors[0], processors[1], processors[2])
@@ -55,7 +55,7 @@ public sealed class SerialPipelineStageBuilderTests : PipelineStageBuilderTestFi
         private readonly List<TestNode> processed = new();
 
         public IReadOnlyList<TestNode> Processed => processed;
-        
+
         protected override void ProcessNode(TestNode node) => processed.Add(node);
     }
 }

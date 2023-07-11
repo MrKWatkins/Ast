@@ -10,7 +10,7 @@ public abstract class Expression : MathsNode
     private protected Expression()
     {
     }
-    
+
     public override string ToString()
     {
         var stringBuilder = new StringBuilder();

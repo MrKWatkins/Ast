@@ -11,16 +11,16 @@ internal sealed class ProcessorState<TNode> : IDisposable
         ProcessNodeIfShould = processNodeIfShould;
         this.context = context;
     }
-    
+
     internal Exceptions Exceptions { get; }
-    
+
     internal Action<TNode> ProcessNodeIfShould { get; }
-    
+
     internal Action<ProcessorState<TNode>>? OnComplete { get; init; }
 
     [Pure]
-    internal TContext GetContext<TContext>() => (TContext) context!;
-    
+    internal TContext GetContext<TContext>() => (TContext)context!;
+
     public void Dispose()
     {
         if (context is IDisposable disposableContext)
@@ -74,7 +74,7 @@ internal sealed class ProcessorState<TNode> : IDisposable
                 {
                     exceptions.Trap(context, node, "ProcessNode", processNode);
                 }
-            }, 
+            },
             context);
     }
 

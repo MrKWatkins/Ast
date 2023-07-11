@@ -31,12 +31,12 @@ public abstract class Processor<TNode>
     public void Process(TNode root)
     {
         using var state = CreateState(root);
-        
+
         foreach (var node in EnumerateNodes(state, root))
         {
             state.ProcessNodeIfShould(node);
         }
-        
+
         state.OnComplete?.Invoke(state);
 
         state.Exceptions.ThrowIfContainsExceptions("One or more exceptions occurred during processing.");
@@ -44,7 +44,7 @@ public abstract class Processor<TNode>
 
     [Pure]
     private protected virtual IEnumerable<TNode> EnumerateNodes(ProcessorState<TNode> state, TNode root) => Node<TNode>.Traverse.DepthFirstPreOrder(root);
-    
+
     /// <summary>
     /// Executes the specified function, catching any exceptions thrown. Exceptions are then wrapped in a <see cref="ProcessingException{TNode}" /> that
     /// gives details of the node and method that caused the problem which is then thrown.

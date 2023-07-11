@@ -4,7 +4,7 @@ namespace MrKWatkins.Ast.Processing;
 /// An <see cref="UnorderedProcessor{TNode}" /> for validating nodes in a tree. 
 /// </summary>
 /// <typeparam name="TNode"></typeparam>
-public abstract class Validator<TNode> : UnorderedProcessor<TNode> 
+public abstract class Validator<TNode> : UnorderedProcessor<TNode>
     where TNode : Node<TNode>
 {
     /// <inheritdoc />

@@ -10,7 +10,7 @@ public sealed class PipelineBuilder<TNode>
 
     [Pure]
     internal Pipeline<TNode> Build() => new(stages);
-    
+
     /// <summary>
     /// Adds a stage to the pipeline that runs <see cref="Processor{TNode}">Processors</see> serially. Its name will be the number of the stage.
     /// </summary>
@@ -32,7 +32,7 @@ public sealed class PipelineBuilder<TNode>
     public PipelineBuilder<TNode> AddStage<TProcessor>()
         where TProcessor : Processor<TNode>, new() =>
         AddStage(b => b.Add<TProcessor>());
-    
+
     /// <summary>
     /// Adds a stage with the specified name to the pipeline with a single <see cref="Processor{TNode}"/>.
     /// </summary>
@@ -42,7 +42,7 @@ public sealed class PipelineBuilder<TNode>
     public PipelineBuilder<TNode> AddStage<TProcessor>(string name)
         where TProcessor : Processor<TNode>, new() =>
         AddStage(b => b.WithName(name).Add<TProcessor>());
-    
+
     /// <summary>
     /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran serially.
     /// Its name will be the number of the stage.
@@ -52,7 +52,7 @@ public sealed class PipelineBuilder<TNode>
     /// <returns>The fluent builder.</returns>
     public PipelineBuilder<TNode> AddStage(Processor<TNode> processor, params Processor<TNode>[] others) =>
         AddStage(b => b.Add(processor, others));
-    
+
     /// <summary>
     /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran serially.
     /// </summary>
@@ -62,7 +62,7 @@ public sealed class PipelineBuilder<TNode>
     /// <returns>The fluent builder.</returns>
     public PipelineBuilder<TNode> AddStage(string name, Processor<TNode> processor, params Processor<TNode>[] others) =>
         AddStage(b => b.WithName(name).Add(processor, others));
-    
+
     /// <summary>
     /// Adds a stage to the pipeline that runs <see cref="UnorderedProcessor{TNode}">UnorderedProcessors</see> in parallel.
     /// Its name will be the number of the stage.
@@ -76,7 +76,7 @@ public sealed class PipelineBuilder<TNode>
         stages.Add(builder.Build());
         return this;
     }
-    
+
     /// <summary>
     /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran in parallel.
     /// Its name will be the number of the stage.
@@ -87,7 +87,7 @@ public sealed class PipelineBuilder<TNode>
     /// <returns>The fluent builder.</returns>
     public PipelineBuilder<TNode> AddParallelStage(UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, params UnorderedProcessor<TNode>[] others) =>
         AddParallelStage(b => b.Add(processor1).Add(processor2, others));
-    
+
     /// <summary>
     /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran in parallel.
     /// Its name will be the number of the stage.

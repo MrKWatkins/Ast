@@ -6,7 +6,7 @@ public sealed class NonePositionTests : EqualityTestFixture
 {
     [Test]
     public void Combine() => SourcePosition.None.Combine(SourcePosition.None).Should().BeSameAs(SourcePosition.None);
-    
+
     [Test]
     public void CreateZeroWidthPrefix() => SourcePosition.None.CreateZeroWidthPrefix().Should().BeSameAs(SourcePosition.None);
 

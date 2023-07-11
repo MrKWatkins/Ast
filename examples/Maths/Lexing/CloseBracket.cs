@@ -5,10 +5,10 @@ namespace MrKWatkins.Ast.Examples.Maths.Lexing;
 /// </summary>
 public sealed record CloseBracket : Token
 {
-    internal CloseBracket(int index) 
+    internal CloseBracket(int index)
         : base(index, 1)
     {
     }
-    
+
     public override string ToString() => ")";
 }

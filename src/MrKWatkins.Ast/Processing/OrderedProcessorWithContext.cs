@@ -13,10 +13,10 @@ public abstract class OrderedProcessorWithContext<TContext, TNode> : Processor<T
     internal override ProcessorState<TNode> CreateState(TNode root)
     {
         var context = CatchAndRethrowExceptions(root, nameof(CreateContext), CreateContext);
-        
+
         return ProcessorState<TNode>.CreateWithContext(context, ShouldProcessNode, ProcessNode);
     }
-    
+
     /// <summary>
     /// Override to create the context object. 
     /// </summary>
@@ -32,8 +32,8 @@ public abstract class OrderedProcessorWithContext<TContext, TNode> : Processor<T
 
     private protected sealed override IEnumerable<TNode> EnumerateNodes(ProcessorState<TNode> state, TNode root) =>
         Traversal.Enumerate(
-            root, 
-            true, 
+            root,
+            true,
             node => state.Exceptions.Trap(state.GetContext<TContext>(), node, nameof(ShouldProcessChildren), ShouldProcessChildren));
 
     /// <summary>
@@ -53,7 +53,7 @@ public abstract class OrderedProcessorWithContext<TContext, TNode> : Processor<T
     /// <returns><c>true</c> if <paramref name="node"/> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     protected virtual bool ShouldProcessNode(TContext context, TNode node) => true;
-    
+
     /// <summary>
     /// Process the specified node.
     /// </summary>
@@ -76,10 +76,10 @@ public abstract class OrderedProcessorWithContext<TContext, TBaseNode, TNode> : 
     internal override ProcessorState<TBaseNode> CreateState(TBaseNode root)
     {
         var context = CatchAndRethrowExceptions(root, nameof(CreateContext), CreateContext);
-        
+
         return ProcessorState<TBaseNode>.CreateWithContext<TContext, TNode>(context, ShouldProcessNode, ProcessNode);
     }
-    
+
     /// <summary>
     /// Override to create the context object. 
     /// </summary>
@@ -95,8 +95,8 @@ public abstract class OrderedProcessorWithContext<TContext, TBaseNode, TNode> : 
 
     private protected sealed override IEnumerable<TBaseNode> EnumerateNodes(ProcessorState<TBaseNode> state, TBaseNode root) =>
         Traversal.Enumerate(
-            root, 
-            true, 
+            root,
+            true,
             node => state.Exceptions.Trap(state.GetContext<TContext>(), node, nameof(ShouldProcessChildren), ShouldProcessChildren));
 
     /// <summary>
@@ -107,7 +107,7 @@ public abstract class OrderedProcessorWithContext<TContext, TBaseNode, TNode> : 
     /// <returns><c>true</c> if children should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     protected virtual bool ShouldProcessChildren(TContext context, TBaseNode node) => true;
-    
+
     /// <summary>
     /// Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes.
     /// </summary>
@@ -116,7 +116,7 @@ public abstract class OrderedProcessorWithContext<TContext, TBaseNode, TNode> : 
     /// <returns><c>true</c> if <paramref name="node"/> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     protected virtual bool ShouldProcessNode(TContext context, TNode node) => true;
-    
+
     /// <summary>
     /// Process the specified node.
     /// </summary>

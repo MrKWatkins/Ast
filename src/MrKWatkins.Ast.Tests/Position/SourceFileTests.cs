@@ -18,7 +18,7 @@ public sealed class SourceFileTests : EqualityTestFixture
         file.Name.Should().Be("Test Name");
         file.Length.Should().Be(100);
     }
-    
+
     [Test]
     public void ToString_Test()
     {
@@ -28,7 +28,7 @@ public sealed class SourceFileTests : EqualityTestFixture
 
     [TestCaseSource(nameof(EqualityTestCases))]
     public void Equality(SourceFile x, object? y, bool expected) => AssertEqual(x, y, expected);
-    
+
     [Pure]
     public static IEnumerable<TestCaseData> EqualityTestCases()
     {
@@ -45,15 +45,15 @@ public sealed class SourceFileTests : EqualityTestFixture
 
     private sealed class TestSourceFile : SourceFile
     {
-        public TestSourceFile(string name, int length) 
+        public TestSourceFile(string name, int length)
             : base(name, length)
         {
         }
     }
-    
+
     private sealed class OtherSourceFile : SourceFile
     {
-        public OtherSourceFile(string name, int length) 
+        public OtherSourceFile(string name, int length)
             : base(name, length)
         {
         }

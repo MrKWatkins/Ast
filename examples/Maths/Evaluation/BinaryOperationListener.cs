@@ -8,7 +8,7 @@ namespace MrKWatkins.Ast.Examples.Maths.Evaluation;
 /// on the stack representing the right and left values. (Left will be processed first and therefore lower in the stack) These can be
 /// popped off and evaluated and then the result pushed back on.
 /// </summary>
-internal sealed class BinaryOperationListener : ListenerWithContext<EvaluationContext, MathsNode, BinaryOperation> 
+internal sealed class BinaryOperationListener : ListenerWithContext<EvaluationContext, MathsNode, BinaryOperation>
 {
     protected override void AfterListenToNode(EvaluationContext context, BinaryOperation operation)
     {

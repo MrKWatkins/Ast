@@ -21,7 +21,7 @@ public abstract class ListenerWithContext<TContext, TNode>
     public void Listen(TContext context, TNode node)
     {
         BeforeListenToNode(context, node);
-        
+
         ListenToNode(context, node);
 
         foreach (var child in node.Children)
@@ -40,7 +40,7 @@ public abstract class ListenerWithContext<TContext, TNode>
     protected internal virtual void BeforeListenToNode(TContext context, TNode node)
     {
     }
-    
+
     /// <summary>
     /// Called when the node is listened to.
     /// </summary>
@@ -49,7 +49,7 @@ public abstract class ListenerWithContext<TContext, TNode>
     protected internal virtual void ListenToNode(TContext context, TNode node)
     {
     }
-    
+
     /// <summary>
     /// Called after a node *and its descendents* have been listened to.
     /// </summary>
@@ -88,7 +88,7 @@ public abstract class ListenerWithContext<TContext, TBaseNode, TNode> : Listener
     protected virtual void BeforeListenToNode(TContext context, TNode node)
     {
     }
-    
+
     /// <inheritdoc />
     protected internal sealed override void ListenToNode(TContext context, TBaseNode node)
     {
@@ -97,7 +97,7 @@ public abstract class ListenerWithContext<TContext, TBaseNode, TNode> : Listener
             ListenToNode(context, typedNode);
         }
     }
-    
+
     /// <summary>
     /// Called when the node is listened to.
     /// </summary>
@@ -106,7 +106,7 @@ public abstract class ListenerWithContext<TContext, TBaseNode, TNode> : Listener
     protected virtual void ListenToNode(TContext context, TNode node)
     {
     }
-    
+
     /// <inheritdoc />
     protected internal sealed override void AfterListenToNode(TContext context, TBaseNode node)
     {
@@ -115,7 +115,7 @@ public abstract class ListenerWithContext<TContext, TBaseNode, TNode> : Listener
             AfterListenToNode(context, typedNode);
         }
     }
-    
+
     /// <summary>
     /// Called after a node *and its descendents* have been listened to.
     /// </summary>

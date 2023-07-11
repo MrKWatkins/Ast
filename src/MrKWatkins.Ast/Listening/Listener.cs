@@ -19,7 +19,7 @@ public abstract class Listener<TNode>
     public void Listen(TNode node)
     {
         BeforeListenToNode(node);
-        
+
         ListenToNode(node);
 
         foreach (var child in node.Children)
@@ -37,7 +37,7 @@ public abstract class Listener<TNode>
     protected internal virtual void BeforeListenToNode(TNode node)
     {
     }
-    
+
     /// <summary>
     /// Called when the node is listened to.
     /// </summary>
@@ -45,7 +45,7 @@ public abstract class Listener<TNode>
     protected internal virtual void ListenToNode(TNode node)
     {
     }
-    
+
     /// <summary>
     /// Called after a node *and its descendents* have been listened to.
     /// </summary>
@@ -90,7 +90,7 @@ public abstract class Listener<TBaseNode, TNode> : Listener<TBaseNode>
             ListenToNode(typedNode);
         }
     }
-    
+
     /// <summary>
     /// Called when the node is listened to.
     /// </summary>
@@ -107,7 +107,7 @@ public abstract class Listener<TBaseNode, TNode> : Listener<TBaseNode>
             AfterListenToNode(typedNode);
         }
     }
-    
+
     /// <summary>
     /// Called after a node *and its descendents* have been listened to.
     /// </summary>

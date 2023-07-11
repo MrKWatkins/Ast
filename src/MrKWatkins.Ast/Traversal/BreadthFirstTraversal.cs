@@ -42,7 +42,7 @@ public sealed class BreadthFirstTraversal<TNode> : ITraversal<TNode>
             {
                 continue;
             }
-            
+
             foreach (var child in node.Children)
             {
                 yield return child;

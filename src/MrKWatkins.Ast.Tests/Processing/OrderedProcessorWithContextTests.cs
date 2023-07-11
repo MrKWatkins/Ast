@@ -160,7 +160,7 @@ public sealed class OrderedProcessorWithContextTests : TreeTestFixture
             return ShouldProcessChildrenOverride?.Invoke(node) ?? base.ShouldProcessChildren(context, node);
         }
     }
-    
+
     private sealed class TestTypedOrderedProcessorWithContext : OrderedProcessorWithContext<TestContext, TestNode, BNode>
     {
         private readonly List<TestNode> processed = new();
@@ -203,7 +203,7 @@ public sealed class OrderedProcessorWithContextTests : TreeTestFixture
         }
 
         public TestNode Root { get; }
-        
+
         public int NodesProcessed { get; set; }
     }
 }

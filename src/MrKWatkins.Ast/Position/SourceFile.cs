@@ -29,7 +29,7 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
     /// The name of the source file.
     /// </summary>
     public string Name { get; }
-    
+
     /// <summary>
     /// The length of the source file.
     /// </summary>
@@ -55,7 +55,7 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
         {
             return false;
         }
-        
+
         return Name == other.Name;
     }
 

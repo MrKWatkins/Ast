@@ -7,7 +7,7 @@ internal sealed class ListenerLookup<TBaseNode, TListener>
     private readonly Dictionary<Type, TListener?> listeners = new();
 
     internal int Count => listeners.Count;
-    
+
     [MustUseReturnValue]
     internal TListener? Get(TBaseNode node)
     {
@@ -22,14 +22,14 @@ internal sealed class ListenerLookup<TBaseNode, TListener>
         while (true)
         {
             baseType = baseType.BaseType!;
-            
+
             if (listeners.TryGetValue(baseType, out listener))
             {
                 // We do. Register it for the type to save this loop in future.
                 listeners[type] = listener;
                 return listener;
             }
-            
+
             // If we're already on the root type then we won't have a listener and can abort.
             // Save null against the type to avoid this loop in future.
             if (baseType == typeof(TBaseNode))

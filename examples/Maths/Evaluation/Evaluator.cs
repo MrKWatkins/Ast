@@ -15,7 +15,7 @@ public static class Evaluator
             .With(new ConstantListener())
             .With(new VariableListener())
             .ToListener();
-    
+
     /// <summary>
     /// Evaluates a <see cref="Function" />.
     /// </summary>
@@ -32,7 +32,7 @@ public static class Evaluator
         {
             throw new ArgumentException("Value contains errors.", nameof(function));
         }
-        
+
         var parameters = function.Parameters.ToList();
         if (parameters.Count != arguments.Length)
         {

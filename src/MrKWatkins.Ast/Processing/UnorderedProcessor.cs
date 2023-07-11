@@ -16,7 +16,7 @@ public abstract class UnorderedProcessor<TNode> : Processor<TNode>
     /// <returns><c>true</c> if <paramref name="node"/> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     protected virtual bool ShouldProcessNode(TNode node) => true;
-    
+
     /// <summary>
     /// Process the specified node.
     /// </summary>
@@ -42,7 +42,7 @@ public abstract class UnorderedProcessor<TBaseNode, TNode> : Processor<TBaseNode
     /// <returns><c>true</c> if <paramref name="node"/> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     protected virtual bool ShouldProcessNode(TNode node) => true;
-    
+
     /// <summary>
     /// Process the specified node.
     /// </summary>

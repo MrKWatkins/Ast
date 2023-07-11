@@ -108,7 +108,7 @@ public sealed class OrderedProcessorTests : TreeTestFixture
             .WithParameters("Exception during ProcessNode.", N122)
             .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
     }
-    
+
     public sealed class TestOrderedProcessor : OrderedProcessor<TestNode>
     {
         private readonly List<TestNode> processed = new();
@@ -145,7 +145,7 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         public IReadOnlyList<TestNode> Processed => processed;
 
         protected override ITraversal<TestNode> Traversal => TraversalOverride ?? base.Traversal;
-        
+
         protected override void ProcessNode(BNode node)
         {
             processed.Add(node);

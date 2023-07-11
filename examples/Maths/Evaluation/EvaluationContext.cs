@@ -11,6 +11,6 @@ internal sealed class EvaluationContext
     }
 
     internal Stack<int> Values { get; } = new();
-    
+
     internal IReadOnlyDictionary<string, int> Arguments { get; }
 }

@@ -10,7 +10,7 @@ public sealed class MessageTests
         message.Code.Should().Be("Code");
         message.Text.Should().Be("Text");
     }
-    
+
     [Test]
     public void Constructor_WithoutCode()
     {
@@ -19,7 +19,7 @@ public sealed class MessageTests
         message.Code.Should().BeNull();
         message.Text.Should().Be("Text");
     }
-    
+
     [Test]
     public void Error_WithoutCode()
     {
@@ -28,7 +28,7 @@ public sealed class MessageTests
         error.Code.Should().Be("Code");
         error.Text.Should().Be("Text");
     }
-    
+
     [Test]
     public void Error_WithCode()
     {
@@ -37,7 +37,7 @@ public sealed class MessageTests
         error.Code.Should().BeNull();
         error.Text.Should().Be("Text");
     }
-    
+
     [Test]
     public void Warning_WithoutCode()
     {
@@ -46,7 +46,7 @@ public sealed class MessageTests
         warning.Code.Should().Be("Code");
         warning.Text.Should().Be("Text");
     }
-    
+
     [Test]
     public void Warning_WithCode()
     {
@@ -55,7 +55,7 @@ public sealed class MessageTests
         warning.Code.Should().BeNull();
         warning.Text.Should().Be("Text");
     }
-    
+
     [Test]
     public void Info_WithoutCode()
     {
@@ -64,7 +64,7 @@ public sealed class MessageTests
         info.Code.Should().Be("Code");
         info.Text.Should().Be("Text");
     }
-    
+
     [Test]
     public void Info_WithCode()
     {
@@ -73,7 +73,7 @@ public sealed class MessageTests
         info.Code.Should().BeNull();
         info.Text.Should().Be("Text");
     }
-    
+
     [Test]
     public void ToString_WithCode() => new Message(MessageLevel.Error, "Code", "Text").ToString().Should().Be("Error Code: Text");
 

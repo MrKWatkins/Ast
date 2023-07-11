@@ -18,7 +18,7 @@ public sealed class SourcePositionTests : EqualityTestFixture
             .Should().Throw<ArgumentException>()
             .WithMessage($"Value is not of type {nameof(OtherPosition)}. (Parameter 'other')");
     }
-    
+
     [Test]
     public void Combine()
     {
@@ -31,7 +31,7 @@ public sealed class SourcePositionTests : EqualityTestFixture
 
     [TestCaseSource(nameof(EqualityTestCases))]
     public void Equality(SourcePosition x, object? y, bool expected) => AssertEqual(x, y, expected);
-    
+
     [Pure]
     public static IEnumerable<TestCaseData> EqualityTestCases()
     {
@@ -42,22 +42,22 @@ public sealed class SourcePositionTests : EqualityTestFixture
         yield return new TestCaseData(position, new OtherPosition(), false).SetName("Different SourcePosition type");
         yield return new TestCaseData(position, "Different", false).SetName("Different type");
     }
-    
+
     private sealed class TestPosition : SourcePosition<TestPosition>
     {
         protected override TestPosition Combine(TestPosition other) => Combined;
 
         public TestPosition Combined { get; init; } = null!;
-        
+
         public override SourcePosition CreateZeroWidthPrefix() => throw new NotSupportedException();
 
         public override bool Equals(SourcePosition? other) => ReferenceEquals(this, other);
     }
-    
+
     private sealed class OtherPosition : SourcePosition<OtherPosition>
     {
         protected override OtherPosition Combine(OtherPosition other) => throw new NotSupportedException();
-        
+
         public override SourcePosition CreateZeroWidthPrefix() => throw new NotSupportedException();
 
         public override bool Equals(SourcePosition? other) => ReferenceEquals(this, other);

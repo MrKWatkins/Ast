@@ -51,7 +51,7 @@ public sealed class Properties
     public T GetOrThrow<T>(string key, [InstantHandle] Func<Exception> exceptionCreator)
         where T : notnull =>
         TryGet<T>(key, out var value) ? value : throw exceptionCreator();
-    
+
     /// <summary>
     /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
     /// </summary>
@@ -144,7 +144,7 @@ public sealed class Properties
     /// </summary>
     [Pure]
     public int Count => properties.Count;
-    
+
     /// <summary>
     /// Sets the value of a single valued property with the specified key.
     /// </summary>
@@ -195,10 +195,10 @@ public sealed class Properties
         {
             VerifyMultiple<T>(key, property);
         }
-        
-        properties[key] =  new Property(true, typeof(T), values.ToList());
+
+        properties[key] = new Property(true, typeof(T), values.ToList());
     }
-    
+
     /// <summary>
     /// Adds a value to a multiple valued property with the specified key.
     /// </summary>
@@ -259,7 +259,7 @@ public sealed class Properties
         list.Add(value);
         return true;
     }
-    
+
     /// <summary>
     /// Adds values to a multiple valued property with the specified key.
     /// </summary>
@@ -333,7 +333,7 @@ public sealed class Properties
             throw new InvalidOperationException($"Property \"{key}\" has a value of type {property.Type.SimpleName()}; cannot change to {typeof(T).SimpleName()}.");
         }
 
-        return (T) property.Value;
+        return (T)property.Value;
     }
 
     private static List<T> VerifyMultiple<T>(string key, Property property)
@@ -347,7 +347,7 @@ public sealed class Properties
         {
             throw new InvalidOperationException($"Property \"{key}\" has values of type {property.Type.SimpleName()}; cannot change to {typeof(T).SimpleName()}.");
         }
-        return (List<T>) property.Value;
+        return (List<T>)property.Value;
     }
 
     private readonly struct Property
@@ -360,9 +360,9 @@ public sealed class Properties
         }
 
         public bool Multiple { get; }
-        
+
         public Type Type { get; }
-        
+
         public object Value { get; }
     }
 }

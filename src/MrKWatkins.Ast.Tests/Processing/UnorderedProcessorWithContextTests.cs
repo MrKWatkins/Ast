@@ -115,7 +115,7 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
             return ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(context, node);
         }
     }
-    
+
     private sealed class TestTypedUnorderedProcessorWithContext : UnorderedProcessorWithContext<TestContext, TestNode, BNode>
     {
         private readonly List<TestNode> processed = new();
@@ -151,7 +151,7 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
         }
 
         public TestNode Root { get; }
-        
+
         public int NodesProcessed { get; set; }
     }
 }

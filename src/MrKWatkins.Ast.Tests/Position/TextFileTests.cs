@@ -8,7 +8,7 @@ public sealed class TextFileTests : FileTextFixture
     public void Constructor_FileInfo() => WithTempFile(tempFile =>
     {
         const string text = "Some Text";
-        
+
         File.WriteAllText(tempFile.FullName, text);
 
         var textFile = new TextFile(tempFile);
@@ -16,12 +16,12 @@ public sealed class TextFileTests : FileTextFixture
         textFile.Text.Should().Be(text);
         textFile.Length.Should().Be(text.Length);
     });
-    
+
     [Test]
     public void Constructor_Stream()
     {
         const string text = "Some Text";
-        
+
         using var stream = new MemoryStream();
         using var writer = new StreamWriter(stream);
         writer.Write(text);
@@ -33,12 +33,12 @@ public sealed class TextFileTests : FileTextFixture
         textFile.Text.Should().Be(text);
         textFile.Length.Should().Be(text.Length);
     }
-    
+
     [Test]
     public void Constructor_IReadOnlyList()
     {
         const string text = "Some Text";
-        
+
         var textFile = new TextFile("Test Filename", text);
         textFile.Name.Should().Be("Test Filename");
         textFile.Text.Should().Be(text);
@@ -49,7 +49,7 @@ public sealed class TextFileTests : FileTextFixture
     public void CreatePosition()
     {
         const string text = "Some Text\nSome More Text";
-        
+
         var textFile = new TextFile("Test Filename", text);
 
         var position = textFile.CreatePosition(15, 4, 1, 5);
@@ -68,7 +68,7 @@ public sealed class TextFileTests : FileTextFixture
     public void CreateEntireFilePosition()
     {
         const string text = "Some Text\nSome More Text";
-        
+
         var textFile = new TextFile("Test Filename", text);
 
         var position = textFile.CreateEntireFilePosition();
@@ -85,7 +85,7 @@ public sealed class TextFileTests : FileTextFixture
 
     [TestCaseSource(nameof(EqualityTestCases))]
     public void Equality(SourceFile x, object? y, bool expected) => AssertEqual(x, y, expected);
-    
+
     [Pure]
     public static IEnumerable<TestCaseData> EqualityTestCases()
     {

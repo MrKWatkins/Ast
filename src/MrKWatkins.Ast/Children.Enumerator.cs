@@ -13,7 +13,7 @@ public sealed partial class Children<TNode>
     public IEnumerator<TNode> GetEnumerator() => new Enumerator(this);
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    
+
     internal struct Enumerator : IEnumerator<TNode>
     {
         private readonly Children<TNode> children;
@@ -52,9 +52,9 @@ public sealed partial class Children<TNode>
                     index = indexOfChild + 1;
                 }
             }
-            
+
             countBeforeLastIteration = children.Count;
-            
+
             if (index < children.Count)
             {
                 Current = children[index];
@@ -67,7 +67,7 @@ public sealed partial class Children<TNode>
         public void Reset() => index = -1;
 
         public TNode Current { get; private set; } = null!;
-    
+
         object IEnumerator.Current => Current;
 
         public void Dispose()

@@ -15,12 +15,12 @@ public sealed class ValidatorTests : TreeTestFixture
         };
 
         validator.Process(N1);
-        
+
         N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo(new[] { N12, N121 });
-        N12.Messages.Should().BeEquivalentTo(new [] { Message.Error("N12 Error") });
-        N121.Messages.Should().BeEquivalentTo(new [] { Message.Warning("N121 Warning"), Message.Error("N121 Error") });
+        N12.Messages.Should().BeEquivalentTo(new[] { Message.Error("N12 Error") });
+        N121.Messages.Should().BeEquivalentTo(new[] { Message.Warning("N121 Warning"), Message.Error("N121 Error") });
     }
-    
+
     [Test]
     public void Process_Typed()
     {
@@ -33,13 +33,13 @@ public sealed class ValidatorTests : TreeTestFixture
         };
 
         validator.Process(N1);
-        
+
         N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo(new[] { N1, N11, N121 });
-        N1.Messages.Should().BeEquivalentTo(new [] { Message.Error("N1 Error") });
-        N11.Messages.Should().BeEquivalentTo(new [] { Message.Info("N11 Info") });
-        N121.Messages.Should().BeEquivalentTo(new [] { Message.Warning("N121 Warning"), Message.Error("N121 Error") });
+        N1.Messages.Should().BeEquivalentTo(new[] { Message.Error("N1 Error") });
+        N11.Messages.Should().BeEquivalentTo(new[] { Message.Info("N11 Info") });
+        N121.Messages.Should().BeEquivalentTo(new[] { Message.Warning("N121 Warning"), Message.Error("N121 Error") });
     }
-    
+
     [Test]
     public void Process_Typed_OverrideShouldProcessNode()
     {
@@ -53,10 +53,10 @@ public sealed class ValidatorTests : TreeTestFixture
         validator.ShouldProcessNodeOverride = n => n != N11;
 
         validator.Process(N1);
-        
+
         N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo(new[] { N1, N121 });
-        N1.Messages.Should().BeEquivalentTo(new [] { Message.Error("N1 Error") });
-        N121.Messages.Should().BeEquivalentTo(new [] { Message.Warning("N121 Warning"), Message.Error("N121 Error") });
+        N1.Messages.Should().BeEquivalentTo(new[] { Message.Error("N1 Error") });
+        N121.Messages.Should().BeEquivalentTo(new[] { Message.Warning("N121 Warning"), Message.Error("N121 Error") });
     }
 
     private sealed class TestValidator : Validator<TestNode>, IEnumerable
@@ -64,14 +64,14 @@ public sealed class ValidatorTests : TreeTestFixture
         private readonly Dictionary<TestNode, IReadOnlyList<Message>> messagesByNode = new();
 
         public void Add(TestNode node, params Message[] messages) => messagesByNode.Add(node, messages);
-        
-        protected override IEnumerable<Message> ValidateNode(TestNode node) => 
+
+        protected override IEnumerable<Message> ValidateNode(TestNode node) =>
             messagesByNode.TryGetValue(node, out var messages) ? messages : Enumerable.Empty<Message>();
 
         public IEnumerator GetEnumerator() => throw new NotSupportedException();
     }
 
-    private sealed class TestTypedValidator : Validator<TestNode, ANode>, IEnumerable 
+    private sealed class TestTypedValidator : Validator<TestNode, ANode>, IEnumerable
     {
         private readonly Dictionary<TestNode, IReadOnlyList<Message>> messagesByNode = new();
         public Func<TestNode, bool>? ShouldProcessNodeOverride { get; set; }
@@ -79,8 +79,8 @@ public sealed class ValidatorTests : TreeTestFixture
         protected override bool ShouldProcessNode(ANode node) => ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(node);
 
         public void Add(TestNode node, params Message[] messages) => messagesByNode.Add(node, messages);
-        
-        protected override IEnumerable<Message> ValidateNode(ANode node) => 
+
+        protected override IEnumerable<Message> ValidateNode(ANode node) =>
             messagesByNode.TryGetValue(node, out var messages) ? messages : Enumerable.Empty<Message>();
 
         public IEnumerator GetEnumerator() => throw new NotSupportedException();

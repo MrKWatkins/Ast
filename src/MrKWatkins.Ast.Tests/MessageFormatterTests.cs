@@ -20,13 +20,13 @@ public sealed class MessageFormatterTests
             "Error: Parent Error 1",
             "Error: Parent Error 2",
             $"Test File (1, 6): Error: Grandchild Error{Environment.NewLine}Some Test Text{Environment.NewLine}     ----");
-        
+
         MessageFormatter.FormatErrors(parent, false).Should().BeEquivalentTo(
             "Error: Parent Error 1",
             "Error: Parent Error 2",
             "Test File (1, 6): Error: Grandchild Error");
     }
-    
+
     [Test]
     public void Format_Level()
     {
@@ -44,13 +44,13 @@ public sealed class MessageFormatterTests
             $"Test File (1, 6): Warning: Parent Warning{Environment.NewLine}Some Test Text{Environment.NewLine}     ----",
             "Non-Text File (1, 1): Warning: Grandchild Warning 1",
             "Non-Text File (1, 1): Warning: Grandchild Warning 2");
-        
+
         MessageFormatter.Format(parent, MessageLevel.Warning, false).Should().BeEquivalentTo(
             "Test File (1, 6): Warning: Parent Warning",
             "Non-Text File (1, 1): Warning: Grandchild Warning 1",
             "Non-Text File (1, 1): Warning: Grandchild Warning 2");
     }
-    
+
     [Test]
     public void Format()
     {

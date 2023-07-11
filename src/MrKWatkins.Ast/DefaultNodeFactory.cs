@@ -18,7 +18,7 @@ public sealed class DefaultNodeFactory<TNode> : INodeFactory<TNode>
     public static readonly INodeFactory<TNode> Instance = new DefaultNodeFactory<TNode>();
 
     private readonly ConcurrentDictionary<Type, Func<TNode>> constructorsByNodeType = new();
-        
+
     private DefaultNodeFactory()
     {
     }
@@ -43,7 +43,7 @@ public sealed class DefaultNodeFactory<TNode> : INodeFactory<TNode>
         {
             throw new ArgumentException($"{nodeType.SimpleName()} is not a {typeof(TNode).SimpleName()}.", nameof(nodeType));
         }
-        
+
         var constructorInfo = nodeType
             .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
             .FirstOrDefault(c => c.GetParameters().Length == 0);

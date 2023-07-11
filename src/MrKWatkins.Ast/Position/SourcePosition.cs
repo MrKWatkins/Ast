@@ -34,7 +34,7 @@ public abstract class SourcePosition : IEquatable<SourcePosition>, IEqualityOper
 
     /// <inheritdoc />
     public abstract bool Equals(SourcePosition? other);
-    
+
     /// <inheritdoc />
     public sealed override bool Equals(object? obj) => Equals(obj as SourcePosition);
 

@@ -10,7 +10,7 @@ public sealed class ANode : TestNode
         : base(children)
     {
     }
-        
+
     public ANode(params TestNode[] children)
         : base(children)
     {

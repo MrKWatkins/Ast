@@ -15,7 +15,7 @@ public sealed record Message
         Level = level;
         Text = text;
     }
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Message" /> class with the specified <see cref="Level"/>, <see cref="Code"/> and <see cref="Text"/>.
     /// </summary>
@@ -71,7 +71,7 @@ public sealed record Message
     /// <param name="text">The <see cref="Text"/> of the message.</param>
     [Pure]
     public static Message Info(string code, string text) => new(MessageLevel.Info, code, text);
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Message" /> class with the <see cref="Level"/> <see cref="MessageLevel.Info"/>
     /// and specified <see cref="Text"/>.
@@ -84,12 +84,12 @@ public sealed record Message
     /// The <see cref="MessageLevel">level</see> of the message.
     /// </summary>
     public MessageLevel Level { get; }
-    
+
     /// <summary>
     /// Optional code for the message.
     /// </summary>
     public string? Code { get; }
-    
+
     /// <summary>
     /// The text of the message.
     /// </summary>

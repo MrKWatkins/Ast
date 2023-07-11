@@ -11,7 +11,7 @@ public sealed class DefaultNodeFactoryTests
         factory.Create(typeof(BNode)).Should().BeOfType<BNode>();
         factory.Create(typeof(CNode)).Should().BeOfType<CNode>();
     }
-    
+
     [Test]
     public void Create_TypeParameter_CanCreateAllTestNodes()
     {
@@ -27,13 +27,13 @@ public sealed class DefaultNodeFactoryTests
         FluentActions.Invoking(() => DefaultNodeFactory<NoParameterlessConstructor>.Instance.Create(typeof(ANode)))
             .Should().Throw<ArgumentException>()
             .WithParameters($"{nameof(ANode)} is not a {nameof(NoParameterlessConstructor)}.", "nodeType");
-        
+
     [Test]
     public void Create_ThrowsIfANodeDoesNotHaveAParameterlessConstructor() =>
         FluentActions.Invoking(() => DefaultNodeFactory<NoParameterlessConstructor>.Instance.Create<NoParameterlessConstructor>())
             .Should().Throw<ArgumentException>()
             .WithParameters($"Could not find a parameterless constructor for the node type {nameof(NoParameterlessConstructor)}.", "nodeType");
-        
+
     [Test]
     public void Create_ThrowsIfANodeConstructorThrows() =>
         FluentActions.Invoking(() => DefaultNodeFactory<ThrowOnConstruction>.Instance.Create<ThrowOnConstruction>())
@@ -47,7 +47,7 @@ public sealed class DefaultNodeFactoryTests
         {
         }
     }
-        
+
     [UsedImplicitly]
     private sealed class ThrowOnConstruction : Node<ThrowOnConstruction>
     {

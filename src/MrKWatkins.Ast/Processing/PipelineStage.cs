@@ -11,16 +11,16 @@ internal sealed class PipelineStage<TNode>
         {
             throw new ArgumentException("Value is empty.", nameof(processors));
         }
-        
+
         Name = name;
         Processors = processors;
         this.shouldContinue = shouldContinue;
     }
-    
+
     internal string Name { get; }
-    
+
     internal IReadOnlyList<Processor<TNode>> Processors { get; }
-    
+
     internal bool Run(TNode root)
     {
         foreach (var processor in Processors)

@@ -7,21 +7,21 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
 {
     private readonly IReadOnlyList<Processor<TNode>> processors;
 
-    internal ParallelProcessor([InstantHandle] IEnumerable<Processor<TNode>> processors, int? maxDegreeOfParallelism) 
+    internal ParallelProcessor([InstantHandle] IEnumerable<Processor<TNode>> processors, int? maxDegreeOfParallelism)
     {
         if (maxDegreeOfParallelism <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(maxDegreeOfParallelism), maxDegreeOfParallelism, "Value must be greater than 0.");
         }
         MaxDegreeOfParallelism = maxDegreeOfParallelism ?? Environment.ProcessorCount;
-        
+
         this.processors = processors.ToList();
         if (this.processors.Count == 0)
         {
             throw new ArgumentException("Value is empty.", nameof(processors));
         }
     }
-    
+
     internal int MaxDegreeOfParallelism { get; }
 
     internal override ProcessorState<TNode> CreateState(TNode root) =>
@@ -35,7 +35,7 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
         var exceptions = new Exceptions();
 
         var context = new SerialContext(processors, root);
-        
+
         return new(
             exceptions,
             node =>
@@ -50,14 +50,14 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
             OnComplete = context.OnComplete
         };
     }
-    
+
     [Pure]
     private ProcessorState<TNode> CreateParallelState(TNode root)
     {
         var exceptions = new Exceptions();
 
         var context = new ParallelContext(processors, root, MaxDegreeOfParallelism);
-        
+
         return new(
             exceptions,
             node =>
@@ -79,7 +79,7 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
         {
             ProcessorStates = processors.Select(p => p.CreateState(root)).ToList();
         }
-            
+
         public IReadOnlyList<ProcessorState<TNode>> ProcessorStates { get; }
 
         public virtual void OnComplete(ProcessorState<TNode> parallelState)
@@ -87,13 +87,13 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
             foreach (var state in ProcessorStates)
             {
                 parallelState.Exceptions.Add(state.Exceptions);
-                
+
                 // No need to invoke state.OnComplete as it will always be null. The only thing that sets an OnComplete
                 // is a parallel processing state, and parallel processing states cannot be built from other parallel
                 // processing states.
             }
         }
-        
+
         public void Dispose()
         {
             foreach (var state in ProcessorStates)
@@ -105,7 +105,7 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
 
     private sealed class ParallelContext : Context
     {
-        public ParallelContext(IReadOnlyList<Processor<TNode>> processors, TNode root, int maxDegreeOfParallelism) 
+        public ParallelContext(IReadOnlyList<Processor<TNode>> processors, TNode root, int maxDegreeOfParallelism)
             : base(processors, root)
         {
             var options = new ExecutionDataflowBlockOptions
@@ -117,21 +117,21 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
 
             Jobs = new ActionBlock<(ProcessorState<TNode> State, TNode Node)>(x => x.State.ProcessNodeIfShould(x.Node), options);
         }
-        
+
         public ActionBlock<(ProcessorState<TNode> State, TNode Node)> Jobs { get; }
 
         public override void OnComplete(ProcessorState<TNode> parallelState)
         {
             Jobs.Complete();
             Jobs.Completion.Wait();
-            
+
             base.OnComplete(parallelState);
         }
     }
 
     private sealed class SerialContext : Context
     {
-        public SerialContext(IReadOnlyList<Processor<TNode>> processors, TNode root) 
+        public SerialContext(IReadOnlyList<Processor<TNode>> processors, TNode root)
             : base(processors, root)
         {
         }

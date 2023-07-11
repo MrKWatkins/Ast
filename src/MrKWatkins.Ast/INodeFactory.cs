@@ -24,5 +24,5 @@ public interface INodeFactory<TNode>
     [Pure]
     T Create<T>()
         where T : TNode
-        => (T) Create(typeof(T));
+        => (T)Create(typeof(T));
 }

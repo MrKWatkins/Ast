@@ -8,10 +8,10 @@ public abstract class PipelineStageBuilderTestFixture<TBuilder, TProcessor> : Tr
 {
     [Pure]
     protected abstract TProcessor CreateProcessor();
-    
+
     [Pure]
     protected abstract TBuilder CreateBuilder(int number);
-    
+
     [Test]
     public void WithName()
     {
@@ -24,7 +24,7 @@ public abstract class PipelineStageBuilderTestFixture<TBuilder, TProcessor> : Tr
 
         stage.Name.Should().Be("Test Name");
     }
-    
+
     [Test]
     public void WithShouldContinue()
     {
@@ -37,7 +37,7 @@ public abstract class PipelineStageBuilderTestFixture<TBuilder, TProcessor> : Tr
 
         stage.Run(N1).Should().BeFalse();
     }
-    
+
     [Test]
     public void WithAlwaysContinue()
     {

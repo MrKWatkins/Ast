@@ -8,9 +8,9 @@ namespace MrKWatkins.Ast.Processing;
 /// <typeparam name="TNode">The type of nodes in the tree.</typeparam>
 public abstract class OrderedProcessor<TNode> : Processor<TNode>
     where TNode : Node<TNode>
-{    
+{
     internal override ProcessorState<TNode> CreateState(TNode root) => ProcessorState<TNode>.Create(ShouldProcessNode, ProcessNode);
-    
+
     /// <summary>
     /// Override this property to specify the <see cref="ITraversal{TNode}" /> to use to traverse the tree. Defaults to <see cref="DepthFirstPreOrderTraversal{TNode}" />.
     /// </summary>
@@ -18,8 +18,8 @@ public abstract class OrderedProcessor<TNode> : Processor<TNode>
 
     private protected sealed override IEnumerable<TNode> EnumerateNodes(ProcessorState<TNode> state, TNode root) =>
         Traversal.Enumerate(
-            root, 
-            true, 
+            root,
+            true,
             node => state.Exceptions.Trap(node, nameof(ShouldProcessChildren), ShouldProcessChildren));
 
     /// <summary>
@@ -37,7 +37,7 @@ public abstract class OrderedProcessor<TNode> : Processor<TNode>
     /// <returns><c>true</c> if <paramref name="node"/> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     protected virtual bool ShouldProcessNode(TNode node) => true;
-    
+
     /// <summary>
     /// Process the specified node.
     /// </summary>
@@ -74,7 +74,7 @@ public abstract class OrderedProcessor<TBaseNode, TNode> : Processor<TBaseNode>
     /// <returns><c>true</c> if children should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     protected virtual bool ShouldProcessChildren(TBaseNode node) => true;
-    
+
     /// <summary>
     /// Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes.
     /// </summary>

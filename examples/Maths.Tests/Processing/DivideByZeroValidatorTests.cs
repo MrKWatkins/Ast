@@ -11,7 +11,7 @@ public sealed class DivideByZeroValidatorTests : TestFixture
     public void Process_NoError(string expression)
     {
         var function = ParseWithoutProcessing(expression);
-        
+
         new DivideByZeroValidator().Process(function);
 
         function.ThisAndDescendentsWithErrors.Should().BeEmpty();

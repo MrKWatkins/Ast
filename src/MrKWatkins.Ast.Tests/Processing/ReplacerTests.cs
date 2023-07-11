@@ -11,7 +11,7 @@ public sealed class ReplacerTests : TreeTestFixture
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
     }
-    
+
     [Test]
     public void Process_ReturnNull()
     {
@@ -19,7 +19,7 @@ public sealed class ReplacerTests : TreeTestFixture
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
     }
-    
+
     [Test]
     public void Process_ReturnNewNode()
     {
@@ -28,7 +28,7 @@ public sealed class ReplacerTests : TreeTestFixture
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, replacement, N123);
     }
-    
+
     [Test]
     public void Process_ReturnNewNodeWithParent()
     {
@@ -42,7 +42,7 @@ public sealed class ReplacerTests : TreeTestFixture
             .WithInnerException<InvalidOperationException>()
             .WithMessage("Replacement node Replacement already has a parent Parent.");
     }
-    
+
     [Test]
     public void Process_DoNotProcessReplacements()
     {
@@ -55,7 +55,7 @@ public sealed class ReplacerTests : TreeTestFixture
                 replacement.Children.Move(node.Children);
                 return replacement;
             });
-        
+
         replacer.Process(root);
 
         root.Children.Should().HaveCount(1);
@@ -67,7 +67,7 @@ public sealed class ReplacerTests : TreeTestFixture
         var grandchild = child.Children[0];
         grandchild.Should().BeOfType<BNode>();
     }
-    
+
     [Test]
     public void Process_ProcessReplacements()
     {
@@ -81,7 +81,7 @@ public sealed class ReplacerTests : TreeTestFixture
                 return replacement;
             },
             true);
-        
+
         replacer.Process(root);
 
         root.Children.Should().HaveCount(1);
@@ -93,7 +93,7 @@ public sealed class ReplacerTests : TreeTestFixture
         var grandchild = child.Children[0];
         grandchild.Should().BeOfType<CNode>();
     }
-    
+
     [Test]
     public void Process_OriginalTyped_ReturnOriginal()
     {
@@ -101,7 +101,7 @@ public sealed class ReplacerTests : TreeTestFixture
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
     }
-    
+
     [Test]
     public void Process_OriginalTyped_ReturnNull()
     {
@@ -109,7 +109,7 @@ public sealed class ReplacerTests : TreeTestFixture
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
     }
-    
+
     [Test]
     public void Process_OriginalTyped_ReturnNewNode()
     {
@@ -118,7 +118,7 @@ public sealed class ReplacerTests : TreeTestFixture
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, replacement, N123);
     }
-    
+
     [Test]
     public void Process_OriginalTyped_ReturnNewNodeWithParent()
     {
@@ -132,7 +132,7 @@ public sealed class ReplacerTests : TreeTestFixture
             .WithInnerException<InvalidOperationException>()
             .WithMessage("Replacement node Replacement already has a parent Parent.");
     }
-    
+
     [Test]
     public void Process_OriginalTyped_DoNotProcessReplacements()
     {
@@ -145,7 +145,7 @@ public sealed class ReplacerTests : TreeTestFixture
                 replacement.Children.Move(node.Children);
                 return replacement;
             });
-        
+
         replacer.Process(root);
 
         root.Children.Should().HaveCount(1);
@@ -157,7 +157,7 @@ public sealed class ReplacerTests : TreeTestFixture
         var grandchild = child.Children[0];
         grandchild.Should().BeOfType<BNode>();
     }
-    
+
     [Test]
     public void Process_OriginalTyped_ProcessReplacements()
     {
@@ -171,7 +171,7 @@ public sealed class ReplacerTests : TreeTestFixture
                 return replacement;
             },
             true);
-        
+
         replacer.Process(root);
 
         root.Children.Should().HaveCount(1);
@@ -187,11 +187,11 @@ public sealed class ReplacerTests : TreeTestFixture
     [Test]
     public void Process_OriginalAndReplacementTyped_ReturnOriginalAndReplacement()
     {
-        var replacer = new TestOriginalAndReplacementTypedReplacer<BNode>(N122, (BNode) N122);
+        var replacer = new TestOriginalAndReplacementTypedReplacer<BNode>(N122, (BNode)N122);
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
     }
-    
+
     [Test]
     public void Process_OriginalAndReplacementTyped_ReturnNull()
     {
@@ -199,7 +199,7 @@ public sealed class ReplacerTests : TreeTestFixture
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
     }
-    
+
     [Test]
     public void Process_OriginalAndReplacementTyped_ReturnNewNode()
     {
@@ -208,7 +208,7 @@ public sealed class ReplacerTests : TreeTestFixture
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, replacement, N123);
     }
-    
+
     [Test]
     public void Process_OriginalAndReplacementTyped_ReturnNewNodeWithParent()
     {
@@ -222,7 +222,7 @@ public sealed class ReplacerTests : TreeTestFixture
             .WithInnerException<InvalidOperationException>()
             .WithMessage("Replacement node Replacement already has a parent Parent.");
     }
-    
+
     [Test]
     public void Process_OriginalAndReplacementTyped_DoNotProcessReplacements()
     {
@@ -235,7 +235,7 @@ public sealed class ReplacerTests : TreeTestFixture
                 replacement.Children.Move(node.Children);
                 return replacement;
             });
-        
+
         replacer.Process(root);
 
         root.Children.Should().HaveCount(1);
@@ -247,7 +247,7 @@ public sealed class ReplacerTests : TreeTestFixture
         var grandchild = child.Children[0];
         grandchild.Should().BeOfType<BNode>();
     }
-    
+
     [Test]
     public void Process_OriginalAndReplacementTyped_ProcessReplacements()
     {
@@ -261,7 +261,7 @@ public sealed class ReplacerTests : TreeTestFixture
                 return replacement;
             },
             true);
-        
+
         replacer.Process(root);
 
         root.Children.Should().HaveCount(1);
@@ -273,7 +273,7 @@ public sealed class ReplacerTests : TreeTestFixture
         var grandchild = child.Children[0];
         grandchild.Should().BeOfType<CNode>();
     }
-    
+
     private sealed class TestReplacer : Replacer<TestNode>
     {
         private readonly Func<TestNode, bool> shouldReplace;
@@ -284,7 +284,7 @@ public sealed class ReplacerTests : TreeTestFixture
             : this(node => node == original, _ => replacement, processReplacements)
         {
         }
-        
+
         public TestReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TestNode?> createReplacement, bool? processReplacements = null)
         {
             this.shouldReplace = shouldReplace;
@@ -296,7 +296,7 @@ public sealed class ReplacerTests : TreeTestFixture
 
         protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
     }
-    
+
     private sealed class TestOriginalTypedReplacer : Replacer<TestNode, BNode>
     {
         private readonly Func<TestNode, bool> shouldReplace;
@@ -307,7 +307,7 @@ public sealed class ReplacerTests : TreeTestFixture
             : this(node => node == original, _ => replacement, processReplacements)
         {
         }
-        
+
         public TestOriginalTypedReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TestNode?> createReplacement, bool? processReplacements = null)
         {
             this.shouldReplace = shouldReplace;
@@ -319,7 +319,7 @@ public sealed class ReplacerTests : TreeTestFixture
 
         protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
     }
-    
+
     private sealed class TestOriginalAndReplacementTypedReplacer<TReplacement> : Replacer<TestNode, BNode, TReplacement>
         where TReplacement : TestNode
     {
@@ -331,7 +331,7 @@ public sealed class ReplacerTests : TreeTestFixture
             : this(node => node == original, _ => replacement, processReplacements)
         {
         }
-        
+
         public TestOriginalAndReplacementTypedReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TReplacement?> createReplacement, bool? processReplacements = null)
         {
             this.shouldReplace = shouldReplace;

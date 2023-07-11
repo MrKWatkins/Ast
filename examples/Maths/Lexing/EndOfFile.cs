@@ -5,10 +5,10 @@ namespace MrKWatkins.Ast.Examples.Maths.Lexing;
 /// </summary>
 public sealed record EndOfFile : Token
 {
-    internal EndOfFile(int index) 
+    internal EndOfFile(int index)
         : base(index, 0)
     {
     }
-    
+
     public override string ToString() => "EOF";
 }

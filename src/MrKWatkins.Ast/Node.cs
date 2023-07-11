@@ -17,9 +17,9 @@ public abstract partial class Node<TNode>
     protected Node()
     {
     }
-        
-    private TNode This => (TNode) this;
-    
+
+    private TNode This => (TNode)this;
+
     /// <summary>
     /// The <see cref="MrKWatkins.Ast.Properties" /> associated with this node.
     /// </summary>
@@ -33,14 +33,14 @@ public abstract partial class Node<TNode>
         get => Properties.GetOrDefault(nameof(SourcePosition), SourcePosition.None);
         set => Properties.Set(nameof(SourcePosition), value);
     }
-    
+
     /// <summary>
     /// Copies this node using the <see cref="DefaultNodeFactory{TNode}" />.
     /// </summary>
     /// <returns>A copy of this node.</returns>
     [Pure]
     public TNode Copy() => Copy(DefaultNodeFactory<TNode>.Instance);
-        
+
     /// <summary>
     /// Copies this node using the specified <see cref="INodeFactory{TNode}" />.
     /// </summary>

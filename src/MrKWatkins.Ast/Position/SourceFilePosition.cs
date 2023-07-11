@@ -5,7 +5,7 @@ namespace MrKWatkins.Ast.Position;
 /// </summary>
 public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
     where TSelf : SourceFilePosition<TSelf, TFile>
-    where TFile : SourceFile 
+    where TFile : SourceFile
 {
     /// <summary>
     /// Initialises a new instance of the <see cref="SourceFilePosition{TSelf,TFile}" /> class.
@@ -24,7 +24,7 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
         {
             throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, "Value must be 0 or greater.");
         }
-        
+
         if (length < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(length), length, "Value must be 0 or greater.");
@@ -34,12 +34,12 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
         {
             throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, $"Value must be less than {nameof(file)}'s length. ({file.Length})");
         }
-        
+
         if (startIndex + length > file.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(length), length, $"Value plus {nameof(startIndex)} ({startIndex}) must be less than {nameof(file)}'s length. ({file.Length})");
         }
-        
+
         File = file;
         StartIndex = startIndex;
         Length = length;
@@ -70,9 +70,9 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
     public int EndIndex => StartIndex + Length;
 
     /// <inheritdoc />
-    protected sealed override TSelf Combine(TSelf other) => 
-        File == other.File 
-            ? CreateCombination(other) 
+    protected sealed override TSelf Combine(TSelf other) =>
+        File == other.File
+            ? CreateCombination(other)
             : throw new ArgumentException("Value is for a different file.", nameof(other));
 
     /// <summary>
@@ -101,7 +101,7 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
         {
             return other.StartIndex < StartIndex && other.EndIndex > StartIndex + 1;
         }
-        
+
         // Other is zero length.
         if (other.Length == 0)
         {
@@ -118,7 +118,7 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
 
     /// <inheritdoc />
     public override string ToString() => $"{File.Name} ({StartIndex}, {Length})";
-    
+
     /// <inheritdoc />
     public sealed override bool Equals(SourcePosition? other)
     {

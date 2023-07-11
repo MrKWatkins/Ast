@@ -13,6 +13,6 @@ internal sealed class CompilationContext
     }
 
     internal Stack<Expression> Values { get; } = new();
-    
+
     internal IReadOnlyDictionary<string, ParameterExpression> Parameters { get; }
 }

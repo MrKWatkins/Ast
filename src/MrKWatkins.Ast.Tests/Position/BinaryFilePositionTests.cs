@@ -8,7 +8,7 @@ public sealed class BinaryFilePositionTests : EqualityTestFixture
     public void Constructor()
     {
         var bytes = new byte[] { 1, 2, 3, 4, 5 };
-        
+
         var file = new BinaryFile("Test Filename", bytes);
 
         var position = new BinaryFilePosition(file, 1, 2);
@@ -33,7 +33,7 @@ public sealed class BinaryFilePositionTests : EqualityTestFixture
         var combined = positionX.Combine(positionY);
         combined.StartIndex.Should().Be(expectedStartIndex);
         combined.Length.Should().Be(expectedLength);
-        
+
         combined = positionY.Combine(positionX);
         combined.StartIndex.Should().Be(expectedStartIndex);
         combined.Length.Should().Be(expectedLength);

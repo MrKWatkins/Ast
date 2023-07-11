@@ -26,12 +26,12 @@ public sealed class BinaryOperation : Expression
     /// <summary>
     /// The left side of the operation.
     /// </summary>
-    public Expression Left => (Expression) FirstChild;
-    
+    public Expression Left => (Expression)FirstChild;
+
     /// <summary>
     /// The right side of the operation.
     /// </summary>
-    public Expression Right => (Expression) LastChild;
+    public Expression Right => (Expression)LastChild;
 
     internal override void WriteSymbolicExpression(StringBuilder expression)
     {

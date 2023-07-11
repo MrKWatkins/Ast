@@ -16,7 +16,7 @@ public interface ICompositeListenerWithContextBuilder<TContext, TBaseNode>
     /// <returns>The fluent builder.</returns>
     [MustUseReturnValue]
     ICompositeListenerWithContextBuilder<TContext, TBaseNode> With(ListenerWithContext<TContext, TBaseNode> listener);
-    
+
     /// <summary>
     /// Add a listener for the specific node type <typeparamref name="TNode"/>. This can be a base node type which will
     /// be used if there is no listener for the specific node type registered.

@@ -20,7 +20,7 @@ public sealed class LexerTests
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Input has already been consumed.");
     }
-    
+
     [Test]
     public void Next_UnexpectedCharacter()
     {
@@ -32,7 +32,7 @@ public sealed class LexerTests
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Unexpected character '_'.");
     }
-    
+
     [TestCase("1 + x * 3", "1 + x * 3 EOF")]
     [TestCase("15/30+(someVar  +  456)", "15 / 30 + ( someVar + 456 ) EOF")]
     public void GetEnumerator(string input, string expected)
@@ -42,7 +42,7 @@ public sealed class LexerTests
         var lexer = new Lexer(reader);
 
         var tokens = lexer.ToList();
-        
+
         var actual = string.Join(" ", tokens);
         actual.Should().BeEquivalentTo(expected);
 
@@ -59,7 +59,7 @@ public sealed class LexerTests
             }
         }
     }
-    
+
     [Test]
     public void GetEnumerator_Untyped()
     {
@@ -67,9 +67,9 @@ public sealed class LexerTests
 
         var lexer = new Lexer(reader);
 
-        var enumerable = (IEnumerable) lexer;
+        var enumerable = (IEnumerable)lexer;
         var tokens = enumerable.OfType<Token>().ToList();
-        
+
         var actual = string.Join(" ", tokens);
         actual.Should().BeEquivalentTo("123456 * 7890 EOF");
     }
@@ -90,18 +90,18 @@ public sealed class LexerTests
         @operator.Should().Be(new Operator(4, '+'));
         lexer.Peek().Should().BeSameAs(@operator);
         lexer.Next().Should().BeSameAs(@operator);
-        
+
         var number2 = lexer.Peek();
         number2.Should().Be(new Number(6, 3, 456));
         lexer.Peek().Should().BeSameAs(number2);
         lexer.Next().Should().BeSameAs(number2);
-        
+
         var eof = lexer.Peek();
         eof.Should().Be(new EndOfFile(9));
         lexer.Peek().Should().BeSameAs(eof);
         lexer.Next().Should().BeSameAs(eof);
     }
-    
+
     [Test]
     public void Peek_ThrowsIfFinished()
     {

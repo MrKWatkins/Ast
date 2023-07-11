@@ -13,7 +13,7 @@ public static class FluentAssertionsExtensions
         this GenericCollectionAssertions<TCollection, TestNode, TAssertions> assertions, params TestNode[] expected)
         where TCollection : IEnumerable<TestNode>
         where TAssertions : GenericCollectionAssertions<TCollection, TestNode, TAssertions> =>
-        assertions.HaveSameOrderAs((IEnumerable<TestNode>) expected);
+        assertions.HaveSameOrderAs((IEnumerable<TestNode>)expected);
 
     public static AndConstraint<TAssertions> HaveSameOrderAs<TCollection, TAssertions>(
         this GenericCollectionAssertions<TCollection, TestNode, TAssertions> assertions, [InstantHandle] IEnumerable<TestNode> expected)
@@ -29,21 +29,21 @@ public static class FluentAssertionsExtensions
             .FailWith(() =>
             {
                 var longestName = expectedList.Concat(actualList).Max(n => n.ToString().Length);
-                
+
                 [Pure]
                 string NodesText(IEnumerable<TestNode> nodes) => string.Join(' ', nodes.Select(n => n.Name.PadRight(longestName, ' ')));
-                
+
                 return new FailReason(
                     $"Order did not match expectation.{Environment.NewLine}" +
                     $"Expected: {NodesText(expectedList)}{Environment.NewLine}" +
                     $"Actual:   {NodesText(actualList)}");
             });
 
-        return new AndConstraint<TAssertions>((TAssertions) assertions);
+        return new AndConstraint<TAssertions>((TAssertions)assertions);
     }
-    
+
     public static ExceptionAssertions<ArgumentException> WithParameters(
-        this ExceptionAssertions<ArgumentException> assertions, 
+        this ExceptionAssertions<ArgumentException> assertions,
         string baseMessage, string paramName,
         string because = "", params object[] becauseArgs)
     {
@@ -57,10 +57,10 @@ public static class FluentAssertionsExtensions
 
         return assertions;
     }
-    
+
     public static ExceptionAssertions<ArgumentOutOfRangeException> WithParameters(
-        this ExceptionAssertions<ArgumentOutOfRangeException> assertions, 
-        string paramName, object actualValue, string baseMessage, 
+        this ExceptionAssertions<ArgumentOutOfRangeException> assertions,
+        string paramName, object actualValue, string baseMessage,
         string because = "", params object[] becauseArgs)
     {
         using (new AssertionScope())
@@ -84,7 +84,7 @@ public static class FluentAssertionsExtensions
         {
             var message = $"{expectedMessage} (Node '{expectedNode}')";
             assertions.WithMessage(message, because, becauseArgs);
-            
+
             assertions.Which.Node.Should().Be(expectedNode, because, becauseArgs);
         }
 
@@ -92,7 +92,7 @@ public static class FluentAssertionsExtensions
     }
 
     public static ExceptionAssertions<PipelineException> WithParameters(
-        this ExceptionAssertions<PipelineException> assertions, 
+        this ExceptionAssertions<PipelineException> assertions,
         string expectedMessage, string expectedStage,
         string because = "", params object[] becauseArgs)
     {
@@ -100,7 +100,7 @@ public static class FluentAssertionsExtensions
         {
             var message = $"{expectedMessage} (Stage '{expectedStage}')";
             assertions.WithMessage(message, because, becauseArgs);
-            
+
             assertions.Which.Stage.Should().Be(expectedStage, because, becauseArgs);
         }
 

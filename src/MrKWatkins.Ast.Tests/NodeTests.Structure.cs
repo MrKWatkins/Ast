@@ -63,7 +63,7 @@ public sealed partial class NodeTests
 
         root.Children.Add(new BNode());
         root.HasChildren.Should().BeTrue();
-        
+
         root.Children.Clear();
         root.HasChildren.Should().BeFalse();
     }
@@ -121,18 +121,18 @@ public sealed partial class NodeTests
 
         root.ThisAndAncestors.Should().Equal(root);
     }
-    
+
     [Test]
     public void AncestorsOfType()
     {
         var grandChild00 = new ANode();
         var grandChild01 = new BNode();
         var child0 = new ANode(grandChild00, grandChild01);
-        
+
         var grandChild10 = new BNode();
         var grandChild11 = new CNode();
         var child1 = new BNode(grandChild10, grandChild11);
-        
+
         var root = new ANode(child0, child1);
 
         child0.AncestorsOfType<ANode>().Should().Equal(root);
@@ -140,22 +140,22 @@ public sealed partial class NodeTests
 
         grandChild00.AncestorsOfType<ANode>().Should().Equal(child0, root);
         grandChild01.AncestorsOfType<BNode>().Should().BeEmpty();
-        
+
         grandChild10.AncestorsOfType<ANode>().Should().Equal(root);
         grandChild10.AncestorsOfType<BNode>().Should().Equal(child1);
     }
-    
+
     [Test]
     public void ThisAndAncestorsOfType()
     {
         var grandChild00 = new ANode();
         var grandChild01 = new BNode();
         var child0 = new ANode(grandChild00, grandChild01);
-        
+
         var grandChild10 = new BNode();
         var grandChild11 = new CNode();
         var child1 = new BNode(grandChild10, grandChild11);
-        
+
         var root = new ANode(child0, child1);
 
         child0.ThisAndAncestorsOfType<ANode>().Should().Equal(child0, root);
@@ -163,7 +163,7 @@ public sealed partial class NodeTests
 
         grandChild00.ThisAndAncestorsOfType<ANode>().Should().Equal(grandChild00, child0, root);
         grandChild01.ThisAndAncestorsOfType<BNode>().Should().Equal(grandChild01);
-        
+
         grandChild10.ThisAndAncestorsOfType<ANode>().Should().Equal(root);
         grandChild10.ThisAndAncestorsOfType<BNode>().Should().Equal(grandChild10, child1);
     }
@@ -194,7 +194,7 @@ public sealed partial class NodeTests
         children[1].NextSibling.Should().Be(children[2]);
         children[2].NextSibling.Should().BeNull();
     }
-    
+
     [Test]
     public void HasNextSibling()
     {
@@ -275,7 +275,7 @@ public sealed partial class NodeTests
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Cannot add a next sibling to the root node.");
     }
-    
+
     [Test]
     public void AddNextSibling_HasNextSibling()
     {
@@ -288,7 +288,7 @@ public sealed partial class NodeTests
         child1.AddNextSibling(sibling);
         parent.Children.Should().BeEquivalentTo(new[] { child1, sibling, child2 }, c => c.WithStrictOrdering());
     }
-    
+
     [Test]
     public void AddNextSibling_NoNextSibling()
     {
@@ -301,7 +301,7 @@ public sealed partial class NodeTests
         child2.AddNextSibling(sibling);
         parent.Children.Should().BeEquivalentTo(new[] { child1, child2, sibling }, c => c.WithStrictOrdering());
     }
-    
+
     [Test]
     public void RemoveNextSibling_HasNextSibling()
     {
@@ -312,7 +312,7 @@ public sealed partial class NodeTests
         child1.RemoveNextSibling().Should().Be(child2);
         parent.Children.Should().BeEquivalentTo(new[] { child1 }, c => c.WithStrictOrdering());
     }
-    
+
     [Test]
     public void RemoveNextSibling_NoNextSibling()
     {
@@ -323,7 +323,7 @@ public sealed partial class NodeTests
         child2.RemoveNextSibling().Should().BeNull();
         parent.Children.Should().BeEquivalentTo(new[] { child1, child2 }, c => c.WithStrictOrdering());
     }
-    
+
     [Test]
     public void PreviousSibling()
     {
@@ -336,7 +336,7 @@ public sealed partial class NodeTests
         children[1].PreviousSibling.Should().Be(children[0]);
         children[2].PreviousSibling.Should().Be(children[1]);
     }
-    
+
     [Test]
     public void HasPreviousSibling()
     {
@@ -417,7 +417,7 @@ public sealed partial class NodeTests
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Cannot add a previous sibling to the root node.");
     }
-    
+
     [Test]
     public void AddPreviousSibling_HasPreviousSibling()
     {
@@ -430,7 +430,7 @@ public sealed partial class NodeTests
         child2.AddPreviousSibling(sibling);
         parent.Children.Should().BeEquivalentTo(new[] { child1, sibling, child2 }, c => c.WithStrictOrdering());
     }
-    
+
     [Test]
     public void AddPreviousSibling_NoPreviousSibling()
     {
@@ -443,7 +443,7 @@ public sealed partial class NodeTests
         child1.AddPreviousSibling(sibling);
         parent.Children.Should().BeEquivalentTo(new[] { sibling, child1, child2 }, c => c.WithStrictOrdering());
     }
-    
+
     [Test]
     public void RemovePreviousSibling_HasPreviousSibling()
     {
@@ -454,7 +454,7 @@ public sealed partial class NodeTests
         child2.RemovePreviousSibling().Should().Be(child1);
         parent.Children.Should().BeEquivalentTo(new[] { child2 }, c => c.WithStrictOrdering());
     }
-    
+
     [Test]
     public void RemovePreviousSibling_NoPreviousSibling()
     {
@@ -544,7 +544,7 @@ public sealed partial class NodeTests
         children[1].IsLastChild.Should().BeFalse();
         children[2].IsLastChild.Should().BeTrue();
     }
-    
+
     [Test]
     public void FirstChild()
     {
@@ -555,7 +555,7 @@ public sealed partial class NodeTests
         root.FirstChild.Should().BeSameAs(children[0]);
         children[0].Invoking(n => n.FirstChild).Should().Throw<InvalidOperationException>().WithMessage("Node has no children.");
     }
-    
+
     [Test]
     public void FirstChildOrNull()
     {
@@ -566,7 +566,7 @@ public sealed partial class NodeTests
         root.FirstChildOrNull.Should().BeSameAs(children[0]);
         children[0].FirstChildOrNull.Should().BeNull();
     }
-    
+
     [Test]
     public void LastChild()
     {
@@ -577,7 +577,7 @@ public sealed partial class NodeTests
         root.LastChild.Should().BeSameAs(children[2]);
         children[0].Invoking(n => n.LastChild).Should().Throw<InvalidOperationException>().WithMessage("Node has no children.");
     }
-    
+
     [Test]
     public void LastChildOrNull()
     {

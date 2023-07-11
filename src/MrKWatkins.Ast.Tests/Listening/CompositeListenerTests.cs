@@ -15,7 +15,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
             .Should().Throw<InvalidOperationException>()
             .WithMessage("A listener has already been registered for ANode.");
     }
-    
+
     [Test]
     public void With_ThrowsIfListenerForRootTypeAlreadyRegistered()
     {
@@ -27,7 +27,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
             .Should().Throw<InvalidOperationException>()
             .WithMessage("A listener has already been registered for TestNode.");
     }
-    
+
     [Test]
     public void ToListener_ThrowsIfNoListenersRegistered()
     {
@@ -37,7 +37,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
             .Should().Throw<InvalidOperationException>()
             .WithMessage("No listeners have been registered.");
     }
-    
+
     [Test]
     public void Listen_NoSubTypes()
     {
@@ -57,7 +57,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
         aListener.Count.Should().Be(4);
         bChildListener.Count.Should().Be(0);
         cListener.Count.Should().Be(2);
-        
+
         // Repeat to ensure cached handlers work.
         listener.Listen(N1);
 
@@ -65,7 +65,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
         bChildListener.Count.Should().Be(0);
         cListener.Count.Should().Be(4);
     }
-    
+
     [Test]
     public void Listen_SubType()
     {
@@ -79,15 +79,15 @@ public sealed class CompositeListenerTests : TreeTestFixture
             .ToListener();
 
         listener.Listen(tree);
-        
+
         bListener.Count.Should().Be(3);
-        
+
         // Repeat to ensure cached handlers work.
         listener.Listen(tree);
-        
+
         bListener.Count.Should().Be(6);
     }
-    
+
     [Test]
     public void Listen_MostSpecificSubTypeHandlerUser()
     {
@@ -103,17 +103,17 @@ public sealed class CompositeListenerTests : TreeTestFixture
             .ToListener();
 
         listener.Listen(tree);
-        
+
         bListener.Count.Should().Be(0);
         bChildListener.Count.Should().Be(2);
-        
+
         // Repeat to ensure cached handlers work.
         listener.Listen(tree);
-        
+
         bListener.Count.Should().Be(0);
         bChildListener.Count.Should().Be(4);
     }
-    
+
     [Test]
     public void Listen_RootType()
     {
@@ -127,12 +127,12 @@ public sealed class CompositeListenerTests : TreeTestFixture
             .ToListener();
 
         listener.Listen(tree);
-        
+
         rootListener.Count.Should().Be(5);
-        
+
         // Repeat to ensure cached handlers work.
         listener.Listen(tree);
-        
+
         rootListener.Count.Should().Be(10);
     }
 
@@ -143,19 +143,19 @@ public sealed class CompositeListenerTests : TreeTestFixture
     private class BGrandChild : BChild
     {
     }
-    
+
     private class CChild : CNode
     {
     }
 
-    private sealed class TestListener : Listener<TestNode> 
+    private sealed class TestListener : Listener<TestNode>
     {
         public int Count { get; private set; }
 
         protected internal override void ListenToNode(TestNode _) => Count++;
     }
-    
-    private sealed class TestListener<TNode> : Listener<TestNode, TNode> 
+
+    private sealed class TestListener<TNode> : Listener<TestNode, TNode>
         where TNode : TestNode
     {
         public int Count { get; private set; }

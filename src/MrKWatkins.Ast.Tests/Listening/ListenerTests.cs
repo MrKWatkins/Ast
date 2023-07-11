@@ -11,17 +11,17 @@ public sealed class ListenerTests : TreeTestFixture
     [TestCase(typeof(CallsBaseTypedTestListener), "(N1(N11(N111))(N121))")]
     public void Listen(Type listenerType, string expected)
     {
-        var listener = (Listener<TestNode>) Activator.CreateInstance(listenerType)!;
-        
+        var listener = (Listener<TestNode>)Activator.CreateInstance(listenerType)!;
+
         listener.Listen(N1);
 
         listener.ToString().Should().Be(expected);
     }
-    
+
     private sealed class TestListener : Listener<TestNode>
     {
         private readonly StringBuilder stringBuilder = new();
-        
+
         protected internal override void BeforeListenToNode(TestNode node) => stringBuilder.Append('(');
 
         protected internal override void ListenToNode(TestNode node) => stringBuilder.Append(node.Name);
@@ -30,11 +30,11 @@ public sealed class ListenerTests : TreeTestFixture
 
         public override string ToString() => stringBuilder.ToString();
     }
-    
+
     private sealed class CallsBaseTestListener : Listener<TestNode>
     {
         private readonly StringBuilder stringBuilder = new();
-        
+
         protected internal override void BeforeListenToNode(TestNode node)
         {
             base.BeforeListenToNode(node);
@@ -55,7 +55,7 @@ public sealed class ListenerTests : TreeTestFixture
 
         public override string ToString() => stringBuilder.ToString();
     }
-    
+
     private sealed class TypedTestListener : Listener<TestNode, ANode>
     {
         private readonly StringBuilder stringBuilder = new();
@@ -68,7 +68,7 @@ public sealed class ListenerTests : TreeTestFixture
 
         public override string ToString() => stringBuilder.ToString();
     }
-    
+
     private sealed class CallsBaseTypedTestListener : Listener<TestNode, ANode>
     {
         private readonly StringBuilder stringBuilder = new();

@@ -15,7 +15,7 @@ public abstract record Token
     /// The start index for the token in the input stream.
     /// </summary>
     public int StartIndex { get; }
-    
+
     /// <summary>
     /// The length of the token.
     /// </summary>

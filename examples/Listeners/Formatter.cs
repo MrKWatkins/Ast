@@ -11,12 +11,12 @@ public static class Formatter
             .With(new ConstantListener())
             .With(new ArrayListener())
             .ToListener();
-    
+
     [Pure]
     public static string Format(Expression expression)
     {
         var context = new FormattingContext();
-        
+
         Listener.Listen(context, expression);
 
         return context.Output.ToString();

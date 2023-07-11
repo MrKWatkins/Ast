@@ -5,7 +5,7 @@ namespace MrKWatkins.Ast.Examples.Maths.Lexing;
 /// </summary>
 public sealed record OpenBracket : Token
 {
-    internal OpenBracket(int index) 
+    internal OpenBracket(int index)
         : base(index, 1)
     {
     }

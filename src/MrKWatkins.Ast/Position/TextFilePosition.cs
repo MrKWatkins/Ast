@@ -7,19 +7,19 @@ namespace MrKWatkins.Ast.Position;
 /// </summary>
 public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, TextFile>, ITextSourcePosition
 {
-    internal TextFilePosition(TextFile file, int startIndex, int length, int startLineIndex, int startColumnIndex) 
+    internal TextFilePosition(TextFile file, int startIndex, int length, int startLineIndex, int startColumnIndex)
         : base(file, startIndex, length)
     {
         if (startLineIndex < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(startLineIndex), startLineIndex, "Value must be 0 or greater.");
         }
-        
+
         if (startColumnIndex < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(startColumnIndex), startColumnIndex, "Value must be 0 or greater.");
         }
-        
+
         if (startLineIndex >= File.Lines.Count)
         {
             throw new ArgumentOutOfRangeException(nameof(startLineIndex), startLineIndex, $"Value must be less than the number of lines in {nameof(file)}. ({file.Lines.Count})");
@@ -37,7 +37,7 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
         {
             throw new ArgumentOutOfRangeException(nameof(startColumnIndex), startColumnIndex, $"Value must be less than the length of the start line. ({startLine.Length})");
         }
-        
+
         // Not validating that line/column match index/length as it's vaguely complicated due to line endings...
 
         StartLineIndex = startLineIndex;
@@ -48,7 +48,7 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
     /// Zero based index of the start line of the position in the text file.
     /// </summary>
     public int StartLineIndex { get; }
-    
+
     /// <summary>
     /// Number, i.e. 1 based index, of the start line of the position in the text file.
     /// </summary>
@@ -58,7 +58,7 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
     /// Zero based index of the start column of the position in the text file.
     /// </summary>
     public int StartColumnIndex { get; }
-    
+
     /// <summary>
     /// Number, i.e. 1 based index, of the start column of the position in the text file.
     /// </summary>
@@ -117,7 +117,7 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
     {
         var line = StartLine;
         builder.AppendLine(line);
-        
+
         // Build an underscore line. We want to preserve any tabs from the original line so everything lines up.
         // Will still mess up if the underscore section contains tabs of course, but hopefully that's rare...
         for (var f = 0; f < StartColumnIndex; f++)

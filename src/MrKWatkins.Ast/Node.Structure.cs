@@ -5,7 +5,7 @@ public abstract partial class Node<TNode>
 {
     private TNode? parent;
     private Children<TNode>? children;
-    
+
     /// <summary>
     /// Initialises a new instance of the <see cref="Node{TNode}" /> class with the specified children.
     /// </summary>
@@ -15,7 +15,7 @@ public abstract partial class Node<TNode>
     {
         this.children = new Children<TNode>(This, children);
     }
-    
+
     /// <summary>
     /// The parent of this node.
     /// </summary>
@@ -25,7 +25,7 @@ public abstract partial class Node<TNode>
     public TNode Parent
     {
         get => parent ?? throw new InvalidOperationException("Node has no parent.");
-            
+
         internal set
         {
             if (parent != null)
@@ -41,7 +41,7 @@ public abstract partial class Node<TNode>
             parent = value;
         }
     }
-    
+
     /// <summary>
     /// Returns <c>true</c> if this node has a <see cref="Parent" />, <c>false</c> otherwise. Nodes will not have parents if they are the
     /// root node or they have just been constructed and not yet added to a parent.
@@ -54,7 +54,7 @@ public abstract partial class Node<TNode>
     /// Removes this node from its <see cref="Parent" />.
     /// </summary>
     public void RemoveFromParent() => Parent.Children.Remove(This);
-        
+
     /// <summary>
     /// The children of this node.
     /// </summary>
@@ -64,7 +64,7 @@ public abstract partial class Node<TNode>
     /// Returns <c>true</c> if this node has any <see cref="Children" />, <c>false</c> otherwise. 
     /// </summary>
     public bool HasChildren => children is { Count: > 0 };
-    
+
     /// <summary>
     /// Moves this node to a new parent.
     /// </summary>
@@ -73,8 +73,8 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Removes this node from it's parent and puts another node in its place.
     /// </summary>
-    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode) other);
-    
+    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode)other);
+
     /// <summary>
     /// Lazily enumerates over this node and then the specified enumeration of nodes.
     /// </summary>
@@ -85,13 +85,13 @@ public abstract partial class Node<TNode>
     protected IEnumerable<TNode> ThisAnd(IEnumerable<TNode> and)
     {
         yield return This;
-            
+
         foreach (var node in and)
         {
             yield return node;
         }
     }
-    
+
     /// <summary>
     /// Lazily enumerates over the ancestors of this node, i.e. the <see cref="Parent"/>, grandparent, great-grandparent and so on up to the root node.
     /// </summary>
@@ -119,16 +119,16 @@ public abstract partial class Node<TNode>
     /// </summary>
     /// <typeparam name="TAncestor">The type of ancestors to return.</typeparam>
     [Pure]
-    public IEnumerable<TAncestor> AncestorsOfType<TAncestor>() 
+    public IEnumerable<TAncestor> AncestorsOfType<TAncestor>()
         where TAncestor : TNode
         => Ancestors.OfType<TAncestor>();
-    
+
     /// <summary>
     /// Lazily enumerates over the <see cref="Ancestors" /> of this node, returning only ancestors of the specified type.
     /// </summary>
     /// <typeparam name="TAncestor">The type of ancestors to return.</typeparam>
     [Pure]
-    public IEnumerable<TAncestor> ThisAndAncestorsOfType<TAncestor>() 
+    public IEnumerable<TAncestor> ThisAndAncestorsOfType<TAncestor>()
         where TAncestor : TNode
         => ThisAndAncestors.OfType<TAncestor>();
 
@@ -151,9 +151,9 @@ public abstract partial class Node<TNode>
             {
                 return null;
             }
-                
+
             var indexOfSelf = GetIndexOfSelf();
-                
+
             return indexOfSelf < Parent.Children.Count - 1 ? Parent.Children[indexOfSelf + 1] : null;
         }
     }
@@ -190,7 +190,7 @@ public abstract partial class Node<TNode>
         var index = GetIndexOfSelf();
         Parent.Children.Insert(index + 1, nextSibling);
     }
-    
+
     /// <summary>
     /// Removes the <see cref="NextSibling" /> from <see cref="Parent" /> if it exists.
     /// </summary>
@@ -201,7 +201,7 @@ public abstract partial class Node<TNode>
         nextSibling?.RemoveFromParent();
         return nextSibling;
     }
-    
+
     /// <summary>
     /// The previous sibling, i.e. the child from the same <see cref="Parent" /> at the previous positional index. Returns <c>null</c> if this node is the first child.
     /// </summary>
@@ -213,9 +213,9 @@ public abstract partial class Node<TNode>
             {
                 return null;
             }
-                
+
             var indexOfSelf = GetIndexOfSelf();
-                
+
             return indexOfSelf > 0 ? Parent.Children[indexOfSelf - 1] : null;
         }
     }
@@ -237,7 +237,7 @@ public abstract partial class Node<TNode>
             {
                 yield break;
             }
-                
+
             var f = GetIndexOfSelf() - 1;
             while (f >= 0)
             {
@@ -268,7 +268,7 @@ public abstract partial class Node<TNode>
         var index = GetIndexOfSelf();
         Parent.Children.Insert(index, previousSibling);
     }
-    
+
     /// <summary>
     /// Removes the <see cref="PreviousSibling" /> from <see cref="Parent" /> if it exists.
     /// </summary>

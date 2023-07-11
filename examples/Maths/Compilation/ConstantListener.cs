@@ -7,7 +7,7 @@ namespace MrKWatkins.Ast.Examples.Maths.Compilation;
 /// <summary>
 /// Listener for a constant. Just needs to push the value of the constant onto the stack.
 /// </summary>
-internal sealed class ConstantListener : ListenerWithContext<CompilationContext, MathsNode, Constant> 
+internal sealed class ConstantListener : ListenerWithContext<CompilationContext, MathsNode, Constant>
 {
     protected override void ListenToNode(CompilationContext context, Constant constant) =>
         context.Values.Push(LinqExpression.Constant(constant.Value));
