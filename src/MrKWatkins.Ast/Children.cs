@@ -262,15 +262,29 @@ public sealed partial class Children<TNode> : IList<TNode>
         nodes.Where(n => n is not TChild);
 
     /// <summary>
-    /// Returns the first node in the collection of the specified type or a specified default if it doesn't contain any nodes of the specified type.
+    /// Returns the first node in the collection if it is of the specified type or a specified default if the collection is empty or the first node is a different type.
     /// </summary>
     /// <typeparam name="TChild">The type of the node to return.</typeparam>
-    /// <param name="default">The default value to return if the collection does not contain any nodes of type <typeparamref name="TChild"/>.</param>
-    /// <returns>The first node if it is of the specified type or <paramref name="default"/> if it doesn't contain any nodes of the specified type.</returns>
+    /// <param name="default">The default value to return if the collection is empty or the first node is not of type <typeparamref name="TChild"/>.</param>
+    /// <returns>The first node if it is of the specified type or <paramref name="default"/> otherwise.</returns>
+    /// <remarks>Slightly quicker than <see cref="FirstOfTypeOrDefault{TChild}" /> if you only care about the first node.</remarks>
+    [Pure]
+    public TChild? FirstIfTypeOrDefault<TChild>(TChild? @default = null)
+        where TChild : TNode =>
+        Count != 0 ? nodes[0] as TChild ?? @default : @default;
+
+    /// <summary>
+    ///     Returns the first node in the collection of the specified type or a specified default if it doesn't contain any nodes of the specified type.
+    /// </summary>
+    /// <typeparam name="TChild">The type of the node to return.</typeparam>
+    /// <param name="default">The default value to return if the collection does not contain any nodes of type <typeparamref name="TChild" />.</param>
+    /// <returns>The first node if it is of the specified type or <paramref name="default" /> if it doesn't contain any nodes of the specified type.</returns>
     [Pure]
     public TChild? FirstOfTypeOrDefault<TChild>(TChild? @default = null)
-        where TChild : TNode =>
-        OfType<TChild>().FirstOrDefault(@default);
+        where TChild : TNode
+    {
+        return OfType<TChild>().FirstOrDefault(@default);
+    }
 
     /// <summary>
     /// Returns the first node in the collection of the specified type or throws otherwise.
@@ -282,6 +296,20 @@ public sealed partial class Children<TNode> : IList<TNode>
     public TChild FirstOfType<TChild>()
         where TChild : TNode =>
         FirstOfTypeOrDefault<TChild>() ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have a child of type {typeof(TChild).SimpleName()} but found none.");
+
+    /// <summary>
+    ///     Returns the last node in the collection if it is of the specified type or a specified default if the collection is empty or the last node is a different type.
+    /// </summary>
+    /// <typeparam name="TChild">The type of the node to return.</typeparam>
+    /// <param name="default">The default value to return if the collection is empty or the last node is not of type <typeparamref name="TChild" />.</param>
+    /// <returns>The last node if it is of the specified type or <paramref name="default" /> otherwise.</returns>
+    /// <remarks>Slightly quicker than <see cref="LastOfTypeOrDefault{TChild}" /> if you only care about the last node.</remarks>
+    [Pure]
+    public TChild? LastIfTypeOrDefault<TChild>(TChild? @default = null)
+        where TChild : TNode
+    {
+        return Count != 0 ? nodes[^1] as TChild ?? @default : @default;
+    }
 
     /// <summary>
     /// Returns the last node in the collection of the specified type or a specified default if it doesn't contain any nodes of the specified type.

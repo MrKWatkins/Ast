@@ -491,6 +491,22 @@ public sealed partial class ChildrenTests
     }
 
     [Test]
+    public void FirstIfTypeOrDefault()
+    {
+        var a = new ANode();
+        var b1 = new BNode();
+        var b2 = new BNode();
+
+        var parent = new ANode(b1, a, b2);
+
+        var @default = new CNode();
+
+        parent.Children.FirstIfTypeOrDefault<ANode>().Should().BeNull();
+        parent.Children.FirstIfTypeOrDefault<BNode>().Should().BeSameAs(b1);
+        parent.Children.FirstIfTypeOrDefault(@default).Should().BeSameAs(@default);
+    }
+
+    [Test]
     public void FirstOfTypeOrDefault()
     {
         var a = new ANode();
@@ -520,6 +536,22 @@ public sealed partial class ChildrenTests
         parent.Children.Invoking(c => c.FirstOfType<CNode>())
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Expected ANode to have a child of type CNode but found none.");
+    }
+
+    [Test]
+    public void LastIfTypeOrDefault()
+    {
+        var a = new ANode();
+        var b1 = new BNode();
+        var b2 = new BNode();
+
+        var parent = new ANode(b1, a, b2);
+
+        var @default = new CNode();
+
+        parent.Children.LastIfTypeOrDefault<ANode>().Should().BeNull();
+        parent.Children.LastIfTypeOrDefault<BNode>().Should().BeSameAs(b2);
+        parent.Children.LastIfTypeOrDefault(@default).Should().BeSameAs(@default);
     }
 
     [Test]
