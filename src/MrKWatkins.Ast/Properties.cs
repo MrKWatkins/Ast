@@ -38,6 +38,30 @@ public sealed class Properties
         GetOrThrow<T>(key, k => new KeyNotFoundException($"No value for property with key \"{k}\"."));
 
     /// <summary>
+    ///     Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
+    ///     Uses a field to cache the value for better performance.
+    /// </summary>
+    /// <remarks>
+    ///     Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
+    ///     get higher performance as the value will be taken from the field if it exists. Make sure to use <see cref="Set{T}(string,T,out T)" />
+    ///     to update the cached field.
+    /// </remarks>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="cached">The key of the property.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns>The value of the property.</returns>
+    /// <exception cref="KeyNotFoundException">No property with the specified <paramref name="key" /> exists.</exception>
+    /// <exception cref="InvalidOperationException">
+    ///     The property is a multiple value property or the type of the property does not match <typeparamref name="T" />.
+    /// </exception>
+    [Pure]
+    public T GetOrThrow<T>(string key, ref T? cached)
+        where T : notnull
+    {
+        return cached ??= GetOrThrow<T>(key, k => new KeyNotFoundException($"No value for property with key \"{k}\"."));
+    }
+
+    /// <summary>
     /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
     /// </summary>
     /// <param name="key">The key of the property.</param>
@@ -53,6 +77,30 @@ public sealed class Properties
         TryGet<T>(key, out var value) ? value : throw exceptionCreator();
 
     /// <summary>
+    ///     Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
+    ///     Uses a field to cache the value for better performance.
+    /// </summary>
+    /// <remarks>
+    ///     Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
+    ///     get higher performance as the value will be taken from the field if it exists. Make sure to use <see cref="Set{T}(string,T,out T)" />
+    ///     to update the cached field.
+    /// </remarks>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="cached">The key of the property.</param>
+    /// <param name="exceptionCreator">Function to create an exception to throw if the no property with the specified <paramref name="key" /> exists.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns>The value of the property.</returns>
+    /// <exception cref="InvalidOperationException">
+    ///     The property is a multiple value property or the type of the property does not match <typeparamref name="T" />.
+    /// </exception>
+    [Pure]
+    public T GetOrThrow<T>(string key, ref T? cached, [InstantHandle] Func<Exception> exceptionCreator)
+        where T : notnull
+    {
+        return cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator();
+    }
+
+    /// <summary>
     /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
     /// </summary>
     /// <param name="key">The key of the property.</param>
@@ -66,6 +114,30 @@ public sealed class Properties
     public T GetOrThrow<T>(string key, [InstantHandle] Func<string, Exception> exceptionCreator)
         where T : notnull =>
         TryGet<T>(key, out var value) ? value : throw exceptionCreator(key);
+
+    /// <summary>
+    ///     Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
+    ///     Uses a field to cache the value for better performance.
+    /// </summary>
+    /// <remarks>
+    ///     Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
+    ///     get higher performance as the value will be taken from the field if it exists. Make sure to use <see cref="Set{T}(string,T,out T)" />
+    ///     to update the cached field.
+    /// </remarks>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="cached">The key of the property.</param>
+    /// <param name="exceptionCreator">Function to create an exception to throw if the no property with the specified <paramref name="key" /> exists.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <returns>The value of the property.</returns>
+    /// <exception cref="InvalidOperationException">
+    ///     The property is a multiple value property or the type of the property does not match <typeparamref name="T" />.
+    /// </exception>
+    [Pure]
+    public T GetOrThrow<T>(string key, ref T? cached, [InstantHandle] Func<string, Exception> exceptionCreator)
+        where T : notnull
+    {
+        return cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator(key);
+    }
 
     /// <summary>
     /// Gets the value of a single valued property with the specified key or returns a default value if the property does not exist.
@@ -162,6 +234,30 @@ public sealed class Properties
             VerifySingle<T>(key, property);
         }
 
+        properties[key] = new Property(false, typeof(T), value);
+    }
+
+    /// <summary>
+    ///     Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance.
+    /// </summary>
+    /// <remarks>
+    ///     Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
+    ///     get higher performance as the value will be stored in the field if it exists. Make sure to use <see cref="GetOrThrow{T}(string,ref T)" />
+    ///     to retrieve the cached field.
+    /// </remarks>
+    /// <param name="key">The key of the property.</param>
+    /// <param name="value">The value of the property.</param>
+    /// <param name="cached">The key of the property.</param>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <exception cref="InvalidOperationException">
+    ///     The property already has a value and is a multiple value property or the type of the property does not match <typeparamref name="T" />.
+    /// </exception>
+    public void Set<T>(string key, T value, out T? cached)
+        where T : notnull
+    {
+        if (properties.TryGetValue(key, out var property)) VerifySingle<T>(key, property);
+
+        cached = value;
         properties[key] = new Property(false, typeof(T), value);
     }
 
@@ -333,7 +429,7 @@ public sealed class Properties
             throw new InvalidOperationException($"Property \"{key}\" has a value of type {property.Type.SimpleName()}; cannot change to {typeof(T).SimpleName()}.");
         }
 
-        return (T)property.Value;
+        return (T) property.Value;
     }
 
     private static List<T> VerifyMultiple<T>(string key, Property property)
@@ -347,7 +443,8 @@ public sealed class Properties
         {
             throw new InvalidOperationException($"Property \"{key}\" has values of type {property.Type.SimpleName()}; cannot change to {typeof(T).SimpleName()}.");
         }
-        return (List<T>)property.Value;
+
+        return (List<T>) property.Value;
     }
 
     private readonly struct Property

@@ -165,7 +165,7 @@ dotnet_diagnostic.CA1043.severity = error
 dotnet_diagnostic.CA1044.severity = error
 
 # CA1045: Do not pass types by reference
-dotnet_diagnostic.CA1045.severity = error
+dotnet_diagnostic.CA1045.severity = none
 
 # CA1046: Do not overload equality operator on reference types
 dotnet_diagnostic.CA1046.severity = error
