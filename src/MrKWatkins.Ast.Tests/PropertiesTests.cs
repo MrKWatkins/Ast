@@ -36,6 +36,45 @@ public sealed class PropertiesTests
     }
 
     [Test]
+    public void GetOrThrow_CachedField()
+    {
+        var properties = new Properties();
+        properties.Set("One", "1");
+
+        string? cachedString = null;
+
+        properties.GetOrThrow("One", ref cachedString).Should().Be("1");
+
+        cachedString = "Test";
+
+        properties.GetOrThrow("One", ref cachedString).Should().Be("Test");
+    }
+
+    [Test]
+    public void GetOrThrow_CachedField_ThrowsIfValueIsAMultiple()
+    {
+        var properties = new Properties();
+        properties.AddToMultiple("Key", 1);
+
+        string? cachedString = null;
+        properties.Invoking(p => p.GetOrThrow("Key", ref cachedString))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Property \"Key\" has multiple values.");
+    }
+
+    [Test]
+    public void GetOrThrow_CachedField_ThrowsIfNoValueFoundForKey()
+    {
+        var properties = new Properties();
+        properties.Set("One", 1);
+
+        string? cachedString = null;
+        properties.Invoking(p => p.GetOrThrow("Two", ref cachedString))
+            .Should().Throw<KeyNotFoundException>()
+            .WithMessage("No value for property with key \"Two\".");
+    }
+
+    [Test]
     public void GetOrThrow_ExceptionCreator_ThrowsIfNoValueFoundForKey()
     {
         var properties = new Properties();
@@ -45,6 +84,24 @@ public sealed class PropertiesTests
         Exception Creator() => exception;
 
         properties.Invoking(p => p.GetOrThrow<string>("Key", Creator))
+            .Should().Throw<InvalidOperationException>()
+            .Which.Should().BeSameAs(exception);
+    }
+
+    [Test]
+    public void GetOrThrow_CachedField_ExceptionCreator_ThrowsIfNoValueFoundForKey()
+    {
+        var properties = new Properties();
+
+        var exception = new InvalidOperationException("Test");
+
+        Exception Creator()
+        {
+            return exception;
+        }
+
+        string? cachedString = null;
+        properties.Invoking(p => p.GetOrThrow("Key", ref cachedString, Creator))
             .Should().Throw<InvalidOperationException>()
             .Which.Should().BeSameAs(exception);
     }
@@ -68,12 +125,43 @@ public sealed class PropertiesTests
     }
 
     [Test]
+    public void GetOrThrow_CachedField_KeyedExceptionCreator_ThrowsIfNoValueFoundForKey()
+    {
+        var properties = new Properties();
+
+        var exception = new InvalidOperationException("Test");
+
+        Exception Creator(string key)
+        {
+            key.Should().Be("Key");
+            return exception;
+        }
+
+        string? cachedString = null;
+        properties.Invoking(p => p.GetOrThrow("Key", ref cachedString, Creator))
+            .Should().Throw<InvalidOperationException>()
+            .Which.Should().BeSameAs(exception);
+    }
+
+    [Test]
     public void GetOrThrow_ThrowsIfValueWithDifferentTypeFound()
     {
         var properties = new Properties();
         properties.Set("One", 1);
 
         properties.Invoking(p => p.GetOrThrow<string>("One"))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
+    }
+
+    [Test]
+    public void GetOrThrow_CachedField_ThrowsIfValueWithDifferentTypeFound()
+    {
+        var properties = new Properties();
+        properties.Set("One", 1);
+
+        string? cachedString = null;
+        properties.Invoking(p => p.GetOrThrow("One", ref cachedString))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
     }
@@ -228,8 +316,8 @@ public sealed class PropertiesTests
         properties.Set("One", 1);
 
         properties.Invoking(p => p.TryGet<string>("One", out _))
-             .Should().Throw<InvalidOperationException>()
-             .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -300,6 +388,53 @@ public sealed class PropertiesTests
 
         properties.Set<object>("Key", "Value");
 
+        properties.GetOrThrow<object>("Key").Should().Be("Value");
+    }
+
+    [Test]
+    public void Set_CachedField()
+    {
+        var properties = new Properties();
+
+        properties.Set("Key", "Value", out var cachedField);
+        cachedField.Should().Be("Value");
+        properties.GetOrDefault<string>("Key").Should().Be("Value");
+
+        properties.Set("Key", "Test", out cachedField);
+        cachedField.Should().Be("Test");
+        properties.GetOrDefault<string>("Key").Should().Be("Test");
+    }
+
+    [Test]
+    public void Set_CachedField_ThrowsIfValueIsAMultiple()
+    {
+        var properties = new Properties();
+        properties.AddToMultiple("Key", 1);
+
+        properties.Invoking(p => p.Set("Key", 1, out _))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Property \"Key\" has multiple values.");
+    }
+
+    [Test]
+    public void Set_CachedField_ThrowsIfExistingValueOfADifferentType()
+    {
+        var properties = new Properties();
+        properties.Set("One", 1);
+
+        properties.Invoking(p => p.Set("One", "1", out _))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
+    }
+
+    [Test]
+    public void Set_CachedField_CanAddSubTypes()
+    {
+        var properties = new Properties();
+
+        properties.Set<object>("Key", "Value", out var cachedString);
+
+        cachedString.Should().Be("Value");
         properties.GetOrThrow<object>("Key").Should().Be("Value");
     }
 
