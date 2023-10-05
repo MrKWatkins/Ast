@@ -1,10 +1,11 @@
+using System.Runtime.CompilerServices;
+
 namespace MrKWatkins.Ast;
 
 public abstract partial class Node<TNode>
     where TNode : Node<TNode>
 {
     private TNode? parent;
-    private Children<TNode>? children;
 
     /// <summary>
     /// Initialises a new instance of the <see cref="Node{TNode}" /> class with the specified children.
@@ -13,7 +14,7 @@ public abstract partial class Node<TNode>
     /// <exception cref="InvalidOperationException">If any of <see cref="Children" /> already have a <see cref="Parent" />.</exception>
     protected Node([InstantHandle] IEnumerable<TNode> children)
     {
-        this.children = new Children<TNode>(This, children);
+        Children = new Children<TNode>(This, children);
     }
 
     /// <summary>
@@ -58,12 +59,16 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// The children of this node.
     /// </summary>
-    public Children<TNode> Children => children ??= new Children<TNode>(This);
+    public Children<TNode> Children { get; }
 
     /// <summary>
-    /// Returns <c>true</c> if this node has any <see cref="Children" />, <c>false</c> otherwise. 
+    /// Returns <c>true</c> if this node has any <see cref="Children" />, <c>false</c> otherwise.
     /// </summary>
-    public bool HasChildren => children is { Count: > 0 };
+    public bool HasChildren
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Children.Count > 0;
+    }
 
     /// <summary>
     /// Moves this node to a new parent.
@@ -73,7 +78,7 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Removes this node from it's parent and puts another node in its place.
     /// </summary>
-    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode)other);
+    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode) other);
 
     /// <summary>
     /// Lazily enumerates over this node and then the specified enumeration of nodes.
@@ -138,7 +143,7 @@ public abstract partial class Node<TNode>
     public TNode Root => HasParent ? Ancestors.Last() : This;
 
     [Pure]
-    private int GetIndexOfSelf() => Parent.Children.IndexOf(This);  // Can never be -1.
+    private int GetIndexOfSelf() => Parent.Children.IndexOf(This); // Can never be -1.
 
     /// <summary>
     /// The next sibling, i.e. the child from the same <see cref="Parent" /> at the next positional index. Returns <c>null</c> if this node is the last child.
@@ -312,21 +317,21 @@ public abstract partial class Node<TNode>
     /// Returns the first child of this node.
     /// </summary>
     /// <exception cref="InvalidOperationException">If this node has no children.</exception>
-    public TNode FirstChild => Children.Count > 0 ? Children[0] : throw new InvalidOperationException("Node has no children.");
+    public TNode FirstChild => HasChildren ? Children[0] : throw new InvalidOperationException("Node has no children.");
 
     /// <summary>
     /// Returns the first child of this node or <c>null</c> if it has no children.
     /// </summary>
-    public TNode? FirstChildOrNull => Children.Count > 0 ? Children[0] : null;
+    public TNode? FirstChildOrNull => HasChildren ? Children[0] : null;
 
     /// <summary>
     /// Returns the last child of this node.
     /// </summary>
     /// <exception cref="InvalidOperationException">If this node has no children.</exception>
-    public TNode LastChild => Children.Count > 0 ? Children[^1] : throw new InvalidOperationException("Node has no children.");
+    public TNode LastChild => HasChildren ? Children[^1] : throw new InvalidOperationException("Node has no children.");
 
     /// <summary>
     /// Returns the last child of this node or <c>null</c> if it has no children.
     /// </summary>
-    public TNode? LastChildOrNull => Children.Count > 0 ? Children[^1] : null;
+    public TNode? LastChildOrNull => HasChildren ? Children[^1] : null;
 }

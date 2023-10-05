@@ -16,9 +16,10 @@ public abstract partial class Node<TNode>
     /// </summary>
     protected Node()
     {
+        Children = new Children<TNode>(This);
     }
 
-    private TNode This => (TNode)this;
+    private TNode This => (TNode) this;
 
     /// <summary>
     /// The <see cref="MrKWatkins.Ast.Properties" /> associated with this node.
@@ -50,10 +51,11 @@ public abstract partial class Node<TNode>
     {
         var copy = nodeFactory.Create(GetType());
         copy.properties = properties?.Copy();
-        if (children != null)
+        if (Children != null)
         {
-            copy.Children.Add(children.Select(c => c.Copy(nodeFactory)));
+            copy.Children.Add(Children.Select(c => c.Copy(nodeFactory)));
         }
+
         return copy;
     }
 
