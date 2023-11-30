@@ -152,17 +152,11 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
         rootListenerWithContext.Count.Should().Be(10);
     }
 
-    private class BChild : BNode
-    {
-    }
+    private class BChild : BNode;
 
-    private class BGrandChild : BChild
-    {
-    }
+    private class BGrandChild : BChild;
 
-    private class CChild : CNode
-    {
-    }
+    private class CChild : CNode;
 
     private sealed class TestListenerWithContext : ListenerWithContext<TestContext, TestNode>
     {

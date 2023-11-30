@@ -18,7 +18,7 @@ public sealed partial class ChildrenTests
     public void Add_Node_ThrowsIfNodeAlreadyHasParent()
     {
         var child = new ANode();
-        var _ = new BNode(child);
+        _ = new BNode(child);
 
         new ANode().Children.Invoking(c => c.Add(child))
             .Should().Throw<InvalidOperationException>()
@@ -50,7 +50,7 @@ public sealed partial class ChildrenTests
     public void Add_IEnumerable_ThrowsIfNodeAlreadyHasParent()
     {
         var child = new ANode();
-        var _ = new BNode(child);
+        _ = new BNode(child);
 
         IEnumerable<TestNode> children = new TestNode[] { new ANode(), child, new ANode() };
 
@@ -74,7 +74,7 @@ public sealed partial class ChildrenTests
     public void Add_Array_ThrowsIfNodeAlreadyHasParent()
     {
         var child = new ANode();
-        var _ = new BNode(child);
+        _ = new BNode(child);
 
         new ANode().Children.Invoking(c => c.Add(new ANode(), child, new ANode()))
             .Should().Throw<InvalidOperationException>()
@@ -392,7 +392,7 @@ public sealed partial class ChildrenTests
     public void Indexer_Set_ThrowsIfNodeHasParent()
     {
         var child = new BNode();
-        var _ = new ANode(child);
+        _ = new ANode(child);
 
         var newParent = new BNode(new ANode());
 

@@ -25,21 +25,21 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7.0.x
-          
+          dotnet-version: 8.0.x
+
       - name: Build and Test MrKWatkins.Ast
         uses: ./.github/actions/build
         with:
           name: MrKWatkins.Ast
           directory: ./src
-          
+
       - name: Build and Test Examples
         uses: ./.github/actions/build
         with:
           name: Examples
           directory: ./examples
           assembly-filter: "+*;-MrKWatkins.Ast"
-          
+
       - name: Build Documentation
         shell: bash
         working-directory: ./doc

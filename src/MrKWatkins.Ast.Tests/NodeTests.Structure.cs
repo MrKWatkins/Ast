@@ -213,7 +213,7 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        _ = new ANode(children);
 
         children[0].NextSiblings.Should().Equal(children[1], children[2]);
         children[1].NextSiblings.Should().Equal(children[2]);
@@ -224,7 +224,7 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        _ = new ANode(children);
 
         children[2].NextSiblings.Should().BeEmpty();
     }
@@ -242,7 +242,7 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        _ = new ANode(children);
 
         children[0].ThisAndNextSiblings.Should().Equal(children[0], children[1], children[2]);
         children[1].ThisAndNextSiblings.Should().Equal(children[1], children[2]);
@@ -253,7 +253,7 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        _ = new ANode(children);
 
         children[2].ThisAndNextSiblings.Should().Equal(children[2]);
     }
@@ -355,7 +355,7 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        _ = new ANode(children);
 
         children[1].PreviousSiblings.Should().Equal(children[0]);
         children[2].PreviousSiblings.Should().Equal(children[1], children[0]);
@@ -366,7 +366,7 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        _ = new ANode(children);
 
         children[0].PreviousSiblings.Should().BeEmpty();
     }
@@ -384,7 +384,7 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        _ = new ANode(children);
 
         children[1].ThisAndPreviousSiblings.Should().Equal(children[1], children[0]);
         children[2].ThisAndPreviousSiblings.Should().Equal(children[2], children[1], children[0]);
@@ -395,7 +395,7 @@ public sealed partial class NodeTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
 
-        var _ = new ANode(children);
+        _ = new ANode(children);
 
         children[0].ThisAndPreviousSiblings.Should().Equal(children[0]);
     }

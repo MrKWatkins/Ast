@@ -7,7 +7,7 @@ on:
         description: 'Version Number'
         required: true
         type: string
-  
+
 jobs:
   Release:
     name: Release ${{ inputs.version }}
@@ -22,7 +22,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
 
       - name: Create Package
         run: dotnet pack ./src/ /p:Version=${{ inputs.version }} -p:SymbolPackageFormat=snupkg --configuration Release --include-symbols --output ./packages/

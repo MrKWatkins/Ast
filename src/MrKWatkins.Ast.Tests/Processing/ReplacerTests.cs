@@ -33,7 +33,7 @@ public sealed class ReplacerTests : TreeTestFixture
     public void Process_ReturnNewNodeWithParent()
     {
         var replacement = new ANode { Name = "Replacement" };
-        var _ = new BNode(replacement) { Name = "Parent" };
+        _ = new BNode(replacement) { Name = "Parent" };
         var replacer = new TestReplacer(N122, replacement);
 
         replacer.Invoking(p => p.Process(N12))
@@ -123,7 +123,7 @@ public sealed class ReplacerTests : TreeTestFixture
     public void Process_OriginalTyped_ReturnNewNodeWithParent()
     {
         var replacement = new ANode { Name = "Replacement" };
-        var _ = new BNode(replacement) { Name = "Parent" };
+        _ = new BNode(replacement) { Name = "Parent" };
         var replacer = new TestOriginalTypedReplacer(N122, replacement);
 
         replacer.Invoking(p => p.Process(N12))
@@ -213,7 +213,7 @@ public sealed class ReplacerTests : TreeTestFixture
     public void Process_OriginalAndReplacementTyped_ReturnNewNodeWithParent()
     {
         var replacement = new ANode { Name = "Replacement" };
-        var _ = new BNode(replacement) { Name = "Parent" };
+        _ = new BNode(replacement) { Name = "Parent" };
         var replacer = new TestOriginalAndReplacementTypedReplacer<ANode>(N122, replacement);
 
         replacer.Invoking(p => p.Process(N12))

@@ -1,25 +1,25 @@
-<Project>    
+<Project>
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" />
-        
+
         <Using Include="System.Diagnostics.CodeAnalysis" />
         <Using Include="System.Diagnostics.Contracts" />
         <Using Include="System.Diagnostics.Contracts.PureAttribute" Alias="PureAttribute" />
         <Using Include="JetBrains.Annotations" />
-        
+
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
             <_Parameter1>$(AssemblyName).Tests</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
-    
+
     <ItemGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
         <PackageReference Include="coverlet.collector">
             <PrivateAssets>all</PrivateAssets>
@@ -29,7 +29,7 @@
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="NUnit" />
         <PackageReference Include="NUnit3TestAdapter" />
-        
+
         <Using Include="FluentAssertions" />
         <Using Include="NUnit.Framework" />
     </ItemGroup>
