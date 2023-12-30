@@ -277,5 +277,7 @@ public sealed partial class ChildrenTests
         enumerator.Current.Should().BeSameAs(C3);
 
         enumerator.MoveNext().Should().BeFalse();
+
+        (enumerator as IDisposable)?.Dispose();
     }
 }

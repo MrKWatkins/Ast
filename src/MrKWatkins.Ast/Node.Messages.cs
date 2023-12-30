@@ -112,7 +112,7 @@ public abstract partial class Node<TNode>
 
     /// <summary>
     /// Lazily enumerates over this nodes and its descendents returning only those that have <see cref="Message">Messages</see> with
-    /// <see cref="Message.Level" /> <see cref="MessageLevel.Warning" />,.
+    /// <see cref="Message.Level" /> <see cref="MessageLevel.Warning" />.
     /// </summary>
     public IEnumerable<TNode> ThisAndDescendentsWithWarnings => ThisAndDescendents.Where(n => n.HasWarnings);
 
