@@ -44,7 +44,7 @@ public sealed class PipelineBuilder<TNode>
         AddStage(b => b.WithName(name).Add<TProcessor>());
 
     /// <summary>
-    /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran serially.
+    /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run serially.
     /// Its name will be the number of the stage.
     /// </summary>
     /// <param name="processor">The first processor to add.</param>
@@ -54,7 +54,7 @@ public sealed class PipelineBuilder<TNode>
         AddStage(b => b.Add(processor, others));
 
     /// <summary>
-    /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran serially.
+    /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run serially.
     /// </summary>
     /// <param name="name">The name of the stage.</param>
     /// <param name="processor">The first processor to add.</param>
@@ -78,7 +78,7 @@ public sealed class PipelineBuilder<TNode>
     }
 
     /// <summary>
-    /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran in parallel.
+    /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run in parallel.
     /// Its name will be the number of the stage.
     /// </summary>
     /// <param name="processor1">The first processor to add.</param>
@@ -89,7 +89,7 @@ public sealed class PipelineBuilder<TNode>
         AddParallelStage(b => b.Add(processor1).Add(processor2, others));
 
     /// <summary>
-    /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran in parallel.
+    /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run in parallel.
     /// Its name will be the number of the stage.
     /// </summary>
     /// <param name="name">The name of the stage.</param>
@@ -101,7 +101,7 @@ public sealed class PipelineBuilder<TNode>
         AddParallelStage(b => b.WithName(name).Add(processor1).Add(processor2, others));
 
     /// <summary>
-    /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran in parallel with the specified maximum
+    /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run in parallel with the specified maximum
     /// degree of parallelism. Its name will be the number of the stage.
     /// </summary>
     /// <param name="maxDegreeOfParallelism">
@@ -116,7 +116,7 @@ public sealed class PipelineBuilder<TNode>
         AddParallelStage(b => b.Add(processor1).Add(processor2, others).WithMaxDegreeOfParallelism(maxDegreeOfParallelism));
 
     /// <summary>
-    /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be ran in parallel
+    /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run in parallel
     /// with the specified maximum degree of parallelism.
     /// </summary>
     /// <param name="name">The name of the stage.</param>

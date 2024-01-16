@@ -45,7 +45,7 @@ public abstract partial class Node<TNode>
 
     /// <summary>
     /// Returns <c>true</c> if this node has a <see cref="Parent" />, <c>false</c> otherwise. Nodes will not have parents if they are the
-    /// root node or they have just been constructed and not yet added to a parent.
+    /// root node, or they have just been constructed and not yet added to a parent.
     /// </summary>
     public bool HasParent => parent != null;
 
@@ -78,7 +78,7 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Removes this node from it's parent and puts another node in its place.
     /// </summary>
-    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode)other);
+    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode) other);
 
     /// <summary>
     /// Lazily enumerates over this node and then the specified enumeration of nodes.

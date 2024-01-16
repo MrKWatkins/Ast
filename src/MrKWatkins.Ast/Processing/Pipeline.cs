@@ -2,8 +2,8 @@ namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
 /// A pipeline to process nodes in a tree. A pipeline consists of multiple named stages, each of which has one or more <see cref="Processor{TNode}" />s
-/// running in serial or parallel. Stages can optionally have specify whether pipeline processing should continue once the stage has completed.
-/// By default processing will not continue if there are any errors in the tree.
+/// running in serial or parallel. Stages can optionally specify whether pipeline processing should continue once the stage has completed.
+/// By default, processing will not continue if there are any errors in the tree.
 /// </summary>
 /// <typeparam name="TNode">The type of nodes in the tree.</typeparam>
 public sealed class Pipeline<TNode>
@@ -15,6 +15,7 @@ public sealed class Pipeline<TNode>
         {
             throw new ArgumentException("Value is empty.", nameof(stages));
         }
+
         Stages = stages;
     }
 

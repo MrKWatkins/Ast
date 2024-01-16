@@ -36,7 +36,7 @@ public static class MessageFormatter
 
     /// <summary>
     /// Lazily enumerates over all <see cref="Message">Messages</see> in the specified node, grouping by <see cref="Message.Level" />
-    /// in descending order. (I.e. <see cref="MessageLevel.Error" /> then <see cref="MessageLevel.Warning" /> then <see cref="MessageLevel.Info" />.
+    /// in descending order. I.e. <see cref="MessageLevel.Error" /> then <see cref="MessageLevel.Warning" /> and then <see cref="MessageLevel.Info" />.
     /// </summary>
     /// <param name="node">The node.</param>
     /// <param name="includeSource">Whether to include the source code in the output or not. Defaults to <c>true</c>.</param>

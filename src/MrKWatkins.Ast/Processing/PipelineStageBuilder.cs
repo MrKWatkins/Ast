@@ -16,7 +16,7 @@ public abstract class PipelineStageBuilder<TSelf, TProcessor, TNode>
         Name = number.ToString(NumberFormatInfo.InvariantInfo);
     }
 
-    private protected TSelf Self => (TSelf)this;
+    private protected TSelf Self => (TSelf) this;
     private protected List<TProcessor> Processors { get; } = new();
     private protected string Name { get; private set; }
     private protected Func<TNode, bool> ShouldContinue { get; private set; } = root => !root.ThisAndDescendentsHaveErrors;
@@ -62,7 +62,7 @@ public abstract class PipelineStageBuilder<TSelf, TProcessor, TNode>
 
     /// <summary>
     /// Sets a function to determine whether processing should continue after this stage or not. Any previously registered function
-    /// will be replaced. By default processing will not continue if there are any errors in the tree.
+    /// will be replaced. By default, processing will not continue if there are any errors in the tree.
     /// </summary>
     /// <param name="shouldContinue">
     /// A function that takes the root node and returns <c>true</c> if processing should continue, <c>false</c> otherwise.
@@ -75,7 +75,7 @@ public abstract class PipelineStageBuilder<TSelf, TProcessor, TNode>
     }
 
     /// <summary>
-    /// Specifies that processing should always continue after this stage. By default processing will not continue if there are any errors in the tree.
+    /// Specifies that processing should always continue after this stage. By default, processing will not continue if there are any errors in the tree.
     /// </summary>
     /// <returns>The fluent builder.</returns>
     public TSelf WithAlwaysContinue() => WithShouldContinue(_ => true);
