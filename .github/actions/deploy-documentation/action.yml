@@ -1,17 +1,27 @@
-name: Documentation
-description: "Deploys the documentation."
+name: Deploy Documentation
+description: "Deploy the documentation."
 
 runs:
   using: composite
 
   steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: docs
+
+    - name: Unzip artifact
+      shell: bash
+      run: unzip -O UTF-8 -qq webHelpMRKWATKINS.AST2-all.zip -d dir
+
     - name: Setup Pages
-      uses: actions/configure-pages@v3
-      
+      uses: actions/configure-pages@v2
+
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: './doc/_site'
-        
+        path: dir
+
     - name: Deploy to GitHub Pages
-      uses: actions/deploy-pages@v2
+      id: deployment
+      uses: actions/deploy-pages@v1

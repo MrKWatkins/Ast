@@ -41,9 +41,7 @@ jobs:
           assembly-filter: "+*;-MrKWatkins.Ast"
 
       - name: Build Documentation
-        shell: bash
-        working-directory: ./doc
-        run: ./build.sh
+        uses: ./.github/actions/build-documentation
 
       - name: Deploy Documentation
         if: ${{ github.ref == 'refs/heads/main' }}

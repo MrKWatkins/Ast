@@ -1,0 +1,30 @@
+# BinaryFile Class
+## Definition
+
+A binary [SourceFile](MrKWatkins.Ast.Position.SourceFile.md).
+
+```c#
+public sealed class BinaryFile : SourceFile, IEquatable<SourceFile>, IEqualityOperators<SourceFile, SourceFile, Boolean>
+```
+
+## Constructors
+
+| Name | Description |
+| ---- | ----------- |
+| [BinaryFile(FileInfo)](MrKWatkins.Ast.Position.BinaryFile.-ctor.md) | Initialises a new instance of the [BinaryFile](MrKWatkins.Ast.Position.BinaryFile.md) class from a file on disk. |
+| [BinaryFile(String, Stream)](MrKWatkins.Ast.Position.BinaryFile.-ctor.md) | Initialises a new instance of the [BinaryFile](MrKWatkins.Ast.Position.BinaryFile.md) class from a [Stream](https://learn.microsoft.com/en-gb/dotnet/api/System.IO.Stream) containing the file. |
+| [BinaryFile(String, IReadOnlyList&lt;Byte&gt;)](MrKWatkins.Ast.Position.BinaryFile.-ctor.md) | Initialises a new instance of the [BinaryFile](MrKWatkins.Ast.Position.BinaryFile.md) class from a list of bytes containing the file. |
+
+## Properties
+
+| Name | Description |
+| ---- | ----------- |
+| [Bytes](MrKWatkins.Ast.Position.BinaryFile.Bytes.md) | The raw bytes of the file. |
+
+## Methods
+
+| Name | Description |
+| ---- | ----------- |
+| [CreateEntireFilePosition()](MrKWatkins.Ast.Position.BinaryFile.CreateEntireFilePosition.md) | Creates a [BinaryFilePosition](MrKWatkins.Ast.Position.BinaryFilePosition.md) from this [BinaryFile](MrKWatkins.Ast.Position.BinaryFile.md) that represents the whole file. |
+| [CreatePosition(Int32, Int32)](MrKWatkins.Ast.Position.BinaryFile.CreatePosition.md) | Creates a [BinaryFilePosition](MrKWatkins.Ast.Position.BinaryFilePosition.md) from this [BinaryFile](MrKWatkins.Ast.Position.BinaryFile.md). |
+

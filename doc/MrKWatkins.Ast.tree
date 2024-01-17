@@ -1,0 +1,611 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE instance-profile SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd"[]>
+<instance-profile id="MrKWatkins.Ast" name="MrKWatkins.Ast" start-page="MrKWatkins.Ast.md">
+  <toc-element topic="MrKWatkins.Ast.md" />
+  <toc-element toc-title="Usage">
+    <toc-element topic="Listeners.md" />
+    <toc-element topic="Processing.md" />
+  </toc-element>
+  <toc-element toc-title="API" id="API">
+    <toc-element toc-title="MrKWatkins.Ast">
+      <toc-element toc-title="Children&lt;TNode&gt;">
+        <toc-element toc-title="Children&lt;TNode&gt;" topic="MrKWatkins.Ast.Children-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Children-1.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Count" topic="MrKWatkins.Ast.Children-1.Count.md" />
+          <toc-element toc-title="Item[]" topic="MrKWatkins.Ast.Children-1.Item.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Add" topic="MrKWatkins.Ast.Children-1.Add.md" />
+          <toc-element toc-title="Clear" topic="MrKWatkins.Ast.Children-1.Clear.md" />
+          <toc-element toc-title="Contains" topic="MrKWatkins.Ast.Children-1.Contains.md" />
+          <toc-element toc-title="ExceptOfType" topic="MrKWatkins.Ast.Children-1.ExceptOfType.md" />
+          <toc-element toc-title="FirstIfTypeOrDefault" topic="MrKWatkins.Ast.Children-1.FirstIfTypeOrDefault.md" />
+          <toc-element toc-title="FirstOfType" topic="MrKWatkins.Ast.Children-1.FirstOfType.md" />
+          <toc-element toc-title="FirstOfTypeOrDefault" topic="MrKWatkins.Ast.Children-1.FirstOfTypeOrDefault.md" />
+          <toc-element toc-title="GetEnumerator" topic="MrKWatkins.Ast.Children-1.GetEnumerator.md" />
+          <toc-element toc-title="IndexOf" topic="MrKWatkins.Ast.Children-1.IndexOf.md" />
+          <toc-element toc-title="Insert" topic="MrKWatkins.Ast.Children-1.Insert.md" />
+          <toc-element toc-title="LastIfTypeOrDefault" topic="MrKWatkins.Ast.Children-1.LastIfTypeOrDefault.md" />
+          <toc-element toc-title="LastOfType" topic="MrKWatkins.Ast.Children-1.LastOfType.md" />
+          <toc-element toc-title="LastOfTypeOrDefault" topic="MrKWatkins.Ast.Children-1.LastOfTypeOrDefault.md" />
+          <toc-element toc-title="Move" topic="MrKWatkins.Ast.Children-1.Move.md" />
+          <toc-element toc-title="OfType" topic="MrKWatkins.Ast.Children-1.OfType.md" />
+          <toc-element toc-title="Remove" topic="MrKWatkins.Ast.Children-1.Remove.md" />
+          <toc-element toc-title="RemoveAt" topic="MrKWatkins.Ast.Children-1.RemoveAt.md" />
+          <toc-element toc-title="Replace" topic="MrKWatkins.Ast.Children-1.Replace.md" />
+          <toc-element toc-title="SingleOfType" topic="MrKWatkins.Ast.Children-1.SingleOfType.md" />
+          <toc-element toc-title="SingleOfTypeOrDefault" topic="MrKWatkins.Ast.Children-1.SingleOfTypeOrDefault.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="DefaultNodeFactory&lt;TNode&gt;">
+        <toc-element toc-title="DefaultNodeFactory&lt;TNode&gt;" topic="MrKWatkins.Ast.DefaultNodeFactory-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.DefaultNodeFactory-1.-ctor.md" />
+        <toc-element toc-title="Fields">
+          <toc-element toc-title="Instance" topic="MrKWatkins.Ast.DefaultNodeFactory-1.Instance.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Create" topic="MrKWatkins.Ast.DefaultNodeFactory-1.Create.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="INodeFactory&lt;TNode&gt;">
+        <toc-element toc-title="INodeFactory&lt;TNode&gt;" topic="MrKWatkins.Ast.INodeFactory-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.INodeFactory-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Create" topic="MrKWatkins.Ast.INodeFactory-1.Create.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Message">
+        <toc-element toc-title="Message" topic="MrKWatkins.Ast.Message.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Message.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Code" topic="MrKWatkins.Ast.Message.Code.md" />
+          <toc-element toc-title="Level" topic="MrKWatkins.Ast.Message.Level.md" />
+          <toc-element toc-title="Text" topic="MrKWatkins.Ast.Message.Text.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Error" topic="MrKWatkins.Ast.Message.Error.md" />
+          <toc-element toc-title="Info" topic="MrKWatkins.Ast.Message.Info.md" />
+          <toc-element toc-title="ToString" topic="MrKWatkins.Ast.Message.ToString.md" />
+          <toc-element toc-title="Warning" topic="MrKWatkins.Ast.Message.Warning.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="MessageFormatter">
+        <toc-element toc-title="MessageFormatter" topic="MrKWatkins.Ast.MessageFormatter.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.MessageFormatter.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Format" topic="MrKWatkins.Ast.MessageFormatter.Format.md" />
+          <toc-element toc-title="FormatErrors" topic="MrKWatkins.Ast.MessageFormatter.FormatErrors.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="MessageLevel" topic="MrKWatkins.Ast.MessageLevel.md" />
+      <toc-element toc-title="Node&lt;TNode&gt;">
+        <toc-element toc-title="Node&lt;TNode&gt;" topic="MrKWatkins.Ast.Node-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Node-1.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Ancestors" topic="MrKWatkins.Ast.Node-1.Ancestors.md" />
+          <toc-element toc-title="Children" topic="MrKWatkins.Ast.Node-1.Children.md" />
+          <toc-element toc-title="Descendents" topic="MrKWatkins.Ast.Node-1.Descendents.md" />
+          <toc-element toc-title="Errors" topic="MrKWatkins.Ast.Node-1.Errors.md" />
+          <toc-element toc-title="FirstChild" topic="MrKWatkins.Ast.Node-1.FirstChild.md" />
+          <toc-element toc-title="FirstChildOrNull" topic="MrKWatkins.Ast.Node-1.FirstChildOrNull.md" />
+          <toc-element toc-title="HasChildren" topic="MrKWatkins.Ast.Node-1.HasChildren.md" />
+          <toc-element toc-title="HasErrors" topic="MrKWatkins.Ast.Node-1.HasErrors.md" />
+          <toc-element toc-title="HasInfos" topic="MrKWatkins.Ast.Node-1.HasInfos.md" />
+          <toc-element toc-title="HasMessages" topic="MrKWatkins.Ast.Node-1.HasMessages.md" />
+          <toc-element toc-title="HasNextSibling" topic="MrKWatkins.Ast.Node-1.HasNextSibling.md" />
+          <toc-element toc-title="HasParent" topic="MrKWatkins.Ast.Node-1.HasParent.md" />
+          <toc-element toc-title="HasPreviousSibling" topic="MrKWatkins.Ast.Node-1.HasPreviousSibling.md" />
+          <toc-element toc-title="HasWarnings" topic="MrKWatkins.Ast.Node-1.HasWarnings.md" />
+          <toc-element toc-title="IndexInParent" topic="MrKWatkins.Ast.Node-1.IndexInParent.md" />
+          <toc-element toc-title="Infos" topic="MrKWatkins.Ast.Node-1.Infos.md" />
+          <toc-element toc-title="IsFirstChild" topic="MrKWatkins.Ast.Node-1.IsFirstChild.md" />
+          <toc-element toc-title="IsLastChild" topic="MrKWatkins.Ast.Node-1.IsLastChild.md" />
+          <toc-element toc-title="LastChild" topic="MrKWatkins.Ast.Node-1.LastChild.md" />
+          <toc-element toc-title="LastChildOrNull" topic="MrKWatkins.Ast.Node-1.LastChildOrNull.md" />
+          <toc-element toc-title="Messages" topic="MrKWatkins.Ast.Node-1.Messages.md" />
+          <toc-element toc-title="NextSibling" topic="MrKWatkins.Ast.Node-1.NextSibling.md" />
+          <toc-element toc-title="NextSiblings" topic="MrKWatkins.Ast.Node-1.NextSiblings.md" />
+          <toc-element toc-title="Parent" topic="MrKWatkins.Ast.Node-1.Parent.md" />
+          <toc-element toc-title="PreviousSibling" topic="MrKWatkins.Ast.Node-1.PreviousSibling.md" />
+          <toc-element toc-title="PreviousSiblings" topic="MrKWatkins.Ast.Node-1.PreviousSiblings.md" />
+          <toc-element toc-title="Properties" topic="MrKWatkins.Ast.Node-1.Properties.md" />
+          <toc-element toc-title="Root" topic="MrKWatkins.Ast.Node-1.Root.md" />
+          <toc-element toc-title="SourcePosition" topic="MrKWatkins.Ast.Node-1.SourcePosition.md" />
+          <toc-element toc-title="ThisAndAncestors" topic="MrKWatkins.Ast.Node-1.ThisAndAncestors.md" />
+          <toc-element toc-title="ThisAndDescendents" topic="MrKWatkins.Ast.Node-1.ThisAndDescendents.md" />
+          <toc-element toc-title="ThisAndDescendentsHaveErrors" topic="MrKWatkins.Ast.Node-1.ThisAndDescendentsHaveErrors.md" />
+          <toc-element toc-title="ThisAndDescendentsHaveInfos" topic="MrKWatkins.Ast.Node-1.ThisAndDescendentsHaveInfos.md" />
+          <toc-element toc-title="ThisAndDescendentsHaveMessages" topic="MrKWatkins.Ast.Node-1.ThisAndDescendentsHaveMessages.md" />
+          <toc-element toc-title="ThisAndDescendentsHaveWarnings" topic="MrKWatkins.Ast.Node-1.ThisAndDescendentsHaveWarnings.md" />
+          <toc-element toc-title="ThisAndDescendentsWithErrors" topic="MrKWatkins.Ast.Node-1.ThisAndDescendentsWithErrors.md" />
+          <toc-element toc-title="ThisAndDescendentsWithInfos" topic="MrKWatkins.Ast.Node-1.ThisAndDescendentsWithInfos.md" />
+          <toc-element toc-title="ThisAndDescendentsWithMessages" topic="MrKWatkins.Ast.Node-1.ThisAndDescendentsWithMessages.md" />
+          <toc-element toc-title="ThisAndDescendentsWithWarnings" topic="MrKWatkins.Ast.Node-1.ThisAndDescendentsWithWarnings.md" />
+          <toc-element toc-title="ThisAndNextSiblings" topic="MrKWatkins.Ast.Node-1.ThisAndNextSiblings.md" />
+          <toc-element toc-title="ThisAndPreviousSiblings" topic="MrKWatkins.Ast.Node-1.ThisAndPreviousSiblings.md" />
+          <toc-element toc-title="Warnings" topic="MrKWatkins.Ast.Node-1.Warnings.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AddError" topic="MrKWatkins.Ast.Node-1.AddError.md" />
+          <toc-element toc-title="AddInfo" topic="MrKWatkins.Ast.Node-1.AddInfo.md" />
+          <toc-element toc-title="AddMessage" topic="MrKWatkins.Ast.Node-1.AddMessage.md" />
+          <toc-element toc-title="AddNextSibling" topic="MrKWatkins.Ast.Node-1.AddNextSibling.md" />
+          <toc-element toc-title="AddPreviousSibling" topic="MrKWatkins.Ast.Node-1.AddPreviousSibling.md" />
+          <toc-element toc-title="AddWarning" topic="MrKWatkins.Ast.Node-1.AddWarning.md" />
+          <toc-element toc-title="AncestorsOfType" topic="MrKWatkins.Ast.Node-1.AncestorsOfType.md" />
+          <toc-element toc-title="Copy" topic="MrKWatkins.Ast.Node-1.Copy.md" />
+          <toc-element toc-title="MoveTo" topic="MrKWatkins.Ast.Node-1.MoveTo.md" />
+          <toc-element toc-title="RemoveFromParent" topic="MrKWatkins.Ast.Node-1.RemoveFromParent.md" />
+          <toc-element toc-title="RemoveNextSibling" topic="MrKWatkins.Ast.Node-1.RemoveNextSibling.md" />
+          <toc-element toc-title="RemovePreviousSibling" topic="MrKWatkins.Ast.Node-1.RemovePreviousSibling.md" />
+          <toc-element toc-title="ReplaceWith" topic="MrKWatkins.Ast.Node-1.ReplaceWith.md" />
+          <toc-element toc-title="ThisAnd" topic="MrKWatkins.Ast.Node-1.ThisAnd.md" />
+          <toc-element toc-title="ThisAndAncestorsOfType" topic="MrKWatkins.Ast.Node-1.ThisAndAncestorsOfType.md" />
+          <toc-element toc-title="ToString" topic="MrKWatkins.Ast.Node-1.ToString.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Properties">
+        <toc-element toc-title="Properties" topic="MrKWatkins.Ast.Properties.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Properties.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Count" topic="MrKWatkins.Ast.Properties.Count.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AddRangeToMultiple" topic="MrKWatkins.Ast.Properties.AddRangeToMultiple.md" />
+          <toc-element toc-title="AddToMultiple" topic="MrKWatkins.Ast.Properties.AddToMultiple.md" />
+          <toc-element toc-title="ContainsKey" topic="MrKWatkins.Ast.Properties.ContainsKey.md" />
+          <toc-element toc-title="GetMultiple" topic="MrKWatkins.Ast.Properties.GetMultiple.md" />
+          <toc-element toc-title="GetOrAdd" topic="MrKWatkins.Ast.Properties.GetOrAdd.md" />
+          <toc-element toc-title="GetOrDefault" topic="MrKWatkins.Ast.Properties.GetOrDefault.md" />
+          <toc-element toc-title="GetOrThrow" topic="MrKWatkins.Ast.Properties.GetOrThrow.md" />
+          <toc-element toc-title="Set" topic="MrKWatkins.Ast.Properties.Set.md" />
+          <toc-element toc-title="SetMultiple" topic="MrKWatkins.Ast.Properties.SetMultiple.md" />
+          <toc-element toc-title="TryAddToMultiple" topic="MrKWatkins.Ast.Properties.TryAddToMultiple.md" />
+          <toc-element toc-title="TryGet" topic="MrKWatkins.Ast.Properties.TryGet.md" />
+        </toc-element>
+      </toc-element>
+    </toc-element>
+    <toc-element toc-title="MrKWatkins.Ast.Listening">
+      <toc-element toc-title="CompositeListener&lt;TBaseNode&gt;">
+        <toc-element toc-title="CompositeListener&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.CompositeListener-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.CompositeListener-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-1.AfterListenToNode.md" />
+          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-1.BeforeListenToNode.md" />
+          <toc-element toc-title="Build" topic="MrKWatkins.Ast.Listening.CompositeListener-1.Build.md" />
+          <toc-element toc-title="BuildWithContext" topic="MrKWatkins.Ast.Listening.CompositeListener-1.BuildWithContext.md" />
+          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-1.ListenToNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="CompositeListenerWithContext&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="CompositeListenerWithContext&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.AfterListenToNode.md" />
+          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.BeforeListenToNode.md" />
+          <toc-element toc-title="Build" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.Build.md" />
+          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.ListenToNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="ICompositeListenerBuilder&lt;TBaseNode&gt;">
+        <toc-element toc-title="ICompositeListenerBuilder&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ToListener" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-1.ToListener.md" />
+          <toc-element toc-title="With" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-1.With.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="ICompositeListenerWithContextBuilder&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="ICompositeListenerWithContextBuilder&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ToListener" topic="MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.ToListener.md" />
+          <toc-element toc-title="With" topic="MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.With.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Listener&lt;TNode&gt;">
+        <toc-element toc-title="Listener&lt;TNode&gt;" topic="MrKWatkins.Ast.Listening.Listener-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.Listener-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.Listener-1.AfterListenToNode.md" />
+          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.Listener-1.BeforeListenToNode.md" />
+          <toc-element toc-title="Listen" topic="MrKWatkins.Ast.Listening.Listener-1.Listen.md" />
+          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.Listener-1.ListenToNode.md" />
+          <toc-element toc-title="ShouldListenToChildren" topic="MrKWatkins.Ast.Listening.Listener-1.ShouldListenToChildren.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Listener&lt;TBaseNode, TNode&gt;">
+        <toc-element toc-title="Listener&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Listening.Listener-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.Listener-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.Listener-2.AfterListenToNode.md" />
+          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.Listener-2.BeforeListenToNode.md" />
+          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.Listener-2.ListenToNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="ListenerWithContext&lt;TContext, TNode&gt;">
+        <toc-element toc-title="ListenerWithContext&lt;TContext, TNode&gt;" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.AfterListenToNode.md" />
+          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.BeforeListenToNode.md" />
+          <toc-element toc-title="Listen" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.Listen.md" />
+          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.ListenToNode.md" />
+          <toc-element toc-title="ShouldListenToChildren" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.ShouldListenToChildren.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="ListenerWithContext&lt;TContext, TBaseNode, TNode&gt;">
+        <toc-element toc-title="ListenerWithContext&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.AfterListenToNode.md" />
+          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.BeforeListenToNode.md" />
+          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.ListenToNode.md" />
+        </toc-element>
+      </toc-element>
+    </toc-element>
+    <toc-element toc-title="MrKWatkins.Ast.Position">
+      <toc-element toc-title="BinaryFile">
+        <toc-element toc-title="BinaryFile" topic="MrKWatkins.Ast.Position.BinaryFile.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.BinaryFile.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Bytes" topic="MrKWatkins.Ast.Position.BinaryFile.Bytes.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="CreateEntireFilePosition" topic="MrKWatkins.Ast.Position.BinaryFile.CreateEntireFilePosition.md" />
+          <toc-element toc-title="CreatePosition" topic="MrKWatkins.Ast.Position.BinaryFile.CreatePosition.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="BinaryFilePosition">
+        <toc-element toc-title="BinaryFilePosition" topic="MrKWatkins.Ast.Position.BinaryFilePosition.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.BinaryFilePosition.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="CreateCombination" topic="MrKWatkins.Ast.Position.BinaryFilePosition.CreateCombination.md" />
+          <toc-element toc-title="CreateZeroWidthPrefix" topic="MrKWatkins.Ast.Position.BinaryFilePosition.CreateZeroWidthPrefix.md" />
+        </toc-element>
+        <toc-element toc-title="Operators">
+          <toc-element toc-title="Addition" topic="MrKWatkins.Ast.Position.BinaryFilePosition.op_Addition.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="ITextSourcePosition">
+        <toc-element toc-title="ITextSourcePosition" topic="MrKWatkins.Ast.Position.ITextSourcePosition.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.ITextSourcePosition.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="WriteSourceForMessage" topic="MrKWatkins.Ast.Position.ITextSourcePosition.WriteSourceForMessage.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="SourceFile">
+        <toc-element toc-title="SourceFile" topic="MrKWatkins.Ast.Position.SourceFile.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.SourceFile.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Length" topic="MrKWatkins.Ast.Position.SourceFile.Length.md" />
+          <toc-element toc-title="Name" topic="MrKWatkins.Ast.Position.SourceFile.Name.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Equals" topic="MrKWatkins.Ast.Position.SourceFile.Equals.md" />
+          <toc-element toc-title="GetHashCode" topic="MrKWatkins.Ast.Position.SourceFile.GetHashCode.md" />
+          <toc-element toc-title="ToString" topic="MrKWatkins.Ast.Position.SourceFile.ToString.md" />
+        </toc-element>
+        <toc-element toc-title="Operators">
+          <toc-element toc-title="Equality" topic="MrKWatkins.Ast.Position.SourceFile.op_Equality.md" />
+          <toc-element toc-title="Inequality" topic="MrKWatkins.Ast.Position.SourceFile.op_Inequality.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="SourceFilePosition&lt;TSelf, TFile&gt;">
+        <toc-element toc-title="SourceFilePosition&lt;TSelf, TFile&gt;" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="EndIndex" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.EndIndex.md" />
+          <toc-element toc-title="File" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.File.md" />
+          <toc-element toc-title="Length" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.Length.md" />
+          <toc-element toc-title="StartIndex" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.StartIndex.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Combine" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.Combine.md" />
+          <toc-element toc-title="CreateCombination" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.CreateCombination.md" />
+          <toc-element toc-title="Equals" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.Equals.md" />
+          <toc-element toc-title="GetHashCode" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.GetHashCode.md" />
+          <toc-element toc-title="Overlaps" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.Overlaps.md" />
+          <toc-element toc-title="ToString" topic="MrKWatkins.Ast.Position.SourceFilePosition-2.ToString.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="SourcePosition">
+        <toc-element toc-title="SourcePosition" topic="MrKWatkins.Ast.Position.SourcePosition.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.SourcePosition.-ctor.md" />
+        <toc-element toc-title="Fields">
+          <toc-element toc-title="None" topic="MrKWatkins.Ast.Position.SourcePosition.None.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Combine" topic="MrKWatkins.Ast.Position.SourcePosition.Combine.md" />
+          <toc-element toc-title="CreateZeroWidthPrefix" topic="MrKWatkins.Ast.Position.SourcePosition.CreateZeroWidthPrefix.md" />
+          <toc-element toc-title="Equals" topic="MrKWatkins.Ast.Position.SourcePosition.Equals.md" />
+          <toc-element toc-title="GetHashCode" topic="MrKWatkins.Ast.Position.SourcePosition.GetHashCode.md" />
+        </toc-element>
+        <toc-element toc-title="Operators">
+          <toc-element toc-title="Addition" topic="MrKWatkins.Ast.Position.SourcePosition.op_Addition.md" />
+          <toc-element toc-title="Equality" topic="MrKWatkins.Ast.Position.SourcePosition.op_Equality.md" />
+          <toc-element toc-title="Inequality" topic="MrKWatkins.Ast.Position.SourcePosition.op_Inequality.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="SourcePosition&lt;TSelf&gt;">
+        <toc-element toc-title="SourcePosition&lt;TSelf&gt;" topic="MrKWatkins.Ast.Position.SourcePosition-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.SourcePosition-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Combine" topic="MrKWatkins.Ast.Position.SourcePosition-1.Combine.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="TextFile">
+        <toc-element toc-title="TextFile" topic="MrKWatkins.Ast.Position.TextFile.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.TextFile.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Lines" topic="MrKWatkins.Ast.Position.TextFile.Lines.md" />
+          <toc-element toc-title="Text" topic="MrKWatkins.Ast.Position.TextFile.Text.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="CreateEntireFilePosition" topic="MrKWatkins.Ast.Position.TextFile.CreateEntireFilePosition.md" />
+          <toc-element toc-title="CreatePosition" topic="MrKWatkins.Ast.Position.TextFile.CreatePosition.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="TextFilePosition">
+        <toc-element toc-title="TextFilePosition" topic="MrKWatkins.Ast.Position.TextFilePosition.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.TextFilePosition.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="StartColumnIndex" topic="MrKWatkins.Ast.Position.TextFilePosition.StartColumnIndex.md" />
+          <toc-element toc-title="StartColumnNumber" topic="MrKWatkins.Ast.Position.TextFilePosition.StartColumnNumber.md" />
+          <toc-element toc-title="StartLine" topic="MrKWatkins.Ast.Position.TextFilePosition.StartLine.md" />
+          <toc-element toc-title="StartLineIndex" topic="MrKWatkins.Ast.Position.TextFilePosition.StartLineIndex.md" />
+          <toc-element toc-title="StartLineNumber" topic="MrKWatkins.Ast.Position.TextFilePosition.StartLineNumber.md" />
+          <toc-element toc-title="Text" topic="MrKWatkins.Ast.Position.TextFilePosition.Text.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="CreateCombination" topic="MrKWatkins.Ast.Position.TextFilePosition.CreateCombination.md" />
+          <toc-element toc-title="CreateZeroWidthPrefix" topic="MrKWatkins.Ast.Position.TextFilePosition.CreateZeroWidthPrefix.md" />
+          <toc-element toc-title="ToString" topic="MrKWatkins.Ast.Position.TextFilePosition.ToString.md" />
+          <toc-element toc-title="WriteSourceForMessage" topic="MrKWatkins.Ast.Position.TextFilePosition.WriteSourceForMessage.md" />
+        </toc-element>
+        <toc-element toc-title="Operators">
+          <toc-element toc-title="Addition" topic="MrKWatkins.Ast.Position.TextFilePosition.op_Addition.md" />
+        </toc-element>
+      </toc-element>
+    </toc-element>
+    <toc-element toc-title="MrKWatkins.Ast.Processing">
+      <toc-element toc-title="OrderedProcessor&lt;TNode&gt;">
+        <toc-element toc-title="OrderedProcessor&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Traversal" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.Traversal.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.ProcessNode.md" />
+          <toc-element toc-title="ShouldProcessChildren" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.ShouldProcessChildren.md" />
+          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.ShouldProcessNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="OrderedProcessor&lt;TBaseNode, TNode&gt;">
+        <toc-element toc-title="OrderedProcessor&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Traversal" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.Traversal.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.ProcessNode.md" />
+          <toc-element toc-title="ShouldProcessChildren" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.ShouldProcessChildren.md" />
+          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.ShouldProcessNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="OrderedProcessorWithContext&lt;TContext, TNode&gt;">
+        <toc-element toc-title="OrderedProcessorWithContext&lt;TContext, TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Traversal" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.Traversal.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="CreateContext" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.CreateContext.md" />
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ProcessNode.md" />
+          <toc-element toc-title="ShouldProcessChildren" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ShouldProcessChildren.md" />
+          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ShouldProcessNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="OrderedProcessorWithContext&lt;TContext, TBaseNode, TNode&gt;">
+        <toc-element toc-title="OrderedProcessorWithContext&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Traversal" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.Traversal.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="CreateContext" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.CreateContext.md" />
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.ProcessNode.md" />
+          <toc-element toc-title="ShouldProcessChildren" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.ShouldProcessChildren.md" />
+          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.ShouldProcessNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="ParallelPipelineStageBuilder&lt;TNode&gt;">
+        <toc-element toc-title="ParallelPipelineStageBuilder&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="WithMaxDegreeOfParallelism" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.WithMaxDegreeOfParallelism.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Pipeline&lt;TNode&gt;">
+        <toc-element toc-title="Pipeline&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.Pipeline-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Pipeline-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Build" topic="MrKWatkins.Ast.Processing.Pipeline-1.Build.md" />
+          <toc-element toc-title="Run" topic="MrKWatkins.Ast.Processing.Pipeline-1.Run.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="PipelineBuilder&lt;TNode&gt;">
+        <toc-element toc-title="PipelineBuilder&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AddParallelStage" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.AddParallelStage.md" />
+          <toc-element toc-title="AddStage" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.AddStage.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="PipelineException">
+        <toc-element toc-title="PipelineException" topic="MrKWatkins.Ast.Processing.PipelineException.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.PipelineException.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Message" topic="MrKWatkins.Ast.Processing.PipelineException.Message.md" />
+          <toc-element toc-title="Stage" topic="MrKWatkins.Ast.Processing.PipelineException.Stage.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="PipelineStageBuilder&lt;TSelf, TProcessor, TNode&gt;">
+        <toc-element toc-title="PipelineStageBuilder&lt;TSelf, TProcessor, TNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Add" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.Add.md" />
+          <toc-element toc-title="WithAlwaysContinue" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.WithAlwaysContinue.md" />
+          <toc-element toc-title="WithName" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.WithName.md" />
+          <toc-element toc-title="WithShouldContinue" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.WithShouldContinue.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="ProcessingException">
+        <toc-element toc-title="ProcessingException" topic="MrKWatkins.Ast.Processing.ProcessingException.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.ProcessingException.-ctor.md" />
+      </toc-element>
+      <toc-element toc-title="ProcessingException&lt;TNode&gt;">
+        <toc-element toc-title="ProcessingException&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.ProcessingException-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.ProcessingException-1.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Message" topic="MrKWatkins.Ast.Processing.ProcessingException-1.Message.md" />
+          <toc-element toc-title="Node" topic="MrKWatkins.Ast.Processing.ProcessingException-1.Node.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Processor&lt;TNode&gt;">
+        <toc-element toc-title="Processor&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.Processor-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Processor-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.Processor-1.Process.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Replacer&lt;TNode&gt;">
+        <toc-element toc-title="Replacer&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.Replacer-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Replacer-1.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="ProcessReplacements" topic="MrKWatkins.Ast.Processing.Replacer-1.ProcessReplacements.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Replacer-1.ProcessNode.md" />
+          <toc-element toc-title="ReplaceNode" topic="MrKWatkins.Ast.Processing.Replacer-1.ReplaceNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Replacer&lt;TBaseNode, TNode&gt;">
+        <toc-element toc-title="Replacer&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.Replacer-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Replacer-2.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="ProcessReplacements" topic="MrKWatkins.Ast.Processing.Replacer-2.ProcessReplacements.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Replacer-2.ProcessNode.md" />
+          <toc-element toc-title="ReplaceNode" topic="MrKWatkins.Ast.Processing.Replacer-2.ReplaceNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Replacer&lt;TBaseNode, TNode, TReplacementNode&gt;">
+        <toc-element toc-title="Replacer&lt;TBaseNode, TNode, TReplacementNode&gt;" topic="MrKWatkins.Ast.Processing.Replacer-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Replacer-3.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="ProcessReplacements" topic="MrKWatkins.Ast.Processing.Replacer-3.ProcessReplacements.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Replacer-3.ProcessNode.md" />
+          <toc-element toc-title="ReplaceNode" topic="MrKWatkins.Ast.Processing.Replacer-3.ReplaceNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="SerialPipelineStageBuilder&lt;TNode&gt;">
+        <toc-element toc-title="SerialPipelineStageBuilder&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.SerialPipelineStageBuilder-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.SerialPipelineStageBuilder-1.-ctor.md" />
+      </toc-element>
+      <toc-element toc-title="UnorderedProcessor&lt;TNode&gt;">
+        <toc-element toc-title="UnorderedProcessor&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-1.ProcessNode.md" />
+          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-1.ShouldProcessNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="UnorderedProcessor&lt;TBaseNode, TNode&gt;">
+        <toc-element toc-title="UnorderedProcessor&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-2.ProcessNode.md" />
+          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-2.ShouldProcessNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="UnorderedProcessorWithContext&lt;TContext, TNode&gt;">
+        <toc-element toc-title="UnorderedProcessorWithContext&lt;TContext, TNode&gt;" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="CreateContext" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.CreateContext.md" />
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.ProcessNode.md" />
+          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.ShouldProcessNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="UnorderedProcessorWithContext&lt;TContext, TBaseNode, TNode&gt;">
+        <toc-element toc-title="UnorderedProcessorWithContext&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="CreateContext" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.CreateContext.md" />
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.ProcessNode.md" />
+          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.ShouldProcessNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Validator&lt;TNode&gt;">
+        <toc-element toc-title="Validator&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.Validator-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Validator-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Validator-1.ProcessNode.md" />
+          <toc-element toc-title="ValidateNode" topic="MrKWatkins.Ast.Processing.Validator-1.ValidateNode.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Validator&lt;TBaseNode, TNode&gt;">
+        <toc-element toc-title="Validator&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.Validator-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Validator-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Validator-2.ProcessNode.md" />
+          <toc-element toc-title="ValidateNode" topic="MrKWatkins.Ast.Processing.Validator-2.ValidateNode.md" />
+        </toc-element>
+      </toc-element>
+    </toc-element>
+    <toc-element toc-title="MrKWatkins.Ast.Traversal">
+      <toc-element toc-title="BreadthFirstTraversal&lt;TNode&gt;">
+        <toc-element toc-title="BreadthFirstTraversal&lt;TNode&gt;" topic="MrKWatkins.Ast.Traversal.BreadthFirstTraversal-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Traversal.BreadthFirstTraversal-1.-ctor.md" />
+        <toc-element toc-title="Fields">
+          <toc-element toc-title="Instance" topic="MrKWatkins.Ast.Traversal.BreadthFirstTraversal-1.Instance.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Enumerate" topic="MrKWatkins.Ast.Traversal.BreadthFirstTraversal-1.Enumerate.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="DepthFirstPostOrderTraversal&lt;TNode&gt;">
+        <toc-element toc-title="DepthFirstPostOrderTraversal&lt;TNode&gt;" topic="MrKWatkins.Ast.Traversal.DepthFirstPostOrderTraversal-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Traversal.DepthFirstPostOrderTraversal-1.-ctor.md" />
+        <toc-element toc-title="Fields">
+          <toc-element toc-title="Instance" topic="MrKWatkins.Ast.Traversal.DepthFirstPostOrderTraversal-1.Instance.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Enumerate" topic="MrKWatkins.Ast.Traversal.DepthFirstPostOrderTraversal-1.Enumerate.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="DepthFirstPreOrderTraversal&lt;TNode&gt;">
+        <toc-element toc-title="DepthFirstPreOrderTraversal&lt;TNode&gt;" topic="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal-1.-ctor.md" />
+        <toc-element toc-title="Fields">
+          <toc-element toc-title="Instance" topic="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal-1.Instance.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Enumerate" topic="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal-1.Enumerate.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="ITraversal&lt;TNode&gt;">
+        <toc-element toc-title="ITraversal&lt;TNode&gt;" topic="MrKWatkins.Ast.Traversal.ITraversal-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Traversal.ITraversal-1.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Enumerate" topic="MrKWatkins.Ast.Traversal.ITraversal-1.Enumerate.md" />
+        </toc-element>
+      </toc-element>
+    </toc-element>
+  </toc-element>
+</instance-profile>
