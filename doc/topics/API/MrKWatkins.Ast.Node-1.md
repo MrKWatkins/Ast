@@ -51,7 +51,6 @@ public abstract class Node<TNode>
 | [Parent](MrKWatkins.Ast.Node-1.Parent.md) | The parent of this node. |
 | [PreviousSibling](MrKWatkins.Ast.Node-1.PreviousSibling.md) | The previous sibling, i.e. the child from the same [Parent](MrKWatkins.Ast.Node-1.Parent.md) at the previous positional index. Returns `null` if this node is the first child. |
 | [PreviousSiblings](MrKWatkins.Ast.Node-1.PreviousSiblings.md) | Lazily enumerates over the previous siblings, i.e. the children from the same [Parent](MrKWatkins.Ast.Node-1.Parent.md) at precedent positional indices in descending index order. |
-| [Properties](MrKWatkins.Ast.Node-1.Properties.md) | The [Properties](MrKWatkins.Ast.Properties.md) associated with this node. |
 | [Root](MrKWatkins.Ast.Node-1.Root.md) | The root node, i.e. the highest parent above this node. Returns this node if it is the root, i.e. it has no parents. |
 | [SourcePosition](MrKWatkins.Ast.Node-1.SourcePosition.md) | The position of the node in the source code. |
 | [ThisAndAncestors](MrKWatkins.Ast.Node-1.ThisAndAncestors.md) | Lazily enumerates over this node and its [Ancestors](MrKWatkins.Ast.Node-1.Ancestors.md), i.e. this node, the [Parent](MrKWatkins.Ast.Node-1.Parent.md), grandparent, great-grandparent and so on up to the root node. |
@@ -84,8 +83,6 @@ public abstract class Node<TNode>
 | [AddWarning(String)](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and the specified text to this node. |
 | [AddWarning(String, String)](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and the specified text to this node. |
 | [AncestorsOfType()](MrKWatkins.Ast.Node-1.AncestorsOfType.md) | Lazily enumerates over this node and its [Ancestors](MrKWatkins.Ast.Node-1.Ancestors.md), returning only ancestors of the specified type. |
-| [Copy()](MrKWatkins.Ast.Node-1.Copy.md#mrkwatkins-ast-node-1-copy) | Copies this node using the [DefaultNodeFactory&lt;TNode&gt;](MrKWatkins.Ast.DefaultNodeFactory-1.md). |
-| [Copy(INodeFactory&lt;TNode&gt;)](MrKWatkins.Ast.Node-1.Copy.md#mrkwatkins-ast-node-1-copy(mrkwatkins-ast-inodefactory((-0)))) | Copies this node using the specified [INodeFactory&lt;TNode&gt;](MrKWatkins.Ast.INodeFactory-1.md). |
 | [MoveTo(TNode)](MrKWatkins.Ast.Node-1.MoveTo.md) | Moves this node to a new parent. |
 | [RemoveFromParent()](MrKWatkins.Ast.Node-1.RemoveFromParent.md) | Removes this node from its [Parent](MrKWatkins.Ast.Node-1.Parent.md). |
 | [RemoveNextSibling()](MrKWatkins.Ast.Node-1.RemoveNextSibling.md) | Removes the [NextSibling](MrKWatkins.Ast.Node-1.NextSibling.md) from [Parent](MrKWatkins.Ast.Node-1.Parent.md) if it exists. |
@@ -93,5 +90,5 @@ public abstract class Node<TNode>
 | [ReplaceWith(Node&lt;TNode&gt;)](MrKWatkins.Ast.Node-1.ReplaceWith.md) | Removes this node from it&#39;s parent and puts another node in its place. |
 | [ThisAnd(IEnumerable&lt;TNode&gt;)](MrKWatkins.Ast.Node-1.ThisAnd.md) | Lazily enumerates over this node and then the specified enumeration of nodes. |
 | [ThisAndAncestorsOfType()](MrKWatkins.Ast.Node-1.ThisAndAncestorsOfType.md) | Lazily enumerates over the [Ancestors](MrKWatkins.Ast.Node-1.Ancestors.md) of this node, returning only ancestors of the specified type. |
-| [ToString()](MrKWatkins.Ast.Node-1.ToString.md) |  |
+| [ToString()](MrKWatkins.Ast.Node-1.ToString.md) | Returns a string that represents the current node. Defaults to the name of the type of the node. |
 

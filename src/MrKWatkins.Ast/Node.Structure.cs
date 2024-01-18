@@ -8,16 +8,6 @@ public abstract partial class Node<TNode>
     private TNode? parent;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="Node{TNode}" /> class with the specified children.
-    /// </summary>
-    /// <param name="children">The children to add.</param>
-    /// <exception cref="InvalidOperationException">If any of <see cref="Children" /> already have a <see cref="Parent" />.</exception>
-    protected Node([InstantHandle] IEnumerable<TNode> children)
-    {
-        Children = new Children<TNode>(This, children);
-    }
-
-    /// <summary>
     /// The parent of this node.
     /// </summary>
     /// <exception cref="InvalidOperationException">
@@ -78,7 +68,7 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Removes this node from it's parent and puts another node in its place.
     /// </summary>
-    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode) other);
+    public void ReplaceWith(Node<TNode> other) => Parent.Children.Replace(This, (TNode)other);
 
     /// <summary>
     /// Lazily enumerates over this node and then the specified enumeration of nodes.

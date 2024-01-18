@@ -61,7 +61,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <param name="nodes">The nodes to add.</param>
     /// <exception cref="InvalidOperationException">If any of <paramref name="nodes" /> already have a parent.</exception>
     // ReSharper disable once ParameterHidesMember
-    public void Add(params TNode[] nodes) => Add((IEnumerable<TNode>) nodes);
+    public void Add(params TNode[] nodes) => Add((IEnumerable<TNode>)nodes);
 
     /// <summary>
     /// Removes all nodes from the collection and resets their <see cref="Node{TNode}.Parent" /> properties to <c>null</c>.
@@ -141,7 +141,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <param name="nodes">The nodes to move.</param>
     /// <exception cref="InvalidOperationException">If <paramref name="nodes" /> contains a node that is already in this collection.</exception>
     // ReSharper disable once ParameterHidesMember
-    public void Move(params TNode[] nodes) => Move((IEnumerable<TNode>) nodes);
+    public void Move(params TNode[] nodes) => Move((IEnumerable<TNode>)nodes);
 
     /// <summary>
     /// The number of nodes in the collection.

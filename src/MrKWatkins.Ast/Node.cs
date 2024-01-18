@@ -9,8 +9,6 @@ namespace MrKWatkins.Ast;
 public abstract partial class Node<TNode>
     where TNode : Node<TNode>
 {
-    private Properties? properties;
-
     /// <summary>
     /// Initialises a new instance of the <see cref="Node{TNode}" /> class.
     /// </summary>
@@ -19,42 +17,26 @@ public abstract partial class Node<TNode>
         Children = new Children<TNode>(This);
     }
 
-    private TNode This => (TNode)this;
-
     /// <summary>
-    /// The <see cref="MrKWatkins.Ast.Properties" /> associated with this node.
+    /// Initialises a new instance of the <see cref="Node{TNode}" /> class with the specified children.
     /// </summary>
-    protected Properties Properties => properties ??= new Properties();
+    /// <param name="children">The children to add.</param>
+    /// <exception cref="InvalidOperationException">If any of <see cref="Children" /> already have a <see cref="Parent" />.</exception>
+    protected Node([InstantHandle] IEnumerable<TNode> children)
+    {
+        Children = new Children<TNode>(This, children);
+    }
+
+    private TNode This => (TNode)this;
 
     /// <summary>
     /// The position of the node in the source code.
     /// </summary>
-    public virtual SourcePosition SourcePosition
-    {
-        get => Properties.GetOrDefault(nameof(SourcePosition), SourcePosition.None);
-        set => Properties.Set(nameof(SourcePosition), value);
-    }
+    public virtual SourcePosition SourcePosition { get; set; } = SourcePosition.None;
 
     /// <summary>
-    /// Copies this node using the <see cref="DefaultNodeFactory{TNode}" />.
+    /// Returns a string that represents the current node. Defaults to the name of the type of the node.
     /// </summary>
-    /// <returns>A copy of this node.</returns>
-    [Pure]
-    public TNode Copy() => Copy(DefaultNodeFactory<TNode>.Instance);
-
-    /// <summary>
-    /// Copies this node using the specified <see cref="INodeFactory{TNode}" />.
-    /// </summary>
-    /// <returns>A copy of this node.</returns>
-    [Pure]
-    public TNode Copy(INodeFactory<TNode> nodeFactory)
-    {
-        var copy = nodeFactory.Create(GetType());
-        copy.properties = properties?.Copy();
-        copy.Children.Add(Children.Select(c => c.Copy(nodeFactory)));
-        return copy;
-    }
-
-    /// <inheritdoc />
+    /// <returns>A string that represents the current node.</returns>
     public override string ToString() => GetType().Name;
 }

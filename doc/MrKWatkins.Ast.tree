@@ -109,7 +109,6 @@
           <toc-element toc-title="Parent" topic="MrKWatkins.Ast.Node-1.Parent.md" />
           <toc-element toc-title="PreviousSibling" topic="MrKWatkins.Ast.Node-1.PreviousSibling.md" />
           <toc-element toc-title="PreviousSiblings" topic="MrKWatkins.Ast.Node-1.PreviousSiblings.md" />
-          <toc-element toc-title="Properties" topic="MrKWatkins.Ast.Node-1.Properties.md" />
           <toc-element toc-title="Root" topic="MrKWatkins.Ast.Node-1.Root.md" />
           <toc-element toc-title="SourcePosition" topic="MrKWatkins.Ast.Node-1.SourcePosition.md" />
           <toc-element toc-title="ThisAndAncestors" topic="MrKWatkins.Ast.Node-1.ThisAndAncestors.md" />
@@ -134,7 +133,6 @@
           <toc-element toc-title="AddPreviousSibling" topic="MrKWatkins.Ast.Node-1.AddPreviousSibling.md" />
           <toc-element toc-title="AddWarning" topic="MrKWatkins.Ast.Node-1.AddWarning.md" />
           <toc-element toc-title="AncestorsOfType" topic="MrKWatkins.Ast.Node-1.AncestorsOfType.md" />
-          <toc-element toc-title="Copy" topic="MrKWatkins.Ast.Node-1.Copy.md" />
           <toc-element toc-title="MoveTo" topic="MrKWatkins.Ast.Node-1.MoveTo.md" />
           <toc-element toc-title="RemoveFromParent" topic="MrKWatkins.Ast.Node-1.RemoveFromParent.md" />
           <toc-element toc-title="RemoveNextSibling" topic="MrKWatkins.Ast.Node-1.RemoveNextSibling.md" />
@@ -163,6 +161,16 @@
           <toc-element toc-title="SetMultiple" topic="MrKWatkins.Ast.Properties.SetMultiple.md" />
           <toc-element toc-title="TryAddToMultiple" topic="MrKWatkins.Ast.Properties.TryAddToMultiple.md" />
           <toc-element toc-title="TryGet" topic="MrKWatkins.Ast.Properties.TryGet.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="PropertyNode&lt;TNode&gt;">
+        <toc-element toc-title="PropertyNode&lt;TNode&gt;" topic="MrKWatkins.Ast.PropertyNode-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.PropertyNode-1.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Properties" topic="MrKWatkins.Ast.PropertyNode-1.Properties.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Copy" topic="MrKWatkins.Ast.PropertyNode-1.Copy.md" />
         </toc-element>
       </toc-element>
     </toc-element>

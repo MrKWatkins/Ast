@@ -1,4 +1,4 @@
-# Node&lt;TNode&gt;.Properties Property
+# PropertyNode&lt;TNode&gt;.Properties Property
 ## Definition
 
 The [Properties](MrKWatkins.Ast.Properties.md) associated with this node.

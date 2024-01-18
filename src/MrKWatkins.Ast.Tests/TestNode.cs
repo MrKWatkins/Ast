@@ -1,6 +1,6 @@
 namespace MrKWatkins.Ast.Tests;
 
-public abstract class TestNode : Node<TestNode>
+public abstract class TestNode : PropertyNode<TestNode>
 {
     protected TestNode()
     {
