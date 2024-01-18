@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Equals](MrKWatkins.Ast.Position.SourcePosition.Equals.md#mrkwatkins-ast-position-sourceposition-equals(mrkwatkins-ast-position-sourceposition)) |  |
-| [Equals](MrKWatkins.Ast.Position.SourcePosition.Equals.md#mrkwatkins-ast-position-sourceposition-equals(system-object)) |  |
+| [Equals(SourcePosition)](MrKWatkins.Ast.Position.SourcePosition.Equals.md#mrkwatkins-ast-position-sourceposition-equals(mrkwatkins-ast-position-sourceposition)) |  |
+| [Equals(object)](MrKWatkins.Ast.Position.SourcePosition.Equals.md#mrkwatkins-ast-position-sourceposition-equals(system-object)) |  |
 
 ## Equals(SourcePosition) {id="mrkwatkins-ast-position-sourceposition-equals(mrkwatkins-ast-position-sourceposition)"}
 

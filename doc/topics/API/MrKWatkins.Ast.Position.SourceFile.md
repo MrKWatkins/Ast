@@ -24,15 +24,15 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
 
 | Name | Description |
 | ---- | ----------- |
-| [Equals](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)) |  |
-| [Equals](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(system-object)) |  |
-| [GetHashCode](MrKWatkins.Ast.Position.SourceFile.GetHashCode.md) |  |
-| [ToString](MrKWatkins.Ast.Position.SourceFile.ToString.md) |  |
+| [Equals(SourceFile)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)) |  |
+| [Equals(object)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(system-object)) |  |
+| [GetHashCode()](MrKWatkins.Ast.Position.SourceFile.GetHashCode.md) |  |
+| [ToString()](MrKWatkins.Ast.Position.SourceFile.ToString.md) |  |
 
 ## Operators
 
 | Name | Description |
 | ---- | ----------- |
-| [Equality](MrKWatkins.Ast.Position.SourceFile.op_Equality.md) | Determines whether two specified [SourceFile](MrKWatkins.Ast.Position.SourceFile.md)s have the same value. |
-| [Inequality](MrKWatkins.Ast.Position.SourceFile.op_Inequality.md) | Determines whether two specified [SourceFile](MrKWatkins.Ast.Position.SourceFile.md)s have different values. |
+| [op_Equality(SourceFile, SourceFile)](MrKWatkins.Ast.Position.SourceFile.op_Equality.md) | Determines whether two specified [SourceFile](MrKWatkins.Ast.Position.SourceFile.md)s have the same value. |
+| [op_Inequality(SourceFile, SourceFile)](MrKWatkins.Ast.Position.SourceFile.op_Inequality.md) | Determines whether two specified [SourceFile](MrKWatkins.Ast.Position.SourceFile.md)s have different values. |
 

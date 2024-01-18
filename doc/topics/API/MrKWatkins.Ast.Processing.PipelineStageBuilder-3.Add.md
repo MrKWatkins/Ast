@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Add](MrKWatkins.Ast.Processing.PipelineStageBuilder-3.Add.md#mrkwatkins-ast-processing-pipelinestagebuilder-3-add-1) | Adds a [Processor&lt;TNode&gt;](MrKWatkins.Ast.Processing.Processor-1.md) of the specified type to the current stage. |
-| [Add](MrKWatkins.Ast.Processing.PipelineStageBuilder-3.Add.md#mrkwatkins-ast-processing-pipelinestagebuilder-3-add(-1-1())) | Adds [Processors](MrKWatkins.Ast.Processing.Processor-1.md) to the current stage. |
+| [Add&lt;TConstructableProcessor&gt;()](MrKWatkins.Ast.Processing.PipelineStageBuilder-3.Add.md#mrkwatkins-ast-processing-pipelinestagebuilder-3-add-1) | Adds a [Processor&lt;TNode&gt;](MrKWatkins.Ast.Processing.Processor-1.md) of the specified type to the current stage. |
+| [Add(TProcessor, TProcessor\[\])](MrKWatkins.Ast.Processing.PipelineStageBuilder-3.Add.md#mrkwatkins-ast-processing-pipelinestagebuilder-3-add(-1-1())) | Adds [Processors](MrKWatkins.Ast.Processing.Processor-1.md) to the current stage. |
 
 ## Add&lt;TConstructableProcessor&gt;() {id="mrkwatkins-ast-processing-pipelinestagebuilder-3-add-1"}
 

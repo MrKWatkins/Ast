@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [BeforeListenToNode](MrKWatkins.Ast.Listening.Listener-2.BeforeListenToNode.md#mrkwatkins-ast-listening-listener-2-beforelistentonode(-0)) |  |
-| [BeforeListenToNode](MrKWatkins.Ast.Listening.Listener-2.BeforeListenToNode.md#mrkwatkins-ast-listening-listener-2-beforelistentonode(-1)) | Called before a node *and its descendents* are listened to. |
+| [BeforeListenToNode(TBaseNode)](MrKWatkins.Ast.Listening.Listener-2.BeforeListenToNode.md#mrkwatkins-ast-listening-listener-2-beforelistentonode(-0)) |  |
+| [BeforeListenToNode(TNode)](MrKWatkins.Ast.Listening.Listener-2.BeforeListenToNode.md#mrkwatkins-ast-listening-listener-2-beforelistentonode(-1)) | Called before a node *and its descendents* are listened to. |
 
 ## BeforeListenToNode(TBaseNode) {id="mrkwatkins-ast-listening-listener-2-beforelistentonode(-0)"}
 

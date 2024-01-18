@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [AddWarning](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and the specified text to this node. |
-| [AddWarning](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and the specified text to this node. |
+| [AddWarning(string)](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and the specified text to this node. |
+| [AddWarning(string, string)](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and the specified text to this node. |
 
 ## AddWarning(string) {id="mrkwatkins-ast-node-1-addwarning(system-string)"}
 

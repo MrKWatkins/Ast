@@ -26,6 +26,6 @@ public sealed class TextFile : SourceFile, IEquatable<SourceFile>, IEqualityOper
 
 | Name | Description |
 | ---- | ----------- |
-| [CreateEntireFilePosition](MrKWatkins.Ast.Position.TextFile.CreateEntireFilePosition.md) | Creates a [TextFilePosition](MrKWatkins.Ast.Position.TextFilePosition.md) from this [TextFile](MrKWatkins.Ast.Position.TextFile.md) that represents the whole file. |
-| [CreatePosition](MrKWatkins.Ast.Position.TextFile.CreatePosition.md) | Creates a [TextFilePosition](MrKWatkins.Ast.Position.TextFilePosition.md) from this [TextFile](MrKWatkins.Ast.Position.TextFile.md). |
+| [CreateEntireFilePosition()](MrKWatkins.Ast.Position.TextFile.CreateEntireFilePosition.md) | Creates a [TextFilePosition](MrKWatkins.Ast.Position.TextFilePosition.md) from this [TextFile](MrKWatkins.Ast.Position.TextFile.md) that represents the whole file. |
+| [CreatePosition(int, int, int, int)](MrKWatkins.Ast.Position.TextFile.CreatePosition.md) | Creates a [TextFilePosition](MrKWatkins.Ast.Position.TextFilePosition.md) from this [TextFile](MrKWatkins.Ast.Position.TextFile.md). |
 

@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Error](MrKWatkins.Ast.Message.Error.md) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md) and specified [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
-| [Error](MrKWatkins.Ast.Message.Error.md) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md) and specified [Text](MrKWatkins.Ast.Message.Text.md). |
+| [Error(string, string)](MrKWatkins.Ast.Message.Error.md) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md) and specified [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
+| [Error(string)](MrKWatkins.Ast.Message.Error.md) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md) and specified [Text](MrKWatkins.Ast.Message.Text.md). |
 
 ## Error(string, string) {id="mrkwatkins-ast-message-error(system-string-system-string)"}
 

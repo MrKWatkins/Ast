@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [ListenToNode](MrKWatkins.Ast.Listening.Listener-2.ListenToNode.md#mrkwatkins-ast-listening-listener-2-listentonode(-0)) |  |
-| [ListenToNode](MrKWatkins.Ast.Listening.Listener-2.ListenToNode.md#mrkwatkins-ast-listening-listener-2-listentonode(-1)) | Called when the node is listened to. |
+| [ListenToNode(TBaseNode)](MrKWatkins.Ast.Listening.Listener-2.ListenToNode.md#mrkwatkins-ast-listening-listener-2-listentonode(-0)) |  |
+| [ListenToNode(TNode)](MrKWatkins.Ast.Listening.Listener-2.ListenToNode.md#mrkwatkins-ast-listening-listener-2-listentonode(-1)) | Called when the node is listened to. |
 
 ## ListenToNode(TBaseNode) {id="mrkwatkins-ast-listening-listener-2-listentonode(-0)"}
 

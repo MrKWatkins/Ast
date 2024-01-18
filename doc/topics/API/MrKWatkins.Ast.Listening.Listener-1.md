@@ -24,9 +24,9 @@ public abstract class Listener<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [AfterListenToNode](MrKWatkins.Ast.Listening.Listener-1.AfterListenToNode.md) | Called after a node *and its descendents* have been listened to. |
-| [BeforeListenToNode](MrKWatkins.Ast.Listening.Listener-1.BeforeListenToNode.md) | Called before a node *and its descendents* are listened to. |
-| [Listen](MrKWatkins.Ast.Listening.Listener-1.Listen.md) | Listen to the specified node and its descendents. |
-| [ListenToNode](MrKWatkins.Ast.Listening.Listener-1.ListenToNode.md) | Called when the node is listened to. |
-| [ShouldListenToChildren](MrKWatkins.Ast.Listening.Listener-1.ShouldListenToChildren.md) | Return a value indicating whether child nodes should be listened to or not. Defaults to `true`. |
+| [AfterListenToNode(TNode)](MrKWatkins.Ast.Listening.Listener-1.AfterListenToNode.md) | Called after a node *and its descendents* have been listened to. |
+| [BeforeListenToNode(TNode)](MrKWatkins.Ast.Listening.Listener-1.BeforeListenToNode.md) | Called before a node *and its descendents* are listened to. |
+| [Listen(TNode)](MrKWatkins.Ast.Listening.Listener-1.Listen.md) | Listen to the specified node and its descendents. |
+| [ListenToNode(TNode)](MrKWatkins.Ast.Listening.Listener-1.ListenToNode.md) | Called when the node is listened to. |
+| [ShouldListenToChildren(TNode)](MrKWatkins.Ast.Listening.Listener-1.ShouldListenToChildren.md) | Return a value indicating whether child nodes should be listened to or not. Defaults to `true`. |
 

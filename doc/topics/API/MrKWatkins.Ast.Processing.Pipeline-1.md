@@ -18,7 +18,7 @@ public sealed class Pipeline<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [Build](MrKWatkins.Ast.Processing.Pipeline-1.Build.md) | Fluent interface to build a [Pipeline&lt;TNode&gt;](MrKWatkins.Ast.Processing.Pipeline-1.md). |
-| [Run](MrKWatkins.Ast.Processing.Pipeline-1.Run.md#mrkwatkins-ast-processing-pipeline-1-run(-0)) | Runs the pipeline on the specified root node. |
-| [Run](MrKWatkins.Ast.Processing.Pipeline-1.Run.md#mrkwatkins-ast-processing-pipeline-1-run(-0-system-string@)) | Runs the pipeline on the specified root node. |
+| [Build(Action&lt;PipelineBuilder&lt;TNode&gt;&gt;)](MrKWatkins.Ast.Processing.Pipeline-1.Build.md) | Fluent interface to build a [Pipeline&lt;TNode&gt;](MrKWatkins.Ast.Processing.Pipeline-1.md). |
+| [Run(TNode)](MrKWatkins.Ast.Processing.Pipeline-1.Run.md#mrkwatkins-ast-processing-pipeline-1-run(-0)) | Runs the pipeline on the specified root node. |
+| [Run(TNode, string)](MrKWatkins.Ast.Processing.Pipeline-1.Run.md#mrkwatkins-ast-processing-pipeline-1-run(-0-system-string@)) | Runs the pipeline on the specified root node. |
 

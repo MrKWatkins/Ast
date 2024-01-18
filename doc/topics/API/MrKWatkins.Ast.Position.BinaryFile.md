@@ -25,6 +25,6 @@ public sealed class BinaryFile : SourceFile, IEquatable<SourceFile>, IEqualityOp
 
 | Name | Description |
 | ---- | ----------- |
-| [CreateEntireFilePosition](MrKWatkins.Ast.Position.BinaryFile.CreateEntireFilePosition.md) | Creates a [BinaryFilePosition](MrKWatkins.Ast.Position.BinaryFilePosition.md) from this [BinaryFile](MrKWatkins.Ast.Position.BinaryFile.md) that represents the whole file. |
-| [CreatePosition](MrKWatkins.Ast.Position.BinaryFile.CreatePosition.md) | Creates a [BinaryFilePosition](MrKWatkins.Ast.Position.BinaryFilePosition.md) from this [BinaryFile](MrKWatkins.Ast.Position.BinaryFile.md). |
+| [CreateEntireFilePosition()](MrKWatkins.Ast.Position.BinaryFile.CreateEntireFilePosition.md) | Creates a [BinaryFilePosition](MrKWatkins.Ast.Position.BinaryFilePosition.md) from this [BinaryFile](MrKWatkins.Ast.Position.BinaryFile.md) that represents the whole file. |
+| [CreatePosition(int, int)](MrKWatkins.Ast.Position.BinaryFile.CreatePosition.md) | Creates a [BinaryFilePosition](MrKWatkins.Ast.Position.BinaryFilePosition.md) from this [BinaryFile](MrKWatkins.Ast.Position.BinaryFile.md). |
 

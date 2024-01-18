@@ -11,5 +11,5 @@ public abstract interface ITextSourcePosition
 
 | Name | Description |
 | ---- | ----------- |
-| [WriteSourceForMessage](MrKWatkins.Ast.Position.ITextSourcePosition.WriteSourceForMessage.md) | Writes the source for the purposes of displaying a [Message](MrKWatkins.Ast.Message.md). |
+| [WriteSourceForMessage(StringBuilder)](MrKWatkins.Ast.Position.ITextSourcePosition.WriteSourceForMessage.md) | Writes the source for the purposes of displaying a [Message](MrKWatkins.Ast.Message.md). |
 

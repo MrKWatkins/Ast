@@ -24,5 +24,5 @@ public sealed class BreadthFirstTraversal<TNode> : ITraversal<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [Enumerate](MrKWatkins.Ast.Traversal.BreadthFirstTraversal-1.Enumerate.md) |  |
+| [Enumerate(TNode, bool, Func&lt;TNode, Boolean&gt;)](MrKWatkins.Ast.Traversal.BreadthFirstTraversal-1.Enumerate.md) |  |
 

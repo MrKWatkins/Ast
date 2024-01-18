@@ -24,6 +24,6 @@ public abstract class UnorderedProcessor<TNode> : Processor<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [ProcessNode](MrKWatkins.Ast.Processing.UnorderedProcessor-1.ProcessNode.md) | Process the specified node. |
-| [ShouldProcessNode](MrKWatkins.Ast.Processing.UnorderedProcessor-1.ShouldProcessNode.md) | Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes. |
+| [ProcessNode(TNode)](MrKWatkins.Ast.Processing.UnorderedProcessor-1.ProcessNode.md) | Process the specified node. |
+| [ShouldProcessNode(TNode)](MrKWatkins.Ast.Processing.UnorderedProcessor-1.ShouldProcessNode.md) | Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes. |
 

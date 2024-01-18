@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Copy](MrKWatkins.Ast.PropertyNode-1.Copy.md#mrkwatkins-ast-propertynode-1-copy) | Copies this node and its [Properties](MrKWatkins.Ast.PropertyNode-1.Properties.md) using the [DefaultNodeFactory&lt;TNode&gt;](MrKWatkins.Ast.DefaultNodeFactory-1.md). |
-| [Copy](MrKWatkins.Ast.PropertyNode-1.Copy.md#mrkwatkins-ast-propertynode-1-copy(mrkwatkins-ast-inodefactory((-0)))) | Copies this node and its [Properties](MrKWatkins.Ast.PropertyNode-1.Properties.md) using the specified [INodeFactory&lt;TNode&gt;](MrKWatkins.Ast.INodeFactory-1.md). |
+| [Copy()](MrKWatkins.Ast.PropertyNode-1.Copy.md#mrkwatkins-ast-propertynode-1-copy) | Copies this node and its [Properties](MrKWatkins.Ast.PropertyNode-1.Properties.md) using the [DefaultNodeFactory&lt;TNode&gt;](MrKWatkins.Ast.DefaultNodeFactory-1.md). |
+| [Copy(INodeFactory&lt;TNode&gt;)](MrKWatkins.Ast.PropertyNode-1.Copy.md#mrkwatkins-ast-propertynode-1-copy(mrkwatkins-ast-inodefactory((-0)))) | Copies this node and its [Properties](MrKWatkins.Ast.PropertyNode-1.Properties.md) using the specified [INodeFactory&lt;TNode&gt;](MrKWatkins.Ast.INodeFactory-1.md). |
 
 ## Copy() {id="mrkwatkins-ast-propertynode-1-copy"}
 

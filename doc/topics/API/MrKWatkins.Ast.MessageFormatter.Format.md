@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Format](MrKWatkins.Ast.MessageFormatter.Format.md) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) of the specified [MessageLevel](MrKWatkins.Ast.MessageLevel.md) in the specified node. |
-| [Format](MrKWatkins.Ast.MessageFormatter.Format.md) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) in the specified node, grouping by [Level](MrKWatkins.Ast.Message.Level.md) in descending order. I.e. [Error](MrKWatkins.Ast.MessageLevel.Error.md) then [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and then [Info](MrKWatkins.Ast.MessageLevel.Info.md). |
+| [Format&lt;TNode&gt;(Node&lt;TNode&gt;, MessageLevel, bool)](MrKWatkins.Ast.MessageFormatter.Format.md) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) of the specified [MessageLevel](MrKWatkins.Ast.MessageLevel.md) in the specified node. |
+| [Format&lt;TNode&gt;(Node&lt;TNode&gt;, bool)](MrKWatkins.Ast.MessageFormatter.Format.md) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) in the specified node, grouping by [Level](MrKWatkins.Ast.Message.Level.md) in descending order. I.e. [Error](MrKWatkins.Ast.MessageLevel.Error.md) then [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and then [Info](MrKWatkins.Ast.MessageLevel.Info.md). |
 
 ## Format&lt;TNode&gt;(Node&lt;TNode&gt;, MessageLevel, bool) {id="mrkwatkins-ast-messageformatter-format-1(mrkwatkins-ast-node((-0))-mrkwatkins-ast-messagelevel-system-boolean)"}
 

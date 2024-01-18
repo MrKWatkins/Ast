@@ -18,6 +18,6 @@ public abstract interface INodeFactory<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [Create](MrKWatkins.Ast.INodeFactory-1.Create.md#mrkwatkins-ast-inodefactory-1-create(system-type)) | Creates a node of the specified type. The node must inherit from `TNode`. |
-| [Create](MrKWatkins.Ast.INodeFactory-1.Create.md#mrkwatkins-ast-inodefactory-1-create-1) | Creates a node of the specified type. |
+| [Create(Type)](MrKWatkins.Ast.INodeFactory-1.Create.md#mrkwatkins-ast-inodefactory-1-create(system-type)) | Creates a node of the specified type. The node must inherit from `TNode`. |
+| [Create&lt;T&gt;()](MrKWatkins.Ast.INodeFactory-1.Create.md#mrkwatkins-ast-inodefactory-1-create-1) | Creates a node of the specified type. |
 

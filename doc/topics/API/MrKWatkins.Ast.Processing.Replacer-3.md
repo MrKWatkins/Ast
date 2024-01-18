@@ -34,6 +34,6 @@ public abstract class Replacer<TBaseNode, TNode, TReplacementNode> : OrderedProc
 
 | Name | Description |
 | ---- | ----------- |
-| [ProcessNode](MrKWatkins.Ast.Processing.Replacer-3.ProcessNode.md) |  |
-| [ReplaceNode](MrKWatkins.Ast.Processing.Replacer-3.ReplaceNode.md) | Optionally replace the specified node. |
+| [ProcessNode(TNode)](MrKWatkins.Ast.Processing.Replacer-3.ProcessNode.md) |  |
+| [ReplaceNode(TNode)](MrKWatkins.Ast.Processing.Replacer-3.ReplaceNode.md) | Optionally replace the specified node. |
 
