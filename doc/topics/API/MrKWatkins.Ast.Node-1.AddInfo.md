@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [AddInfo(String)](MrKWatkins.Ast.Node-1.AddInfo.md#mrkwatkins-ast-node-1-addinfo(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.Info.md) and the specified text to this node. |
-| [AddInfo(String, String)](MrKWatkins.Ast.Node-1.AddInfo.md#mrkwatkins-ast-node-1-addinfo(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.Info.md) and the specified text to this node. |
+| [AddInfo](MrKWatkins.Ast.Node-1.AddInfo.md#mrkwatkins-ast-node-1-addinfo(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.Info.md) and the specified text to this node. |
+| [AddInfo](MrKWatkins.Ast.Node-1.AddInfo.md#mrkwatkins-ast-node-1-addinfo(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.Info.md) and the specified text to this node. |
 
 ## AddInfo(string) {id="mrkwatkins-ast-node-1-addinfo(system-string)"}
 

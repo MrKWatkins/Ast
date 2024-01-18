@@ -3,9 +3,9 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Add(TNode)](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(-0)) | Adds a node to the collection and assigns its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property. |
-| [Add(IEnumerable&lt;TNode&gt;)](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(system-collections-generic-ienumerable((-0)))) | Adds nodes to the collection and assigns their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties. |
-| [Add(TNode\[\])](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(-0())) | Adds nodes to the collection and assigns their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties. |
+| [Add](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(-0)) | Adds a node to the collection and assigns its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property. |
+| [Add](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(system-collections-generic-ienumerable((-0)))) | Adds nodes to the collection and assigns their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties. |
+| [Add](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(-0())) | Adds nodes to the collection and assigns their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties. |
 
 ## Add(TNode) {id="mrkwatkins-ast-children-1-add(-0)"}
 

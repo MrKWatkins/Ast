@@ -24,5 +24,5 @@ public sealed class DefaultNodeFactory<TNode> : INodeFactory<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [Create(Type)](MrKWatkins.Ast.DefaultNodeFactory-1.Create.md) | Creates a node of the specified type. The node must inherit from `TNode`. |
+| [Create](MrKWatkins.Ast.DefaultNodeFactory-1.Create.md) | Creates a node of the specified type. The node must inherit from `TNode`. |
 

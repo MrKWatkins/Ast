@@ -18,9 +18,9 @@ public sealed class CompositeListener<TBaseNode> : Listener<TBaseNode>, IComposi
 
 | Name | Description |
 | ---- | ----------- |
-| [AfterListenToNode(TBaseNode)](MrKWatkins.Ast.Listening.CompositeListener-1.AfterListenToNode.md) |  |
-| [BeforeListenToNode(TBaseNode)](MrKWatkins.Ast.Listening.CompositeListener-1.BeforeListenToNode.md) |  |
-| [Build()](MrKWatkins.Ast.Listening.CompositeListener-1.Build.md) | Fluent interface to build a [CompositeListener&lt;TBaseNode&gt;](MrKWatkins.Ast.Listening.CompositeListener-1.md). |
-| [BuildWithContext()](MrKWatkins.Ast.Listening.CompositeListener-1.BuildWithContext.md) | Fluent interface to build a [CompositeListenerWithContext&lt;TContext, TBaseNode&gt;](MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.md). |
-| [ListenToNode(TBaseNode)](MrKWatkins.Ast.Listening.CompositeListener-1.ListenToNode.md) |  |
+| [AfterListenToNode](MrKWatkins.Ast.Listening.CompositeListener-1.AfterListenToNode.md) |  |
+| [BeforeListenToNode](MrKWatkins.Ast.Listening.CompositeListener-1.BeforeListenToNode.md) |  |
+| [Build](MrKWatkins.Ast.Listening.CompositeListener-1.Build.md) | Fluent interface to build a [CompositeListener&lt;TBaseNode&gt;](MrKWatkins.Ast.Listening.CompositeListener-1.md). |
+| [BuildWithContext](MrKWatkins.Ast.Listening.CompositeListener-1.BuildWithContext.md) | Fluent interface to build a [CompositeListenerWithContext&lt;TContext, TBaseNode&gt;](MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.md). |
+| [ListenToNode](MrKWatkins.Ast.Listening.CompositeListener-1.ListenToNode.md) |  |
 

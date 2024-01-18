@@ -28,7 +28,7 @@ public abstract class UnorderedProcessorWithContext<TContext, TBaseNode, TNode> 
 
 | Name | Description |
 | ---- | ----------- |
-| [CreateContext(TBaseNode)](MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.CreateContext.md) | Override to create the context object. |
-| [ProcessNode(TContext, TNode)](MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.ProcessNode.md) | Process the specified node. |
-| [ShouldProcessNode(TContext, TNode)](MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.ShouldProcessNode.md) | Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes. |
+| [CreateContext](MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.CreateContext.md) | Override to create the context object. |
+| [ProcessNode](MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.ProcessNode.md) | Process the specified node. |
+| [ShouldProcessNode](MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.ShouldProcessNode.md) | Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes. |
 

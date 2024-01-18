@@ -30,7 +30,7 @@ public abstract class OrderedProcessor<TNode> : Processor<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [ProcessNode(TNode)](MrKWatkins.Ast.Processing.OrderedProcessor-1.ProcessNode.md) | Process the specified node. |
-| [ShouldProcessChildren(TNode)](MrKWatkins.Ast.Processing.OrderedProcessor-1.ShouldProcessChildren.md) | Override this method to optionally decide whether to process the children of the specified node or not. Defaults to processing all nodes. |
-| [ShouldProcessNode(TNode)](MrKWatkins.Ast.Processing.OrderedProcessor-1.ShouldProcessNode.md) | Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes. |
+| [ProcessNode](MrKWatkins.Ast.Processing.OrderedProcessor-1.ProcessNode.md) | Process the specified node. |
+| [ShouldProcessChildren](MrKWatkins.Ast.Processing.OrderedProcessor-1.ShouldProcessChildren.md) | Override this method to optionally decide whether to process the children of the specified node or not. Defaults to processing all nodes. |
+| [ShouldProcessNode](MrKWatkins.Ast.Processing.OrderedProcessor-1.ShouldProcessNode.md) | Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes. |
 

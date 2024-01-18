@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [With(ListenerWithContext&lt;TContext, TBaseNode&gt;)](MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.With.md#mrkwatkins-ast-listening-icompositelistenerwithcontextbuilder-2-with(mrkwatkins-ast-listening-listenerwithcontext((-0-1)))) | Add a listener for the base node type. Useful to provide a fallback listener when there is no listener for the specific node type registered. |
-| [With(ListenerWithContext&lt;TContext, TBaseNode, TNode&gt;)](MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.With.md#mrkwatkins-ast-listening-icompositelistenerwithcontextbuilder-2-with-1(mrkwatkins-ast-listening-listenerwithcontext((-0-1-0)))) | Add a listener for the specific node type `TNode`. This can be a base node type which will be used if there is no listener for the specific node type registered. |
+| [With](MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.With.md#mrkwatkins-ast-listening-icompositelistenerwithcontextbuilder-2-with(mrkwatkins-ast-listening-listenerwithcontext((-0-1)))) | Add a listener for the base node type. Useful to provide a fallback listener when there is no listener for the specific node type registered. |
+| [With](MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.With.md#mrkwatkins-ast-listening-icompositelistenerwithcontextbuilder-2-with-1(mrkwatkins-ast-listening-listenerwithcontext((-0-1-0)))) | Add a listener for the specific node type `TNode`. This can be a base node type which will be used if there is no listener for the specific node type registered. |
 
 ## With(ListenerWithContext&lt;TContext, TBaseNode&gt;) {id="mrkwatkins-ast-listening-icompositelistenerwithcontextbuilder-2-with(mrkwatkins-ast-listening-listenerwithcontext((-0-1)))"}
 

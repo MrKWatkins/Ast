@@ -20,7 +20,7 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>, 
 
 | Name | Description |
 | ---- | ----------- |
-| [SourceFilePosition(TFile, Int32, Int32)](MrKWatkins.Ast.Position.SourceFilePosition-2.-ctor.md) | Initialises a new instance of the [SourceFilePosition&lt;TSelf, TFile&gt;](MrKWatkins.Ast.Position.SourceFilePosition-2.md) class. |
+| [SourceFilePosition(TFile, int, int)](MrKWatkins.Ast.Position.SourceFilePosition-2.-ctor.md) | Initialises a new instance of the [SourceFilePosition&lt;TSelf, TFile&gt;](MrKWatkins.Ast.Position.SourceFilePosition-2.md) class. |
 
 ## Properties
 
@@ -35,10 +35,10 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>, 
 
 | Name | Description |
 | ---- | ----------- |
-| [Combine(TSelf)](MrKWatkins.Ast.Position.SourceFilePosition-2.Combine.md) |  |
-| [CreateCombination(TSelf)](MrKWatkins.Ast.Position.SourceFilePosition-2.CreateCombination.md) | Creates a combination of this [SourceFilePosition&lt;TSelf, TFile&gt;](MrKWatkins.Ast.Position.SourceFilePosition-2.md) and another. Used to create a combination for [Combine(TSelf)](MrKWatkins.Ast.Position.SourceFilePosition-2.Combine.md). |
-| [Equals(SourcePosition)](MrKWatkins.Ast.Position.SourceFilePosition-2.Equals.md) |  |
-| [GetHashCode()](MrKWatkins.Ast.Position.SourceFilePosition-2.GetHashCode.md) |  |
-| [Overlaps(SourceFilePosition&lt;TSelf, TFile&gt;)](MrKWatkins.Ast.Position.SourceFilePosition-2.Overlaps.md) | Returns `true` if two positions for the same file overlap. Zero length positions will overlap only if they are inside the other position. If they are at the start or end index of the other position they will not overlap. Two zero length positions never overlap. |
-| [ToString()](MrKWatkins.Ast.Position.SourceFilePosition-2.ToString.md) |  |
+| [Combine](MrKWatkins.Ast.Position.SourceFilePosition-2.Combine.md) |  |
+| [CreateCombination](MrKWatkins.Ast.Position.SourceFilePosition-2.CreateCombination.md) | Creates a combination of this [SourceFilePosition&lt;TSelf, TFile&gt;](MrKWatkins.Ast.Position.SourceFilePosition-2.md) and another. Used to create a combination for [Combine(TSelf)](MrKWatkins.Ast.Position.SourceFilePosition-2.Combine.md). |
+| [Equals](MrKWatkins.Ast.Position.SourceFilePosition-2.Equals.md) |  |
+| [GetHashCode](MrKWatkins.Ast.Position.SourceFilePosition-2.GetHashCode.md) |  |
+| [Overlaps](MrKWatkins.Ast.Position.SourceFilePosition-2.Overlaps.md) | Returns `true` if two positions for the same file overlap. Zero length positions will overlap only if they are inside the other position. If they are at the start or end index of the other position they will not overlap. Two zero length positions never overlap. |
+| [ToString](MrKWatkins.Ast.Position.SourceFilePosition-2.ToString.md) |  |
 

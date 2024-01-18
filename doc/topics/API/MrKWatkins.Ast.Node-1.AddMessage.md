@@ -3,9 +3,9 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [AddMessage(Message)](MrKWatkins.Ast.Node-1.AddMessage.md#mrkwatkins-ast-node-1-addmessage(mrkwatkins-ast-message)) | Adds a [Message](MrKWatkins.Ast.Message.md) to this node. |
-| [AddMessage(MessageLevel, String)](MrKWatkins.Ast.Node-1.AddMessage.md#mrkwatkins-ast-node-1-addmessage(mrkwatkins-ast-messagelevel-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with the specified [Level](MrKWatkins.Ast.Message.Level.md) and [Text](MrKWatkins.Ast.Message.Text.md) to this node. |
-| [AddMessage(MessageLevel, String, String)](MrKWatkins.Ast.Node-1.AddMessage.md#mrkwatkins-ast-node-1-addmessage(mrkwatkins-ast-messagelevel-system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with the specified [Level](MrKWatkins.Ast.Message.Level.md), [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md) to this node. |
+| [AddMessage](MrKWatkins.Ast.Node-1.AddMessage.md#mrkwatkins-ast-node-1-addmessage(mrkwatkins-ast-message)) | Adds a [Message](MrKWatkins.Ast.Message.md) to this node. |
+| [AddMessage](MrKWatkins.Ast.Node-1.AddMessage.md#mrkwatkins-ast-node-1-addmessage(mrkwatkins-ast-messagelevel-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with the specified [Level](MrKWatkins.Ast.Message.Level.md) and [Text](MrKWatkins.Ast.Message.Text.md) to this node. |
+| [AddMessage](MrKWatkins.Ast.Node-1.AddMessage.md#mrkwatkins-ast-node-1-addmessage(mrkwatkins-ast-messagelevel-system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with the specified [Level](MrKWatkins.Ast.Message.Level.md), [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md) to this node. |
 
 ## AddMessage(Message) {id="mrkwatkins-ast-node-1-addmessage(mrkwatkins-ast-message)"}
 

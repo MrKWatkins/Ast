@@ -18,5 +18,5 @@ public abstract interface ITraversal<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [Enumerate(TNode, Boolean, Func&lt;TNode, Boolean&gt;)](MrKWatkins.Ast.Traversal.ITraversal-1.Enumerate.md) | Enumerates over a node and its descendents. |
+| [Enumerate](MrKWatkins.Ast.Traversal.ITraversal-1.Enumerate.md) | Enumerates over a node and its descendents. |
 

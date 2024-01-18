@@ -3,9 +3,9 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Set(String, T)](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0)) | Sets the value of a single valued property with the specified key. |
-| [Set(String, T, T)](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0-0@)) | Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance. |
-| [Set(String, T, T?)](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0-system-nullable((-0))@)) | Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance. |
+| [Set](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0)) | Sets the value of a single valued property with the specified key. |
+| [Set](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0-0@)) | Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance. |
+| [Set](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0-system-nullable((-0))@)) | Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance. |
 
 ## Set&lt;T&gt;(string, T) {id="mrkwatkins-ast-properties-set-1(system-string-0)"}
 

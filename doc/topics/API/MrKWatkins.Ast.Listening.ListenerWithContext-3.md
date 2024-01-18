@@ -28,10 +28,10 @@ public abstract class ListenerWithContext<TContext, TBaseNode, TNode> : Listener
 
 | Name | Description |
 | ---- | ----------- |
-| [AfterListenToNode(TContext, TBaseNode)](MrKWatkins.Ast.Listening.ListenerWithContext-3.AfterListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-afterlistentonode(-0-1)) |  |
-| [AfterListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.ListenerWithContext-3.AfterListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-afterlistentonode(-0-2)) | Called after a node *and its descendents* have been listened to. |
-| [BeforeListenToNode(TContext, TBaseNode)](MrKWatkins.Ast.Listening.ListenerWithContext-3.BeforeListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-beforelistentonode(-0-1)) |  |
-| [BeforeListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.ListenerWithContext-3.BeforeListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-beforelistentonode(-0-2)) | Called before a node *and its descendents* are listened to. |
-| [ListenToNode(TContext, TBaseNode)](MrKWatkins.Ast.Listening.ListenerWithContext-3.ListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-listentonode(-0-1)) |  |
-| [ListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.ListenerWithContext-3.ListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-listentonode(-0-2)) | Called when the node is listened to. |
+| [AfterListenToNode](MrKWatkins.Ast.Listening.ListenerWithContext-3.AfterListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-afterlistentonode(-0-1)) |  |
+| [AfterListenToNode](MrKWatkins.Ast.Listening.ListenerWithContext-3.AfterListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-afterlistentonode(-0-2)) | Called after a node *and its descendents* have been listened to. |
+| [BeforeListenToNode](MrKWatkins.Ast.Listening.ListenerWithContext-3.BeforeListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-beforelistentonode(-0-1)) |  |
+| [BeforeListenToNode](MrKWatkins.Ast.Listening.ListenerWithContext-3.BeforeListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-beforelistentonode(-0-2)) | Called before a node *and its descendents* are listened to. |
+| [ListenToNode](MrKWatkins.Ast.Listening.ListenerWithContext-3.ListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-listentonode(-0-1)) |  |
+| [ListenToNode](MrKWatkins.Ast.Listening.ListenerWithContext-3.ListenToNode.md#mrkwatkins-ast-listening-listenerwithcontext-3-listentonode(-0-2)) | Called when the node is listened to. |
 

@@ -32,8 +32,8 @@ public abstract class OrderedProcessorWithContext<TContext, TNode> : Processor<T
 
 | Name | Description |
 | ---- | ----------- |
-| [CreateContext(TNode)](MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.CreateContext.md) | Override to create the context object. |
-| [ProcessNode(TContext, TNode)](MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ProcessNode.md) | Process the specified node. |
-| [ShouldProcessChildren(TContext, TNode)](MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ShouldProcessChildren.md) | Override this method to optionally decide whether to process the children of the specified node or not. Defaults to processing all nodes. |
-| [ShouldProcessNode(TContext, TNode)](MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ShouldProcessNode.md) | Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes. |
+| [CreateContext](MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.CreateContext.md) | Override to create the context object. |
+| [ProcessNode](MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ProcessNode.md) | Process the specified node. |
+| [ShouldProcessChildren](MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ShouldProcessChildren.md) | Override this method to optionally decide whether to process the children of the specified node or not. Defaults to processing all nodes. |
+| [ShouldProcessNode](MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ShouldProcessNode.md) | Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes. |
 

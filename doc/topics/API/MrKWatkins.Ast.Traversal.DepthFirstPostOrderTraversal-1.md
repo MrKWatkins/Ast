@@ -24,5 +24,5 @@ public sealed class DepthFirstPostOrderTraversal<TNode> : ITraversal<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [Enumerate(TNode, Boolean, Func&lt;TNode, Boolean&gt;)](MrKWatkins.Ast.Traversal.DepthFirstPostOrderTraversal-1.Enumerate.md) |  |
+| [Enumerate](MrKWatkins.Ast.Traversal.DepthFirstPostOrderTraversal-1.Enumerate.md) |  |
 

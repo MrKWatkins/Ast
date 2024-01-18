@@ -30,6 +30,6 @@ public abstract class Replacer<TNode> : OrderedProcessor<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [ProcessNode(TNode)](MrKWatkins.Ast.Processing.Replacer-1.ProcessNode.md) |  |
-| [ReplaceNode(TNode)](MrKWatkins.Ast.Processing.Replacer-1.ReplaceNode.md) | Optionally replace the specified node. |
+| [ProcessNode](MrKWatkins.Ast.Processing.Replacer-1.ProcessNode.md) |  |
+| [ReplaceNode](MrKWatkins.Ast.Processing.Replacer-1.ReplaceNode.md) | Optionally replace the specified node. |
 

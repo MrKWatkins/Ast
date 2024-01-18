@@ -25,28 +25,28 @@ public sealed class Children<TNode> : IList<TNode>, ICollection<TNode>, IEnumera
 
 | Name | Description |
 | ---- | ----------- |
-| [Add(TNode)](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(-0)) | Adds a node to the collection and assigns its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property. |
-| [Add(IEnumerable&lt;TNode&gt;)](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(system-collections-generic-ienumerable((-0)))) | Adds nodes to the collection and assigns their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties. |
-| [Add(TNode\[\])](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(-0())) | Adds nodes to the collection and assigns their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties. |
-| [Clear()](MrKWatkins.Ast.Children-1.Clear.md) | Removes all nodes from the collection and resets their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties to `null`. |
-| [Contains(TNode)](MrKWatkins.Ast.Children-1.Contains.md) | Determines if the specified node is in the collection or not. |
-| [ExceptOfType()](MrKWatkins.Ast.Children-1.ExceptOfType.md) | Lazily enumerates over all nodes in this collection not of the specified type. |
-| [FirstIfTypeOrDefault(TChild)](MrKWatkins.Ast.Children-1.FirstIfTypeOrDefault.md) | Returns the first node in the collection if it is of the specified type or a specified default if the collection is empty or the first node is a different type. |
-| [FirstOfType()](MrKWatkins.Ast.Children-1.FirstOfType.md) | Returns the first node in the collection of the specified type or throws otherwise. |
-| [FirstOfTypeOrDefault(TChild)](MrKWatkins.Ast.Children-1.FirstOfTypeOrDefault.md) | Returns the first node in the collection of the specified type or a specified default if it doesn&#39;t contain any nodes of the specified type. |
-| [GetEnumerator()](MrKWatkins.Ast.Children-1.GetEnumerator.md) |  |
-| [IndexOf(TNode)](MrKWatkins.Ast.Children-1.IndexOf.md) | Gets the index of the specified node in this collection. |
-| [Insert(Int32, TNode)](MrKWatkins.Ast.Children-1.Insert.md) | Inserts a node into the collection at the specified position and assigns its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property. |
-| [LastIfTypeOrDefault(TChild)](MrKWatkins.Ast.Children-1.LastIfTypeOrDefault.md) | Returns the last node in the collection if it is of the specified type or a specified default if the collection is empty or the last node is a different type. |
-| [LastOfType()](MrKWatkins.Ast.Children-1.LastOfType.md) | Returns the last node in the collection of the specified type or throws otherwise. |
-| [LastOfTypeOrDefault(TChild)](MrKWatkins.Ast.Children-1.LastOfTypeOrDefault.md) | Returns the last node in the collection of the specified type or a specified default if it doesn&#39;t contain any nodes of the specified type. |
-| [Move(TNode)](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(-0)) | Moves a node from it&#39;s current parent (if it has one) and into this collection. |
-| [Move(IEnumerable&lt;TNode&gt;)](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(system-collections-generic-ienumerable((-0)))) | Moves nodes from their current parents (if they have one) into this collection. |
-| [Move(TNode\[\])](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(-0())) | Moves nodes from their current parents (if they have one) into this collection. |
-| [OfType()](MrKWatkins.Ast.Children-1.OfType.md) | Lazily enumerates over all nodes in this collection of the specified type. |
-| [Remove(TNode)](MrKWatkins.Ast.Children-1.Remove.md) | Tries to remove a node from the collection and reset its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property to `null`. |
-| [RemoveAt(Int32)](MrKWatkins.Ast.Children-1.RemoveAt.md) | Removes the node at the specified position from the collection and reset its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property to `null`. |
-| [Replace(TNode, TNode)](MrKWatkins.Ast.Children-1.Replace.md) | Replaces a node in the collection with another node. The replacement will be removed from its parent and the node being replaced will have it&#39;s parent removed. |
-| [SingleOfType()](MrKWatkins.Ast.Children-1.SingleOfType.md) | Returns the only node in the collection of the specified type. Throws if there is not exactly one node in the collection of the specified type. |
-| [SingleOfTypeOrDefault(TChild)](MrKWatkins.Ast.Children-1.SingleOfTypeOrDefault.md) | Returns the only node in the collection of the specified type. Returns the specified default if there are no nodes in the collection of the specified type. Throws if there are multiple nodes in the collection of the specified type. |
+| [Add](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(-0)) | Adds a node to the collection and assigns its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property. |
+| [Add](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(system-collections-generic-ienumerable((-0)))) | Adds nodes to the collection and assigns their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties. |
+| [Add](MrKWatkins.Ast.Children-1.Add.md#mrkwatkins-ast-children-1-add(-0())) | Adds nodes to the collection and assigns their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties. |
+| [Clear](MrKWatkins.Ast.Children-1.Clear.md) | Removes all nodes from the collection and resets their [Parent](MrKWatkins.Ast.Node-1.Parent.md) properties to `null`. |
+| [Contains](MrKWatkins.Ast.Children-1.Contains.md) | Determines if the specified node is in the collection or not. |
+| [ExceptOfType](MrKWatkins.Ast.Children-1.ExceptOfType.md) | Lazily enumerates over all nodes in this collection not of the specified type. |
+| [FirstIfTypeOrDefault](MrKWatkins.Ast.Children-1.FirstIfTypeOrDefault.md) | Returns the first node in the collection if it is of the specified type or a specified default if the collection is empty or the first node is a different type. |
+| [FirstOfType](MrKWatkins.Ast.Children-1.FirstOfType.md) | Returns the first node in the collection of the specified type or throws otherwise. |
+| [FirstOfTypeOrDefault](MrKWatkins.Ast.Children-1.FirstOfTypeOrDefault.md) | Returns the first node in the collection of the specified type or a specified default if it doesn&#39;t contain any nodes of the specified type. |
+| [GetEnumerator](MrKWatkins.Ast.Children-1.GetEnumerator.md) |  |
+| [IndexOf](MrKWatkins.Ast.Children-1.IndexOf.md) | Gets the index of the specified node in this collection. |
+| [Insert](MrKWatkins.Ast.Children-1.Insert.md) | Inserts a node into the collection at the specified position and assigns its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property. |
+| [LastIfTypeOrDefault](MrKWatkins.Ast.Children-1.LastIfTypeOrDefault.md) | Returns the last node in the collection if it is of the specified type or a specified default if the collection is empty or the last node is a different type. |
+| [LastOfType](MrKWatkins.Ast.Children-1.LastOfType.md) | Returns the last node in the collection of the specified type or throws otherwise. |
+| [LastOfTypeOrDefault](MrKWatkins.Ast.Children-1.LastOfTypeOrDefault.md) | Returns the last node in the collection of the specified type or a specified default if it doesn&#39;t contain any nodes of the specified type. |
+| [Move](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(-0)) | Moves a node from it&#39;s current parent (if it has one) and into this collection. |
+| [Move](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(system-collections-generic-ienumerable((-0)))) | Moves nodes from their current parents (if they have one) into this collection. |
+| [Move](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(-0())) | Moves nodes from their current parents (if they have one) into this collection. |
+| [OfType](MrKWatkins.Ast.Children-1.OfType.md) | Lazily enumerates over all nodes in this collection of the specified type. |
+| [Remove](MrKWatkins.Ast.Children-1.Remove.md) | Tries to remove a node from the collection and reset its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property to `null`. |
+| [RemoveAt](MrKWatkins.Ast.Children-1.RemoveAt.md) | Removes the node at the specified position from the collection and reset its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property to `null`. |
+| [Replace](MrKWatkins.Ast.Children-1.Replace.md) | Replaces a node in the collection with another node. The replacement will be removed from its parent and the node being replaced will have it&#39;s parent removed. |
+| [SingleOfType](MrKWatkins.Ast.Children-1.SingleOfType.md) | Returns the only node in the collection of the specified type. Throws if there is not exactly one node in the collection of the specified type. |
+| [SingleOfTypeOrDefault](MrKWatkins.Ast.Children-1.SingleOfTypeOrDefault.md) | Returns the only node in the collection of the specified type. Returns the specified default if there are no nodes in the collection of the specified type. Throws if there are multiple nodes in the collection of the specified type. |
 

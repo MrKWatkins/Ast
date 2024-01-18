@@ -3,9 +3,9 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Move(TNode)](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(-0)) | Moves a node from it&#39;s current parent (if it has one) and into this collection. |
-| [Move(IEnumerable&lt;TNode&gt;)](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(system-collections-generic-ienumerable((-0)))) | Moves nodes from their current parents (if they have one) into this collection. |
-| [Move(TNode\[\])](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(-0())) | Moves nodes from their current parents (if they have one) into this collection. |
+| [Move](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(-0)) | Moves a node from it&#39;s current parent (if it has one) and into this collection. |
+| [Move](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(system-collections-generic-ienumerable((-0)))) | Moves nodes from their current parents (if they have one) into this collection. |
+| [Move](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(-0())) | Moves nodes from their current parents (if they have one) into this collection. |
 
 ## Move(TNode) {id="mrkwatkins-ast-children-1-move(-0)"}
 

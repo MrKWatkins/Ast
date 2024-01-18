@@ -18,5 +18,5 @@ public abstract class Processor<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [Process(TNode)](MrKWatkins.Ast.Processing.Processor-1.Process.md) | Processes a tree of nodes from the specified root node. |
+| [Process](MrKWatkins.Ast.Processing.Processor-1.Process.md) | Processes a tree of nodes from the specified root node. |
 

@@ -26,9 +26,9 @@ public abstract class ListenerWithContext<TContext, TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [AfterListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.ListenerWithContext-2.AfterListenToNode.md) | Called after a node *and its descendents* have been listened to. |
-| [BeforeListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.ListenerWithContext-2.BeforeListenToNode.md) | Called before a node *and its descendents* are listened to. |
-| [Listen(TContext, TNode)](MrKWatkins.Ast.Listening.ListenerWithContext-2.Listen.md) | Listen to the specified node and its descendents. |
-| [ListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.ListenerWithContext-2.ListenToNode.md) | Called when the node is listened to. |
-| [ShouldListenToChildren(TContext, TNode)](MrKWatkins.Ast.Listening.ListenerWithContext-2.ShouldListenToChildren.md) | Return a value indicating whether child nodes should be listened to or not. Defaults to `true`. |
+| [AfterListenToNode](MrKWatkins.Ast.Listening.ListenerWithContext-2.AfterListenToNode.md) | Called after a node *and its descendents* have been listened to. |
+| [BeforeListenToNode](MrKWatkins.Ast.Listening.ListenerWithContext-2.BeforeListenToNode.md) | Called before a node *and its descendents* are listened to. |
+| [Listen](MrKWatkins.Ast.Listening.ListenerWithContext-2.Listen.md) | Listen to the specified node and its descendents. |
+| [ListenToNode](MrKWatkins.Ast.Listening.ListenerWithContext-2.ListenToNode.md) | Called when the node is listened to. |
+| [ShouldListenToChildren](MrKWatkins.Ast.Listening.ListenerWithContext-2.ShouldListenToChildren.md) | Return a value indicating whether child nodes should be listened to or not. Defaults to `true`. |
 

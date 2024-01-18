@@ -24,6 +24,6 @@ public abstract class Validator<TNode> : UnorderedProcessor<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [ProcessNode(TNode)](MrKWatkins.Ast.Processing.Validator-1.ProcessNode.md) |  |
-| [ValidateNode(TNode)](MrKWatkins.Ast.Processing.Validator-1.ValidateNode.md) | Validate the node and return any [Messages](MrKWatkins.Ast.Message.md) to attach to the node to describe any validation issues. |
+| [ProcessNode](MrKWatkins.Ast.Processing.Validator-1.ProcessNode.md) |  |
+| [ValidateNode](MrKWatkins.Ast.Processing.Validator-1.ValidateNode.md) | Validate the node and return any [Messages](MrKWatkins.Ast.Message.md) to attach to the node to describe any validation issues. |
 

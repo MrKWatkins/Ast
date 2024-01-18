@@ -3,8 +3,8 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Equals(SourceFile)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)) |  |
-| [Equals(Object)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(system-object)) |  |
+| [Equals](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)) |  |
+| [Equals](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(system-object)) |  |
 
 ## Equals(SourceFile) {id="mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)"}
 
