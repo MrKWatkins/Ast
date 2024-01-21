@@ -1,4 +1,4 @@
-# ListenerWithContext&lt;TContext, TNode&gt;.Listen Method
+# Listener&lt;TContext, TNode&gt;.Listen Method
 ## Definition
 
 Listen to the specified node and its descendents.

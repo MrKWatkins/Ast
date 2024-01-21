@@ -1,4 +1,4 @@
-# ListenerWithContext&lt;TContext, TNode&gt;.ShouldListenToChildren Method
+# Listener&lt;TContext, TNode&gt;.ShouldListenToChildren Method
 ## Definition
 
 Return a value indicating whether child nodes should be listened to or not. Defaults to `true`.

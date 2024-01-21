@@ -1,8 +1,8 @@
-# CompositeListenerWithContext&lt;TContext, TBaseNode&gt;.ListenToNode Method
+# CompositeListener&lt;TContext, TBaseNode&gt;.BeforeListenToNode Method
 ## Definition
 
 ```c#
-protected override void ListenToNode(TContext context, TBaseNode node);
+protected override void BeforeListenToNode(TContext context, TBaseNode node);
 ```
 
 ## Parameters

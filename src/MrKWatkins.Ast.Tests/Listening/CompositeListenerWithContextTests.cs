@@ -2,28 +2,28 @@ using MrKWatkins.Ast.Listening;
 
 namespace MrKWatkins.Ast.Tests.Listening;
 
-public sealed class CompositeListenerWithContextTests : TreeTestFixture
+public sealed class CompositeListenerTests : TreeTestFixture
 {
     [Test]
-    public void With_ThrowsIfListenerWithContextForTypeAlreadyRegistered()
+    public void With_ThrowsIfListenerForTypeAlreadyRegistered()
     {
-        var builder = CompositeListenerWithContext<TestContext, TestNode>
+        var builder = CompositeListener<TestContext, TestNode>
             .Build()
-            .With(new TestListenerWithContext<ANode>());
+            .With(new TestListener<ANode>());
 
-        builder.Invoking(b => b.With(new TestListenerWithContext<ANode>()))
+        builder.Invoking(b => b.With(new TestListener<ANode>()))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("A listener has already been registered for ANode.");
     }
 
     [Test]
-    public void With_ThrowsIfListenerWithContextForRootTypeAlreadyRegistered()
+    public void With_ThrowsIfListenerForRootTypeAlreadyRegistered()
     {
-        var builder = CompositeListenerWithContext<TestContext, TestNode>
+        var builder = CompositeListener<TestContext, TestNode>
             .Build()
-            .With(new TestListenerWithContext());
+            .With(new TestListener());
 
-        builder.Invoking(b => b.With(new TestListenerWithContext()))
+        builder.Invoking(b => b.With(new TestListener()))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("A listener has already been registered for TestNode.");
     }
@@ -31,7 +31,7 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
     [Test]
     public void ToListener_ThrowsIfNoListenersRegistered()
     {
-        var builder = CompositeListenerWithContext<TestContext, TestNode>.Build();
+        var builder = CompositeListener<TestContext, TestNode>.Build();
 
         builder.Invoking(b => b.ToListener())
             .Should().Throw<InvalidOperationException>()
@@ -41,15 +41,15 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
     [Test]
     public void Listen_NoSubTypes()
     {
-        var aListenerWithContext = new TestListenerWithContext<ANode>();
-        var bChildListenerWithContext = new TestListenerWithContext<BChild>();
-        var cListenerWithContext = new TestListenerWithContext<CNode>();
+        var aListener = new TestListener<ANode>();
+        var bChildListener = new TestListener<BChild>();
+        var cListener = new TestListener<CNode>();
 
-        var listener = CompositeListenerWithContext<TestContext, TestNode>
+        var listener = CompositeListener<TestContext, TestNode>
             .Build()
-            .With(aListenerWithContext)
-            .With(bChildListenerWithContext)
-            .With(cListenerWithContext)
+            .With(aListener)
+            .With(bChildListener)
+            .With(cListener)
             .ToListener();
 
         var context = new TestContext();
@@ -57,29 +57,29 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
         listener.Listen(context, N1);
 
         context.Count.Should().Be(6);
-        aListenerWithContext.Count.Should().Be(4);
-        bChildListenerWithContext.Count.Should().Be(0);
-        cListenerWithContext.Count.Should().Be(2);
+        aListener.Count.Should().Be(4);
+        bChildListener.Count.Should().Be(0);
+        cListener.Count.Should().Be(2);
 
         // Repeat to ensure cached handlers work.
         listener.Listen(context, N1);
 
         context.Count.Should().Be(12);
-        aListenerWithContext.Count.Should().Be(8);
-        bChildListenerWithContext.Count.Should().Be(0);
-        cListenerWithContext.Count.Should().Be(4);
+        aListener.Count.Should().Be(8);
+        bChildListener.Count.Should().Be(0);
+        cListener.Count.Should().Be(4);
     }
 
     [Test]
     public void Listen_SubType()
     {
-        var bListenerWithContext = new TestListenerWithContext<BNode>();
+        var bListener = new TestListener<BNode>();
 
         var tree = new ANode(new BNode(), new BChild(), new BGrandChild(), new CChild());
 
-        var listener = CompositeListener<TestNode>
-            .BuildWithContext<TestContext>()
-            .With(bListenerWithContext)
+        var listener = CompositeListener<TestContext, TestNode>
+            .Build()
+            .With(bListener)
             .ToListener();
 
         var context = new TestContext();
@@ -87,28 +87,28 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
         listener.Listen(context, tree);
 
         context.Count.Should().Be(3);
-        bListenerWithContext.Count.Should().Be(3);
+        bListener.Count.Should().Be(3);
 
         // Repeat to ensure cached handlers work.
         context = new TestContext();
         listener.Listen(context, tree);
 
         context.Count.Should().Be(3);
-        bListenerWithContext.Count.Should().Be(6);
+        bListener.Count.Should().Be(6);
     }
 
     [Test]
     public void Listen_MostSpecificSubTypeHandlerUser()
     {
-        var bListenerWithContext = new TestListenerWithContext<BNode>();
-        var bChildListenerWithContext = new TestListenerWithContext<BChild>();
+        var bListener = new TestListener<BNode>();
+        var bChildListener = new TestListener<BChild>();
 
         var tree = new ANode(new BChild(), new BGrandChild());
 
-        var listener = CompositeListenerWithContext<TestContext, TestNode>
+        var listener = CompositeListener<TestContext, TestNode>
             .Build()
-            .With(bListenerWithContext)
-            .With(bChildListenerWithContext)
+            .With(bListener)
+            .With(bChildListener)
             .ToListener();
 
         var context = new TestContext();
@@ -116,40 +116,40 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
         listener.Listen(context, tree);
 
         context.Count.Should().Be(2);
-        bListenerWithContext.Count.Should().Be(0);
-        bChildListenerWithContext.Count.Should().Be(2);
+        bListener.Count.Should().Be(0);
+        bChildListener.Count.Should().Be(2);
 
         // Repeat to ensure cached handlers work.
         listener.Listen(context, tree);
 
         context.Count.Should().Be(4);
-        bListenerWithContext.Count.Should().Be(0);
-        bChildListenerWithContext.Count.Should().Be(4);
+        bListener.Count.Should().Be(0);
+        bChildListener.Count.Should().Be(4);
     }
 
     [Test]
     public void Listen_RootType()
     {
-        var rootListenerWithContext = new TestListenerWithContext();
+        var rootListener = new TestListener();
 
         var tree = new ANode(new BNode(), new BChild(), new BGrandChild(), new CChild());
 
-        var listener = CompositeListenerWithContext<TestContext, TestNode>
+        var listener = CompositeListener<TestContext, TestNode>
             .Build()
-            .With(rootListenerWithContext)
+            .With(rootListener)
             .ToListener();
 
         var context = new TestContext();
         listener.Listen(context, tree);
 
         context.Count.Should().Be(5);
-        rootListenerWithContext.Count.Should().Be(5);
+        rootListener.Count.Should().Be(5);
 
         // Repeat to ensure cached handlers work.
         listener.Listen(context, tree);
 
         context.Count.Should().Be(10);
-        rootListenerWithContext.Count.Should().Be(10);
+        rootListener.Count.Should().Be(10);
     }
 
     private class BChild : BNode;
@@ -158,7 +158,7 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
 
     private class CChild : CNode;
 
-    private sealed class TestListenerWithContext : ListenerWithContext<TestContext, TestNode>
+    private sealed class TestListener : Listener<TestContext, TestNode>
     {
         public int Count { get; private set; }
 
@@ -169,7 +169,7 @@ public sealed class CompositeListenerWithContextTests : TreeTestFixture
         }
     }
 
-    private sealed class TestListenerWithContext<TNode> : ListenerWithContext<TestContext, TestNode, TNode>
+    private sealed class TestListener<TNode> : Listener<TestContext, TestNode, TNode>
         where TNode : TestNode
     {
         public int Count { get; private set; }

@@ -170,77 +170,40 @@
       </toc-element>
     </toc-element>
     <toc-element toc-title="MrKWatkins.Ast.Listening">
-      <toc-element toc-title="CompositeListener&lt;TBaseNode&gt;">
-        <toc-element toc-title="CompositeListener&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.CompositeListener-1.md" />
+      <toc-element toc-title="CompositeListener&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="CompositeListener&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.CompositeListener-2.md" />
         <toc-element toc-title="Methods">
-          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-1.AfterListenToNode.md" />
-          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-1.BeforeListenToNode.md" />
-          <toc-element toc-title="Build" topic="MrKWatkins.Ast.Listening.CompositeListener-1.Build.md" />
-          <toc-element toc-title="BuildWithContext" topic="MrKWatkins.Ast.Listening.CompositeListener-1.BuildWithContext.md" />
-          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-1.ListenToNode.md" />
+          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-2.AfterListenToNode.md" />
+          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-2.BeforeListenToNode.md" />
+          <toc-element toc-title="Build" topic="MrKWatkins.Ast.Listening.CompositeListener-2.Build.md" />
+          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-2.ListenToNode.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="CompositeListenerWithContext&lt;TContext, TBaseNode&gt;">
-        <toc-element toc-title="CompositeListenerWithContext&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.md" />
+      <toc-element toc-title="ICompositeListenerBuilder&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="ICompositeListenerBuilder&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-2.md" />
         <toc-element toc-title="Methods">
-          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.AfterListenToNode.md" />
-          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.BeforeListenToNode.md" />
-          <toc-element toc-title="Build" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.Build.md" />
-          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListenerWithContext-2.ListenToNode.md" />
+          <toc-element toc-title="ToListener" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-2.ToListener.md" />
+          <toc-element toc-title="With" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-2.With.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="ICompositeListenerBuilder&lt;TBaseNode&gt;">
-        <toc-element toc-title="ICompositeListenerBuilder&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-1.md" />
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="ToListener" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-1.ToListener.md" />
-          <toc-element toc-title="With" topic="MrKWatkins.Ast.Listening.ICompositeListenerBuilder-1.With.md" />
-        </toc-element>
-      </toc-element>
-      <toc-element toc-title="ICompositeListenerWithContextBuilder&lt;TContext, TBaseNode&gt;">
-        <toc-element toc-title="ICompositeListenerWithContextBuilder&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.md" />
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="ToListener" topic="MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.ToListener.md" />
-          <toc-element toc-title="With" topic="MrKWatkins.Ast.Listening.ICompositeListenerWithContextBuilder-2.With.md" />
-        </toc-element>
-      </toc-element>
-      <toc-element toc-title="Listener&lt;TNode&gt;">
-        <toc-element toc-title="Listener&lt;TNode&gt;" topic="MrKWatkins.Ast.Listening.Listener-1.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.Listener-1.-ctor.md" />
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.Listener-1.AfterListenToNode.md" />
-          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.Listener-1.BeforeListenToNode.md" />
-          <toc-element toc-title="Listen" topic="MrKWatkins.Ast.Listening.Listener-1.Listen.md" />
-          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.Listener-1.ListenToNode.md" />
-          <toc-element toc-title="ShouldListenToChildren" topic="MrKWatkins.Ast.Listening.Listener-1.ShouldListenToChildren.md" />
-        </toc-element>
-      </toc-element>
-      <toc-element toc-title="Listener&lt;TBaseNode, TNode&gt;">
-        <toc-element toc-title="Listener&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Listening.Listener-2.md" />
+      <toc-element toc-title="Listener&lt;TContext, TNode&gt;">
+        <toc-element toc-title="Listener&lt;TContext, TNode&gt;" topic="MrKWatkins.Ast.Listening.Listener-2.md" />
         <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.Listener-2.-ctor.md" />
         <toc-element toc-title="Methods">
           <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.Listener-2.AfterListenToNode.md" />
           <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.Listener-2.BeforeListenToNode.md" />
+          <toc-element toc-title="Listen" topic="MrKWatkins.Ast.Listening.Listener-2.Listen.md" />
           <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.Listener-2.ListenToNode.md" />
+          <toc-element toc-title="ShouldListenToChildren" topic="MrKWatkins.Ast.Listening.Listener-2.ShouldListenToChildren.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="ListenerWithContext&lt;TContext, TNode&gt;">
-        <toc-element toc-title="ListenerWithContext&lt;TContext, TNode&gt;" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.-ctor.md" />
+      <toc-element toc-title="Listener&lt;TContext, TBaseNode, TNode&gt;">
+        <toc-element toc-title="Listener&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Listening.Listener-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.Listener-3.-ctor.md" />
         <toc-element toc-title="Methods">
-          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.AfterListenToNode.md" />
-          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.BeforeListenToNode.md" />
-          <toc-element toc-title="Listen" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.Listen.md" />
-          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.ListenToNode.md" />
-          <toc-element toc-title="ShouldListenToChildren" topic="MrKWatkins.Ast.Listening.ListenerWithContext-2.ShouldListenToChildren.md" />
-        </toc-element>
-      </toc-element>
-      <toc-element toc-title="ListenerWithContext&lt;TContext, TBaseNode, TNode&gt;">
-        <toc-element toc-title="ListenerWithContext&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.-ctor.md" />
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.AfterListenToNode.md" />
-          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.BeforeListenToNode.md" />
-          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.ListenerWithContext-3.ListenToNode.md" />
+          <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.Listener-3.AfterListenToNode.md" />
+          <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.Listener-3.BeforeListenToNode.md" />
+          <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.Listener-3.ListenToNode.md" />
         </toc-element>
       </toc-element>
     </toc-element>

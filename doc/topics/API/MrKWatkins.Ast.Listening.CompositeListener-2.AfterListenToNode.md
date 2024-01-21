@@ -1,4 +1,4 @@
-# CompositeListenerWithContext&lt;TContext, TBaseNode&gt;.AfterListenToNode Method
+# CompositeListener&lt;TContext, TBaseNode&gt;.AfterListenToNode Method
 ## Definition
 
 ```c#
