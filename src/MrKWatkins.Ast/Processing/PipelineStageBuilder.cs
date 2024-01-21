@@ -16,7 +16,7 @@ public abstract class PipelineStageBuilder<TSelf, TProcessor, TNode>
         Name = number.ToString(NumberFormatInfo.InvariantInfo);
     }
 
-    private protected TSelf Self => (TSelf)this;
+    private protected TSelf Self => (TSelf) this;
     private protected List<TProcessor> Processors { get; } = new();
     private protected string Name { get; private set; }
     private protected Func<TNode, bool> ShouldContinue { get; private set; } = root => !root.ThisAndDescendentsHaveErrors;

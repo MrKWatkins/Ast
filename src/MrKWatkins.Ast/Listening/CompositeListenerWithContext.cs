@@ -55,6 +55,7 @@ public sealed class CompositeListenerWithContext<TContext, TBaseNode> : Listener
         {
             throw new InvalidOperationException("No listeners have been registered.");
         }
+
         return this;
     }
 }

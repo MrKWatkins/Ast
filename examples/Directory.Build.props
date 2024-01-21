@@ -8,13 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\MrKWatkins.Ast\MrKWatkins.Ast.csproj" />
-        <PackageReference Include="JetBrains.Annotations" />
+        <ProjectReference Include="..\..\src\MrKWatkins.Ast\MrKWatkins.Ast.csproj"/>
+        <PackageReference Include="JetBrains.Annotations"/>
 
-        <Using Include="System.Diagnostics.CodeAnalysis" />
-        <Using Include="System.Diagnostics.Contracts" />
-        <Using Include="System.Diagnostics.Contracts.PureAttribute" Alias="PureAttribute" />
-        <Using Include="JetBrains.Annotations" />
+        <Using Include="System.Diagnostics.CodeAnalysis"/>
+        <Using Include="System.Diagnostics.Contracts"/>
+        <Using Include="System.Diagnostics.Contracts.PureAttribute" Alias="PureAttribute"/>
+        <Using Include="JetBrains.Annotations"/>
 
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
             <_Parameter1>$(AssemblyName).Tests</_Parameter1>
@@ -26,12 +26,12 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="FluentAssertions" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="NUnit" />
-        <PackageReference Include="NUnit3TestAdapter" />
+        <PackageReference Include="FluentAssertions"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+        <PackageReference Include="NUnit"/>
+        <PackageReference Include="NUnit3TestAdapter"/>
 
-        <Using Include="FluentAssertions" />
-        <Using Include="NUnit.Framework" />
+        <Using Include="FluentAssertions"/>
+        <Using Include="NUnit.Framework"/>
     </ItemGroup>
 </Project>

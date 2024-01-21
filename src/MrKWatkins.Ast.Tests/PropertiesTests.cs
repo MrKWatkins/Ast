@@ -121,7 +121,10 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.Set("One", 1);
 
-        Exception Creator() => new InvalidOperationException("Test");
+        Exception Creator()
+        {
+            return new InvalidOperationException("Test");
+        }
 
         properties.GetOrThrow<int>("One", Creator).Should().Be(1);
     }
@@ -133,7 +136,10 @@ public sealed class PropertiesTests
 
         var exception = new InvalidOperationException("Test");
 
-        Exception Creator() => exception;
+        Exception Creator()
+        {
+            return exception;
+        }
 
         properties.Invoking(p => p.GetOrThrow<string>("Key", Creator))
             .Should().Throw<InvalidOperationException>()
@@ -146,7 +152,10 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.Set("Key", "Value");
 
-        Exception Creator() => new InvalidOperationException("Test");
+        Exception Creator()
+        {
+            return new InvalidOperationException("Test");
+        }
 
         string? cachedString = null;
         properties.GetOrThrow("Key", ref cachedString, Creator).Should().Be("Value");
@@ -177,7 +186,10 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.Set("One", 1);
 
-        Exception Creator() => new InvalidOperationException("Test");
+        Exception Creator()
+        {
+            return new InvalidOperationException("Test");
+        }
 
         int? cachedInt = null;
         properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);
@@ -208,7 +220,10 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.Set("One", 1);
 
-        Exception Creator(string key) => new InvalidOperationException("Test");
+        Exception Creator(string key)
+        {
+            return new InvalidOperationException("Test");
+        }
 
         properties.GetOrThrow<int>("One", Creator).Should().Be(1);
     }
@@ -237,7 +252,10 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.Set("Key", "Value");
 
-        Exception Creator(string key) => new InvalidOperationException("Test");
+        Exception Creator(string key)
+        {
+            return new InvalidOperationException("Test");
+        }
 
         string? cachedString = null;
         properties.GetOrThrow("Key", ref cachedString, Creator).Should().Be("Value");
@@ -269,7 +287,10 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.Set("One", 1);
 
-        Exception Creator(string key) => new InvalidOperationException("Test");
+        Exception Creator(string key)
+        {
+            return new InvalidOperationException("Test");
+        }
 
         int? cachedInt = null;
         properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);

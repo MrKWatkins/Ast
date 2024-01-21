@@ -24,7 +24,10 @@ public abstract class Listener<TNode>
 
         if (ShouldListenToChildren(node))
         {
-            foreach (var child in node.Children) Listen(child);
+            foreach (var child in node.Children)
+            {
+                Listen(child);
+            }
         }
 
         AfterListenToNode(node);
@@ -58,10 +61,7 @@ public abstract class Listener<TNode>
     ///     Return a value indicating whether child nodes should be listened to or not. Defaults to <c>true</c>.
     /// </summary>
     /// <param name="node">The node who's children should be listened to or not.</param>
-    protected virtual bool ShouldListenToChildren(TNode node)
-    {
-        return true;
-    }
+    protected virtual bool ShouldListenToChildren(TNode node) => true;
 }
 
 /// <summary>

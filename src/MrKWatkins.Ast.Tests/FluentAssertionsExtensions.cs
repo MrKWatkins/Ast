@@ -13,7 +13,7 @@ public static class FluentAssertionsExtensions
         this GenericCollectionAssertions<TCollection, TestNode, TAssertions> assertions, params TestNode[] expected)
         where TCollection : IEnumerable<TestNode>
         where TAssertions : GenericCollectionAssertions<TCollection, TestNode, TAssertions> =>
-        assertions.HaveSameOrderAs((IEnumerable<TestNode>)expected);
+        assertions.HaveSameOrderAs((IEnumerable<TestNode>) expected);
 
     public static AndConstraint<TAssertions> HaveSameOrderAs<TCollection, TAssertions>(
         this GenericCollectionAssertions<TCollection, TestNode, TAssertions> assertions, [InstantHandle] IEnumerable<TestNode> expected)
@@ -26,20 +26,24 @@ public static class FluentAssertionsExtensions
         Execute.Assertion
             .UsingLineBreaks
             .ForCondition(expectedList.SequenceEqual(actualList))
-            .FailWith(() =>
-            {
-                var longestName = expectedList.Concat(actualList).Max(n => n.ToString().Length);
+            .FailWith(
+                () =>
+                {
+                    var longestName = expectedList.Concat(actualList).Max(n => n.ToString().Length);
 
-                [Pure]
-                string NodesText(IEnumerable<TestNode> nodes) => string.Join(' ', nodes.Select(n => n.Name.PadRight(longestName, ' ')));
+                    [Pure]
+                    string NodesText(IEnumerable<TestNode> nodes)
+                    {
+                        return string.Join(' ', nodes.Select(n => n.Name.PadRight(longestName, ' ')));
+                    }
 
-                return new FailReason(
-                    $"Order did not match expectation.{Environment.NewLine}" +
-                    $"Expected: {NodesText(expectedList)}{Environment.NewLine}" +
-                    $"Actual:   {NodesText(actualList)}");
-            });
+                    return new FailReason(
+                        $"Order did not match expectation.{Environment.NewLine}" +
+                        $"Expected: {NodesText(expectedList)}{Environment.NewLine}" +
+                        $"Actual:   {NodesText(actualList)}");
+                });
 
-        return new AndConstraint<TAssertions>((TAssertions)assertions);
+        return new AndConstraint<TAssertions>((TAssertions) assertions);
     }
 
     public static ExceptionAssertions<ArgumentException> WithParameters(

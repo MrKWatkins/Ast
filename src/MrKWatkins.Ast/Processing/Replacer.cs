@@ -17,6 +17,7 @@ public abstract class Replacer<TNode> : OrderedProcessor<TNode>
             {
                 throw new InvalidOperationException($"Replacement node {newNode} already has a parent {newNode.Parent}.");
             }
+
             node.ReplaceWith(newNode);
 
             if (ProcessReplacements)
@@ -61,6 +62,7 @@ public abstract class Replacer<TBaseNode, TNode> : OrderedProcessor<TBaseNode, T
             {
                 throw new InvalidOperationException($"Replacement node {newNode} already has a parent {newNode.Parent}.");
             }
+
             node.ReplaceWith(newNode);
 
             if (ProcessReplacements)
@@ -107,6 +109,7 @@ public abstract class Replacer<TBaseNode, TNode, TReplacementNode> : OrderedProc
             {
                 throw new InvalidOperationException($"Replacement node {newNode} already has a parent {newNode.Parent}.");
             }
+
             node.ReplaceWith(newNode);
 
             if (ProcessReplacements)

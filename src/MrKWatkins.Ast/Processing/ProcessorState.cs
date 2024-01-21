@@ -19,7 +19,7 @@ internal sealed class ProcessorState<TNode> : IDisposable
     internal Action<ProcessorState<TNode>>? OnComplete { get; init; }
 
     [Pure]
-    internal TContext GetContext<TContext>() => (TContext)context!;
+    internal TContext GetContext<TContext>() => (TContext) context!;
 
     public void Dispose()
     {
@@ -34,7 +34,7 @@ internal sealed class ProcessorState<TNode> : IDisposable
     {
         var exceptions = new Exceptions();
 
-        return new(
+        return new ProcessorState<TNode>(
             exceptions,
             node =>
             {
@@ -51,15 +51,15 @@ internal sealed class ProcessorState<TNode> : IDisposable
     {
         var exceptions = new Exceptions();
 
-        return new(
+        return new ProcessorState<TNode>(
             exceptions,
             node =>
-        {
-            if (node is TTypedNode typedNode && exceptions.Trap<TNode, TTypedNode>(typedNode, "ShouldProcessNode", shouldProcessNode))
             {
-                exceptions.Trap<TNode, TTypedNode>(typedNode, "ProcessNode", processNode);
-            }
-        });
+                if (node is TTypedNode typedNode && exceptions.Trap<TNode, TTypedNode>(typedNode, "ShouldProcessNode", shouldProcessNode))
+                {
+                    exceptions.Trap<TNode, TTypedNode>(typedNode, "ProcessNode", processNode);
+                }
+            });
     }
 
     [Pure]
@@ -67,7 +67,8 @@ internal sealed class ProcessorState<TNode> : IDisposable
     {
         var exceptions = new Exceptions();
 
-        return new(exceptions,
+        return new ProcessorState<TNode>(
+            exceptions,
             node =>
             {
                 if (exceptions.Trap(context, node, "ShouldProcessNode", shouldProcessNode))
@@ -84,7 +85,8 @@ internal sealed class ProcessorState<TNode> : IDisposable
     {
         var exceptions = new Exceptions();
 
-        return new(exceptions,
+        return new ProcessorState<TNode>(
+            exceptions,
             node =>
             {
                 if (node is TTypedNode typedNode && exceptions.Trap<TContext, TNode, TTypedNode>(context, typedNode, "ShouldProcessNode", shouldProcessNode))

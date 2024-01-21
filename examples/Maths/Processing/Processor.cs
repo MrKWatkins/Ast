@@ -7,10 +7,11 @@ internal static class Processor
 {
     private static readonly Pipeline<MathsNode> Pipeline =
         Pipeline<MathsNode>
-            .Build(builder =>
-                builder
-                    .AddStage<Reducer>("Reduction")
-                    .AddStage<DivideByZeroValidator>("Validation"));
+            .Build(
+                builder =>
+                    builder
+                        .AddStage<Reducer>("Reduction")
+                        .AddStage<DivideByZeroValidator>("Validation"));
 
     public static Function Process(Function function)
     {

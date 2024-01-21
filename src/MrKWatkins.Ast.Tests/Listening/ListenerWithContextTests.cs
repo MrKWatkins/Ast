@@ -11,7 +11,7 @@ public sealed class ListenerWithContextTests : TreeTestFixture
     [TestCase(typeof(CallsBaseTypedTestListenerWithContext), "(N1(N11(N111))(N121))")]
     public void Listen(Type listenerType, string expected)
     {
-        var listener = (ListenerWithContext<StringBuilder, TestNode>)Activator.CreateInstance(listenerType)!;
+        var listener = (ListenerWithContext<StringBuilder, TestNode>) Activator.CreateInstance(listenerType)!;
 
         var context = new StringBuilder();
 
@@ -42,10 +42,7 @@ public sealed class ListenerWithContextTests : TreeTestFixture
 
         protected internal override void AfterListenToNode(StringBuilder context, TestNode node) => context.Append(')');
 
-        protected override bool ShouldListenToChildren(StringBuilder context, TestNode node)
-        {
-            return ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToChildren(context, node);
-        }
+        protected override bool ShouldListenToChildren(StringBuilder context, TestNode node) => ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToChildren(context, node);
     }
 
     private sealed class CallsBaseTestListenerWithContext : ListenerWithContext<StringBuilder, TestNode>

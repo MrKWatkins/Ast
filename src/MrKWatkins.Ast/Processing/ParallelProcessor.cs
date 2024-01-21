@@ -13,6 +13,7 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
         {
             throw new ArgumentOutOfRangeException(nameof(maxDegreeOfParallelism), maxDegreeOfParallelism, "Value must be greater than 0.");
         }
+
         MaxDegreeOfParallelism = maxDegreeOfParallelism ?? Environment.ProcessorCount;
 
         this.processors = processors.ToList();
@@ -36,7 +37,7 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
 
         var context = new SerialContext(processors, root);
 
-        return new(
+        return new ProcessorState<TNode>(
             exceptions,
             node =>
             {
@@ -58,7 +59,7 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
 
         var context = new ParallelContext(processors, root, MaxDegreeOfParallelism);
 
-        return new(
+        return new ProcessorState<TNode>(
             exceptions,
             node =>
             {

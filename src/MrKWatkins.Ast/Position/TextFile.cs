@@ -83,10 +83,7 @@ public sealed class TextFile : SourceFile
         var linesList = new List<string>();
 
         using var reader = new StringReader(text);
-        while (reader.ReadLine() is { } line)
-        {
-            linesList.Add(line);
-        }
+        while (reader.ReadLine() is { } line) linesList.Add(line);
 
         return linesList.ToArray();
     }

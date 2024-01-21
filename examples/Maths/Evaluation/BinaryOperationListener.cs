@@ -15,13 +15,14 @@ internal sealed class BinaryOperationListener : ListenerWithContext<EvaluationCo
         var right = context.Values.Pop();
         var left = context.Values.Pop();
 
-        context.Values.Push(operation.Operator switch
-        {
-            '+' => left + right,
-            '-' => left - right,
-            '*' => left * right,
-            '/' => left / right,
-            _ => throw new NotSupportedException($"The operator {operation.Operator} is not supported.")
-        });
+        context.Values.Push(
+            operation.Operator switch
+            {
+                '+' => left + right,
+                '-' => left - right,
+                '*' => left * right,
+                '/' => left / right,
+                _ => throw new NotSupportedException($"The operator {operation.Operator} is not supported.")
+            });
     }
 }

@@ -205,17 +205,18 @@ public sealed partial class ChildrenTests
     [Test]
     public void Enumerate_TooManyMutationsHaltsEnumeration()
     {
-        FluentActions.Invoking(() =>
-            {
-                foreach (var node in P.Children)
+        FluentActions.Invoking(
+                () =>
                 {
-                    if (node == C2)
+                    foreach (var node in P.Children)
                     {
-                        node.RemovePreviousSibling();
-                        node.RemoveFromParent();
+                        if (node == C2)
+                        {
+                            node.RemovePreviousSibling();
+                            node.RemoveFromParent();
+                        }
                     }
-                }
-            })
+                })
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Node C2 has been removed from parent during enumeration at the same time as other mutations. Cannot determine sensible place to continue enumeration.");
     }
@@ -265,7 +266,7 @@ public sealed partial class ChildrenTests
     [Test]
     public void GetEnumerator_Untyped()
     {
-        var enumerator = ((IEnumerable)P.Children).GetEnumerator();
+        var enumerator = ((IEnumerable) P.Children).GetEnumerator();
 
         enumerator.MoveNext().Should().BeTrue();
         enumerator.Current.Should().BeSameAs(C1);

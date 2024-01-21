@@ -120,10 +120,7 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
 
         // Build an underscore line. We want to preserve any tabs from the original line so everything lines up.
         // Will still mess up if the underscore section contains tabs of course, but hopefully that's rare...
-        for (var f = 0; f < StartColumnIndex; f++)
-        {
-            builder.Append(line[f] == '\t' ? '\t' : ' ');
-        }
+        for (var f = 0; f < StartColumnIndex; f++) builder.Append(line[f] == '\t' ? '\t' : ' ');
 
         var length = Math.Min(Length, line.Length - StartColumnNumber + 1);
         builder.Append('-', length);

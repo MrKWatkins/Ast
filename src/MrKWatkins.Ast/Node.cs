@@ -27,7 +27,7 @@ public abstract partial class Node<TNode>
         Children = new Children<TNode>(This, children);
     }
 
-    private TNode This => (TNode)this;
+    private TNode This => (TNode) this;
 
     /// <summary>
     /// The position of the node in the source code.

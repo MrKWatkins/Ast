@@ -187,7 +187,7 @@ public sealed class ReplacerTests : TreeTestFixture
     [Test]
     public void Process_OriginalAndReplacementTyped_ReturnOriginalAndReplacement()
     {
-        var replacer = new TestOriginalAndReplacementTypedReplacer<BNode>(N122, (BNode)N122);
+        var replacer = new TestOriginalAndReplacementTypedReplacer<BNode>(N122, (BNode) N122);
         replacer.Process(N12);
         N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
     }

@@ -22,7 +22,7 @@ public abstract class EqualityTestFixture
         x.Equals(y).Should().Be(expected);
         y?.Equals(x).Should().Be(expected);
 
-        ((object)x).Equals(y).Should().Be(expected);
+        ((object) x).Equals(y).Should().Be(expected);
         (y as object)?.Equals(x).Should().Be(expected);
 
         AssertOperator("Equality", x, y, expected);

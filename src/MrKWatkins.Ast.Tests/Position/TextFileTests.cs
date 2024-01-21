@@ -5,17 +5,18 @@ namespace MrKWatkins.Ast.Tests.Position;
 public sealed class TextFileTests : FileTextFixture
 {
     [Test]
-    public void Constructor_FileInfo() => WithTempFile(tempFile =>
-    {
-        const string text = "Some Text";
+    public void Constructor_FileInfo() => WithTempFile(
+        tempFile =>
+        {
+            const string text = "Some Text";
 
-        File.WriteAllText(tempFile.FullName, text);
+            File.WriteAllText(tempFile.FullName, text);
 
-        var textFile = new TextFile(tempFile);
-        textFile.Name.Should().Be(tempFile.FullName);
-        textFile.Text.Should().Be(text);
-        textFile.Length.Should().Be(text.Length);
-    });
+            var textFile = new TextFile(tempFile);
+            textFile.Name.Should().Be(tempFile.FullName);
+            textFile.Text.Should().Be(text);
+            textFile.Length.Should().Be(text.Length);
+        });
 
     [Test]
     public void Constructor_Stream()

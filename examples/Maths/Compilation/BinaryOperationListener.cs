@@ -16,13 +16,14 @@ internal sealed class BinaryOperationListener : ListenerWithContext<CompilationC
         var right = context.Values.Pop();
         var left = context.Values.Pop();
 
-        context.Values.Push(operation.Operator switch
-        {
-            '+' => LinqExpression.Add(left, right),
-            '-' => LinqExpression.Subtract(left, right),
-            '*' => LinqExpression.Multiply(left, right),
-            '/' => LinqExpression.Divide(left, right),
-            _ => throw new NotSupportedException($"The operator {operation.Operator} is not supported.")
-        });
+        context.Values.Push(
+            operation.Operator switch
+            {
+                '+' => LinqExpression.Add(left, right),
+                '-' => LinqExpression.Subtract(left, right),
+                '*' => LinqExpression.Multiply(left, right),
+                '/' => LinqExpression.Divide(left, right),
+                _ => throw new NotSupportedException($"The operator {operation.Operator} is not supported.")
+            });
     }
 }

@@ -11,27 +11,30 @@ public sealed partial class NodeTests
 
         node.AddMessage(new Message(MessageLevel.Info, "First Message"));
         node.HasMessages.Should().BeTrue();
-        node.Messages.Should().BeEquivalentTo(new[]
-        {
-            new Message(MessageLevel.Info, "First Message")
-        });
+        node.Messages.Should().BeEquivalentTo(
+            new[]
+            {
+                new Message(MessageLevel.Info, "First Message")
+            });
 
         node.AddMessage(MessageLevel.Error, "M2", "Second Message");
         node.HasMessages.Should().BeTrue();
-        node.Messages.Should().BeEquivalentTo(new[]
-        {
-            new Message(MessageLevel.Info, "First Message"),
-            new Message(MessageLevel.Error, "M2", "Second Message")
-        });
+        node.Messages.Should().BeEquivalentTo(
+            new[]
+            {
+                new Message(MessageLevel.Info, "First Message"),
+                new Message(MessageLevel.Error, "M2", "Second Message")
+            });
 
         node.AddMessage(MessageLevel.Warning, "M3", "Third Message");
         node.HasMessages.Should().BeTrue();
-        node.Messages.Should().BeEquivalentTo(new[]
-        {
-            new Message(MessageLevel.Info, "First Message"),
-            new Message(MessageLevel.Error, "M2", "Second Message"),
-            new Message(MessageLevel.Warning, "M3", "Third Message")
-        });
+        node.Messages.Should().BeEquivalentTo(
+            new[]
+            {
+                new Message(MessageLevel.Info, "First Message"),
+                new Message(MessageLevel.Error, "M2", "Second Message"),
+                new Message(MessageLevel.Warning, "M3", "Third Message")
+            });
     }
 
     [Test]
@@ -88,10 +91,11 @@ public sealed partial class NodeTests
 
         node.AddError("M2", "Second Message");
         node.HasErrors.Should().BeTrue();
-        node.Errors.Should().BeEquivalentTo(new[]
-        {
-            new Message(MessageLevel.Error, "M2", "Second Message")
-        });
+        node.Errors.Should().BeEquivalentTo(
+            new[]
+            {
+                new Message(MessageLevel.Error, "M2", "Second Message")
+            });
     }
 
     [Test]
@@ -157,10 +161,11 @@ public sealed partial class NodeTests
 
         node.AddWarning("M2", "Second Message");
         node.HasWarnings.Should().BeTrue();
-        node.Warnings.Should().BeEquivalentTo(new[]
-        {
-            new Message(MessageLevel.Warning, "M2", "Second Message")
-        });
+        node.Warnings.Should().BeEquivalentTo(
+            new[]
+            {
+                new Message(MessageLevel.Warning, "M2", "Second Message")
+            });
     }
 
     [Test]
@@ -226,10 +231,11 @@ public sealed partial class NodeTests
 
         node.AddInfo("M2", "Second Message");
         node.HasInfos.Should().BeTrue();
-        node.Infos.Should().BeEquivalentTo(new[]
-        {
-            new Message(MessageLevel.Info, "M2", "Second Message")
-        });
+        node.Infos.Should().BeEquivalentTo(
+            new[]
+            {
+                new Message(MessageLevel.Info, "M2", "Second Message")
+            });
     }
 
     [Test]

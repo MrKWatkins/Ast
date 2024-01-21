@@ -327,7 +327,10 @@ public sealed class Properties
     public void Set<T>(string key, T value, out T? cached)
         where T : class
     {
-        if (properties.TryGetValue(key, out var property)) VerifySingle<T>(key, property);
+        if (properties.TryGetValue(key, out var property))
+        {
+            VerifySingle<T>(key, property);
+        }
 
         cached = value;
         properties[key] = new Property(false, typeof(T), value);
@@ -351,7 +354,10 @@ public sealed class Properties
     public void Set<T>(string key, T value, out T? cached)
         where T : struct
     {
-        if (properties.TryGetValue(key, out var property)) VerifySingle<T>(key, property);
+        if (properties.TryGetValue(key, out var property))
+        {
+            VerifySingle<T>(key, property);
+        }
 
         cached = value;
         properties[key] = new Property(false, typeof(T), value);
@@ -525,7 +531,7 @@ public sealed class Properties
             throw new InvalidOperationException($"Property \"{key}\" has a value of type {property.Type.SimpleName()}; cannot change to {typeof(T).SimpleName()}.");
         }
 
-        return (T)property.Value;
+        return (T) property.Value;
     }
 
     private static List<T> VerifyMultiple<T>(string key, Property property)
@@ -540,7 +546,7 @@ public sealed class Properties
             throw new InvalidOperationException($"Property \"{key}\" has values of type {property.Type.SimpleName()}; cannot change to {typeof(T).SimpleName()}.");
         }
 
-        return (List<T>)property.Value;
+        return (List<T>) property.Value;
     }
 
     private readonly struct Property

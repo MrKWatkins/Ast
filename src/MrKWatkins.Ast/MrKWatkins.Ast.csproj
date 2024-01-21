@@ -20,11 +20,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="Icon.png" Pack="true" PackagePath="\" />
+        <None Include="Icon.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup>

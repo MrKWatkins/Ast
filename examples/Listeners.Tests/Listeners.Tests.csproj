@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-      <RootNamespace>MrKWatkins.Ast.Examples.Listeners.Tests</RootNamespace>
+        <RootNamespace>MrKWatkins.Ast.Examples.Listeners.Tests</RootNamespace>
         <!-- Allow underscores in test method names. -->
         <NoWarn>CA1707</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Listeners\Listeners.csproj" />
+        <ProjectReference Include="..\Listeners\Listeners.csproj"/>
     </ItemGroup>
 </Project>

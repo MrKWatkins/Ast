@@ -6,6 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Maths\Maths.csproj" />
+        <ProjectReference Include="..\Maths\Maths.csproj"/>
     </ItemGroup>
 </Project>

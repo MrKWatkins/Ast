@@ -174,17 +174,18 @@ public abstract class TraversalTestFixture : TreeTestFixture
     [Test]
     public void Enumerate_TooManyMutationsHaltsEnumeration()
     {
-        FluentActions.Invoking(() =>
-        {
-            foreach (var node in Traversal.Enumerate(N1))
-            {
-                if (node == N122)
+        FluentActions.Invoking(
+                () =>
                 {
-                    node.RemovePreviousSibling();
-                    node.RemoveFromParent();
-                }
-            }
-        })
+                    foreach (var node in Traversal.Enumerate(N1))
+                    {
+                        if (node == N122)
+                        {
+                            node.RemovePreviousSibling();
+                            node.RemoveFromParent();
+                        }
+                    }
+                })
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Node N122 has been removed from parent during enumeration at the same time as other mutations. Cannot determine sensible place to continue enumeration.");
     }

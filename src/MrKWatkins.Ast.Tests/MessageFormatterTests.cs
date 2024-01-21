@@ -91,6 +91,5 @@ public sealed class MessageFormatterTests
         messagesByLevel[2].Key.Should().Be(MessageLevel.Info);
         messagesByLevel[2].Should().BeEquivalentTo(
             "Info: Child Info");
-
     }
 }

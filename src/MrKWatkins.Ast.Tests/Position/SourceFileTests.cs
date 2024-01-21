@@ -37,7 +37,7 @@ public sealed class SourceFileTests : EqualityTestFixture
         yield return new TestCaseData(file, file, true).SetName("Reference equals");
         yield return new TestCaseData(file, new TestSourceFile("Test Name", 100), true).SetName("Value equals");
         yield return new TestCaseData(file, new TestSourceFile("Another Name", 100), false).SetName("Different name");
-        yield return new TestCaseData(file, new TestSourceFile("Test Name", 101), true).SetName("Different length");    // Only name is checked.
+        yield return new TestCaseData(file, new TestSourceFile("Test Name", 101), true).SetName("Different length"); // Only name is checked.
         yield return new TestCaseData(file, null, false).SetName("Null");
         yield return new TestCaseData(file, new OtherSourceFile("Test Name", 100), false).SetName("Different SourceFile type");
         yield return new TestCaseData(file, "Different", false).SetName("Different type");

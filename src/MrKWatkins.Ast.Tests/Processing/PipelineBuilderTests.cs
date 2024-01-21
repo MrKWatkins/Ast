@@ -10,9 +10,10 @@ public sealed class PipelineBuilderTests : TreeTestFixture
         var stage1Processors = new[] { new TestUnorderedProcessor() };
         var stage2Processors = new[] { new TestUnorderedProcessor(), new TestUnorderedProcessor(), new TestUnorderedProcessor() };
 
-        var pipeline = Pipeline<TestNode>.Build(p => p
-            .AddStage(s => s.Add(stage1Processors[0]).WithName("Test Name"))
-            .AddStage(s => s.Add(stage2Processors[0], stage2Processors[1], stage2Processors[2])));
+        var pipeline = Pipeline<TestNode>.Build(
+            p => p
+                .AddStage(s => s.Add(stage1Processors[0]).WithName("Test Name"))
+                .AddStage(s => s.Add(stage2Processors[0], stage2Processors[1], stage2Processors[2])));
 
         pipeline.Stages.Should().HaveCount(2);
 
@@ -29,9 +30,10 @@ public sealed class PipelineBuilderTests : TreeTestFixture
         var stage1Processors = new[] { new TestUnorderedProcessor() };
         var stage2Processors = new[] { new TestUnorderedProcessor(), new TestUnorderedProcessor(), new TestUnorderedProcessor() };
 
-        var pipeline = Pipeline<TestNode>.Build(p => p
-            .AddStage(stage1Processors[0])
-            .AddStage(stage2Processors[0], stage2Processors[1], stage2Processors[2]));
+        var pipeline = Pipeline<TestNode>.Build(
+            p => p
+                .AddStage(stage1Processors[0])
+                .AddStage(stage2Processors[0], stage2Processors[1], stage2Processors[2]));
 
         pipeline.Stages.Should().HaveCount(2);
 
@@ -48,9 +50,10 @@ public sealed class PipelineBuilderTests : TreeTestFixture
         var stage1Processors = new[] { new TestUnorderedProcessor() };
         var stage2Processors = new[] { new TestUnorderedProcessor(), new TestUnorderedProcessor() };
 
-        var pipeline = Pipeline<TestNode>.Build(p => p
-            .AddStage("Test Stage", stage1Processors[0])
-            .AddStage(stage2Processors[0], stage2Processors[1]));
+        var pipeline = Pipeline<TestNode>.Build(
+            p => p
+                .AddStage("Test Stage", stage1Processors[0])
+                .AddStage(stage2Processors[0], stage2Processors[1]));
 
         pipeline.Stages.Should().HaveCount(2);
 
@@ -64,9 +67,10 @@ public sealed class PipelineBuilderTests : TreeTestFixture
     [Test]
     public void AddStage_ByType()
     {
-        var pipeline = Pipeline<TestNode>.Build(p => p
-            .AddStage<TestUnorderedProcessor>()
-            .AddStage<TestUnorderedProcessor>());
+        var pipeline = Pipeline<TestNode>.Build(
+            p => p
+                .AddStage<TestUnorderedProcessor>()
+                .AddStage<TestUnorderedProcessor>());
 
         pipeline.Stages.Should().HaveCount(2);
 
@@ -82,9 +86,10 @@ public sealed class PipelineBuilderTests : TreeTestFixture
     [Test]
     public void AddStage_Name_ByType()
     {
-        var pipeline = Pipeline<TestNode>.Build(p => p
-            .AddStage<TestUnorderedProcessor>("Test Stage")
-            .AddStage<TestUnorderedProcessor>());
+        var pipeline = Pipeline<TestNode>.Build(
+            p => p
+                .AddStage<TestUnorderedProcessor>("Test Stage")
+                .AddStage<TestUnorderedProcessor>());
 
         pipeline.Stages.Should().HaveCount(2);
 
@@ -102,8 +107,9 @@ public sealed class PipelineBuilderTests : TreeTestFixture
     {
         var processors = new[] { new TestUnorderedProcessor(), new TestUnorderedProcessor(), new TestUnorderedProcessor() };
 
-        var pipeline = Pipeline<TestNode>.Build(p => p
-            .AddParallelStage(s => s.Add(processors[0], processors[1], processors[2]).WithName("Test Name")));
+        var pipeline = Pipeline<TestNode>.Build(
+            p => p
+                .AddParallelStage(s => s.Add(processors[0], processors[1], processors[2]).WithName("Test Name")));
 
         pipeline.Stages.Should().HaveCount(1);
 

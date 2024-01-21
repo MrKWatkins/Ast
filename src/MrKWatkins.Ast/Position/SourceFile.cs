@@ -21,6 +21,7 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
         {
             throw new ArgumentOutOfRangeException(nameof(length), length, "Value must be greater than 0.");
         }
+
         Name = name;
         Length = length;
     }

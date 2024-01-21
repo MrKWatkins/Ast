@@ -61,6 +61,7 @@ public sealed class CompositeListener<TBaseNode> : Listener<TBaseNode>, IComposi
         {
             throw new InvalidOperationException("No listeners have been registered.");
         }
+
         return this;
     }
 }

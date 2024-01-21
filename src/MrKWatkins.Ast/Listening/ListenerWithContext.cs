@@ -25,8 +25,12 @@ public abstract class ListenerWithContext<TContext, TNode>
         ListenToNode(context, node);
 
         if (ShouldListenToChildren(context, node))
+        {
             foreach (var child in node.Children)
+            {
                 Listen(context, child);
+            }
+        }
 
         AfterListenToNode(context, node);
     }
@@ -63,10 +67,7 @@ public abstract class ListenerWithContext<TContext, TNode>
     /// </summary>
     /// <param name="context">The context object.</param>
     /// <param name="node">The node who's children should be listened to or not.</param>
-    protected virtual bool ShouldListenToChildren(TContext context, TNode node)
-    {
-        return true;
-    }
+    protected virtual bool ShouldListenToChildren(TContext context, TNode node) => true;
 }
 
 /// <summary>

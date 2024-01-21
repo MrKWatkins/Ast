@@ -124,7 +124,7 @@ public sealed partial class ChildrenTests
         var node = new ANode(new ANode(), new BNode(), new CNode());
 
         var target = new TestNode[5];
-        ((IList<TestNode>)node.Children).CopyTo(target, 1);
+        ((IList<TestNode>) node.Children).CopyTo(target, 1);
 
         target.Should().BeEquivalentTo(new[] { null, node.Children[0], node.Children[1], node.Children[2], null }, c => c.WithoutStrictOrdering());
     }
@@ -201,7 +201,7 @@ public sealed partial class ChildrenTests
     {
         var child = new BNode();
         var parent = new ANode(child);
-        parent.Children.Invoking(c => c.Move((IEnumerable<BNode>)new[] { new BNode(), child }))
+        parent.Children.Invoking(c => c.Move((IEnumerable<BNode>) new[] { new BNode(), child }))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("node is already in this collection.");
     }
@@ -292,7 +292,7 @@ public sealed partial class ChildrenTests
     }
 
     [Test]
-    public void IsReadOnly() => ((IList<TestNode>)new ANode().Children).IsReadOnly.Should().BeFalse();
+    public void IsReadOnly() => ((IList<TestNode>) new ANode().Children).IsReadOnly.Should().BeFalse();
 
     [Test]
     public void IndexOf()
@@ -346,7 +346,7 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(child1, child2, child3);
 
-        ((IList<TestNode>)parent.Children).RemoveAt(1);
+        ((IList<TestNode>) parent.Children).RemoveAt(1);
 
         child2.HasParent.Should().BeFalse();
         parent.Children.Should().BeEquivalentTo(new[] { child1, child3 }, c => c.WithoutStrictOrdering());

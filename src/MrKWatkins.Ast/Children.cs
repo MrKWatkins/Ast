@@ -61,7 +61,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <param name="nodes">The nodes to add.</param>
     /// <exception cref="InvalidOperationException">If any of <paramref name="nodes" /> already have a parent.</exception>
     // ReSharper disable once ParameterHidesMember
-    public void Add(params TNode[] nodes) => Add((IEnumerable<TNode>)nodes);
+    public void Add(params TNode[] nodes) => Add((IEnumerable<TNode>) nodes);
 
     /// <summary>
     /// Removes all nodes from the collection and resets their <see cref="Node{TNode}.Parent" /> properties to <c>null</c>.
@@ -141,7 +141,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <param name="nodes">The nodes to move.</param>
     /// <exception cref="InvalidOperationException">If <paramref name="nodes" /> contains a node that is already in this collection.</exception>
     // ReSharper disable once ParameterHidesMember
-    public void Move(params TNode[] nodes) => Move((IEnumerable<TNode>)nodes);
+    public void Move(params TNode[] nodes) => Move((IEnumerable<TNode>) nodes);
 
     /// <summary>
     /// The number of nodes in the collection.
@@ -281,10 +281,8 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <returns>The first node if it is of the specified type or <paramref name="default" /> if it doesn't contain any nodes of the specified type.</returns>
     [Pure]
     public TChild? FirstOfTypeOrDefault<TChild>(TChild? @default = null)
-        where TChild : TNode
-    {
-        return OfType<TChild>().FirstOrDefault(@default);
-    }
+        where TChild : TNode =>
+        OfType<TChild>().FirstOrDefault(@default);
 
     /// <summary>
     /// Returns the first node in the collection of the specified type or throws otherwise.
@@ -306,10 +304,8 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <remarks>Slightly quicker than <see cref="LastOfTypeOrDefault{TChild}" /> if you only care about the last node.</remarks>
     [Pure]
     public TChild? LastIfTypeOrDefault<TChild>(TChild? @default = null)
-        where TChild : TNode
-    {
-        return Count != 0 ? nodes[^1] as TChild ?? @default : @default;
-    }
+        where TChild : TNode =>
+        Count != 0 ? nodes[^1] as TChild ?? @default : @default;
 
     /// <summary>
     /// Returns the last node in the collection of the specified type or a specified default if it doesn't contain any nodes of the specified type.
@@ -323,12 +319,10 @@ public sealed partial class Children<TNode> : IList<TNode>
     {
         // Manually iterating for performance. Looks like LINQ's Reverse() doesn't optimise for IList<T>.
         for (var f = Count - 1; f >= 0; f--)
-        {
             if (nodes[f] is TChild child)
             {
                 return child;
             }
-        }
 
         return @default;
     }

@@ -48,5 +48,4 @@ public sealed partial class NodeTests : TreeTestFixture
     public void Enumerate_DepthFirstPostOrder_WithShouldProcessChildren() =>
         TestNode.Traverse.DepthFirstPostOrder(N1, false, p => p != N11)
             .Should().BeEquivalentTo(DepthFirstPostOrderTraversal<TestNode>.Instance.Enumerate(N1, false, p => p != N11));
-
 }

@@ -119,7 +119,6 @@ public sealed class ParallelProcessorTests : TreeTestFixture
             {
                 N121, () =>
                 {
-
                     validator2FirstNodeCalled.SetResult();
                     validator2FirstNodeBlock.Task.Wait();
                     return "N121 Error";

@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>MrKWatkins.Ast.Examples.Listeners</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <RootNamespace>MrKWatkins.Ast.Examples.Listeners</RootNamespace>
+    </PropertyGroup>
 </Project>

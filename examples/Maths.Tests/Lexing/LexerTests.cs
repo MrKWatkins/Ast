@@ -67,7 +67,7 @@ public sealed class LexerTests
 
         var lexer = new Lexer(reader);
 
-        var enumerable = (IEnumerable)lexer;
+        var enumerable = (IEnumerable) lexer;
         var tokens = enumerable.OfType<Token>().ToList();
 
         var actual = string.Join(" ", tokens);

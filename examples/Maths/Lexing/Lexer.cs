@@ -72,7 +72,7 @@ public sealed class Lexer : IEnumerable<Token>
                 return new EndOfFile(currentIndex);
             }
 
-            var character = (char)value;
+            var character = (char) value;
             if (char.IsWhiteSpace(character))
             {
                 startIndex += 1;
@@ -103,7 +103,7 @@ public sealed class Lexer : IEnumerable<Token>
     {
         var length = 1;
         var number = firstDigit - '0';
-        while (char.IsAsciiDigit((char)input.Peek()))
+        while (char.IsAsciiDigit((char) input.Peek()))
         {
             length++;
             number = number * 10 + (input.Read() - '0');
@@ -116,10 +116,7 @@ public sealed class Lexer : IEnumerable<Token>
     {
         var variable = new StringBuilder();
         variable.Append(firstCharacter);
-        while (char.IsAsciiLetter((char)input.Peek()))
-        {
-            variable.Append((char)input.Read());
-        }
+        while (char.IsAsciiLetter((char) input.Peek())) variable.Append((char) input.Read());
 
         return new Identifier(startIndex, variable.ToString());
     }
