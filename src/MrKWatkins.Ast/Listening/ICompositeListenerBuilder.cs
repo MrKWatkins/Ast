@@ -1,10 +1,12 @@
 namespace MrKWatkins.Ast.Listening;
 
 /// <summary>
-/// Fluent interface to build a <see cref="CompositeListener{TBaseNode}"/>.
+/// Fluent interface to build a <see cref="CompositeListener{TContext, TBaseNode}"/>.
 /// </summary>
+/// <typeparam name="TContext">The type of the context object.</typeparam>
 /// <typeparam name="TBaseNode">The base type of all nodes in the tree.</typeparam>
-public interface ICompositeListenerBuilder<TBaseNode>
+public interface
+    ICompositeListenerBuilder<TContext, TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
     /// <summary>
@@ -14,7 +16,7 @@ public interface ICompositeListenerBuilder<TBaseNode>
     /// <param name="listener">The listener.</param>
     /// <returns>The fluent builder.</returns>
     [MustUseReturnValue]
-    ICompositeListenerBuilder<TBaseNode> With(Listener<TBaseNode> listener);
+    ICompositeListenerBuilder<TContext, TBaseNode> With(Listener<TContext, TBaseNode> listener);
 
     /// <summary>
     /// Add a listener for the specific node type <typeparamref name="TNode"/>. This can be a base node type which will
@@ -24,14 +26,14 @@ public interface ICompositeListenerBuilder<TBaseNode>
     /// <param name="listener">The listener.</param>
     /// <returns>The fluent builder.</returns>
     [MustUseReturnValue]
-    ICompositeListenerBuilder<TBaseNode> With<TNode>(Listener<TBaseNode, TNode> listener)
+    ICompositeListenerBuilder<TContext, TBaseNode> With<TNode>(Listener<TContext, TBaseNode, TNode> listener)
         where TNode : TBaseNode;
 
     /// <summary>
-    /// Builds the <see cref="CompositeListener{TBaseNode}"/>.
+    /// Builds the <see cref="CompositeListener{TContext, TBaseNode}"/>.
     /// </summary>
-    /// <returns>The <see cref="CompositeListener{TBaseNode}"/>.</returns>
+    /// <returns>The <see cref="CompositeListener{TContext, TBaseNode}"/>.</returns>
     /// <exception cref="InvalidOperationException">If no listeners have been registered or multiple listeners for the same type have been registered.</exception>
     [Pure]
-    CompositeListener<TBaseNode> ToListener();
+    CompositeListener<TContext, TBaseNode> ToListener();
 }

@@ -5,9 +5,9 @@ namespace MrKWatkins.Ast.Examples.Listeners;
 public static class Formatter
 {
     // Build a composite listener from our constant and array listeners.
-    private static readonly CompositeListenerWithContext<FormattingContext, Expression> Listener =
-        CompositeListener<Expression>
-            .BuildWithContext<FormattingContext>()
+    private static readonly CompositeListener<FormattingContext, Expression> Listener =
+        CompositeListener<FormattingContext, Expression>
+            .Build()
             .With(new ConstantListener())
             .With(new ArrayListener())
             .ToListener();

@@ -1,4 +1,4 @@
-# Listener&lt;TBaseNode, TNode&gt; Constructors
+# Listener&lt;TContext, TNode&gt; Constructors
 
 ```c#
 protected Listener();

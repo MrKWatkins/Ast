@@ -1,19 +1,19 @@
-# Listener&lt;TBaseNode, TNode&gt; Class
+# Listener&lt;TContext, TNode&gt; Class
 ## Definition
 
-A [Listener&lt;TNode&gt;](MrKWatkins.Ast.Listening.Listener-1.md) that only listens to nodes of a specific type. All other nodes will be ignored. The listener will still proceed to descendents of nodes that aren&#39;t listened too, i.e. the entire tree will be walked.
+A listener for a syntax tree. A listener walks the tree and gets notified when nodes are reached. An alternative to processing. Useful to build something completely new from the tree whereas processing is more useful to mutate the tree.
 
 ```c#
-public abstract class Listener<TBaseNode, TNode> : Listener<TBaseNode>
-   where TBaseNode : Node<TBaseNode>
-   where TNode : TBaseNode
+public abstract class Listener<TContext, TNode>
+   where TContext
+   where TNode : Node<TNode>
 ```
 
 ### Type Parameters
 
 | Name | Description |
 | ---- | ----------- |
-| TBaseNode | The base type of all nodes in the tree. |
+| TContext | The type of the context object. |
 | TNode | The type of the nodes to listen to. |
 
 ## Constructors
@@ -26,10 +26,9 @@ public abstract class Listener<TBaseNode, TNode> : Listener<TBaseNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [AfterListenToNode(TBaseNode)](MrKWatkins.Ast.Listening.Listener-2.AfterListenToNode.md#mrkwatkins-ast-listening-listener-2-afterlistentonode(-0)) |  |
-| [AfterListenToNode(TNode)](MrKWatkins.Ast.Listening.Listener-2.AfterListenToNode.md#mrkwatkins-ast-listening-listener-2-afterlistentonode(-1)) | Called after a node *and its descendents* have been listened to. |
-| [BeforeListenToNode(TBaseNode)](MrKWatkins.Ast.Listening.Listener-2.BeforeListenToNode.md#mrkwatkins-ast-listening-listener-2-beforelistentonode(-0)) |  |
-| [BeforeListenToNode(TNode)](MrKWatkins.Ast.Listening.Listener-2.BeforeListenToNode.md#mrkwatkins-ast-listening-listener-2-beforelistentonode(-1)) | Called before a node *and its descendents* are listened to. |
-| [ListenToNode(TBaseNode)](MrKWatkins.Ast.Listening.Listener-2.ListenToNode.md#mrkwatkins-ast-listening-listener-2-listentonode(-0)) |  |
-| [ListenToNode(TNode)](MrKWatkins.Ast.Listening.Listener-2.ListenToNode.md#mrkwatkins-ast-listening-listener-2-listentonode(-1)) | Called when the node is listened to. |
+| [AfterListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.Listener-2.AfterListenToNode.md) | Called after a node *and its descendents* have been listened to. |
+| [BeforeListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.Listener-2.BeforeListenToNode.md) | Called before a node *and its descendents* are listened to. |
+| [Listen(TContext, TNode)](MrKWatkins.Ast.Listening.Listener-2.Listen.md) | Listen to the specified node and its descendents. |
+| [ListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.Listener-2.ListenToNode.md) | Called when the node is listened to. |
+| [ShouldListenToChildren(TContext, TNode)](MrKWatkins.Ast.Listening.Listener-2.ShouldListenToChildren.md) | Return a value indicating whether child nodes should be listened to or not. Defaults to `true`. |
 

@@ -5,7 +5,7 @@ namespace MrKWatkins.Ast.Examples.Listeners;
 /// <summary>
 /// Base class for listening to expressions.
 /// </summary>
-internal abstract class ExpressionListener<TExpression> : ListenerWithContext<FormattingContext, Expression, TExpression>
+internal abstract class ExpressionListener<TExpression> : Listener<FormattingContext, Expression, TExpression>
     where TExpression : Expression
 {
     protected override void BeforeListenToNode(FormattingContext formattingContext, TExpression node)

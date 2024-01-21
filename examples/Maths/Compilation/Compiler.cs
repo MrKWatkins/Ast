@@ -10,9 +10,9 @@ namespace MrKWatkins.Ast.Examples.Maths.Compilation;
 [SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Just example code.")]
 public static class Compiler
 {
-    private static readonly CompositeListenerWithContext<CompilationContext, MathsNode> Listener =
-        CompositeListener<MathsNode>
-            .BuildWithContext<CompilationContext>()
+    private static readonly CompositeListener<CompilationContext, MathsNode> Listener =
+        CompositeListener<CompilationContext, MathsNode>
+            .Build()
             .With(new BinaryOperationListener())
             .With(new ConstantListener())
             .With(new VariableListener())

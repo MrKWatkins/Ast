@@ -1,34 +1,16 @@
-# Listener&lt;TBaseNode, TNode&gt;.AfterListenToNode Method
-## Overloads
-
-| Name | Description |
-| ---- | ----------- |
-| [AfterListenToNode(TBaseNode)](MrKWatkins.Ast.Listening.Listener-2.AfterListenToNode.md#mrkwatkins-ast-listening-listener-2-afterlistentonode(-0)) |  |
-| [AfterListenToNode(TNode)](MrKWatkins.Ast.Listening.Listener-2.AfterListenToNode.md#mrkwatkins-ast-listening-listener-2-afterlistentonode(-1)) | Called after a node *and its descendents* have been listened to. |
-
-## AfterListenToNode(TBaseNode) {id="mrkwatkins-ast-listening-listener-2-afterlistentonode(-0)"}
-
-```c#
-protected sealed override void AfterListenToNode(TBaseNode node);
-```
-
-## Parameters {id="parameters-mrkwatkins-ast-listening-listener-2-afterlistentonode(-0)"}
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| node | TBaseNode |  |
-
-## AfterListenToNode(TNode) {id="mrkwatkins-ast-listening-listener-2-afterlistentonode(-1)"}
+# Listener&lt;TContext, TNode&gt;.AfterListenToNode Method
+## Definition
 
 Called after a node *and its descendents* have been listened to.
 
 ```c#
-protected new virtual void AfterListenToNode(TNode node);
+protected virtual void AfterListenToNode(TContext context, TNode node);
 ```
 
-## Parameters {id="parameters-mrkwatkins-ast-listening-listener-2-afterlistentonode(-1)"}
+## Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
+| context | TContext | The context object. |
 | node | TNode | The node that has been listened to. |
 

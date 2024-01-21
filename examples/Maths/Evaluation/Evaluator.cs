@@ -8,9 +8,9 @@ namespace MrKWatkins.Ast.Examples.Maths.Evaluation;
 /// </summary>
 public static class Evaluator
 {
-    private static readonly CompositeListenerWithContext<EvaluationContext, MathsNode> Listener =
-        CompositeListener<MathsNode>
-            .BuildWithContext<EvaluationContext>()
+    private static readonly CompositeListener<EvaluationContext, MathsNode> Listener =
+        CompositeListener<EvaluationContext, MathsNode>
+            .Build()
             .With(new BinaryOperationListener())
             .With(new ConstantListener())
             .With(new VariableListener())
