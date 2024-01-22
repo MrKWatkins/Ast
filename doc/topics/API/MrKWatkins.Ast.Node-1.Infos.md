@@ -1,7 +1,7 @@
 # Node&lt;TNode&gt;.Infos Property
 ## Definition
 
-The [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.Info.md) associated with this node.
+The [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) associated with this node.
 
 ```c#
 public IEnumerable<Message> Infos { get; }

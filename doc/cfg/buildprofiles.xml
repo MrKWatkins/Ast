@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildprofiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd">
-
-    <build-profile instance="hi">
+    <build-profile instance="MrKWatkins.Ast">
         <variables>
-            <noindex-content>true</noindex-content>
+            <custom-favicons>favicon.ico</custom-favicons>
+            <noindex-content>false</noindex-content>
+            <product-web-url>https://mrkwatkins.github.io/Ast/mrkwatkins-ast.html</product-web-url>
+            <download-title>Source</download-title>
+            <download-page>https://github.com/MrKWatkins/Ast</download-page>
+            <showDownloadButton>true</showDownloadButton>
         </variables>
+        <footer>
+            <copyright>Kevin Watkins 2023-2024</copyright>
+            <social type="blog" href="https://www.mrkwatkins.co.uk"/>
+        </footer>
     </build-profile>
-
 </buildprofiles>

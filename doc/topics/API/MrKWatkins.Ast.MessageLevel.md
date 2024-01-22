@@ -11,7 +11,7 @@ public sealed enum MessageLevel : IComparable, ISpanFormattable, IFormattable, I
 
 | Name | Description |
 | ---- | ----------- |
-| [Error](MrKWatkins.Ast.MessageLevel.Error.md) | An error message. |
-| [Info](MrKWatkins.Ast.MessageLevel.Info.md) | An information message. |
-| [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) | A warning message. |
+| [Error](MrKWatkins.Ast.MessageLevel.md#fields) | An error message. |
+| [Info](MrKWatkins.Ast.MessageLevel.md#fields) | An information message. |
+| [Warning](MrKWatkins.Ast.MessageLevel.md#fields) | A warning message. |
 

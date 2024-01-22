@@ -1,7 +1,7 @@
 # Node&lt;TNode&gt;.HasWarnings Property
 ## Definition
 
-Returns `true` if this node has any [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.Warning.md), `false` otherwise.
+Returns `true` if this node has any [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields), `false` otherwise.
 
 ```c#
 public bool HasWarnings { get; }

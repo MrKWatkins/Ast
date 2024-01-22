@@ -1,7 +1,7 @@
 # Node&lt;TNode&gt;.ThisAndDescendentsWithWarnings Property
 ## Definition
 
-Lazily enumerates over this node and its descendents returning only those that have [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.Warning.md).
+Lazily enumerates over this node and its descendents returning only those that have [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields).
 
 ```c#
 public IEnumerable<TNode> ThisAndDescendentsWithWarnings { get; }

@@ -3,12 +3,12 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [AddError(string)](MrKWatkins.Ast.Node-1.AddError.md#mrkwatkins-ast-node-1-adderror(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md) and the specified text to this node. |
-| [AddError(string, string)](MrKWatkins.Ast.Node-1.AddError.md#mrkwatkins-ast-node-1-adderror(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md) and the specified text to this node. |
+| [AddError(string)](MrKWatkins.Ast.Node-1.AddError.md#mrkwatkins-ast-node-1-adderror(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
+| [AddError(string, string)](MrKWatkins.Ast.Node-1.AddError.md#mrkwatkins-ast-node-1-adderror(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
 
 ## AddError(string) {id="mrkwatkins-ast-node-1-adderror(system-string)"}
 
-Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md) and the specified text to this node.
+Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node.
 
 ```c#
 public void AddError(string text);
@@ -22,7 +22,7 @@ public void AddError(string text);
 
 ## AddError(string, string) {id="mrkwatkins-ast-node-1-adderror(system-string-system-string)"}
 
-Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md) and the specified text to this node.
+Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node.
 
 ```c#
 public void AddError(string code, string text);

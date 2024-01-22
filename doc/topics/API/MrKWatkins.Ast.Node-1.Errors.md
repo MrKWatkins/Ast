@@ -1,7 +1,7 @@
 # Node&lt;TNode&gt;.Errors Property
 ## Definition
 
-The [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md) associated with this node.
+The [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) associated with this node.
 
 ```c#
 public IEnumerable<Message> Errors { get; }

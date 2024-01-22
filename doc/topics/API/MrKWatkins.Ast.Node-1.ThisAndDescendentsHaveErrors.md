@@ -1,7 +1,7 @@
 # Node&lt;TNode&gt;.ThisAndDescendentsHaveErrors Property
 ## Definition
 
-Returns `true` if this node or any of its descendents have any [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md), `false` otherwise.
+Returns `true` if this node or any of its descendents have any [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields), `false` otherwise.
 
 ```c#
 public bool ThisAndDescendentsHaveErrors { get; }

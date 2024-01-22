@@ -1,7 +1,7 @@
 # Node&lt;TNode&gt;.ThisAndDescendentsWithErrors Property
 ## Definition
 
-Lazily enumerates over this node and its descendents returning only those that have [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.Error.md).
+Lazily enumerates over this node and its descendents returning only those that have [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields).
 
 ```c#
 public IEnumerable<TNode> ThisAndDescendentsWithErrors { get; }

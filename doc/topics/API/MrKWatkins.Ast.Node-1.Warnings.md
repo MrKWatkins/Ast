@@ -1,7 +1,7 @@
 # Node&lt;TNode&gt;.Warnings Property
 ## Definition
 
-The [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) associated with this node.
+The [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields) associated with this node.
 
 ```c#
 public IEnumerable<Message> Warnings { get; }

@@ -4,7 +4,7 @@
 | Name | Description |
 | ---- | ----------- |
 | [Format&lt;TNode&gt;(Node&lt;TNode&gt;, MessageLevel, bool)](MrKWatkins.Ast.MessageFormatter.Format.md) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) of the specified [MessageLevel](MrKWatkins.Ast.MessageLevel.md) in the specified node. |
-| [Format&lt;TNode&gt;(Node&lt;TNode&gt;, bool)](MrKWatkins.Ast.MessageFormatter.Format.md) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) in the specified node, grouping by [Level](MrKWatkins.Ast.Message.Level.md) in descending order. I.e. [Error](MrKWatkins.Ast.MessageLevel.Error.md) then [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and then [Info](MrKWatkins.Ast.MessageLevel.Info.md). |
+| [Format&lt;TNode&gt;(Node&lt;TNode&gt;, bool)](MrKWatkins.Ast.MessageFormatter.Format.md) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) in the specified node, grouping by [Level](MrKWatkins.Ast.Message.Level.md) in descending order. I.e. [Error](MrKWatkins.Ast.MessageLevel.md#fields) then [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and then [Info](MrKWatkins.Ast.MessageLevel.md#fields). |
 
 ## Format&lt;TNode&gt;(Node&lt;TNode&gt;, MessageLevel, bool) {id="mrkwatkins-ast-messageformatter-format-1(mrkwatkins-ast-node((-0))-mrkwatkins-ast-messagelevel-system-boolean)"}
 
@@ -36,7 +36,7 @@ public static IEnumerable<String> Format<TNode>(Node<TNode> node, MessageLevel l
 A lazy enumeration of formatted [Messages](MrKWatkins.Ast.Message.md).
 ## Format&lt;TNode&gt;(Node&lt;TNode&gt;, bool) {id="mrkwatkins-ast-messageformatter-format-1(mrkwatkins-ast-node((-0))-system-boolean)"}
 
-Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) in the specified node, grouping by [Level](MrKWatkins.Ast.Message.Level.md) in descending order. I.e. [Error](MrKWatkins.Ast.MessageLevel.Error.md) then [Warning](MrKWatkins.Ast.MessageLevel.Warning.md) and then [Info](MrKWatkins.Ast.MessageLevel.Info.md).
+Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) in the specified node, grouping by [Level](MrKWatkins.Ast.Message.Level.md) in descending order. I.e. [Error](MrKWatkins.Ast.MessageLevel.md#fields) then [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and then [Info](MrKWatkins.Ast.MessageLevel.md#fields).
 
 ```c#
 public static IEnumerable<IGrouping<MessageLevel, String>> Format<TNode>(Node<TNode> node, bool includeSource = true)

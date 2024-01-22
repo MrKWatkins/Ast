@@ -1,7 +1,7 @@
 # MessageFormatter.FormatErrors Method
 ## Definition
 
-Lazily enumerates over all [Errors](MrKWatkins.Ast.MessageLevel.Error.md) in the specified node.
+Lazily enumerates over all [Errors](MrKWatkins.Ast.MessageLevel.md#fields) in the specified node.
 
 ```c#
 public static IEnumerable<String> FormatErrors<TNode>(Node<TNode> node, bool includeSource = true)

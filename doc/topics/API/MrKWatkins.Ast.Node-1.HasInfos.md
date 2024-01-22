@@ -1,7 +1,7 @@
 # Node&lt;TNode&gt;.HasInfos Property
 ## Definition
 
-Returns `true` if this node has any [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.Info.md), `false` otherwise.
+Returns `true` if this node has any [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields), `false` otherwise.
 
 ```c#
 public bool HasInfos { get; }
