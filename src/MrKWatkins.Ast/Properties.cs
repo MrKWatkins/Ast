@@ -125,13 +125,13 @@ public sealed class Properties
     }
 
     /// <summary>
-    ///     Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
-    ///     Uses a field to cache the value for better performance.
+    /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
+    /// Uses a field to cache the value for better performance.
     /// </summary>
     /// <remarks>
-    ///     Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
-    ///     get higher performance as the value will be taken from the field if it exists. Make sure to use <see cref="Set{T}(string,T,out T)" />
-    ///     to update the cached field.
+    /// Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
+    /// get higher performance as the value will be taken from the field if it exists. Make sure to use <see cref="Set{T}(string,T,out T)" />
+    /// to update the cached field.
     /// </remarks>
     /// <param name="key">The key of the property.</param>
     /// <param name="cached">The key of the property.</param>
@@ -139,7 +139,7 @@ public sealed class Properties
     /// <typeparam name="T">The type of the property.</typeparam>
     /// <returns>The value of the property.</returns>
     /// <exception cref="InvalidOperationException">
-    ///     The property is a multiple value property or the type of the property does not match <typeparamref name="T" />.
+    /// The property is a multiple value property or the type of the property does not match <typeparamref name="T" />.
     /// </exception>
     [Pure]
     public T GetOrThrow<T>(string key, ref T? cached, [InstantHandle] Func<Exception> exceptionCreator)
@@ -188,13 +188,13 @@ public sealed class Properties
     }
 
     /// <summary>
-    ///     Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
-    ///     Uses a field to cache the value for better performance.
+    /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
+    /// Uses a field to cache the value for better performance.
     /// </summary>
     /// <remarks>
-    ///     Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
-    ///     get higher performance as the value will be taken from the field if it exists. Make sure to use <see cref="Set{T}(string,T,out T)" />
-    ///     to update the cached field.
+    /// Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
+    /// get higher performance as the value will be taken from the field if it exists. Make sure to use <see cref="Set{T}(string,T,out T)" />
+    /// to update the cached field.
     /// </remarks>
     /// <param name="key">The key of the property.</param>
     /// <param name="cached">The key of the property.</param>
@@ -337,12 +337,12 @@ public sealed class Properties
     }
 
     /// <summary>
-    ///     Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance.
+    /// Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance.
     /// </summary>
     /// <remarks>
-    ///     Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
-    ///     get higher performance as the value will be stored in the field if it exists. Make sure to use <see cref="GetOrThrow{T}(string,ref T)" />
-    ///     to retrieve the cached field.
+    /// Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to
+    /// get higher performance as the value will be stored in the field if it exists. Make sure to use <see cref="GetOrThrow{T}(string,ref T)" />
+    /// to retrieve the cached field.
     /// </remarks>
     /// <param name="key">The key of the property.</param>
     /// <param name="value">The value of the property.</param>

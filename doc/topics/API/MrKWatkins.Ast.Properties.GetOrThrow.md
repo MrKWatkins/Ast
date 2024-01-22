@@ -18,8 +18,7 @@
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
 
 ```c#
-public T GetOrThrow<T>(string key)
-   where T;
+public T GetOrThrow<T>(string key);
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string)"}
@@ -45,7 +44,7 @@ Gets the value of a single valued property with the specified key or throws an e
 
 ```c#
 public T GetOrThrow<T>(string key, ref T cached)
-   where T;
+   where T : class;
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string-0@)"}
@@ -75,7 +74,7 @@ Gets the value of a single valued property with the specified key or throws an e
 
 ```c#
 public T GetOrThrow<T>(string key, ref T? cached)
-   where T : ValueType, new();
+   where T : struct;
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@)"}
@@ -104,8 +103,7 @@ Properties are stored in a dictionary which might not have enough performance in
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
 
 ```c#
-public T GetOrThrow<T>(string key, Func<Exception> exceptionCreator)
-   where T;
+public T GetOrThrow<T>(string key, Func<Exception> exceptionCreator);
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-exception)))"}
@@ -132,7 +130,7 @@ Gets the value of a single valued property with the specified key or throws an e
 
 ```c#
 public T GetOrThrow<T>(string key, ref T cached, Func<Exception> exceptionCreator)
-   where T;
+   where T : class;
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-exception)))"}
@@ -163,7 +161,7 @@ Gets the value of a single valued property with the specified key or throws an e
 
 ```c#
 public T GetOrThrow<T>(string key, ref T? cached, Func<Exception> exceptionCreator)
-   where T : ValueType, new();
+   where T : struct;
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-exception)))"}
@@ -193,8 +191,7 @@ Properties are stored in a dictionary which might not have enough performance in
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
 
 ```c#
-public T GetOrThrow<T>(string key, Func<String, Exception> exceptionCreator)
-   where T;
+public T GetOrThrow<T>(string key, Func<String, Exception> exceptionCreator);
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-string-system-exception)))"}
@@ -221,7 +218,7 @@ Gets the value of a single valued property with the specified key or throws an e
 
 ```c#
 public T GetOrThrow<T>(string key, ref T cached, Func<String, Exception> exceptionCreator)
-   where T;
+   where T : class;
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-string-system-exception)))"}
@@ -252,7 +249,7 @@ Gets the value of a single valued property with the specified key or throws an e
 
 ```c#
 public T GetOrThrow<T>(string key, ref T? cached, Func<String, Exception> exceptionCreator)
-   where T : ValueType, new();
+   where T : struct;
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-string-system-exception)))"}

@@ -4,8 +4,7 @@
 Adds a value to a multiple valued property with the specified key.
 
 ```c#
-public void AddToMultiple<T>(string key, T value)
-   where T;
+public void AddToMultiple<T>(string key, T value);
 ```
 
 ### Type Parameters

@@ -4,8 +4,7 @@
 Tries to get the value of a single valued property with the specified key.
 
 ```c#
-public bool TryGet<T>(string key, out T value)
-   where T;
+public bool TryGet<T>(string key, out T value);
 ```
 
 ### Type Parameters

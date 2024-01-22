@@ -5,7 +5,6 @@ Fluent interface to build a [CompositeListener&lt;TContext, TBaseNode&gt;](MrKWa
 
 ```c#
 public abstract interface ICompositeListenerBuilder<TContext, TBaseNode>
-   where TContext
    where TBaseNode : Node<TBaseNode>
 ```
 

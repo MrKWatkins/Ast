@@ -4,8 +4,7 @@
 Adds values to a multiple valued property with the specified key.
 
 ```c#
-public void AddRangeToMultiple<T>(string key, IEnumerable<T> values)
-   where T;
+public void AddRangeToMultiple<T>(string key, IEnumerable<T> values);
 ```
 
 ### Type Parameters

@@ -5,7 +5,6 @@ A [Processor&lt;TNode&gt;](MrKWatkins.Ast.Processing.Processor-1.md) that proces
 
 ```c#
 public abstract class OrderedProcessorWithContext<TContext, TNode> : Processor<TNode>
-   where TContext
    where TNode : Node<TNode>
 ```
 

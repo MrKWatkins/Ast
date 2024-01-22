@@ -4,8 +4,7 @@
 Gets the values of a multiple valued property with the specified key.
 
 ```c#
-public IReadOnlyList<T> GetMultiple<T>(string key)
-   where T;
+public IReadOnlyList<T> GetMultiple<T>(string key);
 ```
 
 ### Type Parameters

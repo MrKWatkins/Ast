@@ -4,8 +4,7 @@
 Sets the values of a multiple valued property with the specified key. Any existing values are replaced.
 
 ```c#
-public void SetMultiple<T>(string key, IEnumerable<T> values)
-   where T;
+public void SetMultiple<T>(string key, IEnumerable<T> values);
 ```
 
 ### Type Parameters

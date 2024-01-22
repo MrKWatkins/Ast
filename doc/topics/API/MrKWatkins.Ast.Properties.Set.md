@@ -12,8 +12,7 @@
 Sets the value of a single valued property with the specified key.
 
 ```c#
-public void Set<T>(string key, T value)
-   where T;
+public void Set<T>(string key, T value);
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-set-1(system-string-0)"}
@@ -35,7 +34,7 @@ Sets the value of a single valued property with the specified key. Uses a field 
 
 ```c#
 public void Set<T>(string key, T value, out T cached)
-   where T;
+   where T : class;
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-set-1(system-string-0-0@)"}
@@ -61,7 +60,7 @@ Sets the value of a single valued property with the specified key. Uses a field 
 
 ```c#
 public void Set<T>(string key, T value, out T? cached)
-   where T : ValueType, new();
+   where T : struct;
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-set-1(system-string-0-system-nullable((-0))@)"}

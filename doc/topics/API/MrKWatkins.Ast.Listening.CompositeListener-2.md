@@ -5,7 +5,6 @@ A [Listener&lt;TContext, TNode&gt;](MrKWatkins.Ast.Listening.Listener-2.md) buil
 
 ```c#
 public sealed class CompositeListener<TContext, TBaseNode> : Listener<TContext, TBaseNode>, ICompositeListenerBuilder<TContext, TBaseNode>
-   where TContext
    where TBaseNode : Node<TBaseNode>
 ```
 

@@ -4,8 +4,7 @@
 Gets the value of a single valued property with the specified key or returns a default value if the property does not exist.
 
 ```c#
-public T GetOrDefault<T>(string key, T @default = null)
-   where T;
+public T GetOrDefault<T>(string key, T @default = null);
 ```
 
 ### Type Parameters

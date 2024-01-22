@@ -5,7 +5,6 @@ A [Listener&lt;TContext, TNode&gt;](MrKWatkins.Ast.Listening.Listener-2.md) that
 
 ```c#
 public abstract class Listener<TContext, TBaseNode, TNode> : Listener<TContext, TBaseNode>
-   where TContext
    where TBaseNode : Node<TBaseNode>
    where TNode : TBaseNode
 ```

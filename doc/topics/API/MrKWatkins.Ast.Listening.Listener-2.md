@@ -5,7 +5,6 @@ A listener for a syntax tree. A listener walks the tree and gets notified when n
 
 ```c#
 public abstract class Listener<TContext, TNode>
-   where TContext
    where TNode : Node<TNode>
 ```
 
