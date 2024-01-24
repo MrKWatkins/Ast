@@ -4,7 +4,7 @@
 The [Properties](MrKWatkins.Ast.Properties.md) associated with this node.
 
 ```c#
-protected Properties Properties { }
+protected Properties Properties { get; }
 ```
 
 ## Property Value
