@@ -53,7 +53,7 @@ public void Set<T>(string key, T value, out T cached)
 
 ## Remarks {id="remarks-mrkwatkins-ast-properties-set-1(system-string-0-0@)"}
 
-Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to get higher performance as the value will be stored in the field if it exists. Make sure to use [GetOrThrow(String, T)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@)) to retrieve the cached field.
+Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to get higher performance as the value will be stored in the field if it exists. Make sure to use [GetOrThrow&lt;T&gt;(String, T)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@)) to retrieve the cached field.
 ## Set&lt;T&gt;(string, T, T?) {id="mrkwatkins-ast-properties-set-1(system-string-0-system-nullable((-0))@)"}
 
 Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance.
@@ -79,4 +79,4 @@ public void Set<T>(string key, T value, out T? cached)
 
 ## Remarks {id="remarks-mrkwatkins-ast-properties-set-1(system-string-0-system-nullable((-0))@)"}
 
-Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to get higher performance as the value will be stored in the field if it exists. Make sure to use [GetOrThrow(String, T)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@)) to retrieve the cached field.
+Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to get higher performance as the value will be stored in the field if it exists. Make sure to use [GetOrThrow&lt;T&gt;(String, T)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@)) to retrieve the cached field.

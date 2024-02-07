@@ -27,4 +27,4 @@ TChild
 The last node if it is of the specified type or `default` otherwise.
 ## Remarks
 
-Slightly quicker than [LastOfTypeOrDefault(TChild)](MrKWatkins.Ast.Children-1.LastOfTypeOrDefault.md) if you only care about the last node.
+Slightly quicker than [LastOfTypeOrDefault&lt;TChild&gt;(TChild)](MrKWatkins.Ast.Children-1.LastOfTypeOrDefault.md) if you only care about the last node.

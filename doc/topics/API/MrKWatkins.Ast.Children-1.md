@@ -1,7 +1,7 @@
 # Children&lt;TNode&gt; Class
 ## Definition
 
-Collection of child nodes for a [Node&lt;TNode&gt;](MrKWatkins.Ast.Node-1.md).
+Collection of child nodes for a [Node&lt;TNode&gt;](MrKWatkins.Ast.Node-1.md). [IEnumerable&lt;T&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IEnumerable-1) [String](https://learn.microsoft.com/en-gb/dotnet/api/System.String)
 
 ```c#
 public sealed class Children<TNode> : IList<TNode>, ICollection<TNode>, IEnumerable<TNode>, IEnumerable

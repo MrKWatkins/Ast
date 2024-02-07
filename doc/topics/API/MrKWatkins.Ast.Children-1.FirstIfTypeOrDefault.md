@@ -27,4 +27,4 @@ TChild
 The first node if it is of the specified type or `default` otherwise.
 ## Remarks
 
-Slightly quicker than [FirstOfTypeOrDefault(TChild)](MrKWatkins.Ast.Children-1.FirstOfTypeOrDefault.md) if you only care about the first node.
+Slightly quicker than [FirstOfTypeOrDefault&lt;TChild&gt;(TChild)](MrKWatkins.Ast.Children-1.FirstOfTypeOrDefault.md) if you only care about the first node.

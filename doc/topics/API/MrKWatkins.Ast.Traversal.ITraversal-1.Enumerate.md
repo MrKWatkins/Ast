@@ -19,4 +19,4 @@ public abstract IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true
 
 [IEnumerable&lt;TNode&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IEnumerable-1)
 
-A lazy [IEnumerable&lt;out T&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IEnumerable-1) of the descendents.
+A lazy [IEnumerable&lt;T&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IEnumerable-1) of the descendents.
