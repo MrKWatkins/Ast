@@ -3,17 +3,17 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [GetOrThrow&lt;T&gt;(string)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string)) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. |
-| [GetOrThrow&lt;T&gt;(string, T)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@)) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
-| [GetOrThrow&lt;T&gt;(string, T?)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@)) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
-| [GetOrThrow&lt;T&gt;(string, Func&lt;Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. |
-| [GetOrThrow&lt;T&gt;(string, T, Func&lt;Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
-| [GetOrThrow&lt;T&gt;(string, T?, Func&lt;Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
-| [GetOrThrow&lt;T&gt;(string, Func&lt;String, Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-string-system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. |
-| [GetOrThrow&lt;T&gt;(string, T, Func&lt;String, Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-string-system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
-| [GetOrThrow&lt;T&gt;(string, T?, Func&lt;String, Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-string-system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
+| [GetOrThrow&lt;T&gt;(String)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string)) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. |
+| [GetOrThrow&lt;T&gt;(String, T)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@)) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
+| [GetOrThrow&lt;T&gt;(String, T?)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@)) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
+| [GetOrThrow&lt;T&gt;(String, Func&lt;Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. |
+| [GetOrThrow&lt;T&gt;(String, T, Func&lt;Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
+| [GetOrThrow&lt;T&gt;(String, T?, Func&lt;Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
+| [GetOrThrow&lt;T&gt;(String, Func&lt;String, Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-string-system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. |
+| [GetOrThrow&lt;T&gt;(String, T, Func&lt;String, Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-string-system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
+| [GetOrThrow&lt;T&gt;(String, T?, Func&lt;String, Exception&gt;)](MrKWatkins.Ast.Properties.GetOrThrow.md#mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-string-system-exception)))) | Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance. |
 
-## GetOrThrow&lt;T&gt;(string) {id="mrkwatkins-ast-properties-getorthrow-1(system-string)"}
+## GetOrThrow&lt;T&gt;(String) {id="mrkwatkins-ast-properties-getorthrow-1(system-string)"}
 
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
 
@@ -38,7 +38,7 @@ public T GetOrThrow<T>(string key);
 T
 
 The value of the property.
-## GetOrThrow&lt;T&gt;(string, T) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-0@)"}
+## GetOrThrow&lt;T&gt;(String, T) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-0@)"}
 
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
@@ -68,7 +68,7 @@ The value of the property.
 ## Remarks {id="remarks-mrkwatkins-ast-properties-getorthrow-1(system-string-0@)"}
 
 Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to get higher performance as the value will be taken from the field if it exists. Make sure to use [Set&lt;T&gt;(String, T, T)](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0-0@)) to update the cached field.
-## GetOrThrow&lt;T&gt;(string, T?) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@)"}
+## GetOrThrow&lt;T&gt;(String, T?) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@)"}
 
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
@@ -98,7 +98,7 @@ The value of the property.
 ## Remarks {id="remarks-mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@)"}
 
 Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to get higher performance as the value will be taken from the field if it exists. Make sure to use [Set&lt;T&gt;(String, T, T)](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0-0@)) to update the cached field.
-## GetOrThrow&lt;T&gt;(string, Func&lt;Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-exception)))"}
+## GetOrThrow&lt;T&gt;(String, Func&lt;Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-exception)))"}
 
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
 
@@ -124,7 +124,7 @@ public T GetOrThrow<T>(string key, Func<Exception> exceptionCreator);
 T
 
 The value of the property.
-## GetOrThrow&lt;T&gt;(string, T, Func&lt;Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-exception)))"}
+## GetOrThrow&lt;T&gt;(String, T, Func&lt;Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-exception)))"}
 
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
@@ -155,7 +155,7 @@ The value of the property.
 ## Remarks {id="remarks-mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-exception)))"}
 
 Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to get higher performance as the value will be taken from the field if it exists. Make sure to use [Set&lt;T&gt;(String, T, T)](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0-0@)) to update the cached field.
-## GetOrThrow&lt;T&gt;(string, T?, Func&lt;Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-exception)))"}
+## GetOrThrow&lt;T&gt;(String, T?, Func&lt;Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-exception)))"}
 
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
@@ -186,12 +186,12 @@ The value of the property.
 ## Remarks {id="remarks-mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-exception)))"}
 
 Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to get higher performance as the value will be taken from the field if it exists. Make sure to use [Set&lt;T&gt;(String, T, T)](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0-0@)) to update the cached field.
-## GetOrThrow&lt;T&gt;(string, Func&lt;String, Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-string-system-exception)))"}
+## GetOrThrow&lt;T&gt;(String, Func&lt;String, Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-string-system-exception)))"}
 
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
 
 ```c#
-public T GetOrThrow<T>(string key, Func<String, Exception> exceptionCreator);
+public T GetOrThrow<T>(string key, Func<string, Exception> exceptionCreator);
 ```
 
 ### Type Parameters {id="type-parameters-mrkwatkins-ast-properties-getorthrow-1(system-string-system-func((system-string-system-exception)))"}
@@ -212,12 +212,12 @@ public T GetOrThrow<T>(string key, Func<String, Exception> exceptionCreator);
 T
 
 The value of the property.
-## GetOrThrow&lt;T&gt;(string, T, Func&lt;String, Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-string-system-exception)))"}
+## GetOrThrow&lt;T&gt;(String, T, Func&lt;String, Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-string-system-exception)))"}
 
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
 ```c#
-public T GetOrThrow<T>(string key, ref T cached, Func<String, Exception> exceptionCreator)
+public T GetOrThrow<T>(string key, ref T cached, Func<string, Exception> exceptionCreator)
    where T : class;
 ```
 
@@ -243,12 +243,12 @@ The value of the property.
 ## Remarks {id="remarks-mrkwatkins-ast-properties-getorthrow-1(system-string-0@-system-func((system-string-system-exception)))"}
 
 Properties are stored in a dictionary which might not have enough performance in some situations. Use this overload to get higher performance as the value will be taken from the field if it exists. Make sure to use [Set&lt;T&gt;(String, T, T)](MrKWatkins.Ast.Properties.Set.md#mrkwatkins-ast-properties-set-1(system-string-0-0@)) to update the cached field.
-## GetOrThrow&lt;T&gt;(string, T?, Func&lt;String, Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-string-system-exception)))"}
+## GetOrThrow&lt;T&gt;(String, T?, Func&lt;String, Exception&gt;) {id="mrkwatkins-ast-properties-getorthrow-1(system-string-system-nullable((-0))@-system-func((system-string-system-exception)))"}
 
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
 ```c#
-public T GetOrThrow<T>(string key, ref T? cached, Func<String, Exception> exceptionCreator)
+public T GetOrThrow<T>(string key, ref T? cached, Func<string, Exception> exceptionCreator)
    where T : struct;
 ```
 

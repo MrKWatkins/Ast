@@ -4,12 +4,12 @@
 | Name | Description |
 | ---- | ----------- |
 | [Equals(SourceFile)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)) |  |
-| [Equals(object)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(system-object)) |  |
+| [Equals(Object)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(system-object)) |  |
 
 ## Equals(SourceFile) {id="mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)"}
 
 ```c#
-public bool Equals(SourceFile other);
+public new bool Equals(SourceFile other);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)"}
@@ -21,7 +21,7 @@ public bool Equals(SourceFile other);
 ## Returns {id="returns-mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)"}
 
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
-## Equals(object) {id="mrkwatkins-ast-position-sourcefile-equals(system-object)"}
+## Equals(Object) {id="mrkwatkins-ast-position-sourcefile-equals(system-object)"}
 
 ```c#
 public sealed override bool Equals(object obj);

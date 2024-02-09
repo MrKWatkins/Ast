@@ -11,7 +11,7 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
 
 | Name | Description |
 | ---- | ----------- |
-| [SourceFile(string, int)](MrKWatkins.Ast.Position.SourceFile.-ctor.md) | Initialises a new instance of the [SourceFile](MrKWatkins.Ast.Position.SourceFile.md) class. |
+| [SourceFile(String, Int32)](MrKWatkins.Ast.Position.SourceFile.-ctor.md) | Initialises a new instance of the [SourceFile](MrKWatkins.Ast.Position.SourceFile.md) class. |
 
 ## Properties
 
@@ -25,7 +25,7 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
 | Name | Description |
 | ---- | ----------- |
 | [Equals(SourceFile)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)) |  |
-| [Equals(object)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(system-object)) |  |
+| [Equals(Object)](MrKWatkins.Ast.Position.SourceFile.Equals.md#mrkwatkins-ast-position-sourcefile-equals(system-object)) |  |
 | [GetHashCode()](MrKWatkins.Ast.Position.SourceFile.GetHashCode.md) |  |
 | [ToString()](MrKWatkins.Ast.Position.SourceFile.ToString.md) |  |
 

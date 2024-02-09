@@ -4,7 +4,7 @@
 | Name | Description |
 | ---- | ----------- |
 | [Run(TNode)](MrKWatkins.Ast.Processing.Pipeline-1.Run.md#mrkwatkins-ast-processing-pipeline-1-run(-0)) | Runs the pipeline on the specified root node. |
-| [Run(TNode, string)](MrKWatkins.Ast.Processing.Pipeline-1.Run.md#mrkwatkins-ast-processing-pipeline-1-run(-0-system-string@)) | Runs the pipeline on the specified root node. |
+| [Run(TNode, String)](MrKWatkins.Ast.Processing.Pipeline-1.Run.md#mrkwatkins-ast-processing-pipeline-1-run(-0-system-string@)) | Runs the pipeline on the specified root node. |
 
 ## Run(TNode) {id="mrkwatkins-ast-processing-pipeline-1-run(-0)"}
 
@@ -25,7 +25,7 @@ public bool Run(TNode root);
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
 
 `true` if all stages ran successfully, `false` otherwise.
-## Run(TNode, string) {id="mrkwatkins-ast-processing-pipeline-1-run(-0-system-string@)"}
+## Run(TNode, String) {id="mrkwatkins-ast-processing-pipeline-1-run(-0-system-string@)"}
 
 Runs the pipeline on the specified root node.
 

@@ -3,15 +3,15 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Format&lt;TNode&gt;(Node&lt;TNode&gt;, MessageLevel, bool)](MrKWatkins.Ast.MessageFormatter.Format.md) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) of the specified [MessageLevel](MrKWatkins.Ast.MessageLevel.md) in the specified node. |
-| [Format&lt;TNode&gt;(Node&lt;TNode&gt;, bool)](MrKWatkins.Ast.MessageFormatter.Format.md) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) in the specified node, grouping by [Level](MrKWatkins.Ast.Message.Level.md) in descending order. I.e. [Error](MrKWatkins.Ast.MessageLevel.md#fields) then [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and then [Info](MrKWatkins.Ast.MessageLevel.md#fields). |
+| [Format&lt;TNode&gt;(Node&lt;TNode&gt;, MessageLevel, Boolean)](MrKWatkins.Ast.MessageFormatter.Format.md#mrkwatkins-ast-messageformatter-format-1(mrkwatkins-ast-node((-0))-mrkwatkins-ast-messagelevel-system-boolean)) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) of the specified [MessageLevel](MrKWatkins.Ast.MessageLevel.md) in the specified node. |
+| [Format&lt;TNode&gt;(Node&lt;TNode&gt;, Boolean)](MrKWatkins.Ast.MessageFormatter.Format.md#mrkwatkins-ast-messageformatter-format-1(mrkwatkins-ast-node((-0))-system-boolean)) | Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) in the specified node, grouping by [Level](MrKWatkins.Ast.Message.Level.md) in descending order. I.e. [Error](MrKWatkins.Ast.MessageLevel.md#fields) then [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and then [Info](MrKWatkins.Ast.MessageLevel.md#fields). |
 
-## Format&lt;TNode&gt;(Node&lt;TNode&gt;, MessageLevel, bool) {id="mrkwatkins-ast-messageformatter-format-1(mrkwatkins-ast-node((-0))-mrkwatkins-ast-messagelevel-system-boolean)"}
+## Format&lt;TNode&gt;(Node&lt;TNode&gt;, MessageLevel, Boolean) {id="mrkwatkins-ast-messageformatter-format-1(mrkwatkins-ast-node((-0))-mrkwatkins-ast-messagelevel-system-boolean)"}
 
 Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) of the specified [MessageLevel](MrKWatkins.Ast.MessageLevel.md) in the specified node.
 
 ```c#
-public static IEnumerable<String> Format<TNode>(Node<TNode> node, MessageLevel level, bool includeSource = true)
+public static IEnumerable<string> Format<TNode>(Node<TNode> node, MessageLevel level, bool includeSource = true)
    where TNode : Node<TNode>;
 ```
 
@@ -34,12 +34,12 @@ public static IEnumerable<String> Format<TNode>(Node<TNode> node, MessageLevel l
 [IEnumerable&lt;String&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IEnumerable-1)
 
 A lazy enumeration of formatted [Messages](MrKWatkins.Ast.Message.md).
-## Format&lt;TNode&gt;(Node&lt;TNode&gt;, bool) {id="mrkwatkins-ast-messageformatter-format-1(mrkwatkins-ast-node((-0))-system-boolean)"}
+## Format&lt;TNode&gt;(Node&lt;TNode&gt;, Boolean) {id="mrkwatkins-ast-messageformatter-format-1(mrkwatkins-ast-node((-0))-system-boolean)"}
 
 Lazily enumerates over all [Messages](MrKWatkins.Ast.Message.md) in the specified node, grouping by [Level](MrKWatkins.Ast.Message.Level.md) in descending order. I.e. [Error](MrKWatkins.Ast.MessageLevel.md#fields) then [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and then [Info](MrKWatkins.Ast.MessageLevel.md#fields).
 
 ```c#
-public static IEnumerable<IGrouping<MessageLevel, String>> Format<TNode>(Node<TNode> node, bool includeSource = true)
+public static IEnumerable<IGrouping<MessageLevel, string>> Format<TNode>(Node<TNode> node, bool includeSource = true)
    where TNode : Node<TNode>;
 ```
 

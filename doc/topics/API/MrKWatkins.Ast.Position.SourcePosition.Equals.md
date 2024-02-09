@@ -4,12 +4,12 @@
 | Name | Description |
 | ---- | ----------- |
 | [Equals(SourcePosition)](MrKWatkins.Ast.Position.SourcePosition.Equals.md#mrkwatkins-ast-position-sourceposition-equals(mrkwatkins-ast-position-sourceposition)) |  |
-| [Equals(object)](MrKWatkins.Ast.Position.SourcePosition.Equals.md#mrkwatkins-ast-position-sourceposition-equals(system-object)) |  |
+| [Equals(Object)](MrKWatkins.Ast.Position.SourcePosition.Equals.md#mrkwatkins-ast-position-sourceposition-equals(system-object)) |  |
 
 ## Equals(SourcePosition) {id="mrkwatkins-ast-position-sourceposition-equals(mrkwatkins-ast-position-sourceposition)"}
 
 ```c#
-public abstract bool Equals(SourcePosition other);
+public new abstract bool Equals(SourcePosition other);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-position-sourceposition-equals(mrkwatkins-ast-position-sourceposition)"}
@@ -21,7 +21,7 @@ public abstract bool Equals(SourcePosition other);
 ## Returns {id="returns-mrkwatkins-ast-position-sourceposition-equals(mrkwatkins-ast-position-sourceposition)"}
 
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
-## Equals(object) {id="mrkwatkins-ast-position-sourceposition-equals(system-object)"}
+## Equals(Object) {id="mrkwatkins-ast-position-sourceposition-equals(system-object)"}
 
 ```c#
 public sealed override bool Equals(object obj);

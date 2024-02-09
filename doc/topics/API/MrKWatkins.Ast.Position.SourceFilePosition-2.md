@@ -20,7 +20,7 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>, 
 
 | Name | Description |
 | ---- | ----------- |
-| [SourceFilePosition(TFile, int, int)](MrKWatkins.Ast.Position.SourceFilePosition-2.-ctor.md) | Initialises a new instance of the [SourceFilePosition&lt;TSelf, TFile&gt;](MrKWatkins.Ast.Position.SourceFilePosition-2.md) class. |
+| [SourceFilePosition(TFile, Int32, Int32)](MrKWatkins.Ast.Position.SourceFilePosition-2.-ctor.md) | Initialises a new instance of the [SourceFilePosition&lt;TSelf, TFile&gt;](MrKWatkins.Ast.Position.SourceFilePosition-2.md) class. |
 
 ## Properties
 

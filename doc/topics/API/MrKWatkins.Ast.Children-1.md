@@ -1,7 +1,7 @@
 # Children&lt;TNode&gt; Class
 ## Definition
 
-Collection of child nodes for a [Node&lt;TNode&gt;](MrKWatkins.Ast.Node-1.md). [IEnumerable&lt;T&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IEnumerable-1) [String](https://learn.microsoft.com/en-gb/dotnet/api/System.String)
+Collection of child nodes for a [Node&lt;TNode&gt;](MrKWatkins.Ast.Node-1.md).
 
 ```c#
 public sealed class Children<TNode> : IList<TNode>, ICollection<TNode>, IEnumerable<TNode>, IEnumerable
@@ -36,7 +36,7 @@ public sealed class Children<TNode> : IList<TNode>, ICollection<TNode>, IEnumera
 | [FirstOfTypeOrDefault&lt;TChild&gt;(TChild)](MrKWatkins.Ast.Children-1.FirstOfTypeOrDefault.md) | Returns the first node in the collection of the specified type or a specified default if it doesn&#39;t contain any nodes of the specified type. |
 | [GetEnumerator()](MrKWatkins.Ast.Children-1.GetEnumerator.md) |  |
 | [IndexOf(TNode)](MrKWatkins.Ast.Children-1.IndexOf.md) | Gets the index of the specified node in this collection. |
-| [Insert(int, TNode)](MrKWatkins.Ast.Children-1.Insert.md) | Inserts a node into the collection at the specified position and assigns its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property. |
+| [Insert(Int32, TNode)](MrKWatkins.Ast.Children-1.Insert.md) | Inserts a node into the collection at the specified position and assigns its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property. |
 | [LastIfTypeOrDefault&lt;TChild&gt;(TChild)](MrKWatkins.Ast.Children-1.LastIfTypeOrDefault.md) | Returns the last node in the collection if it is of the specified type or a specified default if the collection is empty or the last node is a different type. |
 | [LastOfType&lt;TChild&gt;()](MrKWatkins.Ast.Children-1.LastOfType.md) | Returns the last node in the collection of the specified type or throws otherwise. |
 | [LastOfTypeOrDefault&lt;TChild&gt;(TChild)](MrKWatkins.Ast.Children-1.LastOfTypeOrDefault.md) | Returns the last node in the collection of the specified type or a specified default if it doesn&#39;t contain any nodes of the specified type. |
@@ -45,7 +45,7 @@ public sealed class Children<TNode> : IList<TNode>, ICollection<TNode>, IEnumera
 | [Move(TNode\[\])](MrKWatkins.Ast.Children-1.Move.md#mrkwatkins-ast-children-1-move(-0())) | Moves nodes from their current parents (if they have one) into this collection. |
 | [OfType&lt;TChild&gt;()](MrKWatkins.Ast.Children-1.OfType.md) | Lazily enumerates over all nodes in this collection of the specified type. |
 | [Remove(TNode)](MrKWatkins.Ast.Children-1.Remove.md) | Tries to remove a node from the collection and reset its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property to `null`. |
-| [RemoveAt(int)](MrKWatkins.Ast.Children-1.RemoveAt.md) | Removes the node at the specified position from the collection and reset its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property to `null`. |
+| [RemoveAt(Int32)](MrKWatkins.Ast.Children-1.RemoveAt.md) | Removes the node at the specified position from the collection and reset its [Parent](MrKWatkins.Ast.Node-1.Parent.md) property to `null`. |
 | [Replace(TNode, TNode)](MrKWatkins.Ast.Children-1.Replace.md) | Replaces a node in the collection with another node. The replacement will be removed from its parent and the node being replaced will have it&#39;s parent removed. |
 | [SingleOfType&lt;TChild&gt;()](MrKWatkins.Ast.Children-1.SingleOfType.md) | Returns the only node in the collection of the specified type. Throws if there is not exactly one node in the collection of the specified type. |
 | [SingleOfTypeOrDefault&lt;TChild&gt;(TChild)](MrKWatkins.Ast.Children-1.SingleOfTypeOrDefault.md) | Returns the only node in the collection of the specified type. Returns the specified default if there are no nodes in the collection of the specified type. Throws if there are multiple nodes in the collection of the specified type. |

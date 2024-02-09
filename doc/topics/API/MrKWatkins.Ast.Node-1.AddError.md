@@ -3,10 +3,10 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [AddError(string)](MrKWatkins.Ast.Node-1.AddError.md#mrkwatkins-ast-node-1-adderror(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
-| [AddError(string, string)](MrKWatkins.Ast.Node-1.AddError.md#mrkwatkins-ast-node-1-adderror(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
+| [AddError(String)](MrKWatkins.Ast.Node-1.AddError.md#mrkwatkins-ast-node-1-adderror(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
+| [AddError(String, String)](MrKWatkins.Ast.Node-1.AddError.md#mrkwatkins-ast-node-1-adderror(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
 
-## AddError(string) {id="mrkwatkins-ast-node-1-adderror(system-string)"}
+## AddError(String) {id="mrkwatkins-ast-node-1-adderror(system-string)"}
 
 Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node.
 
@@ -20,7 +20,7 @@ public void AddError(string text);
 | ---- | ---- | ----------- |
 | text | [String](https://learn.microsoft.com/en-gb/dotnet/api/System.String) | The [Text](MrKWatkins.Ast.Message.Text.md) of the message. |
 
-## AddError(string, string) {id="mrkwatkins-ast-node-1-adderror(system-string-system-string)"}
+## AddError(String, String) {id="mrkwatkins-ast-node-1-adderror(system-string-system-string)"}
 
 Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node.
 

@@ -4,7 +4,7 @@
 Gets the value of a single valued property with the specified key or returns a default value if the property does not exist.
 
 ```c#
-public T GetOrAdd<T>(string key, Func<String, T> defaultCreator);
+public T GetOrAdd<T>(string key, Func<string, T> defaultCreator);
 ```
 
 ### Type Parameters

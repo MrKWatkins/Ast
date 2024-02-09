@@ -3,10 +3,10 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Message(MessageLevel, string)](MrKWatkins.Ast.Message.-ctor.md#mrkwatkins-ast-message-ctor(mrkwatkins-ast-messagelevel-system-string)) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the specified [Level](MrKWatkins.Ast.Message.Level.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
-| [Message(MessageLevel, string, string)](MrKWatkins.Ast.Message.-ctor.md#mrkwatkins-ast-message-ctor(mrkwatkins-ast-messagelevel-system-string-system-string)) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the specified [Level](MrKWatkins.Ast.Message.Level.md), [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
+| [Message(MessageLevel, String)](MrKWatkins.Ast.Message.-ctor.md#mrkwatkins-ast-message-ctor(mrkwatkins-ast-messagelevel-system-string)) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the specified [Level](MrKWatkins.Ast.Message.Level.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
+| [Message(MessageLevel, String, String)](MrKWatkins.Ast.Message.-ctor.md#mrkwatkins-ast-message-ctor(mrkwatkins-ast-messagelevel-system-string-system-string)) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the specified [Level](MrKWatkins.Ast.Message.Level.md), [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
 
-## Message(MessageLevel, string) {id="mrkwatkins-ast-message-ctor(mrkwatkins-ast-messagelevel-system-string)"}
+## Message(MessageLevel, String) {id="mrkwatkins-ast-message-ctor(mrkwatkins-ast-messagelevel-system-string)"}
 
 Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the specified [Level](MrKWatkins.Ast.Message.Level.md) and [Text](MrKWatkins.Ast.Message.Text.md).
 
@@ -21,7 +21,7 @@ public Message(MessageLevel level, string text);
 | level | [MessageLevel](MrKWatkins.Ast.MessageLevel.md) | The [Level](MrKWatkins.Ast.Message.Level.md) of the message. |
 | text | [String](https://learn.microsoft.com/en-gb/dotnet/api/System.String) | The [Text](MrKWatkins.Ast.Message.Text.md) of the message. |
 
-## Message(MessageLevel, string, string) {id="mrkwatkins-ast-message-ctor(mrkwatkins-ast-messagelevel-system-string-system-string)"}
+## Message(MessageLevel, String, String) {id="mrkwatkins-ast-message-ctor(mrkwatkins-ast-messagelevel-system-string-system-string)"}
 
 Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the specified [Level](MrKWatkins.Ast.Message.Level.md), [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md).
 

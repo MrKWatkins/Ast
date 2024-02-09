@@ -18,5 +18,5 @@ public sealed class ParallelPipelineStageBuilder<TNode> : PipelineStageBuilder<P
 
 | Name | Description |
 | ---- | ----------- |
-| [WithMaxDegreeOfParallelism(int)](MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.WithMaxDegreeOfParallelism.md) | Sets the maximum degree of parallelism for parallel processing. If set to 1 then the stage will proceed in serial. If greater than 1 then 1 thread will be used to walk the tree and the other threads will be used to process the nodes. Defaults to the number of processors in the machine. |
+| [WithMaxDegreeOfParallelism(Int32)](MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.WithMaxDegreeOfParallelism.md) | Sets the maximum degree of parallelism for parallel processing. If set to 1 then the stage will proceed in serial. If greater than 1 then 1 thread will be used to walk the tree and the other threads will be used to process the nodes. Defaults to the number of processors in the machine. |
 

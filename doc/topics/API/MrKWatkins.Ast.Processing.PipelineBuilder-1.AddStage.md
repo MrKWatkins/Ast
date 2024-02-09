@@ -5,9 +5,9 @@
 | ---- | ----------- |
 | [AddStage(Action&lt;SerialPipelineStageBuilder&lt;TNode&gt;&gt;)](MrKWatkins.Ast.Processing.PipelineBuilder-1.AddStage.md#mrkwatkins-ast-processing-pipelinebuilder-1-addstage(system-action((mrkwatkins-ast-processing-serialpipelinestagebuilder((-0)))))) | Adds a stage to the pipeline that runs [Processors](MrKWatkins.Ast.Processing.Processor-1.md) serially. Its name will be the number of the stage. |
 | [AddStage&lt;TProcessor&gt;()](MrKWatkins.Ast.Processing.PipelineBuilder-1.AddStage.md#mrkwatkins-ast-processing-pipelinebuilder-1-addstage-1) | Adds a stage to the pipeline with a single [Processor&lt;TNode&gt;](MrKWatkins.Ast.Processing.Processor-1.md). Its name will be the number of the stage. |
-| [AddStage&lt;TProcessor&gt;(string)](MrKWatkins.Ast.Processing.PipelineBuilder-1.AddStage.md#mrkwatkins-ast-processing-pipelinebuilder-1-addstage-1(system-string)) | Adds a stage with the specified name to the pipeline with a single [Processor&lt;TNode&gt;](MrKWatkins.Ast.Processing.Processor-1.md). |
+| [AddStage&lt;TProcessor&gt;(String)](MrKWatkins.Ast.Processing.PipelineBuilder-1.AddStage.md#mrkwatkins-ast-processing-pipelinebuilder-1-addstage-1(system-string)) | Adds a stage with the specified name to the pipeline with a single [Processor&lt;TNode&gt;](MrKWatkins.Ast.Processing.Processor-1.md). |
 | [AddStage(Processor&lt;TNode&gt;, Processor&lt;TNode&gt;\[\])](MrKWatkins.Ast.Processing.PipelineBuilder-1.AddStage.md#mrkwatkins-ast-processing-pipelinebuilder-1-addstage(mrkwatkins-ast-processing-processor((-0))-mrkwatkins-ast-processing-processor((-0))())) | Adds a stage to the pipeline with the specified [Processors](MrKWatkins.Ast.Processing.Processor-1.md) to be run serially. Its name will be the number of the stage. |
-| [AddStage(string, Processor&lt;TNode&gt;, Processor&lt;TNode&gt;\[\])](MrKWatkins.Ast.Processing.PipelineBuilder-1.AddStage.md#mrkwatkins-ast-processing-pipelinebuilder-1-addstage(system-string-mrkwatkins-ast-processing-processor((-0))-mrkwatkins-ast-processing-processor((-0))())) | Adds a stage with the specified name to the pipeline with the specified [Processors](MrKWatkins.Ast.Processing.Processor-1.md) to be run serially. |
+| [AddStage(String, Processor&lt;TNode&gt;, Processor&lt;TNode&gt;\[\])](MrKWatkins.Ast.Processing.PipelineBuilder-1.AddStage.md#mrkwatkins-ast-processing-pipelinebuilder-1-addstage(system-string-mrkwatkins-ast-processing-processor((-0))-mrkwatkins-ast-processing-processor((-0))())) | Adds a stage with the specified name to the pipeline with the specified [Processors](MrKWatkins.Ast.Processing.Processor-1.md) to be run serially. |
 
 ## AddStage(Action&lt;SerialPipelineStageBuilder&lt;TNode&gt;&gt;) {id="mrkwatkins-ast-processing-pipelinebuilder-1-addstage(system-action((mrkwatkins-ast-processing-serialpipelinestagebuilder((-0)))))"}
 
@@ -48,7 +48,7 @@ public PipelineBuilder<TNode> AddStage<TProcessor>()
 [PipelineBuilder&lt;TNode&gt;](MrKWatkins.Ast.Processing.PipelineBuilder-1.md)
 
 The fluent builder.
-## AddStage&lt;TProcessor&gt;(string) {id="mrkwatkins-ast-processing-pipelinebuilder-1-addstage-1(system-string)"}
+## AddStage&lt;TProcessor&gt;(String) {id="mrkwatkins-ast-processing-pipelinebuilder-1-addstage-1(system-string)"}
 
 Adds a stage with the specified name to the pipeline with a single [Processor&lt;TNode&gt;](MrKWatkins.Ast.Processing.Processor-1.md).
 
@@ -94,7 +94,7 @@ public PipelineBuilder<TNode> AddStage(Processor<TNode> processor, params Proces
 [PipelineBuilder&lt;TNode&gt;](MrKWatkins.Ast.Processing.PipelineBuilder-1.md)
 
 The fluent builder.
-## AddStage(string, Processor&lt;TNode&gt;, Processor&lt;TNode&gt;\[\]) {id="mrkwatkins-ast-processing-pipelinebuilder-1-addstage(system-string-mrkwatkins-ast-processing-processor((-0))-mrkwatkins-ast-processing-processor((-0))())"}
+## AddStage(String, Processor&lt;TNode&gt;, Processor&lt;TNode&gt;\[\]) {id="mrkwatkins-ast-processing-pipelinebuilder-1-addstage(system-string-mrkwatkins-ast-processing-processor((-0))-mrkwatkins-ast-processing-processor((-0))())"}
 
 Adds a stage with the specified name to the pipeline with the specified [Processors](MrKWatkins.Ast.Processing.Processor-1.md) to be run serially.
 

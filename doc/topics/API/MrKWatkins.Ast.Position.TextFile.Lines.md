@@ -4,7 +4,7 @@
 The individual lines in the file.
 
 ```c#
-public IReadOnlyList<String> Lines { get; }
+public IReadOnlyList<string> Lines { get; }
 ```
 
 ## Property Value

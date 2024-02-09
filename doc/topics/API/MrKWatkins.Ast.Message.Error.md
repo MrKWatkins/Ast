@@ -3,10 +3,10 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Error(string, string)](MrKWatkins.Ast.Message.Error.md) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
-| [Error(string)](MrKWatkins.Ast.Message.Error.md) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Text](MrKWatkins.Ast.Message.Text.md). |
+| [Error(String, String)](MrKWatkins.Ast.Message.Error.md#mrkwatkins-ast-message-error(system-string-system-string)) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
+| [Error(String)](MrKWatkins.Ast.Message.Error.md#mrkwatkins-ast-message-error(system-string)) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Text](MrKWatkins.Ast.Message.Text.md). |
 
-## Error(string, string) {id="mrkwatkins-ast-message-error(system-string-system-string)"}
+## Error(String, String) {id="mrkwatkins-ast-message-error(system-string-system-string)"}
 
 Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md).
 
@@ -24,7 +24,7 @@ public static Message Error(string code, string text);
 ## Returns {id="returns-mrkwatkins-ast-message-error(system-string-system-string)"}
 
 [Message](MrKWatkins.Ast.Message.md)
-## Error(string) {id="mrkwatkins-ast-message-error(system-string)"}
+## Error(String) {id="mrkwatkins-ast-message-error(system-string)"}
 
 Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Text](MrKWatkins.Ast.Message.Text.md).
 

@@ -4,7 +4,7 @@
 Sets a function to determine whether processing should continue after this stage or not. Any previously registered function will be replaced. By default, processing will not continue if there are any errors in the tree.
 
 ```c#
-public TSelf WithShouldContinue(Func<TNode, Boolean> shouldContinue);
+public TSelf WithShouldContinue(Func<TNode, bool> shouldContinue);
 ```
 
 ## Parameters

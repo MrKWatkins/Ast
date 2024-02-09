@@ -3,10 +3,10 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [Info(string, string)](MrKWatkins.Ast.Message.Info.md) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
-| [Info(string)](MrKWatkins.Ast.Message.Info.md) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Text](MrKWatkins.Ast.Message.Text.md). |
+| [Info(String, String)](MrKWatkins.Ast.Message.Info.md#mrkwatkins-ast-message-info(system-string-system-string)) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md). |
+| [Info(String)](MrKWatkins.Ast.Message.Info.md#mrkwatkins-ast-message-info(system-string)) | Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Text](MrKWatkins.Ast.Message.Text.md). |
 
-## Info(string, string) {id="mrkwatkins-ast-message-info(system-string-system-string)"}
+## Info(String, String) {id="mrkwatkins-ast-message-info(system-string-system-string)"}
 
 Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Code](MrKWatkins.Ast.Message.Code.md) and [Text](MrKWatkins.Ast.Message.Text.md).
 
@@ -24,7 +24,7 @@ public static Message Info(string code, string text);
 ## Returns {id="returns-mrkwatkins-ast-message-info(system-string-system-string)"}
 
 [Message](MrKWatkins.Ast.Message.md)
-## Info(string) {id="mrkwatkins-ast-message-info(system-string)"}
+## Info(String) {id="mrkwatkins-ast-message-info(system-string)"}
 
 Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Text](MrKWatkins.Ast.Message.Text.md).
 

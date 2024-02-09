@@ -3,10 +3,10 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [AddWarning(string)](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
-| [AddWarning(string, string)](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
+| [AddWarning(String)](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
+| [AddWarning(String, String)](MrKWatkins.Ast.Node-1.AddWarning.md#mrkwatkins-ast-node-1-addwarning(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
 
-## AddWarning(string) {id="mrkwatkins-ast-node-1-addwarning(system-string)"}
+## AddWarning(String) {id="mrkwatkins-ast-node-1-addwarning(system-string)"}
 
 Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node.
 
@@ -20,7 +20,7 @@ public void AddWarning(string text);
 | ---- | ---- | ----------- |
 | text | [String](https://learn.microsoft.com/en-gb/dotnet/api/System.String) | The [Text](MrKWatkins.Ast.Message.Text.md) of the message. |
 
-## AddWarning(string, string) {id="mrkwatkins-ast-node-1-addwarning(system-string-system-string)"}
+## AddWarning(String, String) {id="mrkwatkins-ast-node-1-addwarning(system-string-system-string)"}
 
 Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node.
 

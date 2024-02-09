@@ -3,10 +3,10 @@
 
 | Name | Description |
 | ---- | ----------- |
-| [AddInfo(string)](MrKWatkins.Ast.Node-1.AddInfo.md#mrkwatkins-ast-node-1-addinfo(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
-| [AddInfo(string, string)](MrKWatkins.Ast.Node-1.AddInfo.md#mrkwatkins-ast-node-1-addinfo(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
+| [AddInfo(String)](MrKWatkins.Ast.Node-1.AddInfo.md#mrkwatkins-ast-node-1-addinfo(system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
+| [AddInfo(String, String)](MrKWatkins.Ast.Node-1.AddInfo.md#mrkwatkins-ast-node-1-addinfo(system-string-system-string)) | Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node. |
 
-## AddInfo(string) {id="mrkwatkins-ast-node-1-addinfo(system-string)"}
+## AddInfo(String) {id="mrkwatkins-ast-node-1-addinfo(system-string)"}
 
 Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node.
 
@@ -20,7 +20,7 @@ public void AddInfo(string text);
 | ---- | ---- | ----------- |
 | text | [String](https://learn.microsoft.com/en-gb/dotnet/api/System.String) | The [Text](MrKWatkins.Ast.Message.Text.md) of the message. |
 
-## AddInfo(string, string) {id="mrkwatkins-ast-node-1-addinfo(system-string-system-string)"}
+## AddInfo(String, String) {id="mrkwatkins-ast-node-1-addinfo(system-string-system-string)"}
 
 Adds a [Message](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and the specified text to this node.
 
