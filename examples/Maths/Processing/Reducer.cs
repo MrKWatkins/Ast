@@ -5,7 +5,7 @@ using MrKWatkins.Ast.Traversal;
 namespace MrKWatkins.Ast.Examples.Maths.Processing;
 
 /// <summary>
-/// Simple <see cref="Replacer{TBaseNode,TNode}"/> that reduces constant expressions by evaluating up front. 
+/// Simple <see cref="Replacer{TBaseNode,TNode}"/> that reduces constant expressions by evaluating up front.
 /// </summary>
 /// <remarks>
 /// Not by any means exhaustive! For example it will not take associativity into account and rearrange as necessary
@@ -17,7 +17,7 @@ internal sealed class Reducer : Replacer<MathsNode, BinaryOperation>
 
     protected override MathsNode? ReplaceNode(BinaryOperation node)
     {
-        if (node is { FirstChild: Constant left, LastChild: Constant right })
+        if (node is { Children: { First: Constant left, Last: Constant right } })
         {
             switch (node.Operator)
             {

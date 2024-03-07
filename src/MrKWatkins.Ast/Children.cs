@@ -1,3 +1,6 @@
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
 namespace MrKWatkins.Ast;
 
 /// <summary>
@@ -11,19 +14,20 @@ namespace MrKWatkins.Ast;
 public sealed partial class Children<TNode> : IList<TNode>
     where TNode : Node<TNode>
 {
-    private readonly List<TNode> nodes;
     private readonly TNode parent;
+    private TNode[] nodes;
 
     internal Children(TNode parent)
     {
         this.parent = parent;
-        nodes = new List<TNode>();
+        nodes = Array.Empty<TNode>();
     }
 
     internal Children(TNode parent, [InstantHandle] IEnumerable<TNode> nodes)
     {
         this.parent = parent;
-        this.nodes = nodes.ToList();
+        this.nodes = nodes.ToArray();
+        Count = this.nodes.Length;
         foreach (var node in this.nodes)
         {
             node.Parent = parent;
@@ -38,7 +42,14 @@ public sealed partial class Children<TNode> : IList<TNode>
     public void Add(TNode node)
     {
         node.Parent = parent;
-        nodes.Add(node);
+
+        var count = Count;
+        if (count >= nodes.Length)
+        {
+            Grow(count + 1);
+        }
+        Count = count + 1;
+        nodes[count] = node;
     }
 
     /// <summary>
@@ -49,6 +60,12 @@ public sealed partial class Children<TNode> : IList<TNode>
     // ReSharper disable once ParameterHidesMember
     public void Add([InstantHandle] IEnumerable<TNode> nodes)
     {
+        if (nodes is ICollection<TNode> collection)
+        {
+            Add(collection);
+            return;
+        }
+
         foreach (var node in nodes)
         {
             Add(node);
@@ -61,19 +78,53 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <param name="nodes">The nodes to add.</param>
     /// <exception cref="InvalidOperationException">If any of <paramref name="nodes" /> already have a parent.</exception>
     // ReSharper disable once ParameterHidesMember
-    public void Add(params TNode[] nodes) => Add((IEnumerable<TNode>) nodes);
+    public void Add([InstantHandle] ICollection<TNode> nodes)
+    {
+        var count = nodes.Count;
+        if (count > 0)
+        {
+            foreach (var node in nodes)
+            {
+                node.Parent = parent;
+            }
+
+            if (this.nodes.Length - Count < count)
+            {
+                Grow(Count + count);
+            }
+
+            nodes.CopyTo(this.nodes, Count);
+            Count += count;
+        }
+    }
+
+    /// <summary>
+    /// Adds nodes to the collection and assigns their <see cref="Node{TNode}.Parent" /> properties.
+    /// </summary>
+    /// <param name="nodes">The nodes to add.</param>
+    /// <exception cref="InvalidOperationException">If any of <paramref name="nodes" /> already have a parent.</exception>
+    // ReSharper disable once ParameterHidesMember
+    public void Add(params TNode[] nodes) => Add((ICollection<TNode>) nodes);
 
     /// <summary>
     /// Removes all nodes from the collection and resets their <see cref="Node{TNode}.Parent" /> properties to <c>null</c>.
     /// </summary>
     public void Clear()
     {
-        foreach (var node in nodes)
+        if (Count == 0)
         {
-            node.RemoveParent();
+            return;
         }
 
-        nodes.Clear();
+        var nodesCopy = nodes;
+        var count = Count;
+        for (var f = 0; f < count; f++)
+        {
+            nodesCopy[f].RemoveParent();
+        }
+
+        Array.Clear(nodesCopy, 0, count);
+        Count = 0;
     }
 
     /// <summary>
@@ -83,7 +134,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <returns><c>true</c> if <paramref name="node" /> is in the collection, <c>false</c> otherwise.</returns>
     public bool Contains(TNode node) => nodes.Contains(node);
 
-    void ICollection<TNode>.CopyTo(TNode[] array, int arrayIndex) => nodes.CopyTo(array, arrayIndex);
+    void ICollection<TNode>.CopyTo(TNode[] array, int arrayIndex) => Array.Copy(nodes, 0, array, arrayIndex, Count);
 
     /// <summary>
     /// Tries to remove a node from the collection and reset its <see cref="Node{TNode}.Parent" /> property to <c>null</c>.
@@ -92,9 +143,10 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <returns><c>true</c> if <paramref name="node" /> was in the collection and was removed, <c>false</c> otherwise.</returns>
     public bool Remove(TNode node)
     {
-        if (nodes.Remove(node))
+        var index = IndexOf(node);
+        if (index != -1)
         {
-            node.RemoveParent();
+            RemoveAt(index);
             return true;
         }
 
@@ -146,7 +198,57 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <summary>
     /// The number of nodes in the collection.
     /// </summary>
-    public int Count => nodes.Count;
+    public int Count { get; private set; }
+
+    /// <summary>
+    /// Current capacity of the collection. The capacity is the size of the internal array used to hold items. When set, the internal
+    /// array of the list is reallocated to the given capacity.
+    /// </summary>
+    public int Capacity
+    {
+        get => nodes.Length;
+        set
+        {
+            if (value < Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value, $"Value must be at least {nameof(Count)}. ({Count})");
+            }
+
+            if (value == nodes.Length)
+            {
+                return;
+            }
+
+            if (value > 0)
+            {
+                var newNodes = new TNode[value];
+                if (Count > 0)
+                {
+                    Array.Copy(nodes, newNodes, Count);
+                }
+                nodes = newNodes;
+            }
+            else
+            {
+                nodes = Array.Empty<TNode>();
+            }
+        }
+    }
+
+    private void Grow(int capacity) => Capacity = GetNewCapacity(capacity);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private int GetNewCapacity(int capacity)
+    {
+        var newCapacity = nodes.Length == 0 ? 4 : 2 * nodes.Length;
+
+        if (newCapacity < capacity)
+        {
+            newCapacity = capacity;
+        }
+
+        return newCapacity;
+    }
 
     bool ICollection<TNode>.IsReadOnly => false;
 
@@ -157,7 +259,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <returns>The index of the node or -1 if it is not in the collection.</returns>
     public int IndexOf(TNode node) =>
         node.HasParent && ReferenceEquals(node.Parent, parent)
-            ? nodes.IndexOf(node)
+            ? Array.IndexOf(nodes, node)
             : -1;
 
     /// <summary>
@@ -169,8 +271,42 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <exception cref="InvalidOperationException">If <paramref name="node" /> already has a parent.</exception>
     public void Insert(int index, TNode node)
     {
+        if (index > Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), index, $"Value must be less than or equal to {nameof(Count)}. ({Count})");
+        }
+
         node.Parent = parent;
-        nodes.Insert(index, node);
+
+        if (Count == nodes.Length)
+        {
+            GrowForInsertion(index, 1);
+        }
+        else if (index < Count)
+        {
+            Array.Copy(nodes, index, nodes, index + 1, Count - index);
+        }
+        nodes[index] = node;
+        Count++;
+    }
+
+    private void GrowForInsertion(int indexToInsert, int insertionCount)
+    {
+        var requiredCapacity = Count + insertionCount;
+        var newCapacity = GetNewCapacity(requiredCapacity);
+
+        var nodeNodes = new TNode[newCapacity];
+        if (indexToInsert != 0)
+        {
+            Array.Copy(nodes, nodeNodes, indexToInsert);
+        }
+
+        if (Count != indexToInsert)
+        {
+            Array.Copy(nodes, indexToInsert, nodeNodes, indexToInsert + insertionCount, Count - indexToInsert);
+        }
+
+        nodes = nodeNodes;
     }
 
     void IList<TNode>.RemoveAt(int index) => RemoveAt(index);
@@ -183,9 +319,23 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is less than 0 or equal to or greater than <see cref="Count"/>.</exception>
     public TNode RemoveAt(int index)
     {
+        if (index >= Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), index, $"Value must be less than {nameof(Count)}. ({Count})");
+        }
+
         var node = nodes[index];
         node.RemoveParent();
-        nodes.RemoveAt(index);
+        Count--;
+
+        // If it wasn't the last item we need to move subsequent items down one.
+        if (index < Count)
+        {
+            Array.Copy(nodes, index + 1, nodes, index, Count - index);
+        }
+
+        // Clear the space in the array so the node can be garbage collected.
+        nodes[Count] = null!;
         return node;
     }
 
@@ -231,14 +381,15 @@ public sealed partial class Children<TNode> : IList<TNode>
             throw new ArgumentException("Value could not be found.", nameof(child));
         }
 
-        RemoveAt(index);
+        var current = nodes[index];
+        current.RemoveParent();
 
         if (replacement.HasParent)
         {
             replacement.RemoveFromParent();
         }
-
-        Insert(index, replacement);
+        replacement.Parent = parent;
+        nodes[index] = replacement;
     }
 
     /// <summary>
@@ -319,10 +470,12 @@ public sealed partial class Children<TNode> : IList<TNode>
     {
         // Manually iterating for performance. Looks like LINQ's Reverse() doesn't optimise for IList<T>.
         for (var f = Count - 1; f >= 0; f--)
+        {
             if (nodes[f] is TChild child)
             {
                 return child;
             }
+        }
 
         return @default;
     }
@@ -391,4 +544,96 @@ public sealed partial class Children<TNode> : IList<TNode>
 
         return single ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 1 child of type {typeof(TChild).SimpleName()} but found none.");
     }
+
+    /// <summary>
+    /// Gets the first child in the collection.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">If the collection is empty.</exception>
+    [Pure]
+    public TNode First
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+            if (Count == 0)
+            {
+                throw new InvalidOperationException("Children is empty.");
+            }
+            return this[0];
+        }
+    }
+
+    /// <summary>
+    /// Gets the first child in the collection or null if the collection is empty.
+    /// </summary>
+    [Pure]
+    public TNode? FirstOrNull
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Count == 0 ? null : this[0];
+    }
+
+    /// <summary>
+    /// Gets the first child in the collection without array bounds checks. For high performance scenarios.
+    /// WARNING: Do not use unless you are certain of the number of children!
+    /// </summary>
+    [Pure]
+    public TNode UnsafeFirst
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => MemoryMarshal.GetArrayDataReference(nodes);
+    }
+
+    /// <summary>
+    /// Gets the last child in the collection.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">If the collection is empty.</exception>
+    [Pure]
+    public TNode Last
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+            var count = Count;
+            if (count == 0)
+            {
+                throw new InvalidOperationException("Children is empty.");
+            }
+            return this[count - 1];
+        }
+    }
+
+    /// <summary>
+    /// Gets the last child in the collection or null if the collection is empty.
+    /// </summary>
+    [Pure]
+    public TNode? LastOrNull
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+            var count = Count;
+            return count == 0 ? null : this[count - 1];
+        }
+    }
+
+    /// <summary>
+    /// Gets the last child in the collection without array bounds checks. For high performance scenarios.
+    /// WARNING: Do not use unless you are certain of the number of children!
+    /// </summary>
+    [Pure]
+    public TNode UnsafeLast
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => UnsafeGet(Count - 1);
+    }
+
+    /// <summary>
+    /// Gets the child at the specified index in the collection without array bounds checks. For high performance scenarios.
+    /// WARNING: Do not use unless you are certain of the number of children!
+    /// </summary>
+    /// <param name="index">The index of the child to get.</param>
+    [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public TNode UnsafeGet(int index) => Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(nodes), index);
 }

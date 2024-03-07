@@ -41,7 +41,7 @@ public sealed partial class ChildrenTests
         IEnumerable<TestNode> children = new TestNode[] { new ANode(), new CNode(), new ANode() };
 
         var parent = new BNode();
-        parent.Children.Add(children);
+        parent.Children.Add(children.Select(x => x));
 
         children.Should().OnlyContain(child => child.Parent == parent);
     }
@@ -53,6 +53,30 @@ public sealed partial class ChildrenTests
         _ = new BNode(child);
 
         IEnumerable<TestNode> children = new TestNode[] { new ANode(), child, new ANode() };
+
+        new ANode().Children.Invoking(c => c.Add(children.Select(x => x)))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Node is already the child of another node.");
+    }
+
+    [Test]
+    public void Add_IEnumerable_ICollection_SetsParentOnChildren()
+    {
+        IEnumerable<TestNode> children = new List<TestNode> { new ANode(), new CNode(), new ANode() };
+
+        var parent = new BNode();
+        parent.Children.Add(children);
+
+        children.Should().OnlyContain(child => child.Parent == parent);
+    }
+
+    [Test]
+    public void Add_IEnumerable_IsCollection_ThrowsIfNodeAlreadyHasParent()
+    {
+        var child = new ANode();
+        _ = new BNode(child);
+
+        IEnumerable<TestNode> children = new List<TestNode> { new ANode(), child, new ANode() };
 
         new ANode().Children.Invoking(c => c.Add(children))
             .Should().Throw<InvalidOperationException>()
@@ -82,6 +106,28 @@ public sealed partial class ChildrenTests
     }
 
     [Test]
+    public void Add_ICollection_SetsParentOnChildren()
+    {
+        var children = new TestNode[] { new ANode(), new CNode(), new ANode() };
+
+        var parent = new BNode();
+        parent.Children.Add(new List<TestNode> { children[0], children[1], children[2] });
+
+        children.Should().OnlyContain(child => child.Parent == parent);
+    }
+
+    [Test]
+    public void Add_ICollection_ThrowsIfNodeAlreadyHasParent()
+    {
+        var child = new ANode();
+        _ = new BNode(child);
+
+        new ANode().Children.Invoking(c => c.Add(new List<TestNode> { new ANode(), child, new ANode() }))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Node is already the child of another node.");
+    }
+
+    [Test]
     public void Clear_RemovesParentFromChildren()
     {
         var children = new TestNode[] { new CNode(), new CNode(), new CNode() };
@@ -93,6 +139,11 @@ public sealed partial class ChildrenTests
 
         parent.Children.Should().BeEmpty();
         children.Should().OnlyContain(child => !child.HasParent);
+
+        // Use UnsafeGet to check the space at the end has been nulled out.
+        parent.Children.UnsafeGet(0).Should().BeNull();
+        parent.Children.UnsafeGet(1).Should().BeNull();
+        parent.Children.UnsafeGet(2).Should().BeNull();
     }
 
     [Test]
@@ -292,6 +343,45 @@ public sealed partial class ChildrenTests
     }
 
     [Test]
+    public void Capacity()
+    {
+        var node = new ANode();
+
+        node.Children.Capacity.Should().Be(0);
+
+        node.Children.Add(new ANode());
+        node.Children.Capacity.Should().Be(4);
+
+        node.Children.Add(new ANode(), new ANode(), new ANode());
+        node.Children.Capacity.Should().Be(4);
+
+        node.Children.Add(new ANode());
+        node.Children.Capacity.Should().Be(8);
+
+        // Can enlarge capacity.
+        node.Children.Capacity = 9;
+        node.Children.Capacity.Should().Be(9);
+
+        // Can reduce too.
+        node.Children.Capacity = 5;
+        node.Children.Capacity.Should().Be(5);
+
+        // Setting to the same does nothing.
+        node.Children.Capacity = 5;
+        node.Children.Capacity.Should().Be(5);
+
+        // Cannot reduce below count.
+        node.Children.Invoking(c => c.Capacity = 4).Should().Throw<ArgumentOutOfRangeException>();
+
+        node.Children.Clear();
+        node.Children.Capacity.Should().Be(5);
+
+        // Can reduce to 0.
+        node.Children.Capacity = 0;
+        node.Children.Capacity.Should().Be(0);
+    }
+
+    [Test]
     public void IsReadOnly() => ((IList<TestNode>) new ANode().Children).IsReadOnly.Should().BeFalse();
 
     [Test]
@@ -310,12 +400,12 @@ public sealed partial class ChildrenTests
     [Test]
     public void Insert()
     {
-        var child1 = new BNode();
-        var child2 = new BNode();
+        var child1 = new BNode { Name = "Child 1" };
+        var child2 = new BNode { Name = "Child 2" };
 
         var parent = new ANode(child1, child2);
 
-        var child3 = new BNode();
+        var child3 = new BNode { Name = "Child 3" };
         parent.Children.Insert(1, child3);
 
         child3.Parent.Should().BeSameAs(parent);
@@ -323,11 +413,21 @@ public sealed partial class ChildrenTests
     }
 
     [Test]
+    public void Insert_ThrowsIfOutOfRange()
+    {
+        var node = new ANode();
+        node.Children.Invoking(c => c.Insert(1, new ANode())).Should().Throw<ArgumentOutOfRangeException>();
+
+        node.Children.Add(new ANode());
+        node.Children.Invoking(c => c.Insert(2, new ANode())).Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
     public void RemoveAt()
     {
-        var child1 = new BNode();
-        var child2 = new BNode();
-        var child3 = new BNode();
+        var child1 = new BNode { Name = "Child 1" };
+        var child2 = new BNode { Name = "Child 2" };
+        var child3 = new BNode { Name = "Child 3" };
 
         var parent = new ANode(child1, child2, child3);
 
@@ -335,6 +435,19 @@ public sealed partial class ChildrenTests
 
         child2.HasParent.Should().BeFalse();
         parent.Children.Should().BeEquivalentTo(new[] { child1, child3 }, c => c.WithoutStrictOrdering());
+
+        // Use UnsafeGet to check the space at the end has been nulled out.
+        parent.Children.UnsafeGet(2).Should().BeNull();
+    }
+
+    [Test]
+    public void RemoveAt_ThrowsIfOutOfRange()
+    {
+        var node = new ANode();
+        node.Children.Invoking(c => c.RemoveAt(0)).Should().Throw<ArgumentOutOfRangeException>();
+
+        node.Children.Add(new ANode());
+        node.Children.Invoking(c => c.RemoveAt(1)).Should().Throw<ArgumentOutOfRangeException>();
     }
 
     [Test]
@@ -620,5 +733,104 @@ public sealed partial class ChildrenTests
         parent.Children.Invoking(c => c.SingleOfType<CNode>())
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Expected ANode to have 1 child of type CNode but found none.");
+    }
+
+    [Test]
+    public void First()
+    {
+        var child = new BNode();
+        var parent = new ANode(child);
+        parent.Children.First.Should().BeSameAs(child);
+
+        parent.Children.Add(new BNode());
+        parent.Children.First.Should().BeSameAs(child);
+    }
+
+    [Test]
+    public void First_ThrowsIfEmpty()
+    {
+        var parent = new ANode();
+        parent.Invoking(p => p.Children.First).Should().Throw<InvalidOperationException>();
+    }
+
+    [Test]
+    public void FirstOrNull()
+    {
+        var parent = new ANode();
+        parent.Children.FirstOrNull.Should().BeNull();
+
+        var child = new BNode();
+        parent.Children.Add(child);
+        parent.Children.FirstOrNull.Should().BeSameAs(child);
+
+        parent.Children.Add(new BNode());
+        parent.Children.FirstOrNull.Should().BeSameAs(child);
+    }
+
+    [Test]
+    public void UnsafeFirst()
+    {
+        var child = new BNode();
+        var parent = new ANode(child);
+        parent.Children.UnsafeFirst.Should().BeSameAs(child);
+
+        parent.Children.Add(new BNode());
+        parent.Children.UnsafeFirst.Should().BeSameAs(child);
+    }
+
+    [Test]
+    public void Last()
+    {
+        var child1 = new BNode();
+        var parent = new ANode(child1);
+        parent.Children.Last.Should().BeSameAs(child1);
+
+        var child2 = new BNode();
+        parent.Children.Add(child2);
+        parent.Children.Last.Should().BeSameAs(child2);
+    }
+
+    [Test]
+    public void Last_ThrowsIfEmpty()
+    {
+        var parent = new ANode();
+        parent.Invoking(p => p.Children.Last).Should().Throw<InvalidOperationException>();
+    }
+
+    [Test]
+    public void LastOrNull()
+    {
+        var parent = new ANode();
+        parent.Children.LastOrNull.Should().BeNull();
+
+        var child1 = new BNode();
+        parent.Children.Add(child1);
+        parent.Children.LastOrNull.Should().BeSameAs(child1);
+
+        var child2 = new BNode();
+        parent.Children.Add(child2);
+        parent.Children.LastOrNull.Should().BeSameAs(child2);
+    }
+
+    [Test]
+    public void UnsafeLast()
+    {
+        var child1 = new BNode();
+        var parent = new ANode(child1);
+        parent.Children.UnsafeLast.Should().BeSameAs(child1);
+
+        var child2 = new BNode();
+        parent.Children.Add(child2);
+        parent.Children.UnsafeLast.Should().BeSameAs(child2);
+    }
+
+    [Test]
+    public void UnsafeGet()
+    {
+        var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
+        var parent = new ANode(children);
+        parent.Children.UnsafeGet(0).Should().BeSameAs(children[0]);
+        parent.Children.UnsafeGet(1).Should().BeSameAs(children[1]);
+        parent.Children.UnsafeGet(2).Should().BeSameAs(children[2]);
     }
 }

@@ -29,8 +29,6 @@ public abstract class Node<TNode>
 | [Children](MrKWatkins.Ast.Node-1.Children.md) | The children of this node. |
 | [Descendents](MrKWatkins.Ast.Node-1.Descendents.md) | Enumerates all descendents of this node in depth first pre-order. |
 | [Errors](MrKWatkins.Ast.Node-1.Errors.md) | The [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) associated with this node. |
-| [FirstChild](MrKWatkins.Ast.Node-1.FirstChild.md) | Returns the first child of this node. |
-| [FirstChildOrNull](MrKWatkins.Ast.Node-1.FirstChildOrNull.md) | Returns the first child of this node or `null` if it has no children. |
 | [HasChildren](MrKWatkins.Ast.Node-1.HasChildren.md) | Returns `true` if this node has any [Children](MrKWatkins.Ast.Node-1.Children.md), `false` otherwise. |
 | [HasErrors](MrKWatkins.Ast.Node-1.HasErrors.md) | Returns `true` if this node has any [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields), `false` otherwise. |
 | [HasInfos](MrKWatkins.Ast.Node-1.HasInfos.md) | Returns `true` if this node has any [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields), `false` otherwise. |
@@ -43,8 +41,6 @@ public abstract class Node<TNode>
 | [Infos](MrKWatkins.Ast.Node-1.Infos.md) | The [Messages](MrKWatkins.Ast.Message.md) with [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) associated with this node. |
 | [IsFirstChild](MrKWatkins.Ast.Node-1.IsFirstChild.md) | `true` if this node is the first child in [Parent](MrKWatkins.Ast.Node-1.Parent.md), `false` if not or if the node has no [Parent](MrKWatkins.Ast.Node-1.Parent.md). |
 | [IsLastChild](MrKWatkins.Ast.Node-1.IsLastChild.md) | `true` if this node is the last child in [Parent](MrKWatkins.Ast.Node-1.Parent.md), `false` if not or if the node has no [Parent](MrKWatkins.Ast.Node-1.Parent.md). |
-| [LastChild](MrKWatkins.Ast.Node-1.LastChild.md) | Returns the last child of this node. |
-| [LastChildOrNull](MrKWatkins.Ast.Node-1.LastChildOrNull.md) | Returns the last child of this node or `null` if it has no children. |
 | [Messages](MrKWatkins.Ast.Node-1.Messages.md) | The [Messages](MrKWatkins.Ast.Message.md) associated with this node. |
 | [NextSibling](MrKWatkins.Ast.Node-1.NextSibling.md) | The next sibling, i.e. the child from the same [Parent](MrKWatkins.Ast.Node-1.Parent.md) at the next positional index. Returns `null` if this node is the last child. |
 | [NextSiblings](MrKWatkins.Ast.Node-1.NextSiblings.md) | Lazily enumerates over the next siblings, i.e. the children from the same [Parent](MrKWatkins.Ast.Node-1.Parent.md) at subsequent positional indices in ascending index order. |

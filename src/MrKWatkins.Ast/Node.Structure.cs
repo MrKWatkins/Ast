@@ -302,26 +302,4 @@ public abstract partial class Node<TNode>
     /// <c>true</c> if this node is the last child in <see cref="Parent" />, <c>false</c> if not or if the node has no <see cref="Parent" />.
     /// </summary>
     public bool IsLastChild => HasParent && Parent.Children[^1] == This;
-
-    /// <summary>
-    /// Returns the first child of this node.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">If this node has no children.</exception>
-    public TNode FirstChild => HasChildren ? Children[0] : throw new InvalidOperationException("Node has no children.");
-
-    /// <summary>
-    /// Returns the first child of this node or <c>null</c> if it has no children.
-    /// </summary>
-    public TNode? FirstChildOrNull => HasChildren ? Children[0] : null;
-
-    /// <summary>
-    /// Returns the last child of this node.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">If this node has no children.</exception>
-    public TNode LastChild => HasChildren ? Children[^1] : throw new InvalidOperationException("Node has no children.");
-
-    /// <summary>
-    /// Returns the last child of this node or <c>null</c> if it has no children.
-    /// </summary>
-    public TNode? LastChildOrNull => HasChildren ? Children[^1] : null;
 }
