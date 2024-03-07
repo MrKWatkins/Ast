@@ -11,8 +11,15 @@
       <toc-element toc-title="Children&lt;TNode&gt;">
         <toc-element toc-title="Children&lt;TNode&gt;" topic="MrKWatkins.Ast.Children-1.md" />
         <toc-element toc-title="Properties">
+          <toc-element toc-title="Capacity" topic="MrKWatkins.Ast.Children-1.Capacity.md" />
           <toc-element toc-title="Count" topic="MrKWatkins.Ast.Children-1.Count.md" />
+          <toc-element toc-title="First" topic="MrKWatkins.Ast.Children-1.First.md" />
+          <toc-element toc-title="FirstOrNull" topic="MrKWatkins.Ast.Children-1.FirstOrNull.md" />
           <toc-element toc-title="Item[]" topic="MrKWatkins.Ast.Children-1.Item.md" />
+          <toc-element toc-title="Last" topic="MrKWatkins.Ast.Children-1.Last.md" />
+          <toc-element toc-title="LastOrNull" topic="MrKWatkins.Ast.Children-1.LastOrNull.md" />
+          <toc-element toc-title="UnsafeFirst" topic="MrKWatkins.Ast.Children-1.UnsafeFirst.md" />
+          <toc-element toc-title="UnsafeLast" topic="MrKWatkins.Ast.Children-1.UnsafeLast.md" />
         </toc-element>
         <toc-element toc-title="Methods">
           <toc-element toc-title="Add" topic="MrKWatkins.Ast.Children-1.Add.md" />
@@ -35,6 +42,7 @@
           <toc-element toc-title="Replace" topic="MrKWatkins.Ast.Children-1.Replace.md" />
           <toc-element toc-title="SingleOfType" topic="MrKWatkins.Ast.Children-1.SingleOfType.md" />
           <toc-element toc-title="SingleOfTypeOrDefault" topic="MrKWatkins.Ast.Children-1.SingleOfTypeOrDefault.md" />
+          <toc-element toc-title="UnsafeGet" topic="MrKWatkins.Ast.Children-1.UnsafeGet.md" />
         </toc-element>
       </toc-element>
       <toc-element toc-title="DefaultNodeFactory&lt;TNode&gt;">
@@ -83,8 +91,6 @@
           <toc-element toc-title="Children" topic="MrKWatkins.Ast.Node-1.Children.md" />
           <toc-element toc-title="Descendents" topic="MrKWatkins.Ast.Node-1.Descendents.md" />
           <toc-element toc-title="Errors" topic="MrKWatkins.Ast.Node-1.Errors.md" />
-          <toc-element toc-title="FirstChild" topic="MrKWatkins.Ast.Node-1.FirstChild.md" />
-          <toc-element toc-title="FirstChildOrNull" topic="MrKWatkins.Ast.Node-1.FirstChildOrNull.md" />
           <toc-element toc-title="HasChildren" topic="MrKWatkins.Ast.Node-1.HasChildren.md" />
           <toc-element toc-title="HasErrors" topic="MrKWatkins.Ast.Node-1.HasErrors.md" />
           <toc-element toc-title="HasInfos" topic="MrKWatkins.Ast.Node-1.HasInfos.md" />
@@ -97,8 +103,6 @@
           <toc-element toc-title="Infos" topic="MrKWatkins.Ast.Node-1.Infos.md" />
           <toc-element toc-title="IsFirstChild" topic="MrKWatkins.Ast.Node-1.IsFirstChild.md" />
           <toc-element toc-title="IsLastChild" topic="MrKWatkins.Ast.Node-1.IsLastChild.md" />
-          <toc-element toc-title="LastChild" topic="MrKWatkins.Ast.Node-1.LastChild.md" />
-          <toc-element toc-title="LastChildOrNull" topic="MrKWatkins.Ast.Node-1.LastChildOrNull.md" />
           <toc-element toc-title="Messages" topic="MrKWatkins.Ast.Node-1.Messages.md" />
           <toc-element toc-title="NextSibling" topic="MrKWatkins.Ast.Node-1.NextSibling.md" />
           <toc-element toc-title="NextSiblings" topic="MrKWatkins.Ast.Node-1.NextSiblings.md" />
