@@ -1,3 +1,6 @@
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
 namespace MrKWatkins.Ast;
 
 /// <summary>
@@ -11,19 +14,19 @@ namespace MrKWatkins.Ast;
 public sealed partial class Children<TNode> : IList<TNode>
     where TNode : Node<TNode>
 {
-    private readonly List<TNode> nodes;
     private readonly TNode parent;
+    private TNode[] nodes;
 
     internal Children(TNode parent)
     {
         this.parent = parent;
-        nodes = new List<TNode>();
+        nodes = Array.Empty<TNode>();
     }
 
     internal Children(TNode parent, [InstantHandle] IEnumerable<TNode> nodes)
     {
         this.parent = parent;
-        this.nodes = nodes.ToList();
+        this.nodes = nodes.ToArray();
         foreach (var node in this.nodes)
         {
             node.Parent = parent;
@@ -38,7 +41,11 @@ public sealed partial class Children<TNode> : IList<TNode>
     public void Add(TNode node)
     {
         node.Parent = parent;
-        nodes.Add(node);
+
+        var newNodes = new TNode[nodes.Length + 1];
+        Array.Copy(nodes, newNodes, nodes.Length);
+        newNodes[^1] = node;
+        nodes = newNodes;
     }
 
     /// <summary>
@@ -73,7 +80,7 @@ public sealed partial class Children<TNode> : IList<TNode>
             node.RemoveParent();
         }
 
-        nodes.Clear();
+        nodes = Array.Empty<TNode>();
     }
 
     /// <summary>
@@ -92,9 +99,10 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <returns><c>true</c> if <paramref name="node" /> was in the collection and was removed, <c>false</c> otherwise.</returns>
     public bool Remove(TNode node)
     {
-        if (nodes.Remove(node))
+        var index = IndexOf(node);
+        if (index != -1)
         {
-            node.RemoveParent();
+            RemoveAt(index);
             return true;
         }
 
@@ -146,7 +154,11 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <summary>
     /// The number of nodes in the collection.
     /// </summary>
-    public int Count => nodes.Count;
+    public int Count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => nodes.Length;
+    }
 
     bool ICollection<TNode>.IsReadOnly => false;
 
@@ -157,7 +169,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <returns>The index of the node or -1 if it is not in the collection.</returns>
     public int IndexOf(TNode node) =>
         node.HasParent && ReferenceEquals(node.Parent, parent)
-            ? nodes.IndexOf(node)
+            ? Array.IndexOf(nodes, node)
             : -1;
 
     /// <summary>
@@ -170,7 +182,12 @@ public sealed partial class Children<TNode> : IList<TNode>
     public void Insert(int index, TNode node)
     {
         node.Parent = parent;
-        nodes.Insert(index, node);
+
+        var newNodes = new TNode[nodes.Length + 1];
+        Array.Copy(nodes, newNodes, index);
+        Array.Copy(nodes, index, newNodes, index + 1, nodes.Length - index);
+        newNodes[index] = node;
+        nodes = newNodes;
     }
 
     void IList<TNode>.RemoveAt(int index) => RemoveAt(index);
@@ -184,8 +201,18 @@ public sealed partial class Children<TNode> : IList<TNode>
     public TNode RemoveAt(int index)
     {
         var node = nodes[index];
+        if (nodes.Length == 1)
+        {
+            nodes = Array.Empty<TNode>();
+        }
+        else
+        {
+            var newNodes = new TNode[nodes.Length - 1];
+            Array.Copy(nodes, newNodes, index);
+            Array.Copy(nodes, index + 1, newNodes, index, nodes.Length - index - 1);
+            nodes = newNodes;
+        }
         node.RemoveParent();
-        nodes.RemoveAt(index);
         return node;
     }
 
@@ -390,5 +417,16 @@ public sealed partial class Children<TNode> : IList<TNode>
         }
 
         return single ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have 1 child of type {typeof(TChild).SimpleName()} but found none.");
+    }
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public TNode UnsafeGet(int index)
+    {
+        ref var nodesReference = ref MemoryMarshal.GetArrayDataReference(nodes);
+        return Unsafe.Add(ref nodesReference, index);
     }
 }

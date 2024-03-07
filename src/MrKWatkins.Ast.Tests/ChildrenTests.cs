@@ -310,12 +310,12 @@ public sealed partial class ChildrenTests
     [Test]
     public void Insert()
     {
-        var child1 = new BNode();
-        var child2 = new BNode();
+        var child1 = new BNode { Name = "Child 1" };
+        var child2 = new BNode { Name = "Child 2" };
 
         var parent = new ANode(child1, child2);
 
-        var child3 = new BNode();
+        var child3 = new BNode { Name = "Child 3" };
         parent.Children.Insert(1, child3);
 
         child3.Parent.Should().BeSameAs(parent);
@@ -325,9 +325,9 @@ public sealed partial class ChildrenTests
     [Test]
     public void RemoveAt()
     {
-        var child1 = new BNode();
-        var child2 = new BNode();
-        var child3 = new BNode();
+        var child1 = new BNode { Name = "Child 1" };
+        var child2 = new BNode { Name = "Child 2" };
+        var child3 = new BNode { Name = "Child 3" };
 
         var parent = new ANode(child1, child2, child3);
 
