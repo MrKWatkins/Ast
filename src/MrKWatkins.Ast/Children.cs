@@ -559,7 +559,7 @@ public sealed partial class Children<TNode> : IList<TNode>
             {
                 throw new InvalidOperationException("Children is empty.");
             }
-            return this[0];
+            return UnsafeFirst;
         }
     }
 
@@ -570,7 +570,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     public TNode? FirstOrNull
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Count == 0 ? null : this[0];
+        get => Count == 0 ? null : UnsafeFirst;
     }
 
     /// <summary>
@@ -599,7 +599,7 @@ public sealed partial class Children<TNode> : IList<TNode>
             {
                 throw new InvalidOperationException("Children is empty.");
             }
-            return this[count - 1];
+            return UnsafeGet(count - 1);
         }
     }
 
@@ -613,7 +613,7 @@ public sealed partial class Children<TNode> : IList<TNode>
         get
         {
             var count = Count;
-            return count == 0 ? null : this[count - 1];
+            return count == 0 ? null : UnsafeGet(count - 1);
         }
     }
 
