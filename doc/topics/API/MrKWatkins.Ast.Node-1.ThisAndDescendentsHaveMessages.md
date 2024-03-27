@@ -10,3 +10,5 @@ public bool ThisAndDescendentsHaveMessages { get; }
 ## Property Value
 
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
+
+Whether this node or its descendents have messages or not.

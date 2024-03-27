@@ -198,12 +198,14 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <summary>
     /// The number of nodes in the collection.
     /// </summary>
+    /// <returns>The number of nodes.</returns>
     public int Count { get; private set; }
 
     /// <summary>
     /// Current capacity of the collection. The capacity is the size of the internal array used to hold items. When set, the internal
     /// array of the list is reallocated to the given capacity.
     /// </summary>
+    /// <returns>The capacity.</returns>
     public int Capacity
     {
         get => nodes.Length;
@@ -425,7 +427,7 @@ public sealed partial class Children<TNode> : IList<TNode>
         Count != 0 ? nodes[0] as TChild ?? @default : @default;
 
     /// <summary>
-    ///     Returns the first node in the collection of the specified type or a specified default if it doesn't contain any nodes of the specified type.
+    /// Returns the first node in the collection of the specified type or a specified default if it doesn't contain any nodes of the specified type.
     /// </summary>
     /// <typeparam name="TChild">The type of the node to return.</typeparam>
     /// <param name="default">The default value to return if the collection does not contain any nodes of type <typeparamref name="TChild" />.</param>
@@ -447,7 +449,7 @@ public sealed partial class Children<TNode> : IList<TNode>
         FirstOfTypeOrDefault<TChild>() ?? throw new InvalidOperationException($"Expected {parent.GetType().SimpleName()} to have a child of type {typeof(TChild).SimpleName()} but found none.");
 
     /// <summary>
-    ///     Returns the last node in the collection if it is of the specified type or a specified default if the collection is empty or the last node is a different type.
+    /// Returns the last node in the collection if it is of the specified type or a specified default if the collection is empty or the last node is a different type.
     /// </summary>
     /// <typeparam name="TChild">The type of the node to return.</typeparam>
     /// <param name="default">The default value to return if the collection is empty or the last node is not of type <typeparamref name="TChild" />.</param>
@@ -468,7 +470,6 @@ public sealed partial class Children<TNode> : IList<TNode>
     public TChild? LastOfTypeOrDefault<TChild>(TChild? @default = null)
         where TChild : TNode
     {
-        // Manually iterating for performance. Looks like LINQ's Reverse() doesn't optimise for IList<T>.
         for (var f = Count - 1; f >= 0; f--)
         {
             if (nodes[f] is TChild child)
@@ -548,6 +549,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <summary>
     /// Gets the first child in the collection.
     /// </summary>
+    /// <returns>The first node.</returns>
     /// <exception cref="InvalidOperationException">If the collection is empty.</exception>
     [Pure]
     public TNode First
@@ -566,6 +568,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <summary>
     /// Gets the first child in the collection or null if the collection is empty.
     /// </summary>
+    /// <returns>The first node or <c>null</c>.</returns>
     [Pure]
     public TNode? FirstOrNull
     {
@@ -577,6 +580,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// Gets the first child in the collection without array bounds checks. For high performance scenarios.
     /// WARNING: Do not use unless you are certain of the number of children!
     /// </summary>
+    /// <returns>The first node.</returns>
     [Pure]
     public TNode UnsafeFirst
     {
@@ -587,6 +591,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <summary>
     /// Gets the last child in the collection.
     /// </summary>
+    /// <returns>The last node.</returns>
     /// <exception cref="InvalidOperationException">If the collection is empty.</exception>
     [Pure]
     public TNode Last
@@ -606,6 +611,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// <summary>
     /// Gets the last child in the collection or null if the collection is empty.
     /// </summary>
+    /// <returns>The last node or <c>null</c>.</returns>
     [Pure]
     public TNode? LastOrNull
     {
@@ -621,6 +627,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// Gets the last child in the collection without array bounds checks. For high performance scenarios.
     /// WARNING: Do not use unless you are certain of the number of children!
     /// </summary>
+    /// <returns>The last node.</returns>
     [Pure]
     public TNode UnsafeLast
     {
@@ -633,6 +640,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     /// WARNING: Do not use unless you are certain of the number of children!
     /// </summary>
     /// <param name="index">The index of the child to get.</param>
+    /// <returns>The node at <paramref name="index"/>.</returns>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public TNode UnsafeGet(int index) => Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(nodes), index);

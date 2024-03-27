@@ -10,3 +10,5 @@ public TNode UnsafeLast { get; }
 ## Property Value
 
 TNode
+
+The last node.

@@ -10,3 +10,5 @@ public IEnumerable<TNode> ThisAndDescendentsWithInfos { get; }
 ## Property Value
 
 [IEnumerable&lt;TNode&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IEnumerable-1)
+
+A lazy enumeration of this node if it has info messages and any descendents that have info messages.

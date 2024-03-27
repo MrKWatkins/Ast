@@ -17,3 +17,5 @@ protected virtual bool ShouldListenToChildren(TContext context, TNode node);
 ## Returns
 
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
+
+`true` if child nodes should be listened to, `false` otherwise.

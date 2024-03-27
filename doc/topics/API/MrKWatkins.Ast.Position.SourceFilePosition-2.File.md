@@ -10,3 +10,5 @@ public TFile File { get; }
 ## Property Value
 
 TFile
+
+The file.

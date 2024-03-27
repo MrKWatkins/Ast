@@ -10,3 +10,5 @@ public abstract SourcePosition CreateZeroWidthPrefix();
 ## Returns
 
 [SourcePosition](MrKWatkins.Ast.Position.SourcePosition.md)
+
+A zero width [SourcePosition](MrKWatkins.Ast.Position.SourcePosition.md).

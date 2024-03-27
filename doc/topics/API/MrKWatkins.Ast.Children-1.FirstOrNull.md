@@ -10,3 +10,5 @@ public TNode FirstOrNull { get; }
 ## Property Value
 
 TNode
+
+The first node or `null`.

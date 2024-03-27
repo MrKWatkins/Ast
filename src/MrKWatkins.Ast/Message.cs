@@ -35,6 +35,7 @@ public sealed record Message
     /// </summary>
     /// <param name="code">The <see cref="Code"/> of the message.</param>
     /// <param name="text">The <see cref="Text"/> of the message.</param>
+    /// <returns>The error message.</returns>
     [Pure]
     public static Message Error(string code, string text) => new(MessageLevel.Error, code, text);
 
@@ -43,6 +44,7 @@ public sealed record Message
     /// and specified <see cref="Text"/>.
     /// </summary>
     /// <param name="text">The <see cref="Text"/> of the message.</param>
+    /// <returns>The error message.</returns>
     [Pure]
     public static Message Error(string text) => new(MessageLevel.Error, text);
 
@@ -52,6 +54,7 @@ public sealed record Message
     /// </summary>
     /// <param name="code">The <see cref="Code"/> of the message.</param>
     /// <param name="text">The <see cref="Text"/> of the message.</param>
+    /// <returns>The warning message.</returns>
     [Pure]
     public static Message Warning(string code, string text) => new(MessageLevel.Warning, code, text);
 
@@ -60,6 +63,7 @@ public sealed record Message
     /// and specified <see cref="Text"/>.
     /// </summary>
     /// <param name="text">The <see cref="Text"/> of the message.</param>
+    /// <returns>The warning message.</returns>
     [Pure]
     public static Message Warning(string text) => new(MessageLevel.Warning, text);
 
@@ -69,6 +73,7 @@ public sealed record Message
     /// </summary>
     /// <param name="code">The <see cref="Code"/> of the message.</param>
     /// <param name="text">The <see cref="Text"/> of the message.</param>
+    /// <returns>The info message.</returns>
     [Pure]
     public static Message Info(string code, string text) => new(MessageLevel.Info, code, text);
 
@@ -77,22 +82,26 @@ public sealed record Message
     /// and specified <see cref="Text"/>.
     /// </summary>
     /// <param name="text">The <see cref="Text"/> of the message.</param>
+    /// <returns>The info message.</returns>
     [Pure]
     public static Message Info(string text) => new(MessageLevel.Info, text);
 
     /// <summary>
     /// The <see cref="MessageLevel">level</see> of the message.
     /// </summary>
+    /// <returns>The level.</returns>
     public MessageLevel Level { get; }
 
     /// <summary>
     /// Optional code for the message.
     /// </summary>
+    /// <returns>The code.</returns>
     public string? Code { get; }
 
     /// <summary>
     /// The text of the message.
     /// </summary>
+    /// <returns>The text.</returns>
     public string Text { get; }
 
     /// <summary>

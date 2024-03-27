@@ -10,3 +10,5 @@ public IEnumerable<Message> Warnings { get; }
 ## Property Value
 
 [IEnumerable&lt;Message&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IEnumerable-1)
+
+A lazy enumeration of this node&#39;s warnings.

@@ -9,3 +9,5 @@ public static readonly DepthFirstPreOrderTraversal<TNode> Instance;
 ## Returns
 
 [DepthFirstPreOrderTraversal&lt;TNode&gt;](MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal-1.md)
+
+The depth first, pre-order traversal.

@@ -10,3 +10,5 @@ public int Capacity { get; set; }
 ## Property Value
 
 [Int32](https://learn.microsoft.com/en-gb/dotnet/api/System.Int32)
+
+The capacity.

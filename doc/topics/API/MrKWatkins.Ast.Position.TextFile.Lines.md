@@ -10,3 +10,5 @@ public IReadOnlyList<string> Lines { get; }
 ## Property Value
 
 [IReadOnlyList&lt;String&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IReadOnlyList-1)
+
+The lines.

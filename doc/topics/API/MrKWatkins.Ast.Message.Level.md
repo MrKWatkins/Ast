@@ -10,3 +10,5 @@ public MessageLevel Level { get; }
 ## Property Value
 
 [MessageLevel](MrKWatkins.Ast.MessageLevel.md)
+
+The level.

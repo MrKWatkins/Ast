@@ -16,3 +16,5 @@ public bool Overlaps(SourceFilePosition<TSelf, TFile> other);
 ## Returns
 
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
+
+`true` if the two positions overlap, `false` otherwise.

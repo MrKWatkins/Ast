@@ -10,3 +10,5 @@ public IReadOnlyList<Message> Messages { get; }
 ## Property Value
 
 [IReadOnlyList&lt;Message&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.IReadOnlyList-1)
+
+The messages.

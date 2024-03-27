@@ -11,6 +11,7 @@ public sealed class BreadthFirstTraversal<TNode> : ITraversal<TNode>
     /// <summary>
     /// The singleton <see cref="BreadthFirstTraversal{TNode}" /> instance.
     /// </summary>
+    /// <returns>The breadth first traversal.</returns>
     public static readonly BreadthFirstTraversal<TNode> Instance = new();
 
     private BreadthFirstTraversal()

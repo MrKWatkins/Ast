@@ -10,3 +10,6 @@ public int Count { get; }
 ## Property Value
 
 [Int32](https://learn.microsoft.com/en-gb/dotnet/api/System.Int32)
+## Remarks
+
+The number of properties.

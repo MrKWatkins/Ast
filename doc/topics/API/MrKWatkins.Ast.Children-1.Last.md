@@ -10,3 +10,5 @@ public TNode Last { get; }
 ## Property Value
 
 TNode
+
+The last node.

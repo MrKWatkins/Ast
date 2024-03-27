@@ -290,16 +290,19 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// The index of this node in the <see cref="Parent" /> or -1 if this node has no <see cref="Parent" />.
     /// </summary>
+    /// <returns>The index in the parent node.</returns>
     /// <seealso cref="HasParent" />
     public int IndexInParent => HasParent ? Parent.Children.IndexOf(This) : -1;
 
     /// <summary>
     /// <c>true</c> if this node is the first child in <see cref="Parent" />, <c>false</c> if not or if the node has no <see cref="Parent" />.
     /// </summary>
-    public bool IsFirstChild => HasParent && Parent.Children[0] == This;
+    /// <returns>Whether this node is the first child or not.</returns>
+    public bool IsFirstChild => HasParent && Parent.Children.UnsafeFirst == This;
 
     /// <summary>
     /// <c>true</c> if this node is the last child in <see cref="Parent" />, <c>false</c> if not or if the node has no <see cref="Parent" />.
     /// </summary>
-    public bool IsLastChild => HasParent && Parent.Children[^1] == This;
+    /// <returns>Whether this node is the last child or not.</returns>
+    public bool IsLastChild => HasParent && Parent.Children.UnsafeLast == This;
 }

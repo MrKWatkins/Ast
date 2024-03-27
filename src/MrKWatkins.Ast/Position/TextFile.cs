@@ -44,11 +44,13 @@ public sealed class TextFile : SourceFile
     /// <summary>
     /// The text of the file.
     /// </summary>
+    /// <returns>The text.</returns>
     public string Text { get; }
 
     /// <summary>
     /// The individual lines in the file.
     /// </summary>
+    /// <returns>The lines.</returns>
     public IReadOnlyList<string> Lines { get; }
 
     /// <summary>
@@ -83,7 +85,10 @@ public sealed class TextFile : SourceFile
         var linesList = new List<string>();
 
         using var reader = new StringReader(text);
-        while (reader.ReadLine() is { } line) linesList.Add(line);
+        while (reader.ReadLine() is { } line)
+        {
+            linesList.Add(line);
+        }
 
         return linesList.ToArray();
     }

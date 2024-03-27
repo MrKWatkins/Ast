@@ -24,6 +24,8 @@ public static Message Info(string code, string text);
 ## Returns {id="returns-mrkwatkins-ast-message-info(system-string-system-string)"}
 
 [Message](MrKWatkins.Ast.Message.md)
+
+The info message.
 ## Info(String) {id="mrkwatkins-ast-message-info(system-string)"}
 
 Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Info](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Text](MrKWatkins.Ast.Message.Text.md).
@@ -41,3 +43,5 @@ public static Message Info(string text);
 ## Returns {id="returns-mrkwatkins-ast-message-info(system-string)"}
 
 [Message](MrKWatkins.Ast.Message.md)
+
+The info message.

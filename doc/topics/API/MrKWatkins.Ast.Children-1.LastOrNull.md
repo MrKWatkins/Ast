@@ -10,3 +10,5 @@ public TNode LastOrNull { get; }
 ## Property Value
 
 TNode
+
+The last node or `null`.

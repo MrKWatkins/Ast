@@ -10,3 +10,5 @@ public bool IsLastChild { get; }
 ## Property Value
 
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
+
+Whether this node is the last child or not.

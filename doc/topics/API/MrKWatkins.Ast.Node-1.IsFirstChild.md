@@ -10,3 +10,5 @@ public bool IsFirstChild { get; }
 ## Property Value
 
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
+
+Whether this node is the first child or not.

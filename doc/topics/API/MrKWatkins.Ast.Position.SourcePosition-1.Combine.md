@@ -38,3 +38,5 @@ protected new abstract TSelf Combine(TSelf other);
 ## Returns {id="returns-mrkwatkins-ast-position-sourceposition-1-combine(-0)"}
 
 TSelf
+
+The combined position.

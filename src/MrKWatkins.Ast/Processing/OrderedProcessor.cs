@@ -59,6 +59,7 @@ public abstract class OrderedProcessor<TBaseNode, TNode> : Processor<TBaseNode>
     /// <summary>
     /// Override this property to specify the <see cref="ITraversal{TNode}" /> to use to traverse the tree. Defaults to <see cref="DepthFirstPreOrderTraversal{TNode}" />.
     /// </summary>
+    /// <returns>The <see cref="ITraversal{TNode}" /> to use.</returns>
     protected virtual ITraversal<TBaseNode> Traversal => DepthFirstPreOrderTraversal<TBaseNode>.Instance;
 
     private protected sealed override IEnumerable<TBaseNode> EnumerateNodes(ProcessorState<TBaseNode> state, TBaseNode root) =>

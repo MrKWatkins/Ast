@@ -10,3 +10,5 @@ public int StartLineNumber { get; }
 ## Property Value
 
 [Int32](https://learn.microsoft.com/en-gb/dotnet/api/System.Int32)
+
+The number of the start line.

@@ -9,3 +9,5 @@ public static readonly SourcePosition None;
 ## Returns
 
 [SourcePosition](MrKWatkins.Ast.Position.SourcePosition.md)
+
+The none position.

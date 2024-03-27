@@ -32,6 +32,7 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// The position of the node in the source code.
     /// </summary>
+    /// <returns>The source position.</returns>
     public virtual SourcePosition SourcePosition { get; set; } = SourcePosition.None;
 
     /// <summary>

@@ -10,3 +10,5 @@ protected virtual ITraversal<TBaseNode> Traversal { get; }
 ## Property Value
 
 [ITraversal&lt;TBaseNode&gt;](MrKWatkins.Ast.Traversal.ITraversal-1.md)
+
+The [ITraversal&lt;TNode&gt;](MrKWatkins.Ast.Traversal.ITraversal-1.md) to use.

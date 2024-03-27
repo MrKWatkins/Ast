@@ -10,12 +10,14 @@ public abstract class SourcePosition : IEquatable<SourcePosition>, IEqualityOper
     /// <summary>
     /// Represents no source position, e.g. the parent node was generated programmatically.
     /// </summary>
+    /// <returns>The none position.</returns>
     public static readonly SourcePosition None = new NonePosition();
 
     /// <summary>
     /// Combines two <see cref="SourcePosition" />s to give a new SourcePosition that includes both
     /// this position and the <paramref name="other" /> along any source in-between the two.
     /// </summary>
+    /// <returns>The combined position.</returns>
     [Pure]
     public abstract SourcePosition Combine(SourcePosition other);
 
@@ -23,12 +25,14 @@ public abstract class SourcePosition : IEquatable<SourcePosition>, IEqualityOper
     /// Combines two <see cref="SourcePosition" />s to give a new SourcePosition that includes both
     /// <paramref name="x" /> and <paramref name="y" /> along with any source in-between the two.
     /// </summary>
+    /// <returns>The combined position.</returns>
     [Pure]
     public static SourcePosition operator +(SourcePosition x, SourcePosition y) => x.Combine(y);
 
     /// <summary>
     /// Create a new <see cref="SourcePosition" /> with zero width at the start of this <see cref="SourcePosition" />.
     /// </summary>
+    /// <returns>A zero width <see cref="SourcePosition" />.</returns>
     [Pure]
     public abstract SourcePosition CreateZeroWidthPrefix();
 
@@ -78,6 +82,7 @@ public abstract class SourcePosition<TSelf> : SourcePosition
     /// Combines two <see cref="SourcePosition{TSelf}" />s to give a new SourcePosition that includes both
     /// this position and the <paramref name="other" /> along any source in-between the two.
     /// </summary>
+    /// <returns>The combined position.</returns>
     [Pure]
     protected abstract TSelf Combine(TSelf other);
 }

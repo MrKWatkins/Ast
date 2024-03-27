@@ -11,10 +11,10 @@ protected abstract TSelf CreateCombination(TSelf other);
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| other | TSelf |  |
+| other | TSelf | The other [SourceFilePosition&lt;TSelf, TFile&gt;](MrKWatkins.Ast.Position.SourceFilePosition-2.md) to combine with. |
 
 ## Returns
 
 TSelf
 
-
+The combination.

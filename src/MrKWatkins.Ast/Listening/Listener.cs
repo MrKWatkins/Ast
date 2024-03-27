@@ -63,10 +63,11 @@ public abstract class Listener<TContext, TNode>
     }
 
     /// <summary>
-    ///     Return a value indicating whether child nodes should be listened to or not. Defaults to <c>true</c>.
+    /// Return a value indicating whether child nodes should be listened to or not. Defaults to <c>true</c>.
     /// </summary>
     /// <param name="context">The context object.</param>
     /// <param name="node">The node who's children should be listened to or not.</param>
+    /// <returns><c>true</c> if child nodes should be listened to, <c>false</c> otherwise.</returns>
     protected virtual bool ShouldListenToChildren(TContext context, TNode node) => true;
 }
 

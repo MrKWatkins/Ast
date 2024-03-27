@@ -16,3 +16,5 @@ public abstract SourcePosition Combine(SourcePosition other);
 ## Returns
 
 [SourcePosition](MrKWatkins.Ast.Position.SourcePosition.md)
+
+The combined position.

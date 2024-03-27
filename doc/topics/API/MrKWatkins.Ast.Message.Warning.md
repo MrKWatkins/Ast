@@ -24,6 +24,8 @@ public static Message Warning(string code, string text);
 ## Returns {id="returns-mrkwatkins-ast-message-warning(system-string-system-string)"}
 
 [Message](MrKWatkins.Ast.Message.md)
+
+The warning message.
 ## Warning(String) {id="mrkwatkins-ast-message-warning(system-string)"}
 
 Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Warning](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Text](MrKWatkins.Ast.Message.Text.md).
@@ -41,3 +43,5 @@ public static Message Warning(string text);
 ## Returns {id="returns-mrkwatkins-ast-message-warning(system-string)"}
 
 [Message](MrKWatkins.Ast.Message.md)
+
+The warning message.

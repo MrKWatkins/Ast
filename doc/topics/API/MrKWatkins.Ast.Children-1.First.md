@@ -10,3 +10,5 @@ public TNode First { get; }
 ## Property Value
 
 TNode
+
+The first node.

@@ -10,3 +10,5 @@ public new virtual TextFilePosition CreateZeroWidthPrefix();
 ## Returns
 
 [TextFilePosition](MrKWatkins.Ast.Position.TextFilePosition.md)
+
+A zero width [TextFilePosition](MrKWatkins.Ast.Position.TextFilePosition.md).

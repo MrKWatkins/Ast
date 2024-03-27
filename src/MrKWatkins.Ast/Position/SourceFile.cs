@@ -29,11 +29,13 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
     /// <summary>
     /// The name of the source file.
     /// </summary>
+    /// <returns>The name.</returns>
     public string Name { get; }
 
     /// <summary>
     /// The length of the source file.
     /// </summary>
+    /// <returns>The length.</returns>
     public int Length { get; }
 
     /// <inheritdoc />

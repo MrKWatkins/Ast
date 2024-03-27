@@ -29,6 +29,7 @@ public abstract class PropertyNode<TNode> : Node<TNode>
     /// <summary>
     /// The <see cref="MrKWatkins.Ast.Properties" /> associated with this node.
     /// </summary>
+    /// <remarks>The properties.</remarks>
     protected Properties Properties => properties ??= new Properties();
 
     /// <summary>

@@ -10,3 +10,6 @@ protected Properties Properties { get; }
 ## Property Value
 
 [Properties](MrKWatkins.Ast.Properties.md)
+## Remarks
+
+The properties.

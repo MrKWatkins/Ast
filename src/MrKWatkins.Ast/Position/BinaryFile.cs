@@ -40,6 +40,7 @@ public sealed class BinaryFile : SourceFile
     /// <summary>
     /// The raw bytes of the file.
     /// </summary>
+    /// <returns>The raw bytes of the file.</returns>
     public IReadOnlyList<byte> Bytes { get; }
 
     /// <summary>

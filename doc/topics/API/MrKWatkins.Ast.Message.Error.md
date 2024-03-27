@@ -24,6 +24,8 @@ public static Message Error(string code, string text);
 ## Returns {id="returns-mrkwatkins-ast-message-error(system-string-system-string)"}
 
 [Message](MrKWatkins.Ast.Message.md)
+
+The error message.
 ## Error(String) {id="mrkwatkins-ast-message-error(system-string)"}
 
 Initializes a new instance of the [Message](MrKWatkins.Ast.Message.md) class with the [Level](MrKWatkins.Ast.Message.Level.md) [Error](MrKWatkins.Ast.MessageLevel.md#fields) and specified [Text](MrKWatkins.Ast.Message.Text.md).
@@ -41,3 +43,5 @@ public static Message Error(string text);
 ## Returns {id="returns-mrkwatkins-ast-message-error(system-string)"}
 
 [Message](MrKWatkins.Ast.Message.md)
+
+The error message.

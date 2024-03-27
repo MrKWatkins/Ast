@@ -9,3 +9,5 @@ public static readonly BreadthFirstTraversal<TNode> Instance;
 ## Returns
 
 [BreadthFirstTraversal&lt;TNode&gt;](MrKWatkins.Ast.Traversal.BreadthFirstTraversal-1.md)
+
+The breadth first traversal.

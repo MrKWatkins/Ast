@@ -10,3 +10,5 @@ public new virtual BinaryFilePosition CreateZeroWidthPrefix();
 ## Returns
 
 [BinaryFilePosition](MrKWatkins.Ast.Position.BinaryFilePosition.md)
+
+A zero width [BinaryFilePosition](MrKWatkins.Ast.Position.BinaryFilePosition.md).

@@ -10,3 +10,5 @@ public int StartIndex { get; }
 ## Property Value
 
 [Int32](https://learn.microsoft.com/en-gb/dotnet/api/System.Int32)
+
+The inclusive start index.

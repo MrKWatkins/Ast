@@ -182,10 +182,8 @@ public sealed class Properties
     /// </exception>
     [Pure]
     public T GetOrThrow<T>(string key, ref T? cached, [InstantHandle] Func<string, Exception> exceptionCreator)
-        where T : class
-    {
-        return cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator(key);
-    }
+        where T : class =>
+        cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator(key);
 
     /// <summary>
     /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
@@ -202,14 +200,12 @@ public sealed class Properties
     /// <typeparam name="T">The type of the property.</typeparam>
     /// <returns>The value of the property.</returns>
     /// <exception cref="InvalidOperationException">
-    ///     The property is a multiple value property or the type of the property does not match <typeparamref name="T" />.
+    /// The property is a multiple value property or the type of the property does not match <typeparamref name="T" />.
     /// </exception>
     [Pure]
     public T GetOrThrow<T>(string key, ref T? cached, [InstantHandle] Func<string, Exception> exceptionCreator)
-        where T : struct
-    {
-        return cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator(key);
-    }
+        where T : struct =>
+        cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator(key);
 
     /// <summary>
     /// Gets the value of a single valued property with the specified key or returns a default value if the property does not exist.
@@ -286,6 +282,7 @@ public sealed class Properties
     /// <summary>
     /// The number of properties in the collection.
     /// </summary>
+    /// <remarks>The number of properties.</remarks>
     [Pure]
     public int Count => properties.Count;
 

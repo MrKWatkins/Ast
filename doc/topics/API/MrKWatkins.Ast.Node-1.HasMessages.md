@@ -10,3 +10,5 @@ public bool HasMessages { get; }
 ## Property Value
 
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
+
+Whether this node has messages or not.

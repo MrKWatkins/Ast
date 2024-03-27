@@ -11,6 +11,7 @@ public sealed class DepthFirstPostOrderTraversal<TNode> : ITraversal<TNode>
     /// <summary>
     /// The singleton <see cref="DepthFirstPostOrderTraversal{TNode}" /> instance.
     /// </summary>
+    /// <returns>The depth first, post order traversal.</returns>
     public static readonly DepthFirstPostOrderTraversal<TNode> Instance = new();
 
     private DepthFirstPostOrderTraversal()

@@ -23,11 +23,13 @@ public sealed class BinaryFilePosition : SourceFilePosition<BinaryFilePosition, 
     /// Combines two <see cref="BinaryFilePosition" />s to give a new SourcePosition that includes both
     /// <paramref name="x" /> and <paramref name="y" /> along with any source in-between the two.
     /// </summary>
+    /// <returns>A combined <see cref="BinaryFilePosition" />.</returns>
     [Pure]
     public static BinaryFilePosition operator +(BinaryFilePosition x, BinaryFilePosition y) => x.Combine(y);
 
     /// <summary>
     /// Create a new <see cref="BinaryFilePosition" /> with zero width at the start of this <see cref="BinaryFilePosition" />.
     /// </summary>
+    /// <returns>A zero width <see cref="BinaryFilePosition" />.</returns>
     public override BinaryFilePosition CreateZeroWidthPrefix() => new(File, StartIndex, 0);
 }

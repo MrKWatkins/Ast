@@ -10,3 +10,5 @@ public TNode UnsafeFirst { get; }
 ## Property Value
 
 TNode
+
+The first node.

@@ -48,16 +48,19 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
     /// <summary>
     /// The <see cref="SourceFile" />.
     /// </summary>
+    /// <returns>The file.</returns>
     public TFile File { get; }
 
     /// <summary>
     /// The inclusive start index of the position in the source file.
     /// </summary>
+    /// <returns>The inclusive start index.</returns>
     public int StartIndex { get; }
 
     /// <summary>
     /// The length of the position in the source file.
     /// </summary>
+    /// <returns>The length.</returns>
     public int Length { get; }
 
     /// <summary>
@@ -67,6 +70,7 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
     /// As the end index is exclusive it will be the index of the first character *after* the position. If the position is zero
     /// length then it will equal <see cref="StartIndex" />.
     /// </remarks>
+    /// <returns>The exclusive end index.</returns>
     public int EndIndex => StartIndex + Length;
 
     /// <inheritdoc />
@@ -78,8 +82,8 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
     /// <summary>
     /// Creates a combination of this <see cref="SourceFilePosition{TSelf,TFile}" /> and another. Used to create a combination for <see cref="Combine" />.
     /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
+    /// <param name="other">The other <see cref="SourceFilePosition{TSelf,TFile}" /> to combine with.</param>
+    /// <returns>The combination.</returns>
     [Pure]
     protected abstract TSelf CreateCombination(TSelf other);
 
@@ -88,6 +92,7 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
     /// the other position. If they are at the start or end index of the other position they will not overlap. Two zero length positions
     /// never overlap.
     /// </summary>
+    /// <returns><c>true</c> if the two positions overlap, <c>false</c> otherwise.</returns>
     [Pure]
     public bool Overlaps(SourceFilePosition<TSelf, TFile> other)
     {

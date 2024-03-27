@@ -10,3 +10,5 @@ public bool HasInfos { get; }
 ## Property Value
 
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
+
+Whether this node has infos or not.

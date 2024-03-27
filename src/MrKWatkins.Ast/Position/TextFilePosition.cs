@@ -47,31 +47,37 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
     /// <summary>
     /// Zero based index of the start line of the position in the text file.
     /// </summary>
+    /// <returns>The index of the start line.</returns>
     public int StartLineIndex { get; }
 
     /// <summary>
     /// Number, i.e. 1 based index, of the start line of the position in the text file.
     /// </summary>
+    /// <returns>The number of the start line.</returns>
     public int StartLineNumber => StartLineIndex + 1;
 
     /// <summary>
     /// Zero based index of the start column of the position in the text file.
     /// </summary>
+    /// <returns>The index of the start column.</returns>
     public int StartColumnIndex { get; }
 
     /// <summary>
     /// Number, i.e. 1 based index, of the start column of the position in the text file.
     /// </summary>
+    /// <returns>The number of the start column.</returns>
     public int StartColumnNumber => StartColumnIndex + 1;
 
     /// <summary>
     /// The start line of the text source.
     /// </summary>
+    /// <returns>The start line.</returns>
     public string StartLine => File.Lines[StartLineIndex];
 
     /// <summary>
     /// The text source.
     /// </summary>
+    /// <returns>The text.</returns>
     public string Text => File.Text.Substring(StartIndex, Length);
 
     /// <inheritdoc />
@@ -100,12 +106,14 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
     /// Combines two <see cref="TextFilePosition" />s to give a new SourcePosition that includes both
     /// <paramref name="x" /> and <paramref name="y" /> along with any source in-between the two.
     /// </summary>
+    /// <returns>A combined <see cref="TextFilePosition" />.</returns>
     [Pure]
     public static TextFilePosition operator +(TextFilePosition x, TextFilePosition y) => x.Combine(y);
 
     /// <summary>
     /// Create a new <see cref="TextFilePosition" /> with zero width at the start of this <see cref="TextFilePosition" />.
     /// </summary>
+    /// <returns>A zero width <see cref="TextFilePosition" />.</returns>
     public override TextFilePosition CreateZeroWidthPrefix() => new(File, StartIndex, 0, StartLineIndex, StartColumnIndex);
 
     // Matches the C# compiler, with some extra spacing.
