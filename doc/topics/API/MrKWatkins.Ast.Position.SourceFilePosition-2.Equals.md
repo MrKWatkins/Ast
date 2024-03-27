@@ -2,7 +2,7 @@
 ## Definition
 
 ```c#
-public sealed override bool Equals(SourcePosition other);
+public sealed override bool Equals(SourcePosition? other);
 ```
 
 ## Parameters

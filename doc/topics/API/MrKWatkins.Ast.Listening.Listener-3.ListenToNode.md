@@ -9,7 +9,7 @@
 ## ListenToNode(TContext, TBaseNode) {id="mrkwatkins-ast-listening-listener-3-listentonode(-0-1)"}
 
 ```c#
-protected sealed override void ListenToNode(TContext context, TBaseNode node);
+protected sealed override void ListenToNode(TContext? context, TBaseNode node);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-listening-listener-3-listentonode(-0-1)"}
@@ -24,7 +24,7 @@ protected sealed override void ListenToNode(TContext context, TBaseNode node);
 Called when the node is listened to.
 
 ```c#
-protected new virtual void ListenToNode(TContext context, TNode node);
+protected new virtual void ListenToNode(TContext? context, TNode node);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-listening-listener-3-listentonode(-0-2)"}

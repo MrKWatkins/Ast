@@ -33,7 +33,7 @@ public void Set<T>(string key, T value);
 Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance.
 
 ```c#
-public void Set<T>(string key, T value, out T cached)
+public void Set<T>(string key, T value, out T? cached)
    where T : class;
 ```
 
@@ -59,7 +59,7 @@ Properties are stored in a dictionary which might not have enough performance in
 Sets the value of a single valued property with the specified key. Uses a field to cache the value for better performance.
 
 ```c#
-public void Set<T>(string key, T value, out T? cached)
+public void Set<T>(string key, T value, out T?? cached)
    where T : struct;
 ```
 

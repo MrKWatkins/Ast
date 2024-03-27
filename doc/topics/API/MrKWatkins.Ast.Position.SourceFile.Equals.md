@@ -9,7 +9,7 @@
 ## Equals(SourceFile) {id="mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)"}
 
 ```c#
-public new bool Equals(SourceFile other);
+public new bool Equals(SourceFile? other);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-position-sourcefile-equals(mrkwatkins-ast-position-sourcefile)"}
@@ -24,7 +24,7 @@ public new bool Equals(SourceFile other);
 ## Equals(Object) {id="mrkwatkins-ast-position-sourcefile-equals(system-object)"}
 
 ```c#
-public sealed override bool Equals(object obj);
+public sealed override bool Equals(object? obj);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-position-sourcefile-equals(system-object)"}

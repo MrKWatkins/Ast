@@ -4,7 +4,7 @@
 Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes.
 
 ```c#
-protected virtual bool ShouldProcessNode(TContext context, TNode node);
+protected virtual bool ShouldProcessNode(TContext? context, TNode node);
 ```
 
 ## Parameters

@@ -4,7 +4,7 @@
 Process the specified node.
 
 ```c#
-protected abstract void ProcessNode(TContext context, TNode node);
+protected abstract void ProcessNode(TContext? context, TNode node);
 ```
 
 ## Parameters

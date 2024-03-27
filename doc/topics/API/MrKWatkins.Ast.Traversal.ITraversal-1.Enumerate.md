@@ -4,7 +4,7 @@
 Enumerates over a node and its descendents.
 
 ```c#
-public abstract IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool> shouldEnumerateDescendents = null);
+public abstract IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null);
 ```
 
 ## Parameters

@@ -4,7 +4,7 @@
 Returns the last node in the collection of the specified type or a specified default if it doesn&#39;t contain any nodes of the specified type.
 
 ```c#
-public TChild LastOfTypeOrDefault<TChild>(TChild @default = null)
+public TChild? LastOfTypeOrDefault<TChild>(TChild? @default = null)
    where TChild : TNode;
 ```
 

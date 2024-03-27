@@ -43,7 +43,7 @@ The value of the property.
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
 ```c#
-public T GetOrThrow<T>(string key, ref T cached)
+public T GetOrThrow<T>(string key, ref T? cached)
    where T : class;
 ```
 
@@ -73,7 +73,7 @@ Properties are stored in a dictionary which might not have enough performance in
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
 ```c#
-public T GetOrThrow<T>(string key, ref T? cached)
+public T GetOrThrow<T>(string key, ref T?? cached)
    where T : struct;
 ```
 
@@ -129,7 +129,7 @@ The value of the property.
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
 ```c#
-public T GetOrThrow<T>(string key, ref T cached, Func<Exception> exceptionCreator)
+public T GetOrThrow<T>(string key, ref T? cached, Func<Exception> exceptionCreator)
    where T : class;
 ```
 
@@ -160,7 +160,7 @@ Properties are stored in a dictionary which might not have enough performance in
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
 ```c#
-public T GetOrThrow<T>(string key, ref T? cached, Func<Exception> exceptionCreator)
+public T GetOrThrow<T>(string key, ref T?? cached, Func<Exception> exceptionCreator)
    where T : struct;
 ```
 
@@ -217,7 +217,7 @@ The value of the property.
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
 ```c#
-public T GetOrThrow<T>(string key, ref T cached, Func<string, Exception> exceptionCreator)
+public T GetOrThrow<T>(string key, ref T? cached, Func<string, Exception> exceptionCreator)
    where T : class;
 ```
 
@@ -248,7 +248,7 @@ Properties are stored in a dictionary which might not have enough performance in
 Gets the value of a single valued property with the specified key or throws an exception if the property does not exist. Uses a field to cache the value for better performance.
 
 ```c#
-public T GetOrThrow<T>(string key, ref T? cached, Func<string, Exception> exceptionCreator)
+public T GetOrThrow<T>(string key, ref T?? cached, Func<string, Exception> exceptionCreator)
    where T : struct;
 ```
 

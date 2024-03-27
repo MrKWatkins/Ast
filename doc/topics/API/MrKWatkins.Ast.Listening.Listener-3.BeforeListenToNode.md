@@ -9,7 +9,7 @@
 ## BeforeListenToNode(TContext, TBaseNode) {id="mrkwatkins-ast-listening-listener-3-beforelistentonode(-0-1)"}
 
 ```c#
-protected sealed override void BeforeListenToNode(TContext context, TBaseNode node);
+protected sealed override void BeforeListenToNode(TContext? context, TBaseNode node);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-listening-listener-3-beforelistentonode(-0-1)"}
@@ -24,7 +24,7 @@ protected sealed override void BeforeListenToNode(TContext context, TBaseNode no
 Called before a node *and its descendents* are listened to.
 
 ```c#
-protected new virtual void BeforeListenToNode(TContext context, TNode node);
+protected new virtual void BeforeListenToNode(TContext? context, TNode node);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-listening-listener-3-beforelistentonode(-0-2)"}

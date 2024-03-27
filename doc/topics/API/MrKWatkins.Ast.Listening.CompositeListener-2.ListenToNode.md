@@ -2,7 +2,7 @@
 ## Definition
 
 ```c#
-protected override void ListenToNode(TContext context, TBaseNode node);
+protected override void ListenToNode(TContext? context, TBaseNode node);
 ```
 
 ## Parameters

@@ -4,7 +4,7 @@
 Returns the only node in the collection of the specified type. Returns the specified default if there are no nodes in the collection of the specified type. Throws if there are multiple nodes in the collection of the specified type.
 
 ```c#
-public TChild SingleOfTypeOrDefault<TChild>(TChild @default = null)
+public TChild? SingleOfTypeOrDefault<TChild>(TChild? @default = null)
    where TChild : TNode;
 ```
 

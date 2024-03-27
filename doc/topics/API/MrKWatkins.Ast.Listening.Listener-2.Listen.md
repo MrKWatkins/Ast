@@ -4,7 +4,7 @@
 Listen to the specified node and its descendents.
 
 ```c#
-public void Listen(TContext context, TNode node);
+public void Listen(TContext? context, TNode node);
 ```
 
 ## Parameters

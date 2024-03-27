@@ -2,7 +2,7 @@
 ## Definition
 
 ```c#
-public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool> shouldEnumerateDescendents = null);
+public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null);
 ```
 
 ## Parameters

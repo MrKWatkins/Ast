@@ -4,7 +4,7 @@
 Tries to add a value to a multiple valued property with the specified key. If the value already exists in the multiple then it is not added.
 
 ```c#
-public bool TryAddToMultiple<T>(string key, T value, IEqualityComparer<T> valueComparer = null);
+public bool TryAddToMultiple<T>(string key, T value, IEqualityComparer<T>? valueComparer = null);
 ```
 
 ### Type Parameters

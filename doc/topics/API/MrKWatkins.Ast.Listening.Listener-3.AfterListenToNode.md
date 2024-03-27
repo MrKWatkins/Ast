@@ -9,7 +9,7 @@
 ## AfterListenToNode(TContext, TBaseNode) {id="mrkwatkins-ast-listening-listener-3-afterlistentonode(-0-1)"}
 
 ```c#
-protected sealed override void AfterListenToNode(TContext context, TBaseNode node);
+protected sealed override void AfterListenToNode(TContext? context, TBaseNode node);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-listening-listener-3-afterlistentonode(-0-1)"}
@@ -24,7 +24,7 @@ protected sealed override void AfterListenToNode(TContext context, TBaseNode nod
 Called after a node *and its descendents* have been listened to.
 
 ```c#
-protected new virtual void AfterListenToNode(TContext context, TNode node);
+protected new virtual void AfterListenToNode(TContext? context, TNode node);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-listening-listener-3-afterlistentonode(-0-2)"}

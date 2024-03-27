@@ -4,7 +4,7 @@
 Called when the node is listened to.
 
 ```c#
-protected virtual void ListenToNode(TContext context, TNode node);
+protected virtual void ListenToNode(TContext? context, TNode node);
 ```
 
 ## Parameters

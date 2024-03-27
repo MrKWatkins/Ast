@@ -4,7 +4,7 @@
 Removes the [PreviousSibling](MrKWatkins.Ast.Node-1.PreviousSibling.md) from [Parent](MrKWatkins.Ast.Node-1.Parent.md) if it exists.
 
 ```c#
-public TNode RemovePreviousSibling();
+public TNode? RemovePreviousSibling();
 ```
 
 ## Returns

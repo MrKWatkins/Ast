@@ -4,7 +4,7 @@
 Optionally replace the specified node.
 
 ```c#
-protected abstract TNode ReplaceNode(TNode node);
+protected abstract TNode? ReplaceNode(TNode node);
 ```
 
 ## Parameters

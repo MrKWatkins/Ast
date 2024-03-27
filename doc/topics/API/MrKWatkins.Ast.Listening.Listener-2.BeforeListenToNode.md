@@ -4,7 +4,7 @@
 Called before a node *and its descendents* are listened to.
 
 ```c#
-protected virtual void BeforeListenToNode(TContext context, TNode node);
+protected virtual void BeforeListenToNode(TContext? context, TNode node);
 ```
 
 ## Parameters

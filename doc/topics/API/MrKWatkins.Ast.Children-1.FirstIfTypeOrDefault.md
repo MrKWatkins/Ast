@@ -4,7 +4,7 @@
 Returns the first node in the collection if it is of the specified type or a specified default if the collection is empty or the first node is a different type.
 
 ```c#
-public TChild FirstIfTypeOrDefault<TChild>(TChild @default = null)
+public TChild? FirstIfTypeOrDefault<TChild>(TChild? @default = null)
    where TChild : TNode;
 ```
 

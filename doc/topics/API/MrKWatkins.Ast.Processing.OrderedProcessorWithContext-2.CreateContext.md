@@ -4,7 +4,7 @@
 Override to create the context object.
 
 ```c#
-protected abstract TContext CreateContext(TNode root);
+protected abstract TContext? CreateContext(TNode root);
 ```
 
 ## Parameters

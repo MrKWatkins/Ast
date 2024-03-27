@@ -4,7 +4,7 @@
 Return a value indicating whether child nodes should be listened to or not. Defaults to `true`.
 
 ```c#
-protected virtual bool ShouldListenToChildren(TContext context, TNode node);
+protected virtual bool ShouldListenToChildren(TContext? context, TNode node);
 ```
 
 ## Parameters
