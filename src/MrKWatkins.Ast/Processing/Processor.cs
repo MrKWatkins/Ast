@@ -44,30 +44,4 @@ public abstract class Processor<TNode>
 
     [Pure]
     private protected virtual IEnumerable<TNode> EnumerateNodes(ProcessorState<TNode> state, TNode root) => Node<TNode>.Traverse.DepthFirstPreOrder(root);
-
-    /// <summary>
-    /// Executes the specified function, catching any exceptions thrown. Exceptions are then wrapped in a <see cref="ProcessingException{TNode}" /> that
-    /// gives details of the node and method that caused the problem which is then thrown.
-    /// </summary>
-    /// <param name="node">The node that caused the problem.</param>
-    /// <param name="method">The node that method the problem.</param>
-    /// <param name="function">The function to execute.</param>
-    /// <typeparam name="TResult">The return type of <paramref name="function"/>.</typeparam>
-    /// <returns>The result of executing <paramref name="function"/>.</returns>
-    /// <exception cref="ProcessingException{TNode}">
-    /// If an exception occurs during <paramref name="function" /> then a <see cref="ProcessingException{TNode}" /> will be thrown with details of the node
-    /// and method that caused the problem.
-    /// </exception>
-    [MustUseReturnValue]
-    private protected static TResult CatchAndRethrowExceptions<TResult>(TNode node, string method, Func<TNode, TResult> function)
-    {
-        try
-        {
-            return function(node);
-        }
-        catch (Exception exception)
-        {
-            throw new ProcessingException<TNode>($"Exception during {method}.", exception, node);
-        }
-    }
 }
