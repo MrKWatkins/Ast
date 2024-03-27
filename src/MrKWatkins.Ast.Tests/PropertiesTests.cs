@@ -194,6 +194,9 @@ public sealed class PropertiesTests
         int? cachedInt = null;
         properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);
         cachedInt.Should().Be(1);
+
+        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);
+        cachedInt.Should().Be(1);
     }
 
     [Test]
@@ -293,6 +296,9 @@ public sealed class PropertiesTests
         }
 
         int? cachedInt = null;
+        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);
+        cachedInt.Should().Be(1);
+
         properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);
         cachedInt.Should().Be(1);
     }

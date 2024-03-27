@@ -609,11 +609,15 @@ public sealed partial class ChildrenTests
         var a = new ANode();
         var b1 = new BNode();
         var b2 = new BNode();
-
-        var parent = new ANode(b1, a, b2);
-
         var @default = new CNode();
 
+        var parent = new ANode();
+
+        parent.Children.FirstIfTypeOrDefault<ANode>().Should().BeNull();
+        parent.Children.FirstIfTypeOrDefault<BNode>().Should().BeNull();
+        parent.Children.FirstIfTypeOrDefault(@default).Should().BeSameAs(@default);
+
+        parent.Children.Add(b1, a, b2);
         parent.Children.FirstIfTypeOrDefault<ANode>().Should().BeNull();
         parent.Children.FirstIfTypeOrDefault<BNode>().Should().BeSameAs(b1);
         parent.Children.FirstIfTypeOrDefault(@default).Should().BeSameAs(@default);
@@ -657,10 +661,15 @@ public sealed partial class ChildrenTests
         var a = new ANode();
         var b1 = new BNode();
         var b2 = new BNode();
-
-        var parent = new ANode(b1, a, b2);
-
         var @default = new CNode();
+
+        var parent = new ANode();
+
+        parent.Children.LastIfTypeOrDefault<ANode>().Should().BeNull();
+        parent.Children.LastIfTypeOrDefault<BNode>().Should().BeNull();
+        parent.Children.LastIfTypeOrDefault(@default).Should().BeSameAs(@default);
+
+        parent.Children.Add(b1, a, b2);
 
         parent.Children.LastIfTypeOrDefault<ANode>().Should().BeNull();
         parent.Children.LastIfTypeOrDefault<BNode>().Should().BeSameAs(b2);

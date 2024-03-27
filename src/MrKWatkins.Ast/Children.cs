@@ -456,7 +456,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     [Pure]
     public TChild? LastIfTypeOrDefault<TChild>(TChild? @default = null)
         where TChild : TNode =>
-        Count != 0 ? nodes[^1] as TChild ?? @default : @default;
+        Count != 0 ? nodes[Count - 1] as TChild ?? @default : @default;
 
     /// <summary>
     /// Returns the last node in the collection of the specified type or a specified default if it doesn't contain any nodes of the specified type.
