@@ -38,7 +38,7 @@ runs:
       run: dotnet test --no-restore --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
 
     - name: Test Report
-      uses: dorny/test-reporter@v1.8.0
+      uses: dorny/test-reporter@v1.9.0
       if: success() || failure()
       with:
         name: ${{ inputs.name }} Test Results
