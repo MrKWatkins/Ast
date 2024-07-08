@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\MrKWatkins.Ast\MrKWatkins.Ast.csproj"/>
-        <PackageReference Include="JetBrains.Annotations"/>
+        <PackageReference Include="JetBrains.Annotations" PrivateAssets="All"/>
 
         <Using Include="System.Diagnostics.CodeAnalysis"/>
         <Using Include="System.Diagnostics.Contracts"/>
