@@ -18,8 +18,8 @@ public sealed class PipelineTests : TreeTestFixture
 
         var stages = new[]
         {
-            new PipelineStage<TestNode>("Stage 1", new[] { processor1 }, _ => true),
-            new PipelineStage<TestNode>("Stage 2", new[] { processor2 }, _ => lastStageShouldContinue)
+            new PipelineStage<TestNode>("Stage 1", [processor1], _ => true),
+            new PipelineStage<TestNode>("Stage 2", [processor2], _ => lastStageShouldContinue)
         };
 
         var pipeline = new Pipeline<TestNode>(stages);
@@ -38,8 +38,8 @@ public sealed class PipelineTests : TreeTestFixture
 
         var stages = new[]
         {
-            new PipelineStage<TestNode>("Stage 1", new[] { processor1 }, _ => true),
-            new PipelineStage<TestNode>("Stage 2", new[] { processor2 }, _ => lastStageShouldContinue)
+            new PipelineStage<TestNode>("Stage 1", [processor1], _ => true),
+            new PipelineStage<TestNode>("Stage 2", [processor2], _ => lastStageShouldContinue)
         };
 
         var pipeline = new Pipeline<TestNode>(stages);
@@ -59,8 +59,8 @@ public sealed class PipelineTests : TreeTestFixture
 
         var stages = new[]
         {
-            new PipelineStage<TestNode>("Stage 1", new[] { processor1 }, _ => false),
-            new PipelineStage<TestNode>("Stage 2", new[] { processor2 }, _ => true)
+            new PipelineStage<TestNode>("Stage 1", [processor1], _ => false),
+            new PipelineStage<TestNode>("Stage 2", [processor2], _ => true)
         };
 
         var pipeline = new Pipeline<TestNode>(stages);
@@ -79,8 +79,8 @@ public sealed class PipelineTests : TreeTestFixture
 
         var stages = new[]
         {
-            new PipelineStage<TestNode>("Stage 1", new[] { processor1 }, _ => false),
-            new PipelineStage<TestNode>("Stage 2", new[] { processor2 }, _ => true)
+            new PipelineStage<TestNode>("Stage 1", [processor1], _ => false),
+            new PipelineStage<TestNode>("Stage 2", [processor2], _ => true)
         };
 
         var pipeline = new Pipeline<TestNode>(stages);

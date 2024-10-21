@@ -43,19 +43,7 @@ public sealed class SourceFileTests : EqualityTestFixture
         yield return new TestCaseData(file, "Different", false).SetName("Different type");
     }
 
-    private sealed class TestSourceFile : SourceFile
-    {
-        public TestSourceFile(string name, int length)
-            : base(name, length)
-        {
-        }
-    }
+    private sealed class TestSourceFile(string name, int length) : SourceFile(name, length);
 
-    private sealed class OtherSourceFile : SourceFile
-    {
-        public OtherSourceFile(string name, int length)
-            : base(name, length)
-        {
-        }
-    }
+    private sealed class OtherSourceFile(string name, int length) : SourceFile(name, length);
 }

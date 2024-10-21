@@ -286,7 +286,7 @@ public sealed partial class NodeTests
         var sibling = new ANode();
 
         child1.AddNextSibling(sibling);
-        parent.Children.Should().BeEquivalentTo(new[] { child1, sibling, child2 }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, sibling, child2], c => c.WithStrictOrdering());
     }
 
     [Test]
@@ -299,7 +299,7 @@ public sealed partial class NodeTests
         var sibling = new ANode();
 
         child2.AddNextSibling(sibling);
-        parent.Children.Should().BeEquivalentTo(new[] { child1, child2, sibling }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, child2, sibling], c => c.WithStrictOrdering());
     }
 
     [Test]
@@ -310,7 +310,7 @@ public sealed partial class NodeTests
         var parent = new ANode(child1, child2);
 
         child1.RemoveNextSibling().Should().Be(child2);
-        parent.Children.Should().BeEquivalentTo(new[] { child1 }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1], c => c.WithStrictOrdering());
     }
 
     [Test]
@@ -321,7 +321,7 @@ public sealed partial class NodeTests
         var parent = new ANode(child1, child2);
 
         child2.RemoveNextSibling().Should().BeNull();
-        parent.Children.Should().BeEquivalentTo(new[] { child1, child2 }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, child2], c => c.WithStrictOrdering());
     }
 
     [Test]
@@ -428,7 +428,7 @@ public sealed partial class NodeTests
         var sibling = new ANode();
 
         child2.AddPreviousSibling(sibling);
-        parent.Children.Should().BeEquivalentTo(new[] { child1, sibling, child2 }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, sibling, child2], c => c.WithStrictOrdering());
     }
 
     [Test]
@@ -441,7 +441,7 @@ public sealed partial class NodeTests
         var sibling = new ANode();
 
         child1.AddPreviousSibling(sibling);
-        parent.Children.Should().BeEquivalentTo(new[] { sibling, child1, child2 }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([sibling, child1, child2], c => c.WithStrictOrdering());
     }
 
     [Test]
@@ -452,7 +452,7 @@ public sealed partial class NodeTests
         var parent = new ANode(child1, child2);
 
         child2.RemovePreviousSibling().Should().Be(child1);
-        parent.Children.Should().BeEquivalentTo(new[] { child2 }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child2], c => c.WithStrictOrdering());
     }
 
     [Test]
@@ -463,7 +463,7 @@ public sealed partial class NodeTests
         var parent = new ANode(child1, child2);
 
         child1.RemovePreviousSibling().Should().BeNull();
-        parent.Children.Should().BeEquivalentTo(new[] { child1, child2 }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, child2], c => c.WithStrictOrdering());
     }
 
     [Test]

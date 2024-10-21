@@ -47,20 +47,25 @@ public sealed class ListenerTests : TreeTestFixture
 
     private sealed class CallsBaseTestListener : Listener<StringBuilder, TestNode>
     {
+        private readonly Stack<TestNode> stack = new();
+
         protected internal override void BeforeListenToNode(StringBuilder context, TestNode node)
         {
+            stack.Push(node);
             base.BeforeListenToNode(context, node);
             context.Append('(');
         }
 
         protected internal override void ListenToNode(StringBuilder context, TestNode node)
         {
+            stack.Peek().Should().BeSameAs(node);
             base.ListenToNode(context, node);
             context.Append(node.Name);
         }
 
         protected internal override void AfterListenToNode(StringBuilder context, TestNode node)
         {
+            stack.Pop().Should().BeSameAs(node);
             base.AfterListenToNode(context, node);
             context.Append(')');
         }
@@ -68,11 +73,25 @@ public sealed class ListenerTests : TreeTestFixture
 
     private sealed class TypedTestListener : Listener<StringBuilder, TestNode, ANode>
     {
-        protected override void BeforeListenToNode(StringBuilder context, ANode node) => context.Append('(');
+        private readonly Stack<ANode> stack = new();
 
-        protected override void ListenToNode(StringBuilder context, ANode node) => context.Append(node.Name);
+        protected override void BeforeListenToNode(StringBuilder context, ANode node)
+        {
+            stack.Push(node);
+            context.Append('(');
+        }
 
-        protected override void AfterListenToNode(StringBuilder context, ANode node) => context.Append(')');
+        protected override void ListenToNode(StringBuilder context, ANode node)
+        {
+            stack.Peek().Should().BeSameAs(node);
+            context.Append(node.Name);
+        }
+
+        protected override void AfterListenToNode(StringBuilder context, ANode node)
+        {
+            stack.Pop().Should().BeSameAs(node);
+            context.Append(')');
+        }
     }
 
     private sealed class CallsBaseTypedTestListener : Listener<StringBuilder, TestNode, ANode>

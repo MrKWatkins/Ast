@@ -198,7 +198,7 @@ public sealed class TextFilePositionTests : EqualityTestFixture
         yield return new TestCaseData(position, new TextFilePosition(textFile, 7, 20, 0, 7), false).SetName("Different start index");
         yield return new TestCaseData(position, new TextFilePosition(textFile, 8, 19, 0, 8), false).SetName("Different length");
         yield return new TestCaseData(position, null, false).SetName("Null");
-        yield return new TestCaseData(position, new BinaryFilePosition(new BinaryFile("Test", new byte[] { 1, 2, 3 }), 0, 1), false).SetName("Different SourceFilePosition type");
+        yield return new TestCaseData(position, new BinaryFilePosition(new BinaryFile("Test", [1, 2, 3]), 0, 1), false).SetName("Different SourceFilePosition type");
         yield return new TestCaseData(position, "Different", false).SetName("Different type");
     }
 }

@@ -530,7 +530,7 @@ public sealed class PropertiesTests
         properties.Set("One", 1);
         properties.Count.Should().Be(1);
 
-        properties.SetMultiple("Two", new[] { 1, 2 });
+        properties.SetMultiple("Two", [1, 2]);
         properties.Count.Should().Be(2);
 
         properties.AddToMultiple("Two", 3);
@@ -707,10 +707,10 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.GetMultiple<int>("Key").Should().BeEmpty();
 
-        properties.SetMultiple("Key", new[] { 1 });
+        properties.SetMultiple("Key", [1]);
         properties.GetMultiple<int>("Key").Should().Equal(1);
 
-        properties.SetMultiple("Key", new[] { 1, 2 });
+        properties.SetMultiple("Key", [1, 2]);
         properties.GetMultiple<int>("Key").Should().Equal(1, 2);
     }
 
@@ -720,7 +720,7 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.Set("Key", 1);
 
-        properties.Invoking(p => p.SetMultiple("Key", new[] { 1, 2 }))
+        properties.Invoking(p => p.SetMultiple("Key", [1, 2]))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Property \"Key\" is a single value.");
     }
@@ -729,9 +729,9 @@ public sealed class PropertiesTests
     public void SetMultiple_ThrowsIfExistingValueOfADifferentType()
     {
         var properties = new Properties();
-        properties.SetMultiple("One", new[] { 1, 2 });
+        properties.SetMultiple("One", [1, 2]);
 
-        properties.Invoking(p => p.SetMultiple("One", new[] { "1", "2" }))
+        properties.Invoking(p => p.SetMultiple("One", ["1", "2"]))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Property \"One\" has values of type Int32; cannot change to String.");
     }
@@ -750,7 +750,7 @@ public sealed class PropertiesTests
     {
         var properties = new Properties();
 
-        properties.SetMultiple<object>("Key", new[] { "Value" });
+        properties.SetMultiple<object>("Key", ["Value"]);
 
         properties.GetMultiple<object>("Key").Should().Equal("Value");
     }
@@ -868,10 +868,10 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.GetMultiple<int>("Key").Should().BeEmpty();
 
-        properties.AddRangeToMultiple("Key", new[] { 1, 2 });
+        properties.AddRangeToMultiple("Key", [1, 2]);
         properties.GetMultiple<int>("Key").Should().Equal(1, 2);
 
-        properties.AddRangeToMultiple("Key", new[] { 3, 4 });
+        properties.AddRangeToMultiple("Key", [3, 4]);
         properties.GetMultiple<int>("Key").Should().Equal(1, 2, 3, 4);
     }
 
@@ -881,7 +881,7 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.Set("Key", 1);
 
-        properties.Invoking(p => p.AddRangeToMultiple("Key", new[] { 1, 2 }))
+        properties.Invoking(p => p.AddRangeToMultiple("Key", [1, 2]))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Property \"Key\" is a single value.");
     }
@@ -892,7 +892,7 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.AddToMultiple("One", 1);
 
-        properties.Invoking(p => p.AddRangeToMultiple("One", new[] { "1", "2" }))
+        properties.Invoking(p => p.AddRangeToMultiple("One", ["1", "2"]))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Property \"One\" has values of type Int32; cannot change to String.");
     }
@@ -902,7 +902,7 @@ public sealed class PropertiesTests
     {
         var properties = new Properties();
 
-        properties.AddRangeToMultiple<object>("Key", new[] { "1", "2" });
+        properties.AddRangeToMultiple<object>("Key", ["1", "2"]);
 
         properties.GetMultiple<object>("Key").Should().Equal("1", "2");
     }
@@ -915,8 +915,8 @@ public sealed class PropertiesTests
         properties.Set("SingleTwo", "Two");
         properties.Set<object>("SingleThree", "Two");
 
-        properties.SetMultiple("MultipleOne", new[] { 1, 2 });
-        properties.SetMultiple("MultipleTwo", new[] { "1", "2" });
+        properties.SetMultiple("MultipleOne", [1, 2]);
+        properties.SetMultiple("MultipleTwo", ["1", "2"]);
         properties.SetMultiple("MultipleThree", new object[] { 1, "2" });
 
         var copy = properties.Copy();

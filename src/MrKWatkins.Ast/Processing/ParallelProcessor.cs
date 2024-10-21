@@ -130,11 +130,5 @@ internal sealed class ParallelProcessor<TNode> : Processor<TNode>
         }
     }
 
-    private sealed class SerialContext : Context
-    {
-        public SerialContext(IReadOnlyList<Processor<TNode>> processors, TNode root)
-            : base(processors, root)
-        {
-        }
-    }
+    private sealed class SerialContext(IReadOnlyList<Processor<TNode>> processors, TNode root) : Context(processors, root);
 }

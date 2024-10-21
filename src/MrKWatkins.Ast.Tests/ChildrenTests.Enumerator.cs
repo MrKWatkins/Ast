@@ -22,12 +22,12 @@ public sealed partial class ChildrenTests
         C3 = new CNode { Name = nameof(C3) };
         New1 = new CNode { Name = nameof(New1) };
         New2 = new CNode { Name = nameof(New2) };
-        Children = new[] { C1, C2, C3 };
+        Children = [C1, C2, C3];
         P.Children.Add(Children);
     }
 
     [Test]
-    public void Enumeration() => TestEnumeration(_ => { }, new[] { C1, C2, C3 });
+    public void Enumeration() => TestEnumeration(_ => { }, [C1, C2, C3]);
 
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
@@ -73,7 +73,7 @@ public sealed partial class ChildrenTests
             }
         },
         // First and second enumerations will contain the new sibling as we add it after the child.
-        Children.SelectMany(c => c.Name == toAdd ? new[] { c, New1 } : new[] { c }));
+        Children.SelectMany(c => c.Name == toAdd ? [c, New1] : new[] { c }));
 
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
@@ -88,7 +88,7 @@ public sealed partial class ChildrenTests
             }
         },
         // First and second enumerations will contain the new siblings as we add them after the child.
-        Children.SelectMany(c => c.Name == toAdd ? new[] { c, New1, New2 } : new[] { c }));
+        Children.SelectMany(c => c.Name == toAdd ? [c, New1, New2] : new[] { c }));
 
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
@@ -104,7 +104,7 @@ public sealed partial class ChildrenTests
         // First enumerations will not contain the new sibling as we add it before the child.
         Children,
         // Second enumerations will contain the new sibling.
-        Children.SelectMany(c => c.Name == toAdd ? new[] { New1, c } : new[] { c }));
+        Children.SelectMany(c => c.Name == toAdd ? [New1, c] : new[] { c }));
 
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
@@ -121,7 +121,7 @@ public sealed partial class ChildrenTests
         // First enumerations will not contain the new sibling sas we add them before the child.
         Children,
         // Second enumerations will contain the new siblings.
-        Children.SelectMany(c => c.Name == toAdd ? new[] { New2, New1, c } : new[] { c }));
+        Children.SelectMany(c => c.Name == toAdd ? [New2, New1, c] : new[] { c }));
 
     [TestCase(nameof(C1))]
     [TestCase(nameof(C2))]
@@ -152,7 +152,7 @@ public sealed partial class ChildrenTests
                 }
             },
             // First and second enumerations will not contain the removed sibling as we remove it after the child.
-            new[] { C1 });
+            [C1]);
 
     [TestCase(nameof(C2))]
     [TestCase(nameof(C3))]
@@ -187,7 +187,7 @@ public sealed partial class ChildrenTests
             // First enumeration will contain the removed siblings as they were removed after enumerating.
             Children,
             // Second enumeration will not contain the removed siblings.
-            new[] { C3 });
+            [C3]);
 
     private void TestEnumeration(Action<TestNode> action, [InstantHandle] IEnumerable<TestNode> expectedFirstEnumeration, [InstantHandle] IEnumerable<TestNode>? expectedSecondEnumeration = null)
     {

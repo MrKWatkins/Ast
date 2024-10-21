@@ -274,22 +274,12 @@ public sealed class ReplacerTests : TreeTestFixture
         grandchild.Should().BeOfType<CNode>();
     }
 
-    private sealed class TestReplacer : Replacer<TestNode>
+    private sealed class TestReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TestNode?> createReplacement, bool? processReplacements = null)
+        : Replacer<TestNode>
     {
-        private readonly Func<TestNode, bool> shouldReplace;
-        private readonly Func<TestNode, TestNode?> createReplacement;
-        private readonly bool? processReplacements;
-
         public TestReplacer(TestNode original, TestNode? replacement, bool? processReplacements = null)
             : this(node => node == original, _ => replacement, processReplacements)
         {
-        }
-
-        public TestReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TestNode?> createReplacement, bool? processReplacements = null)
-        {
-            this.shouldReplace = shouldReplace;
-            this.createReplacement = createReplacement;
-            this.processReplacements = processReplacements;
         }
 
         protected override TestNode? ReplaceNode(TestNode node) => shouldReplace(node) ? createReplacement(node) : node;
@@ -297,22 +287,12 @@ public sealed class ReplacerTests : TreeTestFixture
         protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
     }
 
-    private sealed class TestOriginalTypedReplacer : Replacer<TestNode, BNode>
+    private sealed class TestOriginalTypedReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TestNode?> createReplacement, bool? processReplacements = null)
+        : Replacer<TestNode, BNode>
     {
-        private readonly Func<TestNode, bool> shouldReplace;
-        private readonly Func<TestNode, TestNode?> createReplacement;
-        private readonly bool? processReplacements;
-
         public TestOriginalTypedReplacer(TestNode original, TestNode? replacement, bool? processReplacements = null)
             : this(node => node == original, _ => replacement, processReplacements)
         {
-        }
-
-        public TestOriginalTypedReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TestNode?> createReplacement, bool? processReplacements = null)
-        {
-            this.shouldReplace = shouldReplace;
-            this.createReplacement = createReplacement;
-            this.processReplacements = processReplacements;
         }
 
         protected override TestNode? ReplaceNode(BNode node) => shouldReplace(node) ? createReplacement(node) : node;
@@ -320,23 +300,13 @@ public sealed class ReplacerTests : TreeTestFixture
         protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
     }
 
-    private sealed class TestOriginalAndReplacementTypedReplacer<TReplacement> : Replacer<TestNode, BNode, TReplacement>
+    private sealed class TestOriginalAndReplacementTypedReplacer<TReplacement>(Func<TestNode, bool> shouldReplace, Func<TestNode, TReplacement?> createReplacement, bool? processReplacements = null)
+        : Replacer<TestNode, BNode, TReplacement>
         where TReplacement : TestNode
     {
-        private readonly Func<TestNode, bool> shouldReplace;
-        private readonly Func<TestNode, TReplacement?> createReplacement;
-        private readonly bool? processReplacements;
-
         public TestOriginalAndReplacementTypedReplacer(TestNode original, TReplacement? replacement, bool? processReplacements = null)
             : this(node => node == original, _ => replacement, processReplacements)
         {
-        }
-
-        public TestOriginalAndReplacementTypedReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TReplacement?> createReplacement, bool? processReplacements = null)
-        {
-            this.shouldReplace = shouldReplace;
-            this.createReplacement = createReplacement;
-            this.processReplacements = processReplacements;
         }
 
         protected override TReplacement? ReplaceNode(BNode node) => shouldReplace(node) ? createReplacement(node) : null;

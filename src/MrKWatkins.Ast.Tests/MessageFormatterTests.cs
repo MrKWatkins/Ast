@@ -30,7 +30,7 @@ public sealed class MessageFormatterTests
     [Test]
     public void Format_Level()
     {
-        var grandchild = new CNode { SourcePosition = new BinaryFilePosition(new BinaryFile("Non-Text File", new byte[] { 1, 2, 3 }), 1, 1) };
+        var grandchild = new CNode { SourcePosition = new BinaryFilePosition(new BinaryFile("Non-Text File", [1, 2, 3]), 1, 1) };
         var child = new BNode(grandchild);
         var parent = new ANode(child) { SourcePosition = new TextFilePosition(new TextFile("Test File", "Some Test Text"), 5, 4, 0, 5) };
 
@@ -54,7 +54,7 @@ public sealed class MessageFormatterTests
     [Test]
     public void Format()
     {
-        var grandchild = new CNode { SourcePosition = new BinaryFilePosition(new BinaryFile("Non-Text File", new byte[] { 1, 2, 3 }), 1, 1) };
+        var grandchild = new CNode { SourcePosition = new BinaryFilePosition(new BinaryFile("Non-Text File", [1, 2, 3]), 1, 1) };
         var child = new BNode(grandchild);
         var parent = new ANode(child) { SourcePosition = new TextFilePosition(new TextFile("Test File", "Some Test Text"), 5, 4, 0, 5) };
 

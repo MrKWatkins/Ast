@@ -109,7 +109,7 @@ public sealed class OrderedProcessorTests : TreeTestFixture
             .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
     }
 
-    public sealed class TestOrderedProcessor : OrderedProcessor<TestNode>
+    private sealed class TestOrderedProcessor : OrderedProcessor<TestNode>
     {
         private readonly List<TestNode> processed = new();
 

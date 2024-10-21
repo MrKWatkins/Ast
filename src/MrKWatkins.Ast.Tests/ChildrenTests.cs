@@ -36,9 +36,10 @@ public sealed partial class ChildrenTests
     }
 
     [Test]
+    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public void Add_IEnumerable_SetsParentOnChildren()
     {
-        IEnumerable<TestNode> children = new TestNode[] { new ANode(), new CNode(), new ANode() };
+        IEnumerable<TestNode> children = [new ANode(), new CNode(), new ANode()];
 
         var parent = new BNode();
         parent.Children.Add(children.Select(x => x));
@@ -52,7 +53,7 @@ public sealed partial class ChildrenTests
         var child = new ANode();
         _ = new BNode(child);
 
-        IEnumerable<TestNode> children = new TestNode[] { new ANode(), child, new ANode() };
+        IEnumerable<TestNode> children = [new ANode(), child, new ANode()];
 
         new ANode().Children.Invoking(c => c.Add(children.Select(x => x)))
             .Should().Throw<InvalidOperationException>()
@@ -177,7 +178,7 @@ public sealed partial class ChildrenTests
         var target = new TestNode[5];
         ((IList<TestNode>) node.Children).CopyTo(target, 1);
 
-        target.Should().BeEquivalentTo(new[] { null, node.Children[0], node.Children[1], node.Children[2], null }, c => c.WithoutStrictOrdering());
+        target.Should().BeEquivalentTo([null, node.Children[0], node.Children[1], node.Children[2], null], c => c.WithoutStrictOrdering());
     }
 
     [Test]
@@ -191,7 +192,7 @@ public sealed partial class ChildrenTests
 
         children[1].HasParent.Should().BeFalse();
 
-        parent.Children.Should().BeEquivalentTo(new[] { children[0], children[2] }, c => c.WithoutStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([children[0], children[2]], c => c.WithoutStrictOrdering());
         parent.Children.Should().OnlyContain(child => child.Parent == parent);
     }
 
@@ -228,7 +229,7 @@ public sealed partial class ChildrenTests
         var newParent = new CNode();
         newParent.Children.Move(child);
 
-        newParent.Children.Should().BeEquivalentTo(new[] { child });
+        newParent.Children.Should().BeEquivalentTo([child]);
         child.Parent.Should().BeSameAs(newParent);
     }
 
@@ -243,7 +244,7 @@ public sealed partial class ChildrenTests
 
         parent.Children.Should().BeEmpty();
 
-        newParent.Children.Should().BeEquivalentTo(new[] { child });
+        newParent.Children.Should().BeEquivalentTo([child]);
         child.Parent.Should().BeSameAs(newParent);
     }
 
@@ -252,12 +253,13 @@ public sealed partial class ChildrenTests
     {
         var child = new BNode();
         var parent = new ANode(child);
-        parent.Children.Invoking(c => c.Move((IEnumerable<BNode>) new[] { new BNode(), child }))
+        parent.Children.Invoking(c => c.Move((IEnumerable<BNode>) [new BNode(), child]))
             .Should().Throw<InvalidOperationException>()
             .WithMessage("node is already in this collection.");
     }
 
     [Test]
+    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public void Move_IEnumerable_HasParent()
     {
         var child1 = new BNode();
@@ -265,7 +267,7 @@ public sealed partial class ChildrenTests
 
         var child2 = new BNode();
 
-        IEnumerable<TestNode> children = new[] { child1, child2 };
+        IEnumerable<TestNode> children = [child1, child2];
 
         var newParent = new CNode();
         newParent.Children.Move(children);
@@ -292,7 +294,7 @@ public sealed partial class ChildrenTests
 
         parent.Children.Should().BeEmpty();
 
-        newParent.Children.Should().BeEquivalentTo(new[] { newParentChild, child1, child2 }, c => c.WithoutStrictOrdering());
+        newParent.Children.Should().BeEquivalentTo([newParentChild, child1, child2], c => c.WithoutStrictOrdering());
         child1.Parent.Should().BeSameAs(newParent);
         child2.Parent.Should().BeSameAs(newParent);
     }
@@ -320,7 +322,7 @@ public sealed partial class ChildrenTests
 
         parent.Children.Should().BeEmpty();
 
-        newParent.Children.Should().BeEquivalentTo(new[] { child1, child2 }, c => c.WithoutStrictOrdering());
+        newParent.Children.Should().BeEquivalentTo([child1, child2], c => c.WithoutStrictOrdering());
         child1.Parent.Should().BeSameAs(newParent);
         child2.Parent.Should().BeSameAs(newParent);
     }
@@ -409,7 +411,7 @@ public sealed partial class ChildrenTests
         parent.Children.Insert(1, child3);
 
         child3.Parent.Should().BeSameAs(parent);
-        parent.Children.Should().BeEquivalentTo(new[] { child1, child3, child2 }, c => c.WithoutStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, child3, child2], c => c.WithoutStrictOrdering());
     }
 
     [Test]
@@ -434,7 +436,7 @@ public sealed partial class ChildrenTests
         parent.Children.RemoveAt(1).Should().BeSameAs(child2);
 
         child2.HasParent.Should().BeFalse();
-        parent.Children.Should().BeEquivalentTo(new[] { child1, child3 }, c => c.WithoutStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, child3], c => c.WithoutStrictOrdering());
 
         // Use UnsafeGet to check the space at the end has been nulled out.
         parent.Children.UnsafeGet(2).Should().BeNull();
@@ -462,7 +464,7 @@ public sealed partial class ChildrenTests
         ((IList<TestNode>) parent.Children).RemoveAt(1);
 
         child2.HasParent.Should().BeFalse();
-        parent.Children.Should().BeEquivalentTo(new[] { child1, child3 }, c => c.WithoutStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, child3], c => c.WithoutStrictOrdering());
     }
 
     [Test]
@@ -528,7 +530,7 @@ public sealed partial class ChildrenTests
 
         parent.Children.Replace(child2, new2);
 
-        parent.Children.Should().BeEquivalentTo(new[] { child1, new2, child3 }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, new2, child3], c => c.WithStrictOrdering());
 
         child2.HasParent.Should().BeFalse();
         new2.Parent.Should().BeSameAs(parent);
@@ -548,7 +550,7 @@ public sealed partial class ChildrenTests
 
         parent.Children.Replace(child2, new2);
 
-        parent.Children.Should().BeEquivalentTo(new[] { child1, new2, child3 }, c => c.WithStrictOrdering());
+        parent.Children.Should().BeEquivalentTo([child1, new2, child3], c => c.WithStrictOrdering());
 
         child2.HasParent.Should().BeFalse();
         new2.Parent.Should().BeSameAs(parent);
@@ -584,8 +586,8 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(b1, a, b2);
 
-        parent.Children.OfType<ANode>().Should().BeEquivalentTo(new[] { a });
-        parent.Children.OfType<BNode>().Should().BeEquivalentTo(new[] { b1, b2 }, c => c.WithStrictOrdering());
+        parent.Children.OfType<ANode>().Should().BeEquivalentTo([a]);
+        parent.Children.OfType<BNode>().Should().BeEquivalentTo([b1, b2], c => c.WithStrictOrdering());
         parent.Children.OfType<CNode>().Should().BeEmpty();
     }
 
@@ -598,8 +600,8 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(b1, a, b2);
 
-        parent.Children.ExceptOfType<ANode>().Should().BeEquivalentTo(new[] { b1, b2 }, c => c.WithStrictOrdering());
-        parent.Children.ExceptOfType<BNode>().Should().BeEquivalentTo(new[] { a });
+        parent.Children.ExceptOfType<ANode>().Should().BeEquivalentTo([b1, b2], c => c.WithStrictOrdering());
+        parent.Children.ExceptOfType<BNode>().Should().BeEquivalentTo([a]);
         parent.Children.ExceptOfType<CNode>().Should().BeEquivalentTo(new TestNode[] { b1, a, b2 }, c => c.WithStrictOrdering());
     }
 

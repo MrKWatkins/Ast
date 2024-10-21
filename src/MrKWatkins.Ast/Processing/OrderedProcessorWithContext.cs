@@ -18,7 +18,7 @@ public abstract class OrderedProcessorWithContext<TContext, TNode> : Processor<T
     }
 
     /// <summary>
-    /// Override to create the context object. 
+    /// Override to create the context object.
     /// </summary>
     /// <param name="root">The root node for the processing.</param>
     /// <returns>The context object.</returns>
@@ -81,7 +81,7 @@ public abstract class OrderedProcessorWithContext<TContext, TBaseNode, TNode> : 
     }
 
     /// <summary>
-    /// Override to create the context object. 
+    /// Override to create the context object.
     /// </summary>
     /// <param name="root">The root node for the processing.</param>
     /// <returns>The context object.</returns>
@@ -91,6 +91,7 @@ public abstract class OrderedProcessorWithContext<TContext, TBaseNode, TNode> : 
     /// <summary>
     /// Override this property to specify the <see cref="ITraversal{TNode}" /> to use to traverse the tree. Defaults to <see cref="DepthFirstPreOrderTraversal{TNode}" />.
     /// </summary>
+    [PublicAPI]
     protected virtual ITraversal<TBaseNode> Traversal => DepthFirstPreOrderTraversal<TBaseNode>.Instance;
 
     private protected sealed override IEnumerable<TBaseNode> EnumerateNodes(ProcessorState<TBaseNode> state, TBaseNode root) =>

@@ -413,7 +413,7 @@ public sealed class Properties
         }
         else
         {
-            list = new List<T>();
+            list = [];
             properties.Add(key, new Property(true, typeof(T), list));
         }
 
@@ -448,7 +448,7 @@ public sealed class Properties
             return false;
         }
 
-        list = new List<T>();
+        list = [];
         properties.Add(key, new Property(true, typeof(T), list));
 
         list.Add(value);
@@ -474,7 +474,7 @@ public sealed class Properties
         }
         else
         {
-            list = new List<T>();
+            list = [];
             properties.Add(key, new Property(true, typeof(T), list));
         }
 
@@ -508,7 +508,7 @@ public sealed class Properties
         var listType = typeof(List<>).MakeGenericType(itemType);
         var list = Expression.Convert(parameter, listType);
 
-        var constructor = listType.GetConstructor(new[] { typeof(IEnumerable<>).MakeGenericType(itemType) })!;
+        var constructor = listType.GetConstructor([typeof(IEnumerable<>).MakeGenericType(itemType)])!;
         var newList = Expression.New(constructor, list);
 
         var lambda = Expression.Lambda<Func<object, object>>(newList, parameter);
@@ -546,19 +546,12 @@ public sealed class Properties
         return (List<T>) property.Value;
     }
 
-    private readonly struct Property
+    private readonly struct Property(bool multiple, Type type, object value)
     {
-        public Property(bool multiple, Type type, object value)
-        {
-            Multiple = multiple;
-            Type = type;
-            Value = value;
-        }
+        public bool Multiple { get; } = multiple;
 
-        public bool Multiple { get; }
+        public Type Type { get; } = type;
 
-        public Type Type { get; }
-
-        public object Value { get; }
+        public object Value { get; } = value;
     }
 }

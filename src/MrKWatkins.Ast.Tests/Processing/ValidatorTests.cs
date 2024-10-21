@@ -16,9 +16,9 @@ public sealed class ValidatorTests : TreeTestFixture
 
         validator.Process(N1);
 
-        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo(new[] { N12, N121 });
-        N12.Messages.Should().BeEquivalentTo(new[] { Message.Error("N12 Error") });
-        N121.Messages.Should().BeEquivalentTo(new[] { Message.Warning("N121 Warning"), Message.Error("N121 Error") });
+        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo([N12, N121]);
+        N12.Messages.Should().BeEquivalentTo([Message.Error("N12 Error")]);
+        N121.Messages.Should().BeEquivalentTo([Message.Warning("N121 Warning"), Message.Error("N121 Error")]);
     }
 
     [Test]
@@ -34,10 +34,10 @@ public sealed class ValidatorTests : TreeTestFixture
 
         validator.Process(N1);
 
-        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo(new[] { N1, N11, N121 });
-        N1.Messages.Should().BeEquivalentTo(new[] { Message.Error("N1 Error") });
-        N11.Messages.Should().BeEquivalentTo(new[] { Message.Info("N11 Info") });
-        N121.Messages.Should().BeEquivalentTo(new[] { Message.Warning("N121 Warning"), Message.Error("N121 Error") });
+        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo([N1, N11, N121]);
+        N1.Messages.Should().BeEquivalentTo([Message.Error("N1 Error")]);
+        N11.Messages.Should().BeEquivalentTo([Message.Info("N11 Info")]);
+        N121.Messages.Should().BeEquivalentTo([Message.Warning("N121 Warning"), Message.Error("N121 Error")]);
     }
 
     [Test]
@@ -54,9 +54,9 @@ public sealed class ValidatorTests : TreeTestFixture
 
         validator.Process(N1);
 
-        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo(new[] { N1, N121 });
-        N1.Messages.Should().BeEquivalentTo(new[] { Message.Error("N1 Error") });
-        N121.Messages.Should().BeEquivalentTo(new[] { Message.Warning("N121 Warning"), Message.Error("N121 Error") });
+        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo([N1, N121]);
+        N1.Messages.Should().BeEquivalentTo([Message.Error("N1 Error")]);
+        N121.Messages.Should().BeEquivalentTo([Message.Warning("N121 Warning"), Message.Error("N121 Error")]);
     }
 
     private sealed class TestValidator : Validator<TestNode>, IEnumerable

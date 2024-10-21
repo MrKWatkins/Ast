@@ -19,7 +19,7 @@ public sealed class CompositeListener<TContext, TBaseNode> : Listener<TContext, 
     [Pure]
     public static ICompositeListenerBuilder<TContext, TBaseNode> Build() => new CompositeListener<TContext, TBaseNode>();
 
-    internal CompositeListener()
+    private CompositeListener()
     {
     }
 

@@ -20,7 +20,7 @@ public sealed partial class Children<TNode> : IList<TNode>
     internal Children(TNode parent)
     {
         this.parent = parent;
-        nodes = Array.Empty<TNode>();
+        nodes = [];
     }
 
     internal Children(TNode parent, [InstantHandle] IEnumerable<TNode> nodes)
@@ -232,7 +232,7 @@ public sealed partial class Children<TNode> : IList<TNode>
             }
             else
             {
-                nodes = Array.Empty<TNode>();
+                nodes = [];
             }
         }
     }

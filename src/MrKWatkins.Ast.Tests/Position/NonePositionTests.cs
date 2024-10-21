@@ -18,7 +18,7 @@ public sealed class NonePositionTests : EqualityTestFixture
     {
         yield return new TestCaseData(SourcePosition.None, SourcePosition.None, true).SetName("Reference equals");
         yield return new TestCaseData(SourcePosition.None, null, false).SetName("Null");
-        yield return new TestCaseData(SourcePosition.None, new BinaryFilePosition(new BinaryFile("Test", new byte[] { 1, 2, 3 }), 0, 1), false).SetName("Different SourcePosition type");
+        yield return new TestCaseData(SourcePosition.None, new BinaryFilePosition(new BinaryFile("Test", [1, 2, 3]), 0, 1), false).SetName("Different SourcePosition type");
         yield return new TestCaseData(SourcePosition.None, "Different", false).SetName("Different type");
     }
 }

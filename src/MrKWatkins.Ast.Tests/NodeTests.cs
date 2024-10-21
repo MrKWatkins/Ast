@@ -15,9 +15,10 @@ public sealed partial class NodeTests
     }
 
     [Test]
+    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public void Constructor_IEnumerable()
     {
-        IEnumerable<TestNode> children = new TestNode[] { new ANode(), new BNode(), new CNode() };
+        IEnumerable<TestNode> children = [new ANode(), new BNode(), new CNode()];
 
         var root = new ANode(children);
         root.HasParent.Should().BeFalse();
@@ -66,7 +67,7 @@ public sealed partial class NodeTests
         var node = new ANode();
         node.SourcePosition.Should().BeSameAs(MrKWatkins.Ast.Position.SourcePosition.None);
 
-        var position = new BinaryFilePosition(new BinaryFile("Test File", new byte[] { 1, 2, 3 }), 0, 1);
+        var position = new BinaryFilePosition(new BinaryFile("Test File", [1, 2, 3]), 0, 1);
         node.SourcePosition = position;
         node.SourcePosition.Should().BeSameAs(position);
     }

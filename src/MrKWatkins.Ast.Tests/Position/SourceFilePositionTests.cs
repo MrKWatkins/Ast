@@ -129,21 +129,10 @@ public sealed class SourceFilePositionTests
         (positionX + positionY).Should().BeSameAs(combined);
     }
 
-    private sealed class TestFile : SourceFile
-    {
-        public TestFile(string name, int length)
-            : base(name, length)
-        {
-        }
-    }
+    private sealed class TestFile(string name, int length) : SourceFile(name, length);
 
-    private sealed class TestPosition : SourceFilePosition<TestPosition, TestFile>
+    private sealed class TestPosition(TestFile file, int startIndex, int length) : SourceFilePosition<TestPosition, TestFile>(file, startIndex, length)
     {
-        public TestPosition(TestFile file, int startIndex, int length)
-            : base(file, startIndex, length)
-        {
-        }
-
         protected override TestPosition CreateCombination(TestPosition other) => Combined;
 
         public TestPosition Combined { get; init; } = null!;

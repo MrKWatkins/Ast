@@ -143,14 +143,9 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
         }
     }
 
-    private sealed class TestContext
+    private sealed class TestContext(TestNode root)
     {
-        public TestContext(TestNode root)
-        {
-            Root = root;
-        }
-
-        public TestNode Root { get; }
+        public TestNode Root { get; } = root;
 
         public int NodesProcessed { get; set; }
     }

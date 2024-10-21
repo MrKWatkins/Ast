@@ -96,7 +96,7 @@ public sealed class TextFileTests : FileTextFixture
         yield return new TestCaseData(file, new TextFile("Test Name", " \t Test Line 0\n   Test Line 1"), true).SetName("Value equals");
         yield return new TestCaseData(file, new TextFile("Another Name", " \t Test Line 0\n   Test Line 1"), false).SetName("Different name");
         yield return new TestCaseData(file, null, false).SetName("Null");
-        yield return new TestCaseData(file, new BinaryFile("Test", new byte[] { 1, 2, 3 }), false).SetName("Different SourceFile type");
+        yield return new TestCaseData(file, new BinaryFile("Test", [1, 2, 3]), false).SetName("Different SourceFile type");
         yield return new TestCaseData(file, "Different", false).SetName("Different type");
     }
 }

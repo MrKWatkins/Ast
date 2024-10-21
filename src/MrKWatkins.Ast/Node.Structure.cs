@@ -162,7 +162,7 @@ public abstract partial class Node<TNode>
     /// Lazily enumerates over the next siblings, i.e. the children from the same <see cref="Parent" /> at subsequent positional indices in ascending
     /// index order.
     /// </summary>
-    public IEnumerable<TNode> NextSiblings => HasParent ? Parent.Children.Skip(GetIndexOfSelf() + 1) : Enumerable.Empty<TNode>();
+    public IEnumerable<TNode> NextSiblings => HasParent ? Parent.Children.Skip(GetIndexOfSelf() + 1) : [];
 
     /// <summary>
     /// Lazily enumerates over this node then the next siblings, i.e. the children from the same <see cref="Parent" /> at subsequent positional indices

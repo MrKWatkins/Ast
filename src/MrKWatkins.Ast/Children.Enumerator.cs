@@ -14,16 +14,10 @@ public sealed partial class Children<TNode>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    internal struct Enumerator : IEnumerator<TNode>
+    internal struct Enumerator(Children<TNode> children) : IEnumerator<TNode>
     {
-        private readonly Children<TNode> children;
         private int index = -1;
         private int countBeforeLastIteration = 0;
-
-        public Enumerator(Children<TNode> children)
-        {
-            this.children = children;
-        }
 
         public bool MoveNext()
         {

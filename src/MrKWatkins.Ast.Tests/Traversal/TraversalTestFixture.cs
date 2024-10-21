@@ -96,7 +96,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
         }
 
         // Sibling will appear in the enumeration as we insert it after the node.
-        var expected = ExpectedOrderWithRoot.SelectMany(n => n == N122 ? new[] { N122, sibling } : new[] { n }).ToList();
+        var expected = ExpectedOrderWithRoot.SelectMany(n => n == N122 ? [N122, sibling] : new[] { n }).ToList();
         actual.Should().HaveSameOrderAs(expected);
 
         // Tree has been mutated so sibling will appear in subsequent enumerations.
@@ -145,7 +145,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
         actual.Should().HaveSameOrderAs(ExpectedOrderWithRoot);
 
         // Tree has been mutated so sibling will appear in subsequent enumerations.
-        var expected = ExpectedOrderWithRoot.SelectMany(n => n == N122 ? new[] { sibling, N122 } : new[] { n }).ToList();
+        var expected = ExpectedOrderWithRoot.SelectMany(n => n == N122 ? [sibling, N122] : new[] { n }).ToList();
         Traversal.Enumerate(N1).Should().HaveSameOrderAs(expected);
     }
 
