@@ -22,12 +22,12 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
     {
         if (startIndex < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, "Value must be 0 or greater.");
+            throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, "Value must be greater than 0.");
         }
 
         if (length < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(length), length, "Value must be 0 or greater.");
+            throw new ArgumentOutOfRangeException(nameof(length), length, "Value must be greater than 0.");
         }
 
         if (startIndex >= file.Length)

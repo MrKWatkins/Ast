@@ -10,7 +10,7 @@ public sealed class SourceFilePositionTests
         var file = new TestFile("Test Name", 10);
         FluentActions.Invoking(() => new TestPosition(file, -1, 5))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be 0 or greater. (Parameter 'startIndex'){Environment.NewLine}Actual value was -1.");
+            .WithMessage($"Value must be greater than 0. (Parameter 'startIndex'){Environment.NewLine}Actual value was -1.");
     }
 
     [Test]
@@ -19,7 +19,7 @@ public sealed class SourceFilePositionTests
         var file = new TestFile("Test Name", 10);
         FluentActions.Invoking(() => new TestPosition(file, 0, -1))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be 0 or greater. (Parameter 'length'){Environment.NewLine}Actual value was -1.");
+            .WithMessage($"Value must be greater than 0. (Parameter 'length'){Environment.NewLine}Actual value was -1.");
     }
 
     [TestCase(10, 10)]

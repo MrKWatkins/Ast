@@ -4,12 +4,11 @@ namespace MrKWatkins.Ast.Tests.Position;
 
 public sealed class SourceFileTests : EqualityTestFixture
 {
-    [TestCase(0)]
-    [TestCase(-1)]
-    public void Constructor_ThrowsIfLengthLessThanOrEqualToZero(int length) =>
-        FluentActions.Invoking(() => new TestSourceFile("Test Name", length))
+    [Test]
+    public void Constructor_ThrowsIfLengthNegative() =>
+        FluentActions.Invoking(() => new TestSourceFile("Test Name", -1))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be greater than 0. (Parameter 'length'){Environment.NewLine}Actual value was {length}.");
+            .WithMessage($"Value must be greater than 0. (Parameter 'length'){Environment.NewLine}Actual value was {-1}.");
 
     [Test]
     public void Constructor()

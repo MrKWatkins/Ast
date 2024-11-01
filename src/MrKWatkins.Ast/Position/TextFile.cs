@@ -54,6 +54,11 @@ public sealed class TextFile : SourceFile
     public IReadOnlyList<string> Lines { get; }
 
     /// <summary>
+    /// Returns <c>true</c> if the file is empty.
+    /// </summary>
+    public bool IsEmpty => Lines.Count == 0;
+
+    /// <summary>
     /// Creates a <see cref="TextFilePosition" /> from this <see cref="TextFile" />.
     /// </summary>
     /// <param name="startIndex">The start index of the position in the file.</param>
@@ -69,8 +74,17 @@ public sealed class TextFile : SourceFile
     /// Creates a <see cref="TextFilePosition" /> from this <see cref="TextFile" /> that represents the whole file.
     /// </summary>
     /// <returns>A new <see cref="TextFilePosition" /> instance.</returns>
+    /// <exception cref="InvalidOperationException"> If the file <see cref="IsEmpty"/>.</exception>
     [Pure]
-    public TextFilePosition CreateEntireFilePosition() => new(this, 0, Length, 0, 0);
+    public TextFilePosition CreateEntireFilePosition()
+    {
+        if (IsEmpty)
+        {
+            throw new InvalidOperationException("File is empty.");
+        }
+
+        return new TextFilePosition(this, 0, Length, 0, 0);
+    }
 
     [Pure]
     private static string ReadStream(Stream stream)

@@ -12,7 +12,7 @@ public sealed class TextFilePositionTests : EqualityTestFixture
 
         FluentActions.Invoking(() => new TextFilePosition(textFile, 0, 5, -1, 0))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be 0 or greater. (Parameter 'startLineIndex'){Environment.NewLine}Actual value was -1.");
+            .WithMessage($"Value must be greater than 0. (Parameter 'startLineIndex'){Environment.NewLine}Actual value was -1.");
     }
 
     [Test]
@@ -22,7 +22,7 @@ public sealed class TextFilePositionTests : EqualityTestFixture
 
         FluentActions.Invoking(() => new TextFilePosition(textFile, 0, 5, 0, -1))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be 0 or greater. (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was -1.");
+            .WithMessage($"Value must be greater than 0. (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was -1.");
     }
 
     [TestCase(2)]

@@ -12,12 +12,12 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
     {
         if (startLineIndex < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(startLineIndex), startLineIndex, "Value must be 0 or greater.");
+            throw new ArgumentOutOfRangeException(nameof(startLineIndex), startLineIndex, "Value must be greater than 0.");
         }
 
         if (startColumnIndex < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(startColumnIndex), startColumnIndex, "Value must be 0 or greater.");
+            throw new ArgumentOutOfRangeException(nameof(startColumnIndex), startColumnIndex, "Value must be greater than 0.");
         }
 
         if (startLineIndex >= File.Lines.Count)

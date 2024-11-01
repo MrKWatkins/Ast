@@ -36,7 +36,7 @@ public sealed class TextFileTests : FileTextFixture
     }
 
     [Test]
-    public void Constructor_IReadOnlyList()
+    public void Constructor_String()
     {
         const string text = "Some Text";
 
@@ -44,6 +44,19 @@ public sealed class TextFileTests : FileTextFixture
         textFile.Name.Should().Be("Test Filename");
         textFile.Text.Should().Be(text);
         textFile.Length.Should().Be(text.Length);
+        textFile.Lines.Count.Should().Be(1);
+        textFile.IsEmpty.Should().BeFalse();
+    }
+
+    [Test]
+    public void Constructor_Empty()
+    {
+        var textFile = new TextFile("Test Filename", "");
+        textFile.Name.Should().Be("Test Filename");
+        textFile.Text.Should().Be("");
+        textFile.Length.Should().Be(0);
+        textFile.Lines.Count.Should().Be(0);
+        textFile.IsEmpty.Should().BeTrue();
     }
 
     [Test]
@@ -82,6 +95,14 @@ public sealed class TextFileTests : FileTextFixture
         position.StartColumnNumber.Should().Be(1);
         position.StartLine.Should().Be("Some Text");
         position.Text.Should().Be(text);
+    }
+
+    [Test]
+    public void CreateEntireFilePosition_Empty()
+    {
+        var textFile = new TextFile("Test Filename", "");
+
+        textFile.Invoking(f => f.CreateEntireFilePosition()).Should().Throw<InvalidOperationException>();
     }
 
     [TestCaseSource(nameof(EqualityTestCases))]

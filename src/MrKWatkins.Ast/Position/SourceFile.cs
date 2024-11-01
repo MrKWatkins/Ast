@@ -17,7 +17,8 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
     /// </exception>
     protected SourceFile(string name, int length)
     {
-        if (length <= 0)
+        ArgumentNullException.ThrowIfNull(name);
+        if (length < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(length), length, "Value must be greater than 0.");
         }
