@@ -21,7 +21,7 @@ public abstract class PropertyNode<TNode> : Node<TNode>
     /// </summary>
     /// <param name="children">The children to add.</param>
     /// <exception cref="InvalidOperationException">If any of <see cref="Node{TNode}.Children" /> already have a <see cref="Node{TNode}.Parent" />.</exception>
-    protected PropertyNode([InstantHandle] IEnumerable<TNode> children)
+    protected PropertyNode([InstantHandle] params IEnumerable<TNode> children)
         : base(children)
     {
     }

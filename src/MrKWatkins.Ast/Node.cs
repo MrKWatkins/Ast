@@ -22,7 +22,7 @@ public abstract partial class Node<TNode>
     /// </summary>
     /// <param name="children">The children to add.</param>
     /// <exception cref="InvalidOperationException">If any of <see cref="Children" /> already have a <see cref="Parent" />.</exception>
-    protected Node([InstantHandle] IEnumerable<TNode> children)
+    protected Node([InstantHandle] params IEnumerable<TNode> children)
     {
         Children = new Children<TNode>(This, children);
     }

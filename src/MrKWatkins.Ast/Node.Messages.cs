@@ -5,7 +5,7 @@ namespace MrKWatkins.Ast;
 public abstract partial class Node<TNode>
     where TNode : Node<TNode>
 {
-    private readonly object messagesLock = new();
+    private readonly Lock messagesLock = new();
     private ImmutableList<Message> messages = ImmutableList<Message>.Empty;
 
     /// <summary>

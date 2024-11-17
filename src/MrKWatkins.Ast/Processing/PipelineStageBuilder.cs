@@ -42,7 +42,7 @@ public abstract class PipelineStageBuilder<TSelf, TProcessor, TNode>
     /// <param name="processor">The first processor to add.</param>
     /// <param name="others">Other processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public TSelf Add(TProcessor processor, params TProcessor[] others)
+    public TSelf Add(TProcessor processor, [InstantHandle] params IEnumerable<TProcessor> others)
     {
         Processors.Add(processor);
         Processors.AddRange(others);

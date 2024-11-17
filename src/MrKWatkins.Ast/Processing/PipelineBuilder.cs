@@ -50,7 +50,7 @@ public sealed class PipelineBuilder<TNode>
     /// <param name="processor">The first processor to add.</param>
     /// <param name="others">Other processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddStage(Processor<TNode> processor, params Processor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddStage(Processor<TNode> processor, [InstantHandle] params IEnumerable<Processor<TNode>> others) =>
         AddStage(b => b.Add(processor, others));
 
     /// <summary>
@@ -60,7 +60,7 @@ public sealed class PipelineBuilder<TNode>
     /// <param name="processor">The first processor to add.</param>
     /// <param name="others">Other processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddStage(string name, Processor<TNode> processor, params Processor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddStage(string name, Processor<TNode> processor, [InstantHandle] params IEnumerable<Processor<TNode>> others) =>
         AddStage(b => b.WithName(name).Add(processor, others));
 
     /// <summary>
@@ -85,7 +85,7 @@ public sealed class PipelineBuilder<TNode>
     /// <param name="processor2">The second processor to add.</param>
     /// <param name="others">Other processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddParallelStage(UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, params UnorderedProcessor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddParallelStage(UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> others) =>
         AddParallelStage(b => b.Add(processor1).Add(processor2, others));
 
     /// <summary>
@@ -97,7 +97,7 @@ public sealed class PipelineBuilder<TNode>
     /// <param name="processor2">The second processor to add.</param>
     /// <param name="others">Other processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddParallelStage(string name, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, params UnorderedProcessor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddParallelStage(string name, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> others) =>
         AddParallelStage(b => b.WithName(name).Add(processor1).Add(processor2, others));
 
     /// <summary>
@@ -112,7 +112,7 @@ public sealed class PipelineBuilder<TNode>
     /// <param name="processor2">The second processor to add.</param>
     /// <param name="others">Other processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddParallelStage(int maxDegreeOfParallelism, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, params UnorderedProcessor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddParallelStage(int maxDegreeOfParallelism, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> others) =>
         AddParallelStage(b => b.Add(processor1).Add(processor2, others).WithMaxDegreeOfParallelism(maxDegreeOfParallelism));
 
     /// <summary>
@@ -128,7 +128,6 @@ public sealed class PipelineBuilder<TNode>
     /// <param name="processor2">The second processor to add.</param>
     /// <param name="others">Other processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddParallelStage(string name, int maxDegreeOfParallelism, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2,
-        params UnorderedProcessor<TNode>[] others) =>
+    public PipelineBuilder<TNode> AddParallelStage(string name, int maxDegreeOfParallelism, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> others) =>
         AddParallelStage(b => b.WithName(name).Add(processor1).Add(processor2, others).WithMaxDegreeOfParallelism(maxDegreeOfParallelism));
 }

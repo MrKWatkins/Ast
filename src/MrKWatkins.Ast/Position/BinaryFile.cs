@@ -61,7 +61,7 @@ public sealed class BinaryFile : SourceFile
     public BinaryFilePosition CreateEntireFilePosition() => new(this, 0, Length);
 
     [Pure]
-    private static IReadOnlyList<byte> ReadStream(Stream stream)
+    private static byte[] ReadStream(Stream stream)
     {
         using var memoryStream = new MemoryStream();
         stream.CopyTo(memoryStream);
