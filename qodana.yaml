@@ -1,12 +1,15 @@
 ﻿version: "1.0"
 
-linter: jetbrains/qodana-cdnet:2024.2-eap
+linter: jetbrains/qodana-cdnet:2024.3-eap
 
 profile:
   name: qodana.recommended
 
 include:
   - name: CheckDependencyLicenses
+
+bootstrap: |
+  curl -fsSL https://dot.net/v1/dotnet-install.sh | bash -s -- -v 9.0.101 -i /usr/share/dotnet
 
 dotnet:
   solution: src/Ast.sln
