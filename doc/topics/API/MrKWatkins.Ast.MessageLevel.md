@@ -4,7 +4,7 @@
 The [Level](MrKWatkins.Ast.Message.Level.md) of a [Message](MrKWatkins.Ast.Message.md).
 
 ```c#
-public sealed enum MessageLevel : IComparable, ISpanFormattable, IFormattable, IConvertible
+public enum MessageLevel
 ```
 
 ## Fields
