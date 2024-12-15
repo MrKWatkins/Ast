@@ -1,7 +1,8 @@
 # MrKWatkins.Ast
 
 [![Build Status](https://github.com/MrKWatkins/Ast/actions/workflows/build.yml/badge.svg)](https://github.com/MrKWatkins/Ast/actions/workflows/build.yml)
-[![NuGet Version and Download Count](https://buildstats.info/nuget/MrKWatkins.Ast)](https://www.nuget.org/packages/MrKWatkins.Ast)
+[![NuGet Version](https://img.shields.io/nuget/v/MrKWatkins.Ast)](https://www.nuget.org/packages/MrKWatkins.Ast)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/MrKWatkins.Ast)](https://www.nuget.org/packages/MrKWatkins.Ast)
 
 > C# library to build and manipulate abstract syntax trees when writing compilers.
 
