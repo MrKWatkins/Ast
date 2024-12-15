@@ -19,7 +19,7 @@ protected Node();
 Initialises a new instance of the [Node&lt;TNode&gt;](MrKWatkins.Ast.Node-1.md) class with the specified children.
 
 ```c#
-protected Node(IEnumerable<TNode> children);
+protected Node(params IEnumerable<TNode> children);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-node-1-ctor(system-collections-generic-ienumerable((-0)))"}

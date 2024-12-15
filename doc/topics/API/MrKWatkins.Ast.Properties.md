@@ -4,7 +4,7 @@
 A collection of properties for a node. Properties allow you to store arbitrary data against a node and will be copying during calls to [Copy()](MrKWatkins.Ast.PropertyNode-1.Copy.md#mrkwatkins-ast-propertynode-1-copy). Properties can have a single value or multiple values.
 
 ```c#
-public sealed class Properties
+public sealed class Properties : IEnumerable<KeyValuePair<String, Object>>, IEnumerable
 ```
 
 ## Properties
@@ -20,6 +20,7 @@ public sealed class Properties
 | [AddRangeToMultiple&lt;T&gt;(String, IEnumerable&lt;T&gt;)](MrKWatkins.Ast.Properties.AddRangeToMultiple.md) | Adds values to a multiple valued property with the specified key. |
 | [AddToMultiple&lt;T&gt;(String, T)](MrKWatkins.Ast.Properties.AddToMultiple.md) | Adds a value to a multiple valued property with the specified key. |
 | [ContainsKey(String)](MrKWatkins.Ast.Properties.ContainsKey.md) | Tests whether a property exists with the specified key. |
+| [GetEnumerator()](MrKWatkins.Ast.Properties.GetEnumerator.md) | Returns an enumerator that enumerates over the properties. Returns the name as the key and an untyped object for the value. This will be the object itself for single value properties and a [List&lt;T&gt;](https://learn.microsoft.com/en-gb/dotnet/api/System.Collections.Generic.List-1) of objects for multiple value properties. |
 | [GetMultiple&lt;T&gt;(String)](MrKWatkins.Ast.Properties.GetMultiple.md) | Gets the values of a multiple valued property with the specified key. |
 | [GetOrAdd&lt;T&gt;(String, Func&lt;String, T&gt;)](MrKWatkins.Ast.Properties.GetOrAdd.md) | Gets the value of a single valued property with the specified key or returns a default value if the property does not exist. |
 | [GetOrDefault&lt;T&gt;(String, T)](MrKWatkins.Ast.Properties.GetOrDefault.md) | Gets the value of a single valued property with the specified key or returns a default value if the property does not exist. |

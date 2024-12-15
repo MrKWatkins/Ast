@@ -19,6 +19,7 @@ public sealed class TextFile : SourceFile, IEquatable<SourceFile>, IEqualityOper
 
 | Name | Description |
 | ---- | ----------- |
+| [IsEmpty](MrKWatkins.Ast.Position.TextFile.IsEmpty.md) | Returns `true` if the file is empty. |
 | [Lines](MrKWatkins.Ast.Position.TextFile.Lines.md) | The individual lines in the file. |
 | [Text](MrKWatkins.Ast.Position.TextFile.Text.md) | The text of the file. |
 

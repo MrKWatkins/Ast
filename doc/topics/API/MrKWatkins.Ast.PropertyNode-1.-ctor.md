@@ -19,7 +19,7 @@ protected PropertyNode();
 Initialises a new instance of the [Node&lt;TNode&gt;](MrKWatkins.Ast.Node-1.md) class with the specified children.
 
 ```c#
-protected PropertyNode(IEnumerable<TNode> children);
+protected PropertyNode(params IEnumerable<TNode> children);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-propertynode-1-ctor(system-collections-generic-ienumerable((-0)))"}

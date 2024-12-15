@@ -12,7 +12,7 @@ protected virtual bool ShouldListenToChildren(TContext? context, TNode node);
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | context | TContext | The context object. |
-| node | TNode | The node who&#39;s children should be listened to or not. |
+| node | TNode | The node whose children should be listened to or not. |
 
 ## Returns
 

@@ -152,6 +152,7 @@
           <toc-element toc-title="AddRangeToMultiple" topic="MrKWatkins.Ast.Properties.AddRangeToMultiple.md" />
           <toc-element toc-title="AddToMultiple" topic="MrKWatkins.Ast.Properties.AddToMultiple.md" />
           <toc-element toc-title="ContainsKey" topic="MrKWatkins.Ast.Properties.ContainsKey.md" />
+          <toc-element toc-title="GetEnumerator" topic="MrKWatkins.Ast.Properties.GetEnumerator.md" />
           <toc-element toc-title="GetMultiple" topic="MrKWatkins.Ast.Properties.GetMultiple.md" />
           <toc-element toc-title="GetOrAdd" topic="MrKWatkins.Ast.Properties.GetOrAdd.md" />
           <toc-element toc-title="GetOrDefault" topic="MrKWatkins.Ast.Properties.GetOrDefault.md" />
@@ -170,6 +171,7 @@
         </toc-element>
         <toc-element toc-title="Methods">
           <toc-element toc-title="Copy" topic="MrKWatkins.Ast.PropertyNode-1.Copy.md" />
+          <toc-element toc-title="EnumerateProperties" topic="MrKWatkins.Ast.PropertyNode-1.EnumerateProperties.md" />
         </toc-element>
       </toc-element>
     </toc-element>
@@ -303,6 +305,7 @@
         <toc-element toc-title="TextFile" topic="MrKWatkins.Ast.Position.TextFile.md" />
         <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Position.TextFile.-ctor.md" />
         <toc-element toc-title="Properties">
+          <toc-element toc-title="IsEmpty" topic="MrKWatkins.Ast.Position.TextFile.IsEmpty.md" />
           <toc-element toc-title="Lines" topic="MrKWatkins.Ast.Position.TextFile.Lines.md" />
           <toc-element toc-title="Text" topic="MrKWatkins.Ast.Position.TextFile.Text.md" />
         </toc-element>

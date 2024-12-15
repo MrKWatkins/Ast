@@ -378,7 +378,7 @@ public sealed class PropertiesTests
         properties.GetOrDefault<string>("Two").Should().BeNull();
         properties.GetOrDefault("Two", "Default").Should().Be("Default");
 
-        properties.GetOrDefault<int>("Two").Should().Be(default);
+        properties.GetOrDefault<int>("Two").Should().Be(0);
         properties.GetOrDefault("Two", 123).Should().Be(123);
     }
 
@@ -542,7 +542,7 @@ public sealed class PropertiesTests
     public void Set()
     {
         var properties = new Properties();
-        properties.GetOrDefault<int>("Key").Should().Be(default);
+        properties.GetOrDefault<int>("Key").Should().Be(0);
 
         properties.Set("Key", 1);
         properties.GetOrDefault<int>("Key").Should().Be(1);
