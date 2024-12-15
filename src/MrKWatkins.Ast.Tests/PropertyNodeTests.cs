@@ -71,6 +71,18 @@ public sealed class PropertyNodeTests
         childCopy.Children.Should().BeEmpty();
     }
 
+    [Test]
+    public void EnumerateProperties()
+    {
+        var node = new ANode { Name = "Child" };
+        var expected = new KeyValuePair<string, object>[]
+        {
+            new ("Name", "Child")
+        };
+
+        node.EnumerateProperties().Should().BeEquivalentTo(expected);
+    }
+
     private sealed class CustomNodeFactory : INodeFactory<TestNode>
     {
         public TestNode Create(Type nodeType) => new CNode();

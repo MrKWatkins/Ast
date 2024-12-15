@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text;
 
 namespace MrKWatkins.Ast.Tests;
@@ -934,6 +935,33 @@ public sealed class PropertiesTests
 
         copy.AddToMultiple("MultipleOne", 3);
         properties.GetMultiple<int>("MultipleOne").Should().Equal(1, 2);
+    }
+
+    [Test]
+    public void Enumerate()
+    {
+        var properties = new Properties();
+        properties.Set("SingleOne", 1);
+        properties.Set("SingleTwo", "Two");
+        properties.Set<object>("SingleThree", "Two");
+
+        properties.SetMultiple("MultipleOne", [1, 2]);
+        properties.SetMultiple("MultipleTwo", ["1", "2"]);
+        properties.SetMultiple("MultipleThree", new object[] { 1, "2" });
+
+        var expected = new KeyValuePair<string, object>[]
+        {
+            new ("SingleOne", 1),
+            new("SingleTwo", "Two"),
+            new("SingleThree", "Two"),
+
+            new("MultipleOne", new List<object> { 1, 2 }),
+            new("MultipleTwo", new List<object> { "1", "2" }),
+            new("MultipleThree", new List<object> { 1, "2" }),
+        };
+
+        properties.Should().BeEquivalentTo(expected);
+        ((IEnumerable) properties).Should().BeEquivalentTo(expected);
     }
 
     [DoesNotReturn]

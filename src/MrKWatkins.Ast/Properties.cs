@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
 
@@ -7,7 +8,7 @@ namespace MrKWatkins.Ast;
 /// A collection of properties for a node. Properties allow you to store arbitrary data against a node and will be copying during
 /// calls to <see cref="PropertyNode{TNode}.Copy()"/>. Properties can have a single value or multiple values.
 /// </summary>
-public sealed class Properties
+public sealed class Properties : IEnumerable<KeyValuePair<string, object>>
 {
     private static readonly ConcurrentDictionary<Type, Func<object, object>> ListCopiers = new();
     private readonly Dictionary<string, Property> properties;
@@ -545,6 +546,25 @@ public sealed class Properties
 
         return (List<T>) property.Value;
     }
+
+    [Pure]
+    private IEnumerable<KeyValuePair<string, object>> Enumerate()
+    {
+        foreach (var (name, property) in properties)
+        {
+            yield return new KeyValuePair<string, object>(name, property.Value);
+        }
+    }
+
+    /// <summary>
+    /// Returns an enumerator that enumerates over the properties. Returns the name as the key and an untyped
+    /// object for the value. This will be the object itself for single value properties and a
+    /// <see cref="List{T}"/> of objects for multiple value properties.
+    /// </summary>
+    /// <returns>An enumerator.</returns>
+    public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => Enumerate().GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     private readonly struct Property(bool multiple, Type type, object value)
     {

@@ -33,6 +33,15 @@ public abstract class PropertyNode<TNode> : Node<TNode>
     protected Properties Properties => properties ??= new Properties();
 
     /// <summary>
+    /// Returns an <see cref="IEnumerable{T}"/> that enumerates over the properties as <see cref="KeyValuePair{TKey, TValue}"/>s.
+    /// Returns the name as the key and an untyped object for the value. This will be the object itself for single value properties
+    /// and a <see cref="List{T}"/> of objects for multiple value properties.
+    /// </summary>
+    /// <returns>An <see cref="IEnumerable{T}"/>.</returns>
+    [Pure]
+    public IEnumerable<KeyValuePair<string, object>> EnumerateProperties() => Properties;
+
+    /// <summary>
     /// Copies this node and its <see cref="Properties"/> using the <see cref="DefaultNodeFactory{TNode}" />.
     /// </summary>
     /// <remarks>
