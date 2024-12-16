@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build
 
 on:
   push:
@@ -12,33 +12,25 @@ permissions:
 
 jobs:
   Build:
-    name: Build and Test
+    name: Build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0.x
-
-      - name: Build and Test MrKWatkins.Ast
-        uses: ./.github/actions/build
+      - name: Build MrKWatkins.Ast
+        uses: MrKWatkins/dotnet-build@main
         with:
           name: MrKWatkins.Ast
           directory: ./src
 
-      - name: Build and Test Examples
-        uses: ./.github/actions/build
+      - name: Build Examples
+        uses: MrKWatkins/dotnet-build@main
         with:
           name: Examples
           directory: ./examples
-          assembly-filter: "+*;-MrKWatkins.Ast"
+          coverage-run-settings: coverage.runsettings
 
       - name: Build Documentation
         uses: ./.github/actions/build-documentation
