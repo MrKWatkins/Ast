@@ -8,6 +8,12 @@ on:
         required: true
         type: string
 
+permissions:
+  checks: write
+  contents: write
+  id-token: write
+  pages: write
+
 jobs:
   Release:
     name: Release ${{ inputs.version }}
@@ -32,3 +38,10 @@ jobs:
 
       - name: Create Release
         run: gh release create v${{ inputs.version }} --generate-notes
+
+      - name: Deploy Documentation
+        uses: MrKWatkins/writerside-build@main
+        with:
+          instance: MrKWatkins.Ast
+          deploy: true
+          version: ${{ inputs.version }}
