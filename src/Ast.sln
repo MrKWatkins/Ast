@@ -28,18 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		..\.github\workflows\codeql.yml = ..\.github\workflows\codeql.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "actions", "actions", "{830EE115-DF07-4B1E-BAA7-6527FE7E827A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-documentation", "build-documentation", "{CA1458CD-AF36-4CC0-8110-A63DCD33851C}"
-	ProjectSection(SolutionItems) = preProject
-		..\.github\actions\build-documentation\action.yml = ..\.github\actions\build-documentation\action.yml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy-documentation", "deploy-documentation", "{DF990584-4938-4AB1-B17F-1AF978FABD6A}"
-	ProjectSection(SolutionItems) = preProject
-		..\.github\actions\deploy-documentation\action.yml = ..\.github\actions\deploy-documentation\action.yml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,8 +46,5 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C893FF4B-FA20-4B58-B7D3-3DA372503F01} = {0EE2E846-632C-4EA4-88D8-82A90776FC8D}
 		{2DC33C7E-4983-471B-B34B-9FFCCB0A62F9} = {C893FF4B-FA20-4B58-B7D3-3DA372503F01}
-		{830EE115-DF07-4B1E-BAA7-6527FE7E827A} = {C893FF4B-FA20-4B58-B7D3-3DA372503F01}
-		{CA1458CD-AF36-4CC0-8110-A63DCD33851C} = {830EE115-DF07-4B1E-BAA7-6527FE7E827A}
-		{DF990584-4938-4AB1-B17F-1AF978FABD6A} = {830EE115-DF07-4B1E-BAA7-6527FE7E827A}
 	EndGlobalSection
 EndGlobal

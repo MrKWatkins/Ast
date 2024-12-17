@@ -23,7 +23,7 @@ jobs:
         uses: MrKWatkins/dotnet-build@main
         with:
           name: MrKWatkins.Ast
-          directory: ./src
+          directory: src
 
       - name: Build Examples
         uses: MrKWatkins/dotnet-build@main
@@ -33,8 +33,6 @@ jobs:
           coverage-run-settings: coverage.runsettings
 
       - name: Build Documentation
-        uses: ./.github/actions/build-documentation
-
-      - name: Deploy Documentation
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: ./.github/actions/deploy-documentation
+        uses: MrKWatkins/writerside-build@main
+        with:
+          instance: MrKWatkins.Ast
