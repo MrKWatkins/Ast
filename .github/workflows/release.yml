@@ -25,19 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0.x
-
-      - name: Create Package
-        run: dotnet pack ./src/ /p:Version=${{ inputs.version }} -p:SymbolPackageFormat=snupkg --configuration Release --include-symbols --output ./packages/
-
       - name: Publish to NuGet
-        run: dotnet nuget push ./packages/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
-
-      - name: Create Release
-        run: gh release create v${{ inputs.version }} --generate-notes
+        uses: MrKWatkins/nuget-publish@main
+        with:
+          nuget-api-key: ${{ secrets.NUGET_API_KEY }}
+          version: ${{ inputs.version }}
 
       - name: Deploy Documentation
         uses: MrKWatkins/writerside-build@main
