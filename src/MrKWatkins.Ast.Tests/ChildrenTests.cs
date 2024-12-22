@@ -476,8 +476,11 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(child1, child2, child3);
         parent.Children[0].Should().BeSameAs(child1);
+        parent.Children[^3].Should().BeSameAs(child1);
         parent.Children[1].Should().BeSameAs(child2);
+        parent.Children[^2].Should().BeSameAs(child2);
         parent.Children[2].Should().BeSameAs(child3);
+        parent.Children[^1].Should().BeSameAs(child3);
 
         var new2 = new BNode();
 
@@ -515,6 +518,158 @@ public sealed partial class ChildrenTests
             .Should().Throw<InvalidOperationException>()
             .WithMessage("Node is already the child of another node.");
     }
+
+    [Test]
+    public void Slice()
+    {
+        var child1 = new BNode();
+        var child2 = new BNode();
+        var child3 = new BNode();
+
+        var parent = new ANode(child1, child2, child3);
+        var slice = parent.Children[..1];
+        slice.Should().BeEquivalentTo([child1]);
+
+        slice = parent.Children.Slice(1, 2);
+        slice.Should().BeEquivalentTo([child2, child3]);
+
+        slice = parent.Children[..];
+        slice.Should().BeEquivalentTo([child1, child2, child3]);
+
+        slice = parent.Children.Slice(1, 0);
+        slice.Should().BeEquivalentTo(Array.Empty<TestNode>());
+    }
+
+    [Test]
+    public void Slice_ThrowsIfIndexIsNegative() =>
+        new ANode().Children.Invoking(c => _ = c.Slice(-1, 0)).Should().Throw<ArgumentOutOfRangeException>();
+
+    [Test]
+    public void Slice_ThrowsIfCountIsNegative() =>
+        // ReSharper disable once ReplaceSliceWithRangeIndexer
+        new ANode().Children.Invoking(c => _ = c.Slice(0, -1)).Should().Throw<ArgumentOutOfRangeException>();
+
+    [Test]
+    public void Slice_ThrowsIfIndexAndCountAreOutOfRange() =>
+        new ANode(new BNode(), new BNode()).Children.Invoking(c => _ = c[..5]).Should().Throw<ArgumentException>();
+
+    [Test]
+    public void EnumerateSlice()
+    {
+        var child1 = new BNode();
+        var child2 = new BNode();
+        var child3 = new BNode();
+
+        var parent = new ANode(child1, child2, child3);
+        var slice = parent.Children.EnumerateSlice(0, 1);
+        slice.Should().BeEquivalentTo([child1]);
+
+        slice = parent.Children.EnumerateSlice(1, 2);
+        slice.Should().BeEquivalentTo([child2, child3]);
+
+        slice = parent.Children.EnumerateSlice(0, 3);
+        slice.Should().BeEquivalentTo([child1, child2, child3]);
+
+        slice = parent.Children.EnumerateSlice(1, 0);
+        slice.Should().BeEquivalentTo(Array.Empty<TestNode>());
+    }
+
+    [Test]
+    public void EnumerateSlice_ThrowsIfIndexIsNegative() =>
+        new ANode().Children.Invoking(c => _ = c.EnumerateSlice(-1, 0)).Should().Throw<ArgumentOutOfRangeException>();
+
+    [Test]
+    public void EnumerateSlice_ThrowsIfCountIsNegative() =>
+        // ReSharper disable once ReplaceEnumerateSliceWithRangeIndexer
+        new ANode().Children.Invoking(c => _ = c.EnumerateSlice(0, -1)).Should().Throw<ArgumentOutOfRangeException>();
+
+    [Test]
+    public void EnumerateSlice_ThrowsIfIndexAndCountAreOutOfRange() =>
+        new ANode(new BNode(), new BNode()).Children.Invoking(c => _ = c.EnumerateSlice(0, 5)).Should().Throw<ArgumentException>();
+
+    [Test]
+    public void EnumerateSlice_Range()
+    {
+        var child1 = new BNode();
+        var child2 = new BNode();
+        var child3 = new BNode();
+
+        var parent = new ANode(child1, child2, child3);
+        var slice = parent.Children.EnumerateSlice(..1);
+        slice.Should().BeEquivalentTo([child1]);
+
+        slice = parent.Children.EnumerateSlice(1..2);
+        slice.Should().BeEquivalentTo([child2]);
+
+        slice = parent.Children.EnumerateSlice(..);
+        slice.Should().BeEquivalentTo([child1, child2, child3]);
+
+        slice = parent.Children.EnumerateSlice(1..1);
+        slice.Should().BeEquivalentTo(Array.Empty<TestNode>());
+    }
+
+    [Test]
+    public void EnumerateSlice_Range_ThrowsIfIndexAndCountAreOutOfRange() =>
+        new ANode(new BNode(), new BNode()).Children.Invoking(c => _ = c.EnumerateSlice(..5)).Should().Throw<ArgumentException>();
+
+    [Test]
+    public void UnsafeSlice()
+    {
+        var child1 = new BNode();
+        var child2 = new BNode();
+        var child3 = new BNode();
+
+        var parent = new ANode(child1, child2, child3);
+        var slice = parent.Children.UnsafeSlice(0, 1);
+        slice.ToArray().Should().BeEquivalentTo([child1]);
+
+        slice = parent.Children.UnsafeSlice(1, 2);
+        slice.ToArray().Should().BeEquivalentTo([child2, child3]);
+
+        slice = parent.Children.UnsafeSlice(0, 3);
+        slice.ToArray().Should().BeEquivalentTo([child1, child2, child3]);
+
+        slice = parent.Children.UnsafeSlice(1, 0);
+        slice.ToArray().Should().BeEquivalentTo(Array.Empty<TestNode>());
+    }
+
+    [Test]
+    public void UnsafeSlice_ThrowsIfIndexIsNegative() =>
+        new ANode().Children.Invoking(c => _ = c.UnsafeSlice(-1, 0)).Should().Throw<ArgumentOutOfRangeException>();
+
+    [Test]
+    public void UnsafeSlice_ThrowsIfCountIsNegative() =>
+        // ReSharper disable once ReplaceUnsafeSliceWithRangeIndexer
+        new ANode().Children.Invoking(c => _ = c.UnsafeSlice(0, -1)).Should().Throw<ArgumentOutOfRangeException>();
+
+    [Test]
+    public void UnsafeSlice_ThrowsIfIndexAndCountAreOutOfRange() =>
+        new ANode(new BNode(), new BNode()).Children.Invoking(c => _ = c.UnsafeSlice(0, 5)).Should().Throw<ArgumentOutOfRangeException>();
+
+    [Test]
+    public void UnsafeSlice_Range()
+    {
+        var child1 = new BNode();
+        var child2 = new BNode();
+        var child3 = new BNode();
+
+        var parent = new ANode(child1, child2, child3);
+        var slice = parent.Children.UnsafeSlice(..1);
+        slice.ToArray().Should().BeEquivalentTo([child1]);
+
+        slice = parent.Children.UnsafeSlice(1..2);
+        slice.ToArray().Should().BeEquivalentTo([child2]);
+
+        slice = parent.Children.UnsafeSlice(..3);
+        slice.ToArray().Should().BeEquivalentTo([child1, child2, child3]);
+
+        slice = parent.Children.UnsafeSlice(1..1);
+        slice.ToArray().Should().BeEquivalentTo(Array.Empty<TestNode>());
+    }
+
+    [Test]
+    public void UnsafeSlice_Range_ThrowsIfIndexAndCountAreOutOfRange() =>
+        new ANode(new BNode(), new BNode()).Children.Invoking(c => _ = c.UnsafeSlice(..5)).Should().Throw<ArgumentOutOfRangeException>();
 
     [Test]
     public void Replace_HasParent()

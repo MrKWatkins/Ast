@@ -25,6 +25,7 @@
           <toc-element toc-title="Add" topic="MrKWatkins.Ast.Children-1.Add.md" />
           <toc-element toc-title="Clear" topic="MrKWatkins.Ast.Children-1.Clear.md" />
           <toc-element toc-title="Contains" topic="MrKWatkins.Ast.Children-1.Contains.md" />
+          <toc-element toc-title="EnumerateSlice" topic="MrKWatkins.Ast.Children-1.EnumerateSlice.md" />
           <toc-element toc-title="ExceptOfType" topic="MrKWatkins.Ast.Children-1.ExceptOfType.md" />
           <toc-element toc-title="FirstIfTypeOrDefault" topic="MrKWatkins.Ast.Children-1.FirstIfTypeOrDefault.md" />
           <toc-element toc-title="FirstOfType" topic="MrKWatkins.Ast.Children-1.FirstOfType.md" />
@@ -42,7 +43,9 @@
           <toc-element toc-title="Replace" topic="MrKWatkins.Ast.Children-1.Replace.md" />
           <toc-element toc-title="SingleOfType" topic="MrKWatkins.Ast.Children-1.SingleOfType.md" />
           <toc-element toc-title="SingleOfTypeOrDefault" topic="MrKWatkins.Ast.Children-1.SingleOfTypeOrDefault.md" />
+          <toc-element toc-title="Slice" topic="MrKWatkins.Ast.Children-1.Slice.md" />
           <toc-element toc-title="UnsafeGet" topic="MrKWatkins.Ast.Children-1.UnsafeGet.md" />
+          <toc-element toc-title="UnsafeSlice" topic="MrKWatkins.Ast.Children-1.UnsafeSlice.md" />
         </toc-element>
       </toc-element>
       <toc-element toc-title="DefaultNodeFactory&lt;TNode&gt;">

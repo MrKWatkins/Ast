@@ -4,7 +4,7 @@
 Utility methods to format [Messages](MrKWatkins.Ast.Message.md) as strings. Formatting optionally includes the original source code.
 
 ```c#
-public abstract sealed class MessageFormatter
+public static class MessageFormatter
 ```
 
 ## Methods

@@ -365,7 +365,88 @@ public sealed partial class Children<TNode> : IList<TNode>
     }
 
     /// <summary>
-    /// Replaces a node in the collection with another node. The replacement will be removed from its parent and the node being replaced will have it's parent removed.
+    /// Creates a shallow copy of a range of nodes in the source <see cref="Children{TNode}" />.
+    /// </summary>
+    /// <param name="index">The zero-based index at which the range starts.</param>
+    /// <param name="count">The number of nodes in the range.</param>
+    /// <returns>A shallow copy of a range of nodes in the source <see cref="Children{TNode}" />.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> or <paramref name="count"/> are less than 0.</exception>
+    /// <exception cref="ArgumentException">If <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of nodes in the <see cref="Children{TNode}" />.</exception>
+    [Pure]
+    public TNode[] Slice(int index, int count)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(index, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+
+        if (nodes.Length - index < count)
+        {
+            throw new ArgumentException($"{nameof(index)} and {nameof(count)} were out of bounds for the array or {nameof(count)} is greater than the number of children from {nameof(index)} to the end of the collection.");
+        }
+
+        var result = new TNode[count];
+        Array.Copy(nodes, index, result, 0, count);
+        return result;
+    }
+
+    /// <summary>
+    /// Returns a lazy enumeration of a range of nodes in the source <see cref="Children{TNode}" />.
+    /// </summary>
+    /// <param name="index">The zero-based index at which the range starts.</param>
+    /// <param name="count">The number of nodes in the range.</param>
+    /// <returns>A lazy enumeration of a range of nodes in the source <see cref="Children{TNode}" />.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> or <paramref name="count"/> are less than 0.</exception>
+    /// <exception cref="ArgumentException">If <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of nodes in the <see cref="Children{TNode}" />.</exception>
+    [Pure]
+    public IEnumerable<TNode> EnumerateSlice(int index, int count)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(index, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+
+        if (nodes.Length - index < count)
+        {
+            throw new ArgumentException($"{nameof(index)} and {nameof(count)} were out of bounds for the array or {nameof(count)} is greater than the number of children from {nameof(index)} to the end of the collection.");
+        }
+
+        return this.Skip(index).Take(count);
+    }
+
+    /// <summary>
+    /// Returns a lazy enumeration of a range of nodes in the source <see cref="Children{TNode}" />.
+    /// </summary>
+    /// <param name="range">The <see cref="Range"/>.</param>
+    /// <returns>A lazy enumeration of a range of nodes in the source <see cref="Children{TNode}" />.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="range"/> do not denote a valid range of nodes in the <see cref="Children{TNode}" />.</exception>
+    [Pure]
+    public IEnumerable<TNode> EnumerateSlice(Range range)
+    {
+        var start = range.Start.GetOffset(nodes.Length);
+        var end = range.End.GetOffset(nodes.Length);
+        return EnumerateSlice(start, end - start);
+    }
+
+    /// <summary>
+    /// Returns a <see cref="ReadOnlySpan{T}"/> of a range of nodes in the source <see cref="Children{TNode}" />.
+    /// Nodes should not be added or removed from the <see cref="Children{TNode}" /> while the <see cref="ReadOnlySpan{T}"/> is in use.
+    /// </summary>
+    /// <param name="index">The zero-based index at which the range starts.</param>
+    /// <param name="count">The number of nodes in the range.</param>
+    /// <returns>A <see cref="ReadOnlySpan{T}"/> of a range of nodes in the source <see cref="Children{TNode}" />.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> or <paramref name="count"/> do not denote a valid range of nodes in the <see cref="Children{TNode}" />.</exception>
+    [Pure]
+    public ReadOnlySpan<TNode> UnsafeSlice(int index, int count) => nodes.AsSpan().Slice(index, count);
+
+    /// <summary>
+    /// Returns a <see cref="ReadOnlySpan{T}"/> of a range of nodes in the source <see cref="Children{TNode}" />.
+    /// Nodes should not be added or removed from the <see cref="Children{TNode}" /> while the <see cref="ReadOnlySpan{T}"/> is in use.
+    /// </summary>
+    /// <param name="range">The <see cref="Range"/>.</param>
+    /// <returns>A <see cref="ReadOnlySpan{T}"/> of a range of nodes in the source <see cref="Children{TNode}" />.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="range"/> do not denote a valid range of nodes in the <see cref="Children{TNode}" />.</exception>
+    [Pure]
+    public ReadOnlySpan<TNode> UnsafeSlice(Range range) => nodes.AsSpan()[range];
+
+    /// <summary>
+    /// Replaces a node in the collection with another node. The replacement will be removed from its parent and the node being replaced will have its parent removed.
     /// </summary>
     /// <param name="child">The node in the collection to replace.</param>
     /// <param name="replacement">The node to replace <paramref name="child"/> with.</param>
