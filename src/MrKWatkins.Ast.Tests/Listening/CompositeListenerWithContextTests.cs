@@ -13,7 +13,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
 
         builder.Invoking(b => b.With(new TestListener<ANode>()))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("A listener has already been registered for ANode.");
+            .That.Should().HaveMessage("A listener has already been registered for ANode.");
     }
 
     [Test]
@@ -25,7 +25,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
 
         builder.Invoking(b => b.With(new TestListener()))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("A listener has already been registered for TestNode.");
+            .That.Should().HaveMessage("A listener has already been registered for TestNode.");
     }
 
     [Test]
@@ -35,7 +35,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
 
         builder.Invoking(b => b.ToListener())
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("No listeners have been registered.");
+            .That.Should().HaveMessage("No listeners have been registered.");
     }
 
     [Test]
@@ -56,18 +56,18 @@ public sealed class CompositeListenerTests : TreeTestFixture
 
         listener.Listen(context, N1);
 
-        context.Count.Should().Be(6);
-        aListener.Count.Should().Be(4);
-        bChildListener.Count.Should().Be(0);
-        cListener.Count.Should().Be(2);
+        context.Count.Should().Equal(6);
+        aListener.Count.Should().Equal(4);
+        bChildListener.Count.Should().Equal(0);
+        cListener.Count.Should().Equal(2);
 
         // Repeat to ensure cached handlers work.
         listener.Listen(context, N1);
 
-        context.Count.Should().Be(12);
-        aListener.Count.Should().Be(8);
-        bChildListener.Count.Should().Be(0);
-        cListener.Count.Should().Be(4);
+        context.Count.Should().Equal(12);
+        aListener.Count.Should().Equal(8);
+        bChildListener.Count.Should().Equal(0);
+        cListener.Count.Should().Equal(4);
     }
 
     [Test]
@@ -86,15 +86,15 @@ public sealed class CompositeListenerTests : TreeTestFixture
 
         listener.Listen(context, tree);
 
-        context.Count.Should().Be(3);
-        bListener.Count.Should().Be(3);
+        context.Count.Should().Equal(3);
+        bListener.Count.Should().Equal(3);
 
         // Repeat to ensure cached handlers work.
         context = new TestContext();
         listener.Listen(context, tree);
 
-        context.Count.Should().Be(3);
-        bListener.Count.Should().Be(6);
+        context.Count.Should().Equal(3);
+        bListener.Count.Should().Equal(6);
     }
 
     [Test]
@@ -115,16 +115,16 @@ public sealed class CompositeListenerTests : TreeTestFixture
 
         listener.Listen(context, tree);
 
-        context.Count.Should().Be(2);
-        bListener.Count.Should().Be(0);
-        bChildListener.Count.Should().Be(2);
+        context.Count.Should().Equal(2);
+        bListener.Count.Should().Equal(0);
+        bChildListener.Count.Should().Equal(2);
 
         // Repeat to ensure cached handlers work.
         listener.Listen(context, tree);
 
-        context.Count.Should().Be(4);
-        bListener.Count.Should().Be(0);
-        bChildListener.Count.Should().Be(4);
+        context.Count.Should().Equal(4);
+        bListener.Count.Should().Equal(0);
+        bChildListener.Count.Should().Equal(4);
     }
 
     [Test]
@@ -142,14 +142,14 @@ public sealed class CompositeListenerTests : TreeTestFixture
         var context = new TestContext();
         listener.Listen(context, tree);
 
-        context.Count.Should().Be(5);
-        rootListener.Count.Should().Be(5);
+        context.Count.Should().Equal(5);
+        rootListener.Count.Should().Equal(5);
 
         // Repeat to ensure cached handlers work.
         listener.Listen(context, tree);
 
-        context.Count.Should().Be(10);
-        rootListener.Count.Should().Be(10);
+        context.Count.Should().Equal(10);
+        rootListener.Count.Should().Equal(10);
     }
 
     private class BChild : BNode;

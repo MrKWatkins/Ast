@@ -12,9 +12,9 @@ public sealed class BinaryFilePositionTests : EqualityTestFixture
         var file = new BinaryFile("Test Filename", bytes);
 
         var position = new BinaryFilePosition(file, 1, 2);
-        position.File.Should().BeSameAs(file);
-        position.StartIndex.Should().Be(1);
-        position.Length.Should().Be(2);
+        position.File.Should().BeTheSameInstanceAs(file);
+        position.StartIndex.Should().Equal(1);
+        position.Length.Should().Equal(2);
     }
 
     [TestCase(0, 0, 0, 0, 0, 0)]
@@ -31,12 +31,12 @@ public sealed class BinaryFilePositionTests : EqualityTestFixture
         var positionY = new BinaryFilePosition(file, startIndexY, lengthY);
 
         var combined = positionX.Combine(positionY);
-        combined.StartIndex.Should().Be(expectedStartIndex);
-        combined.Length.Should().Be(expectedLength);
+        combined.StartIndex.Should().Equal(expectedStartIndex);
+        combined.Length.Should().Equal(expectedLength);
 
         combined = positionY.Combine(positionX);
-        combined.StartIndex.Should().Be(expectedStartIndex);
-        combined.Length.Should().Be(expectedLength);
+        combined.StartIndex.Should().Equal(expectedStartIndex);
+        combined.Length.Should().Equal(expectedLength);
     }
 
     [Test]
@@ -48,8 +48,8 @@ public sealed class BinaryFilePositionTests : EqualityTestFixture
         var positionX = new BinaryFilePosition(file, 0, 5);
         var positionY = new BinaryFilePosition(file, 2, 2);
 
-        (positionX + positionY).Should().Be(positionX.Combine(positionY));
-        (positionY + positionX).Should().Be(positionY.Combine(positionX));
+        (positionX + positionY).Should().Equal(positionX.Combine(positionY));
+        (positionY + positionX).Should().Equal(positionY.Combine(positionX));
     }
 
     [Test]
@@ -60,7 +60,7 @@ public sealed class BinaryFilePositionTests : EqualityTestFixture
 
         var zeroWidth = position.CreateZeroWidthPrefix();
 
-        zeroWidth.Should().Be(new BinaryFilePosition(file, 2, 0));
+        zeroWidth.Should().Equal(new BinaryFilePosition(file, 2, 0));
     }
 
     [TestCaseSource(nameof(EqualityTestCases))]

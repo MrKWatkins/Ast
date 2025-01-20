@@ -9,7 +9,7 @@ public sealed class ReplacerTests : TreeTestFixture
     {
         var replacer = new TestReplacer(N122, N122);
         replacer.Process(N12);
-        N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
+        N12.Children.Should().SequenceEqual(N121, N122, N123);
     }
 
     [Test]
@@ -17,7 +17,7 @@ public sealed class ReplacerTests : TreeTestFixture
     {
         var replacer = new TestReplacer(N122, null);
         replacer.Process(N12);
-        N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
+        N12.Children.Should().SequenceEqual(N121, N122, N123);
     }
 
     [Test]
@@ -26,7 +26,7 @@ public sealed class ReplacerTests : TreeTestFixture
         var replacement = new ANode { Name = "Replacement" };
         var replacer = new TestReplacer(N122, replacement);
         replacer.Process(N12);
-        N12.Children.Should().HaveSameOrderAs(N121, replacement, N123);
+        N12.Children.Should().SequenceEqual(N121, replacement, N123);
     }
 
     [Test]
@@ -37,10 +37,10 @@ public sealed class ReplacerTests : TreeTestFixture
         var replacer = new TestReplacer(N122, replacement);
 
         replacer.Invoking(p => p.Process(N12))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", N122)
-            .WithInnerException<InvalidOperationException>()
-            .WithMessage("Replacement node Replacement already has a parent Parent.");
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ProcessNode.", N122).Value
+            .InnerException.Should().HaveMessage("Replacement node Replacement already has a parent Parent.");
     }
 
     [Test]
@@ -99,7 +99,7 @@ public sealed class ReplacerTests : TreeTestFixture
     {
         var replacer = new TestOriginalTypedReplacer(N122, N122);
         replacer.Process(N12);
-        N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
+        N12.Children.Should().SequenceEqual(N121, N122, N123);
     }
 
     [Test]
@@ -107,7 +107,7 @@ public sealed class ReplacerTests : TreeTestFixture
     {
         var replacer = new TestOriginalTypedReplacer(N122, null);
         replacer.Process(N12);
-        N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
+        N12.Children.Should().SequenceEqual(N121, N122, N123);
     }
 
     [Test]
@@ -116,7 +116,7 @@ public sealed class ReplacerTests : TreeTestFixture
         var replacement = new ANode { Name = "Replacement" };
         var replacer = new TestOriginalTypedReplacer(N122, replacement);
         replacer.Process(N12);
-        N12.Children.Should().HaveSameOrderAs(N121, replacement, N123);
+        N12.Children.Should().SequenceEqual(N121, replacement, N123);
     }
 
     [Test]
@@ -127,10 +127,10 @@ public sealed class ReplacerTests : TreeTestFixture
         var replacer = new TestOriginalTypedReplacer(N122, replacement);
 
         replacer.Invoking(p => p.Process(N12))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", N122)
-            .WithInnerException<InvalidOperationException>()
-            .WithMessage("Replacement node Replacement already has a parent Parent.");
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ProcessNode.", N122).Value
+            .InnerException.Should().HaveMessage("Replacement node Replacement already has a parent Parent.");
     }
 
     [Test]
@@ -189,7 +189,7 @@ public sealed class ReplacerTests : TreeTestFixture
     {
         var replacer = new TestOriginalAndReplacementTypedReplacer<BNode>(N122, (BNode) N122);
         replacer.Process(N12);
-        N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
+        N12.Children.Should().SequenceEqual(N121, N122, N123);
     }
 
     [Test]
@@ -197,7 +197,7 @@ public sealed class ReplacerTests : TreeTestFixture
     {
         var replacer = new TestOriginalAndReplacementTypedReplacer<ANode>(N122, null);
         replacer.Process(N12);
-        N12.Children.Should().HaveSameOrderAs(N121, N122, N123);
+        N12.Children.Should().SequenceEqual(N121, N122, N123);
     }
 
     [Test]
@@ -206,7 +206,7 @@ public sealed class ReplacerTests : TreeTestFixture
         var replacement = new ANode { Name = "Replacement" };
         var replacer = new TestOriginalAndReplacementTypedReplacer<ANode>(N122, replacement);
         replacer.Process(N12);
-        N12.Children.Should().HaveSameOrderAs(N121, replacement, N123);
+        N12.Children.Should().SequenceEqual(N121, replacement, N123);
     }
 
     [Test]
@@ -217,10 +217,10 @@ public sealed class ReplacerTests : TreeTestFixture
         var replacer = new TestOriginalAndReplacementTypedReplacer<ANode>(N122, replacement);
 
         replacer.Invoking(p => p.Process(N12))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", N122)
-            .WithInnerException<InvalidOperationException>()
-            .WithMessage("Replacement node Replacement already has a parent Parent.");
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ProcessNode.", N122).Value
+            .InnerException.Should().HaveMessage("Replacement node Replacement already has a parent Parent.");
     }
 
     [Test]

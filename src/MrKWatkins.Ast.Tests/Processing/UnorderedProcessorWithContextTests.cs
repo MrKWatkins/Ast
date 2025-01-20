@@ -9,9 +9,9 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
     {
         var processor = new TestUnorderedProcessorWithContext();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
-        processor.Context.Root.Should().BeSameAs(N1);
-        processor.Context.NodesProcessed.Should().Be(NodeCount);
+        processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
+        processor.Context.Root.Should().BeTheSameInstanceAs(N1);
+        processor.Context.NodesProcessed.Should().Equal(NodeCount);
     }
 
     [Test]
@@ -21,9 +21,9 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
         var processor = new TestUnorderedProcessorWithContext { CreateContextOverride = _ => throw exception };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during CreateContext.", N1)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during CreateContext.", N1).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -33,9 +33,10 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
         var processor = new TestUnorderedProcessorWithContext { ShouldProcessNodeOverride = n => n == N13 ? throw exception : true };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessNode.", N13)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ShouldProcessNode.", N13).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -45,9 +46,10 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
         var processor = new TestUnorderedProcessorWithContext { ProcessNodeOverride = n => n == N13 ? throw exception : null };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", N13)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ProcessNode.", N13).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -55,9 +57,9 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
     {
         var processor = new TestTypedUnorderedProcessorWithContext();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1).OfType<BNode>());
-        processor.Context.Root.Should().BeSameAs(N1);
-        processor.Context.NodesProcessed.Should().Be(BNodeCount);
+        processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OfType<BNode>());
+        processor.Context.Root.Should().BeTheSameInstanceAs(N1);
+        processor.Context.NodesProcessed.Should().Equal(BNodeCount);
     }
 
     [Test]
@@ -67,9 +69,10 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
         var processor = new TestTypedUnorderedProcessorWithContext { ShouldProcessNodeOverride = n => n == N122 ? throw exception : true };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessNode.", N122)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ShouldProcessNode.", N122).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -79,9 +82,10 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
         var processor = new TestTypedUnorderedProcessorWithContext { ProcessNodeOverride = n => n == N122 ? throw exception : null };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", N122)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ProcessNode.", N122).And
+            .HaveInnerException(exception);
     }
 
     private sealed class TestUnorderedProcessorWithContext : UnorderedProcessorWithContext<TestContext, TestNode>
@@ -103,7 +107,7 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
 
         protected override void ProcessNode(TestContext context, TestNode node)
         {
-            context.Should().BeSameAs(Context);
+            context.Should().BeTheSameInstanceAs(Context);
             context.NodesProcessed++;
             processed.Add(node);
             ProcessNodeOverride?.Invoke(node);
@@ -111,7 +115,7 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
 
         protected override bool ShouldProcessNode(TestContext context, TestNode node)
         {
-            context.Should().BeSameAs(Context);
+            context.Should().BeTheSameInstanceAs(Context);
             return ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(context, node);
         }
     }
@@ -130,7 +134,7 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
 
         protected override void ProcessNode(TestContext context, BNode node)
         {
-            context.Should().BeSameAs(Context);
+            context.Should().BeTheSameInstanceAs(Context);
             context.NodesProcessed++;
             processed.Add(node);
             ProcessNodeOverride?.Invoke(node);
@@ -138,7 +142,7 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
 
         protected override bool ShouldProcessNode(TestContext context, BNode node)
         {
-            context.Should().BeSameAs(Context);
+            context.Should().BeTheSameInstanceAs(Context);
             return ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(context, node);
         }
     }

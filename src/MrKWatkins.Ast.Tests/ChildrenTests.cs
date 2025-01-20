@@ -11,7 +11,7 @@ public sealed partial class ChildrenTests
         var parent = new BNode();
         parent.Children.Add(child);
 
-        child.Parent.Should().BeSameAs(parent);
+        child.Parent.Should().BeTheSameInstanceAs(parent);
     }
 
     [Test]
@@ -22,7 +22,7 @@ public sealed partial class ChildrenTests
 
         new ANode().Children.Invoking(c => c.Add(child))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node is already the child of another node.");
+            .That.Should().HaveMessage("Node is already the child of another node.");
     }
 
     [Test]
@@ -32,7 +32,7 @@ public sealed partial class ChildrenTests
 
         node.Children.Invoking(c => c.Add(node))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("A node cannot be a child of itself.");
+            .That.Should().HaveMessage("A node cannot be a child of itself.");
     }
 
     [Test]
@@ -57,7 +57,7 @@ public sealed partial class ChildrenTests
 
         new ANode().Children.Invoking(c => c.Add(children.Select(x => x)))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node is already the child of another node.");
+            .That.Should().HaveMessage("Node is already the child of another node.");
     }
 
     [Test]
@@ -81,7 +81,7 @@ public sealed partial class ChildrenTests
 
         new ANode().Children.Invoking(c => c.Add(children))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node is already the child of another node.");
+            .That.Should().HaveMessage("Node is already the child of another node.");
     }
 
     [Test]
@@ -103,7 +103,7 @@ public sealed partial class ChildrenTests
 
         new ANode().Children.Invoking(c => c.Add(new ANode(), child, new ANode()))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node is already the child of another node.");
+            .That.Should().HaveMessage("Node is already the child of another node.");
     }
 
     [Test]
@@ -125,7 +125,7 @@ public sealed partial class ChildrenTests
 
         new ANode().Children.Invoking(c => c.Add(new List<TestNode> { new ANode(), child, new ANode() }))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node is already the child of another node.");
+            .That.Should().HaveMessage("Node is already the child of another node.");
     }
 
     [Test]
@@ -178,7 +178,7 @@ public sealed partial class ChildrenTests
         var target = new TestNode[5];
         ((IList<TestNode>) node.Children).CopyTo(target, 1);
 
-        target.Should().BeEquivalentTo([null, node.Children[0], node.Children[1], node.Children[2], null], c => c.WithoutStrictOrdering());
+        target.Should().SequenceEqual(null, node.Children[0], node.Children[1], node.Children[2], null);
     }
 
     [Test]
@@ -192,7 +192,7 @@ public sealed partial class ChildrenTests
 
         children[1].HasParent.Should().BeFalse();
 
-        parent.Children.Should().BeEquivalentTo([children[0], children[2]], c => c.WithoutStrictOrdering());
+        parent.Children.Should().SequenceEqual(children[0], children[2]);
         parent.Children.Should().OnlyContain(child => child.Parent == parent);
     }
 
@@ -218,7 +218,7 @@ public sealed partial class ChildrenTests
         var parent = new ANode(child);
         parent.Children.Invoking(c => c.Move(child))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("node is already in this collection.");
+            .That.Should().HaveMessage("node is already in this collection.");
     }
 
     [Test]
@@ -229,8 +229,8 @@ public sealed partial class ChildrenTests
         var newParent = new CNode();
         newParent.Children.Move(child);
 
-        newParent.Children.Should().BeEquivalentTo([child]);
-        child.Parent.Should().BeSameAs(newParent);
+        newParent.Children.Should().SequenceEqual(child);
+        child.Parent.Should().BeTheSameInstanceAs(newParent);
     }
 
     [Test]
@@ -244,8 +244,8 @@ public sealed partial class ChildrenTests
 
         parent.Children.Should().BeEmpty();
 
-        newParent.Children.Should().BeEquivalentTo([child]);
-        child.Parent.Should().BeSameAs(newParent);
+        newParent.Children.Should().SequenceEqual(child);
+        child.Parent.Should().BeTheSameInstanceAs(newParent);
     }
 
     [Test]
@@ -255,7 +255,7 @@ public sealed partial class ChildrenTests
         var parent = new ANode(child);
         parent.Children.Invoking(c => c.Move((IEnumerable<BNode>) [new BNode(), child]))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("node is already in this collection.");
+            .That.Should().HaveMessage("node is already in this collection.");
     }
 
     [Test]
@@ -274,9 +274,9 @@ public sealed partial class ChildrenTests
 
         parent.Children.Should().BeEmpty();
 
-        newParent.Children.Should().BeEquivalentTo(children);
-        child1.Parent.Should().BeSameAs(newParent);
-        child2.Parent.Should().BeSameAs(newParent);
+        newParent.Children.Should().SequenceEqual(children);
+        child1.Parent.Should().BeTheSameInstanceAs(newParent);
+        child2.Parent.Should().BeTheSameInstanceAs(newParent);
     }
 
     [Test]
@@ -294,9 +294,9 @@ public sealed partial class ChildrenTests
 
         parent.Children.Should().BeEmpty();
 
-        newParent.Children.Should().BeEquivalentTo([newParentChild, child1, child2], c => c.WithoutStrictOrdering());
-        child1.Parent.Should().BeSameAs(newParent);
-        child2.Parent.Should().BeSameAs(newParent);
+        newParent.Children.Should().SequenceEqual(newParentChild, child1, child2);
+        child1.Parent.Should().BeTheSameInstanceAs(newParent);
+        child2.Parent.Should().BeTheSameInstanceAs(newParent);
     }
 
     [Test]
@@ -306,7 +306,7 @@ public sealed partial class ChildrenTests
         var parent = new ANode(child);
         parent.Children.Invoking(c => c.Move(new BNode(), child))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("node is already in this collection.");
+            .That.Should().HaveMessage("node is already in this collection.");
     }
 
     [Test]
@@ -322,9 +322,9 @@ public sealed partial class ChildrenTests
 
         parent.Children.Should().BeEmpty();
 
-        newParent.Children.Should().BeEquivalentTo([child1, child2], c => c.WithoutStrictOrdering());
-        child1.Parent.Should().BeSameAs(newParent);
-        child2.Parent.Should().BeSameAs(newParent);
+        newParent.Children.Should().SequenceEqual(child1, child2);
+        child1.Parent.Should().BeTheSameInstanceAs(newParent);
+        child2.Parent.Should().BeTheSameInstanceAs(newParent);
     }
 
     [Test]
@@ -332,16 +332,16 @@ public sealed partial class ChildrenTests
     {
         var node = new ANode(new BNode());
 
-        node.Children.Count.Should().Be(1);
+        node.Children.Count.Should().Equal(1);
 
         node.Children.Add(new ANode(), new CNode());
-        node.Children.Count.Should().Be(3);
+        node.Children.Count.Should().Equal(3);
 
         node.Children.Remove(node.Children[1]);
-        node.Children.Count.Should().Be(2);
+        node.Children.Count.Should().Equal(2);
 
         node.Children.Clear();
-        node.Children.Count.Should().Be(0);
+        node.Children.Count.Should().Equal(0);
     }
 
     [Test]
@@ -349,38 +349,38 @@ public sealed partial class ChildrenTests
     {
         var node = new ANode();
 
-        node.Children.Capacity.Should().Be(0);
+        node.Children.Capacity.Should().Equal(0);
 
         node.Children.Add(new ANode());
-        node.Children.Capacity.Should().Be(4);
+        node.Children.Capacity.Should().Equal(4);
 
         node.Children.Add(new ANode(), new ANode(), new ANode());
-        node.Children.Capacity.Should().Be(4);
+        node.Children.Capacity.Should().Equal(4);
 
         node.Children.Add(new ANode());
-        node.Children.Capacity.Should().Be(8);
+        node.Children.Capacity.Should().Equal(8);
 
         // Can enlarge capacity.
         node.Children.Capacity = 9;
-        node.Children.Capacity.Should().Be(9);
+        node.Children.Capacity.Should().Equal(9);
 
         // Can reduce too.
         node.Children.Capacity = 5;
-        node.Children.Capacity.Should().Be(5);
+        node.Children.Capacity.Should().Equal(5);
 
         // Setting to the same does nothing.
         node.Children.Capacity = 5;
-        node.Children.Capacity.Should().Be(5);
+        node.Children.Capacity.Should().Equal(5);
 
         // Cannot reduce below count.
         node.Children.Invoking(c => c.Capacity = 4).Should().Throw<ArgumentOutOfRangeException>();
 
         node.Children.Clear();
-        node.Children.Capacity.Should().Be(5);
+        node.Children.Capacity.Should().Equal(5);
 
         // Can reduce to 0.
         node.Children.Capacity = 0;
-        node.Children.Capacity.Should().Be(0);
+        node.Children.Capacity.Should().Equal(0);
     }
 
     [Test]
@@ -394,9 +394,9 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(child1, child2);
 
-        parent.Children.IndexOf(child1).Should().Be(0);
-        parent.Children.IndexOf(child2).Should().Be(1);
-        parent.Children.IndexOf(new BNode()).Should().Be(-1);
+        parent.Children.IndexOf(child1).Should().Equal(0);
+        parent.Children.IndexOf(child2).Should().Equal(1);
+        parent.Children.IndexOf(new BNode()).Should().Equal(-1);
     }
 
     [Test]
@@ -410,8 +410,8 @@ public sealed partial class ChildrenTests
         var child3 = new BNode { Name = "Child 3" };
         parent.Children.Insert(1, child3);
 
-        child3.Parent.Should().BeSameAs(parent);
-        parent.Children.Should().BeEquivalentTo([child1, child3, child2], c => c.WithoutStrictOrdering());
+        child3.Parent.Should().BeTheSameInstanceAs(parent);
+        parent.Children.Should().SequenceEqual(child1, child3, child2);
     }
 
     [Test]
@@ -433,10 +433,10 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(child1, child2, child3);
 
-        parent.Children.RemoveAt(1).Should().BeSameAs(child2);
+        parent.Children.RemoveAt(1).Should().BeTheSameInstanceAs(child2);
 
         child2.HasParent.Should().BeFalse();
-        parent.Children.Should().BeEquivalentTo([child1, child3], c => c.WithoutStrictOrdering());
+        parent.Children.Should().SequenceEqual(child1, child3);
 
         // Use UnsafeGet to check the space at the end has been nulled out.
         parent.Children.UnsafeGet(2).Should().BeNull();
@@ -464,7 +464,7 @@ public sealed partial class ChildrenTests
         ((IList<TestNode>) parent.Children).RemoveAt(1);
 
         child2.HasParent.Should().BeFalse();
-        parent.Children.Should().BeEquivalentTo([child1, child3], c => c.WithoutStrictOrdering());
+        parent.Children.Should().SequenceEqual(child1, child3);
     }
 
     [Test]
@@ -475,23 +475,23 @@ public sealed partial class ChildrenTests
         var child3 = new BNode();
 
         var parent = new ANode(child1, child2, child3);
-        parent.Children[0].Should().BeSameAs(child1);
-        parent.Children[^3].Should().BeSameAs(child1);
-        parent.Children[1].Should().BeSameAs(child2);
-        parent.Children[^2].Should().BeSameAs(child2);
-        parent.Children[2].Should().BeSameAs(child3);
-        parent.Children[^1].Should().BeSameAs(child3);
+        parent.Children[0].Should().BeTheSameInstanceAs(child1);
+        parent.Children[^3].Should().BeTheSameInstanceAs(child1);
+        parent.Children[1].Should().BeTheSameInstanceAs(child2);
+        parent.Children[^2].Should().BeTheSameInstanceAs(child2);
+        parent.Children[2].Should().BeTheSameInstanceAs(child3);
+        parent.Children[^1].Should().BeTheSameInstanceAs(child3);
 
         var new2 = new BNode();
 
         parent.Children[1] = new2;
 
-        parent.Children[0].Should().BeSameAs(child1);
-        parent.Children[1].Should().BeSameAs(new2);
-        parent.Children[2].Should().BeSameAs(child3);
+        parent.Children[0].Should().BeTheSameInstanceAs(child1);
+        parent.Children[1].Should().BeTheSameInstanceAs(new2);
+        parent.Children[2].Should().BeTheSameInstanceAs(child3);
 
         child2.HasParent.Should().BeFalse();
-        new2.Parent.Should().BeSameAs(parent);
+        new2.Parent.Should().BeTheSameInstanceAs(parent);
     }
 
     [Test]
@@ -503,7 +503,7 @@ public sealed partial class ChildrenTests
 
         parent.Invoking(p => p.Children[0] = child2)
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node is already in the collection.");
+            .That.Should().HaveMessage("Node is already in the collection.");
     }
 
     [Test]
@@ -516,7 +516,7 @@ public sealed partial class ChildrenTests
 
         newParent.Invoking(p => p.Children[0] = child)
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node is already the child of another node.");
+            .That.Should().HaveMessage("Node is already the child of another node.");
     }
 
     [Test]
@@ -528,16 +528,16 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(child1, child2, child3);
         var slice = parent.Children[..1];
-        slice.Should().BeEquivalentTo([child1]);
+        slice.Should().SequenceEqual(child1);
 
         slice = parent.Children.Slice(1, 2);
-        slice.Should().BeEquivalentTo([child2, child3]);
+        slice.Should().SequenceEqual(child2, child3);
 
         slice = parent.Children[..];
-        slice.Should().BeEquivalentTo([child1, child2, child3]);
+        slice.Should().SequenceEqual(child1, child2, child3);
 
         slice = parent.Children.Slice(1, 0);
-        slice.Should().BeEquivalentTo(Array.Empty<TestNode>());
+        slice.Should().SequenceEqual(Array.Empty<TestNode>());
     }
 
     [Test]
@@ -562,16 +562,16 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(child1, child2, child3);
         var slice = parent.Children.EnumerateSlice(0, 1);
-        slice.Should().BeEquivalentTo([child1]);
+        slice.Should().SequenceEqual(child1);
 
         slice = parent.Children.EnumerateSlice(1, 2);
-        slice.Should().BeEquivalentTo([child2, child3]);
+        slice.Should().SequenceEqual(child2, child3);
 
         slice = parent.Children.EnumerateSlice(0, 3);
-        slice.Should().BeEquivalentTo([child1, child2, child3]);
+        slice.Should().SequenceEqual(child1, child2, child3);
 
         slice = parent.Children.EnumerateSlice(1, 0);
-        slice.Should().BeEquivalentTo(Array.Empty<TestNode>());
+        slice.Should().SequenceEqual(Array.Empty<TestNode>());
     }
 
     [Test]
@@ -596,16 +596,16 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(child1, child2, child3);
         var slice = parent.Children.EnumerateSlice(..1);
-        slice.Should().BeEquivalentTo([child1]);
+        slice.Should().SequenceEqual(child1);
 
         slice = parent.Children.EnumerateSlice(1..2);
-        slice.Should().BeEquivalentTo([child2]);
+        slice.Should().SequenceEqual(child2);
 
         slice = parent.Children.EnumerateSlice(..);
-        slice.Should().BeEquivalentTo([child1, child2, child3]);
+        slice.Should().SequenceEqual(child1, child2, child3);
 
         slice = parent.Children.EnumerateSlice(1..1);
-        slice.Should().BeEquivalentTo(Array.Empty<TestNode>());
+        slice.Should().SequenceEqual(Array.Empty<TestNode>());
     }
 
     [Test]
@@ -621,16 +621,16 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(child1, child2, child3);
         var slice = parent.Children.UnsafeSlice(0, 1);
-        slice.ToArray().Should().BeEquivalentTo([child1]);
+        slice.ToArray().Should().SequenceEqual(child1);
 
         slice = parent.Children.UnsafeSlice(1, 2);
-        slice.ToArray().Should().BeEquivalentTo([child2, child3]);
+        slice.ToArray().Should().SequenceEqual(child2, child3);
 
         slice = parent.Children.UnsafeSlice(0, 3);
-        slice.ToArray().Should().BeEquivalentTo([child1, child2, child3]);
+        slice.ToArray().Should().SequenceEqual(child1, child2, child3);
 
         slice = parent.Children.UnsafeSlice(1, 0);
-        slice.ToArray().Should().BeEquivalentTo(Array.Empty<TestNode>());
+        slice.ToArray().Should().SequenceEqual(Array.Empty<TestNode>());
     }
 
     [Test]
@@ -655,16 +655,16 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(child1, child2, child3);
         var slice = parent.Children.UnsafeSlice(..1);
-        slice.ToArray().Should().BeEquivalentTo([child1]);
+        slice.Should().SequenceEqual(child1);
 
         slice = parent.Children.UnsafeSlice(1..2);
-        slice.ToArray().Should().BeEquivalentTo([child2]);
+        slice.Should().SequenceEqual(child2);
 
         slice = parent.Children.UnsafeSlice(..3);
-        slice.ToArray().Should().BeEquivalentTo([child1, child2, child3]);
+        slice.Should().SequenceEqual(child1, child2, child3);
 
         slice = parent.Children.UnsafeSlice(1..1);
-        slice.ToArray().Should().BeEquivalentTo(Array.Empty<TestNode>());
+        slice.Should().BeEmpty();
     }
 
     [Test]
@@ -685,10 +685,10 @@ public sealed partial class ChildrenTests
 
         parent.Children.Replace(child2, new2);
 
-        parent.Children.Should().BeEquivalentTo([child1, new2, child3], c => c.WithStrictOrdering());
+        parent.Children.Should().SequenceEqual(child1, new2, child3);
 
         child2.HasParent.Should().BeFalse();
-        new2.Parent.Should().BeSameAs(parent);
+        new2.Parent.Should().BeTheSameInstanceAs(parent);
         newParent.Children.Should().BeEmpty();
     }
 
@@ -705,10 +705,10 @@ public sealed partial class ChildrenTests
 
         parent.Children.Replace(child2, new2);
 
-        parent.Children.Should().BeEquivalentTo([child1, new2, child3], c => c.WithStrictOrdering());
+        parent.Children.Should().SequenceEqual(child1, new2, child3);
 
         child2.HasParent.Should().BeFalse();
-        new2.Parent.Should().BeSameAs(parent);
+        new2.Parent.Should().BeTheSameInstanceAs(parent);
     }
 
     [Test]
@@ -728,8 +728,9 @@ public sealed partial class ChildrenTests
         var parent = new ANode(child1, child2);
 
         parent.Invoking(p => p.Children.Replace(child1, child2))
-            .Should().Throw<ArgumentException>()
-            .WithParameters("Value is already in the collection.", "replacement");
+            .Should().Throw<ArgumentException>().That.Should()
+            .HaveMessageStartingWith("Value is already in the collection.").And
+            .HaveParamName("replacement");
     }
 
     [Test]
@@ -741,8 +742,8 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(b1, a, b2);
 
-        parent.Children.OfType<ANode>().Should().BeEquivalentTo([a]);
-        parent.Children.OfType<BNode>().Should().BeEquivalentTo([b1, b2], c => c.WithStrictOrdering());
+        parent.Children.OfType<ANode>().Should().SequenceEqual(a);
+        parent.Children.OfType<BNode>().Should().SequenceEqual(b1, b2);
         parent.Children.OfType<CNode>().Should().BeEmpty();
     }
 
@@ -755,9 +756,9 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(b1, a, b2);
 
-        parent.Children.ExceptOfType<ANode>().Should().BeEquivalentTo([b1, b2], c => c.WithStrictOrdering());
-        parent.Children.ExceptOfType<BNode>().Should().BeEquivalentTo([a]);
-        parent.Children.ExceptOfType<CNode>().Should().BeEquivalentTo(new TestNode[] { b1, a, b2 }, c => c.WithStrictOrdering());
+        parent.Children.ExceptOfType<ANode>().Should().SequenceEqual(b1, b2);
+        parent.Children.ExceptOfType<BNode>().Should().SequenceEqual(a);
+        parent.Children.ExceptOfType<CNode>().Should().SequenceEqual(new TestNode[] { b1, a, b2 });
     }
 
     [Test]
@@ -772,12 +773,12 @@ public sealed partial class ChildrenTests
 
         parent.Children.FirstIfTypeOrDefault<ANode>().Should().BeNull();
         parent.Children.FirstIfTypeOrDefault<BNode>().Should().BeNull();
-        parent.Children.FirstIfTypeOrDefault(@default).Should().BeSameAs(@default);
+        parent.Children.FirstIfTypeOrDefault(@default).Should().BeTheSameInstanceAs(@default);
 
         parent.Children.Add(b1, a, b2);
         parent.Children.FirstIfTypeOrDefault<ANode>().Should().BeNull();
-        parent.Children.FirstIfTypeOrDefault<BNode>().Should().BeSameAs(b1);
-        parent.Children.FirstIfTypeOrDefault(@default).Should().BeSameAs(@default);
+        parent.Children.FirstIfTypeOrDefault<BNode>().Should().BeTheSameInstanceAs(b1);
+        parent.Children.FirstIfTypeOrDefault(@default).Should().BeTheSameInstanceAs(@default);
     }
 
     [Test]
@@ -791,9 +792,9 @@ public sealed partial class ChildrenTests
 
         var @default = new CNode();
 
-        parent.Children.FirstOfTypeOrDefault<ANode>().Should().BeSameAs(a);
-        parent.Children.FirstOfTypeOrDefault<BNode>().Should().BeSameAs(b1);
-        parent.Children.FirstOfTypeOrDefault(@default).Should().BeSameAs(@default);
+        parent.Children.FirstOfTypeOrDefault<ANode>().Should().BeTheSameInstanceAs(a);
+        parent.Children.FirstOfTypeOrDefault<BNode>().Should().BeTheSameInstanceAs(b1);
+        parent.Children.FirstOfTypeOrDefault(@default).Should().BeTheSameInstanceAs(@default);
     }
 
     [Test]
@@ -805,11 +806,11 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(b1, a, b2);
 
-        parent.Children.FirstOfType<ANode>().Should().BeSameAs(a);
-        parent.Children.FirstOfType<BNode>().Should().BeSameAs(b1);
+        parent.Children.FirstOfType<ANode>().Should().BeTheSameInstanceAs(a);
+        parent.Children.FirstOfType<BNode>().Should().BeTheSameInstanceAs(b1);
         parent.Children.Invoking(c => c.FirstOfType<CNode>())
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Expected ANode to have a child of type CNode but found none.");
+            .That.Should().HaveMessage("Expected ANode to have a child of type CNode but found none.");
     }
 
     [Test]
@@ -824,13 +825,13 @@ public sealed partial class ChildrenTests
 
         parent.Children.LastIfTypeOrDefault<ANode>().Should().BeNull();
         parent.Children.LastIfTypeOrDefault<BNode>().Should().BeNull();
-        parent.Children.LastIfTypeOrDefault(@default).Should().BeSameAs(@default);
+        parent.Children.LastIfTypeOrDefault(@default).Should().BeTheSameInstanceAs(@default);
 
         parent.Children.Add(b1, a, b2);
 
         parent.Children.LastIfTypeOrDefault<ANode>().Should().BeNull();
-        parent.Children.LastIfTypeOrDefault<BNode>().Should().BeSameAs(b2);
-        parent.Children.LastIfTypeOrDefault(@default).Should().BeSameAs(@default);
+        parent.Children.LastIfTypeOrDefault<BNode>().Should().BeTheSameInstanceAs(b2);
+        parent.Children.LastIfTypeOrDefault(@default).Should().BeTheSameInstanceAs(@default);
     }
 
     [Test]
@@ -844,9 +845,9 @@ public sealed partial class ChildrenTests
 
         var @default = new CNode();
 
-        parent.Children.LastOfTypeOrDefault<ANode>().Should().BeSameAs(a);
-        parent.Children.LastOfTypeOrDefault<BNode>().Should().BeSameAs(b2);
-        parent.Children.LastOfTypeOrDefault(@default).Should().BeSameAs(@default);
+        parent.Children.LastOfTypeOrDefault<ANode>().Should().BeTheSameInstanceAs(a);
+        parent.Children.LastOfTypeOrDefault<BNode>().Should().BeTheSameInstanceAs(b2);
+        parent.Children.LastOfTypeOrDefault(@default).Should().BeTheSameInstanceAs(@default);
     }
 
     [Test]
@@ -858,11 +859,11 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(b1, a, b2);
 
-        parent.Children.LastOfType<ANode>().Should().BeSameAs(a);
-        parent.Children.LastOfType<BNode>().Should().BeSameAs(b2);
+        parent.Children.LastOfType<ANode>().Should().BeTheSameInstanceAs(a);
+        parent.Children.LastOfType<BNode>().Should().BeTheSameInstanceAs(b2);
         parent.Children.Invoking(c => c.LastOfType<CNode>())
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Expected ANode to have a child of type CNode but found none.");
+            .That.Should().HaveMessage("Expected ANode to have a child of type CNode but found none.");
     }
 
     [Test]
@@ -876,11 +877,11 @@ public sealed partial class ChildrenTests
 
         var @default = new CNode();
 
-        parent.Children.SingleOfTypeOrDefault<ANode>().Should().BeSameAs(a);
+        parent.Children.SingleOfTypeOrDefault<ANode>().Should().BeTheSameInstanceAs(a);
         parent.Children.Invoking(c => c.SingleOfTypeOrDefault<BNode>())
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Expected ANode to have 0 or 1 children of type BNode but found multiple.");
-        parent.Children.SingleOfTypeOrDefault(@default).Should().BeSameAs(@default);
+            .That.Should().HaveMessage("Expected ANode to have 0 or 1 children of type BNode but found multiple.");
+        parent.Children.SingleOfTypeOrDefault(@default).Should().BeTheSameInstanceAs(@default);
     }
 
     [Test]
@@ -892,13 +893,13 @@ public sealed partial class ChildrenTests
 
         var parent = new ANode(b1, a, b2);
 
-        parent.Children.SingleOfType<ANode>().Should().BeSameAs(a);
+        parent.Children.SingleOfType<ANode>().Should().BeTheSameInstanceAs(a);
         parent.Children.Invoking(c => c.SingleOfType<BNode>())
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Expected ANode to have 1 child of type BNode but found multiple.");
+            .That.Should().HaveMessage("Expected ANode to have 1 child of type BNode but found multiple.");
         parent.Children.Invoking(c => c.SingleOfType<CNode>())
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Expected ANode to have 1 child of type CNode but found none.");
+            .That.Should().HaveMessage("Expected ANode to have 1 child of type CNode but found none.");
     }
 
     [Test]
@@ -906,10 +907,10 @@ public sealed partial class ChildrenTests
     {
         var child = new BNode();
         var parent = new ANode(child);
-        parent.Children.First.Should().BeSameAs(child);
+        parent.Children.First.Should().BeTheSameInstanceAs(child);
 
         parent.Children.Add(new BNode());
-        parent.Children.First.Should().BeSameAs(child);
+        parent.Children.First.Should().BeTheSameInstanceAs(child);
     }
 
     [Test]
@@ -927,10 +928,10 @@ public sealed partial class ChildrenTests
 
         var child = new BNode();
         parent.Children.Add(child);
-        parent.Children.FirstOrNull.Should().BeSameAs(child);
+        parent.Children.FirstOrNull.Should().BeTheSameInstanceAs(child);
 
         parent.Children.Add(new BNode());
-        parent.Children.FirstOrNull.Should().BeSameAs(child);
+        parent.Children.FirstOrNull.Should().BeTheSameInstanceAs(child);
     }
 
     [Test]
@@ -938,10 +939,10 @@ public sealed partial class ChildrenTests
     {
         var child = new BNode();
         var parent = new ANode(child);
-        parent.Children.UnsafeFirst.Should().BeSameAs(child);
+        parent.Children.UnsafeFirst.Should().BeTheSameInstanceAs(child);
 
         parent.Children.Add(new BNode());
-        parent.Children.UnsafeFirst.Should().BeSameAs(child);
+        parent.Children.UnsafeFirst.Should().BeTheSameInstanceAs(child);
     }
 
     [Test]
@@ -949,11 +950,11 @@ public sealed partial class ChildrenTests
     {
         var child1 = new BNode();
         var parent = new ANode(child1);
-        parent.Children.Last.Should().BeSameAs(child1);
+        parent.Children.Last.Should().BeTheSameInstanceAs(child1);
 
         var child2 = new BNode();
         parent.Children.Add(child2);
-        parent.Children.Last.Should().BeSameAs(child2);
+        parent.Children.Last.Should().BeTheSameInstanceAs(child2);
     }
 
     [Test]
@@ -971,11 +972,11 @@ public sealed partial class ChildrenTests
 
         var child1 = new BNode();
         parent.Children.Add(child1);
-        parent.Children.LastOrNull.Should().BeSameAs(child1);
+        parent.Children.LastOrNull.Should().BeTheSameInstanceAs(child1);
 
         var child2 = new BNode();
         parent.Children.Add(child2);
-        parent.Children.LastOrNull.Should().BeSameAs(child2);
+        parent.Children.LastOrNull.Should().BeTheSameInstanceAs(child2);
     }
 
     [Test]
@@ -983,11 +984,11 @@ public sealed partial class ChildrenTests
     {
         var child1 = new BNode();
         var parent = new ANode(child1);
-        parent.Children.UnsafeLast.Should().BeSameAs(child1);
+        parent.Children.UnsafeLast.Should().BeTheSameInstanceAs(child1);
 
         var child2 = new BNode();
         parent.Children.Add(child2);
-        parent.Children.UnsafeLast.Should().BeSameAs(child2);
+        parent.Children.UnsafeLast.Should().BeTheSameInstanceAs(child2);
     }
 
     [Test]
@@ -995,8 +996,8 @@ public sealed partial class ChildrenTests
     {
         var children = new TestNode[] { new ANode(), new BNode(), new CNode() };
         var parent = new ANode(children);
-        parent.Children.UnsafeGet(0).Should().BeSameAs(children[0]);
-        parent.Children.UnsafeGet(1).Should().BeSameAs(children[1]);
-        parent.Children.UnsafeGet(2).Should().BeSameAs(children[2]);
+        parent.Children.UnsafeGet(0).Should().BeTheSameInstanceAs(children[0]);
+        parent.Children.UnsafeGet(1).Should().BeTheSameInstanceAs(children[1]);
+        parent.Children.UnsafeGet(2).Should().BeTheSameInstanceAs(children[2]);
     }
 }

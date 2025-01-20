@@ -16,12 +16,12 @@ public sealed class MessageFormatterTests
         child.AddWarning("Child Warning");
         grandchild.AddError("Grandchild Error");
 
-        MessageFormatter.FormatErrors(parent).Should().BeEquivalentTo(
+        MessageFormatter.FormatErrors(parent).Should().SequenceEqual(
             "Error: Parent Error 1",
             "Error: Parent Error 2",
             $"Test File (1, 6): Error: Grandchild Error{Environment.NewLine}Some Test Text{Environment.NewLine}     ----");
 
-        MessageFormatter.FormatErrors(parent, false).Should().BeEquivalentTo(
+        MessageFormatter.FormatErrors(parent, false).Should().SequenceEqual(
             "Error: Parent Error 1",
             "Error: Parent Error 2",
             "Test File (1, 6): Error: Grandchild Error");
@@ -40,12 +40,12 @@ public sealed class MessageFormatterTests
         grandchild.AddWarning("Grandchild Warning 1");
         grandchild.AddWarning("Grandchild Warning 2");
 
-        MessageFormatter.Format(parent, MessageLevel.Warning).Should().BeEquivalentTo(
+        MessageFormatter.Format(parent, MessageLevel.Warning).Should().SequenceEqual(
             $"Test File (1, 6): Warning: Parent Warning{Environment.NewLine}Some Test Text{Environment.NewLine}     ----",
             "Non-Text File (1, 1): Warning: Grandchild Warning 1",
             "Non-Text File (1, 1): Warning: Grandchild Warning 2");
 
-        MessageFormatter.Format(parent, MessageLevel.Warning, false).Should().BeEquivalentTo(
+        MessageFormatter.Format(parent, MessageLevel.Warning, false).Should().SequenceEqual(
             "Test File (1, 6): Warning: Parent Warning",
             "Non-Text File (1, 1): Warning: Grandchild Warning 1",
             "Non-Text File (1, 1): Warning: Grandchild Warning 2");
@@ -66,30 +66,30 @@ public sealed class MessageFormatterTests
 
         var messagesByLevel = MessageFormatter.Format(parent).ToList();
         messagesByLevel.Should().HaveCount(3);
-        messagesByLevel[0].Key.Should().Be(MessageLevel.Error);
-        messagesByLevel[0].Should().BeEquivalentTo(
+        messagesByLevel[0].Key.Should().Equal(MessageLevel.Error);
+        messagesByLevel[0].Should().SequenceEqual(
             $"Test File (1, 6): Error: Parent Error{Environment.NewLine}Some Test Text{Environment.NewLine}     ----");
-        messagesByLevel[1].Key.Should().Be(MessageLevel.Warning);
-        messagesByLevel[1].Should().BeEquivalentTo(
+        messagesByLevel[1].Key.Should().Equal(MessageLevel.Warning);
+        messagesByLevel[1].Should().SequenceEqual(
             $"Test File (1, 6): Warning: Parent Warning{Environment.NewLine}Some Test Text{Environment.NewLine}     ----",
             "Non-Text File (1, 1): Warning: Grandchild Warning 1",
             "Non-Text File (1, 1): Warning: Grandchild Warning 2");
-        messagesByLevel[2].Key.Should().Be(MessageLevel.Info);
-        messagesByLevel[2].Should().BeEquivalentTo(
+        messagesByLevel[2].Key.Should().Equal(MessageLevel.Info);
+        messagesByLevel[2].Should().SequenceEqual(
             "Info: Child Info");
 
         messagesByLevel = MessageFormatter.Format(parent, false).ToList();
         messagesByLevel.Should().HaveCount(3);
-        messagesByLevel[0].Key.Should().Be(MessageLevel.Error);
-        messagesByLevel[0].Should().BeEquivalentTo(
+        messagesByLevel[0].Key.Should().Equal(MessageLevel.Error);
+        messagesByLevel[0].Should().SequenceEqual(
             "Test File (1, 6): Error: Parent Error");
-        messagesByLevel[1].Key.Should().Be(MessageLevel.Warning);
-        messagesByLevel[1].Should().BeEquivalentTo(
+        messagesByLevel[1].Key.Should().Equal(MessageLevel.Warning);
+        messagesByLevel[1].Should().SequenceEqual(
             "Test File (1, 6): Warning: Parent Warning",
             "Non-Text File (1, 1): Warning: Grandchild Warning 1",
             "Non-Text File (1, 1): Warning: Grandchild Warning 2");
-        messagesByLevel[2].Key.Should().Be(MessageLevel.Info);
-        messagesByLevel[2].Should().BeEquivalentTo(
+        messagesByLevel[2].Key.Should().Equal(MessageLevel.Info);
+        messagesByLevel[2].Should().SequenceEqual(
             "Info: Child Info");
     }
 }

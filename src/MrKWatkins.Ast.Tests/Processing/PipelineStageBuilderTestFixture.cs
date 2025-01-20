@@ -22,7 +22,7 @@ public abstract class PipelineStageBuilderTestFixture<TBuilder, TProcessor> : Tr
             .WithName("Test Name")
             .Build();
 
-        stage.Name.Should().Be("Test Name");
+        stage.Name.Should().Equal("Test Name");
     }
 
     [Test]

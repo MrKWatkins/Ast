@@ -15,6 +15,6 @@ public sealed class FormatterTests
 
         var actual = Formatter.Format(expression);
 
-        actual.Should().Be("[1, 2, [10, 20], 3]");
+        actual.Should().Equal("[1, 2, [10, 20], 3]");
     }
 }

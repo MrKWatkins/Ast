@@ -13,9 +13,9 @@ public sealed class BinaryFileTests : FileTextFixture
             File.WriteAllBytes(tempFile.FullName, bytes);
 
             var binaryFile = new BinaryFile(tempFile);
-            binaryFile.Name.Should().Be(tempFile.FullName);
-            binaryFile.Bytes.Should().BeEquivalentTo(bytes, c => c.WithStrictOrdering());
-            binaryFile.Length.Should().Be(bytes.Length);
+            binaryFile.Name.Should().Equal(tempFile.FullName);
+            binaryFile.Bytes.Should().SequenceEqual(bytes);
+            binaryFile.Length.Should().Equal(bytes.Length);
         });
 
     [Test]
@@ -28,9 +28,9 @@ public sealed class BinaryFileTests : FileTextFixture
         stream.Position = 0;
 
         var binaryFile = new BinaryFile("Test Filename", stream);
-        binaryFile.Name.Should().Be("Test Filename");
-        binaryFile.Bytes.Should().BeEquivalentTo(bytes, c => c.WithStrictOrdering());
-        binaryFile.Length.Should().Be(bytes.Length);
+        binaryFile.Name.Should().Equal("Test Filename");
+        binaryFile.Bytes.Should().SequenceEqual(bytes);
+        binaryFile.Length.Should().Equal(bytes.Length);
     }
 
     [Test]
@@ -39,9 +39,9 @@ public sealed class BinaryFileTests : FileTextFixture
         var bytes = new byte[] { 1, 2, 3, 4, 5 };
 
         var binaryFile = new BinaryFile("Test Filename", bytes);
-        binaryFile.Name.Should().Be("Test Filename");
-        binaryFile.Bytes.Should().BeEquivalentTo(bytes, c => c.WithStrictOrdering());
-        binaryFile.Length.Should().Be(bytes.Length);
+        binaryFile.Name.Should().Equal("Test Filename");
+        binaryFile.Bytes.Should().SequenceEqual(bytes);
+        binaryFile.Length.Should().Equal(bytes.Length);
     }
 
     [Test]
@@ -52,9 +52,9 @@ public sealed class BinaryFileTests : FileTextFixture
         var binaryFile = new BinaryFile("Test Filename", bytes);
 
         var position = binaryFile.CreatePosition(1, 2);
-        position.File.Should().BeSameAs(binaryFile);
-        position.StartIndex.Should().Be(1);
-        position.Length.Should().Be(2);
+        position.File.Should().BeTheSameInstanceAs(binaryFile);
+        position.StartIndex.Should().Equal(1);
+        position.Length.Should().Equal(2);
     }
 
     [Test]
@@ -65,9 +65,9 @@ public sealed class BinaryFileTests : FileTextFixture
         var binaryFile = new BinaryFile("Test Filename", bytes);
 
         var position = binaryFile.CreateEntireFilePosition();
-        position.File.Should().BeSameAs(binaryFile);
-        position.StartIndex.Should().Be(0);
-        position.Length.Should().Be(5);
+        position.File.Should().BeTheSameInstanceAs(binaryFile);
+        position.StartIndex.Should().Equal(0);
+        position.Length.Should().Equal(5);
     }
 
     [TestCaseSource(nameof(EqualityTestCases))]

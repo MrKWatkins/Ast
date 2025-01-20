@@ -9,6 +9,6 @@ public sealed class ExpressionTests
     {
         var root = new BinaryOperation('+', new Constant(1), new BinaryOperation('*', new Variable("two"), new Constant(3)));
 
-        root.ToString().Should().BeEquivalentTo("(+ 1 (* two 3))");
+        root.ToString().Should().SequenceEqual("(+ 1 (* two 3))");
     }
 }

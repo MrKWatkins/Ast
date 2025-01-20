@@ -6,23 +6,23 @@ public sealed class SourceFileTests : EqualityTestFixture
 {
     [Test]
     public void Constructor_ThrowsIfLengthNegative() =>
-        FluentActions.Invoking(() => new TestSourceFile("Test Name", -1))
+        AssertThat.Invoking(() => new TestSourceFile("Test Name", -1))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be greater than 0. (Parameter 'length'){Environment.NewLine}Actual value was {-1}.");
+            .That.Should().HaveMessage($"Value must be greater than 0. (Parameter 'length'){Environment.NewLine}Actual value was {-1}.");
 
     [Test]
     public void Constructor()
     {
         var file = new TestSourceFile("Test Name", 100);
-        file.Name.Should().Be("Test Name");
-        file.Length.Should().Be(100);
+        file.Name.Should().Equal("Test Name");
+        file.Length.Should().Equal(100);
     }
 
     [Test]
     public void ToString_Test()
     {
         var file = new TestSourceFile("Test Name", 100);
-        file.ToString().Should().Be("Test Name");
+        file.ToString().Should().Equal("Test Name");
     }
 
     [TestCaseSource(nameof(EqualityTestCases))]

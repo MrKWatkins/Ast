@@ -11,7 +11,7 @@ namespace MrKWatkins.Ast;
 /// accommodated and an <see cref="InvalidOperationException" /> will be thrown if enumeration cannot continue.
 /// </remarks>
 /// <typeparam name="TNode">The base node type for the collection.</typeparam>
-public sealed partial class Children<TNode> : IList<TNode>
+public sealed partial class Children<TNode> : IList<TNode>, IReadOnlyList<TNode>
     where TNode : Node<TNode>
 {
     private readonly TNode parent;

@@ -13,14 +13,14 @@ public sealed class ParserTests : TestFixture
     {
         var function = ParseWithoutProcessing(expression);
 
-        function.ToString().Should().BeEquivalentTo(expected);
+        function.ToString().Should().SequenceEqual(expected);
     }
 
     [TestCase("(1", "EndOfFile EOF", 2)]
     [TestCase(")", "CloseBracket )", 0)]
     [TestCase("1 2", "Number 2", 2)]
     public void Parse_UnexpectedToken(string expression, string token, int index) =>
-        FluentActions.Invoking(() => Parser.Parse(expression))
-            .Should().Throw<InvalidOperationException>()
-            .WithMessage($"Unexpected token {token} at index {index}.");
+        AssertThat.Invoking(() => Parser.Parse(expression))
+            .Should().Throw<InvalidOperationException>().That
+            .Should().HaveMessage($"Unexpected token {token} at index {index}.");
 }

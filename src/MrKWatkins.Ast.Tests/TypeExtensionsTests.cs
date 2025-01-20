@@ -6,5 +6,5 @@ public sealed class TypeExtensionsTests
     [TestCase(typeof(int), "Int32")]
     [TestCase(typeof(List<string>), "List<String>")]
     [TestCase(typeof(Dictionary<string, int>), "Dictionary<String, Int32>")]
-    public void SimpleName(Type type, string expected) => type.SimpleName().Should().Be(expected);
+    public void SimpleName(Type type, string expected) => type.SimpleName().Should().Equal(expected);
 }

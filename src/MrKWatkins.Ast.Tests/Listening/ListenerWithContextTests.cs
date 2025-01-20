@@ -17,7 +17,7 @@ public sealed class ListenerTests : TreeTestFixture
 
         listener.Listen(context, N1);
 
-        context.ToString().Should().Be(expected);
+        context.ToString().Should().Equal(expected);
     }
 
     [Test]
@@ -29,7 +29,7 @@ public sealed class ListenerTests : TreeTestFixture
 
         listener.Listen(context, N1);
 
-        context.ToString().Should().Be("(N1(N11(N111))(N12)(N13))");
+        context.ToString().Should().Equal("(N1(N11(N111))(N12)(N13))");
     }
 
     private sealed class TestListener : Listener<StringBuilder, TestNode>
@@ -58,14 +58,14 @@ public sealed class ListenerTests : TreeTestFixture
 
         protected internal override void ListenToNode(StringBuilder context, TestNode node)
         {
-            stack.Peek().Should().BeSameAs(node);
+            stack.Peek().Should().BeTheSameInstanceAs(node);
             base.ListenToNode(context, node);
             context.Append(node.Name);
         }
 
         protected internal override void AfterListenToNode(StringBuilder context, TestNode node)
         {
-            stack.Pop().Should().BeSameAs(node);
+            stack.Pop().Should().BeTheSameInstanceAs(node);
             base.AfterListenToNode(context, node);
             context.Append(')');
         }
@@ -83,13 +83,13 @@ public sealed class ListenerTests : TreeTestFixture
 
         protected override void ListenToNode(StringBuilder context, ANode node)
         {
-            stack.Peek().Should().BeSameAs(node);
+            stack.Peek().Should().BeTheSameInstanceAs(node);
             context.Append(node.Name);
         }
 
         protected override void AfterListenToNode(StringBuilder context, ANode node)
         {
-            stack.Pop().Should().BeSameAs(node);
+            stack.Pop().Should().BeTheSameInstanceAs(node);
             context.Append(')');
         }
     }

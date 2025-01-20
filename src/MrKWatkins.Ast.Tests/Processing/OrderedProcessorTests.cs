@@ -10,7 +10,7 @@ public sealed class OrderedProcessorTests : TreeTestFixture
     {
         var processor = new TestOrderedProcessor();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
+        processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
     }
 
     [Test]
@@ -18,7 +18,7 @@ public sealed class OrderedProcessorTests : TreeTestFixture
     {
         var processor = new TestOrderedProcessor { TraversalOverride = BreadthFirstTraversal<TestNode>.Instance };
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.BreadthFirst(N1));
+        processor.Processed.Should().SequenceEqual(TestNode.Traverse.BreadthFirst(N1));
     }
 
     [Test]
@@ -28,9 +28,10 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         var processor = new TestOrderedProcessor { ShouldProcessNodeOverride = n => n == N13 ? throw exception : true };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessNode.", N13)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ShouldProcessNode.", N13).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -40,9 +41,10 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         var processor = new TestOrderedProcessor { ShouldProcessChildrenOverride = n => n == N13 ? throw exception : true };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessChildren.", N13)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ShouldProcessChildren.", N13).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -52,9 +54,10 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         var processor = new TestOrderedProcessor { ProcessNodeOverride = n => n == N13 ? throw exception : null };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", N13)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ProcessNode.", N13).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -62,7 +65,7 @@ public sealed class OrderedProcessorTests : TreeTestFixture
     {
         var processor = new TestTypedProcessor();
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1).OfType<BNode>());
+        processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OfType<BNode>());
     }
 
     [Test]
@@ -70,7 +73,7 @@ public sealed class OrderedProcessorTests : TreeTestFixture
     {
         var processor = new TestTypedProcessor { TraversalOverride = BreadthFirstTraversal<TestNode>.Instance };
         processor.Process(N1);
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.BreadthFirst(N1).OfType<BNode>());
+        processor.Processed.Should().SequenceEqual(TestNode.Traverse.BreadthFirst(N1).OfType<BNode>());
     }
 
     [Test]
@@ -80,9 +83,10 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         var processor = new TestTypedProcessor { ShouldProcessNodeOverride = n => n == N122 ? throw exception : true };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessNode.", N122)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ShouldProcessNode.", N122).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -92,9 +96,10 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         var processor = new TestTypedProcessor { ShouldProcessChildrenOverride = n => n == N13 ? throw exception : true };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ShouldProcessChildren.", N13)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ShouldProcessChildren.", N13).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -104,9 +109,10 @@ public sealed class OrderedProcessorTests : TreeTestFixture
         var processor = new TestTypedProcessor { ProcessNodeOverride = n => n == N122 ? throw exception : null };
 
         processor.Invoking(p => p.Process(N1))
-            .Should().Throw<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", N122)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ProcessNode.", N122).And
+            .HaveInnerException(exception);
     }
 
     private sealed class TestOrderedProcessor : OrderedProcessor<TestNode>

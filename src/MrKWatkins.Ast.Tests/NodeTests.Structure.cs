@@ -9,7 +9,7 @@ public sealed partial class NodeTests
         root.HasParent.Should().BeFalse();
         root.Invoking(r => r.Parent)
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node has no parent.");
+            .That.Should().HaveMessage("Node has no parent.");
     }
 
     [Test]
@@ -33,7 +33,7 @@ public sealed partial class NodeTests
         var newParent = new BNode();
 
         child.MoveTo(newParent);
-        child.Parent.Should().BeSameAs(newParent);
+        child.Parent.Should().BeTheSameInstanceAs(newParent);
 
         parent.Children.Should().BeEmpty();
     }
@@ -52,7 +52,7 @@ public sealed partial class NodeTests
         child2.ReplaceWith(replacement);
         child2.HasParent.Should().BeFalse();
 
-        parent.Children.Should().BeEquivalentTo(new TestNode[] { child1, replacement, child3 }, c => c.WithStrictOrdering());
+        parent.Children.Should().SequenceEqual(new TestNode[] { child1, replacement, child3 });
     }
 
     [Test]
@@ -77,14 +77,14 @@ public sealed partial class NodeTests
 
         var root = new ANode(children);
 
-        children[0].Ancestors.Should().Equal(root);
-        children[1].Ancestors.Should().Equal(root);
+        children[0].Ancestors.Should().SequenceEqual(root);
+        children[1].Ancestors.Should().SequenceEqual(root);
 
-        grandChildren0[0].Ancestors.Should().Equal(children[0], root);
-        grandChildren0[1].Ancestors.Should().Equal(children[0], root);
+        grandChildren0[0].Ancestors.Should().SequenceEqual(children[0], root);
+        grandChildren0[1].Ancestors.Should().SequenceEqual(children[0], root);
 
-        grandChildren1[0].Ancestors.Should().Equal(children[1], root);
-        grandChildren1[1].Ancestors.Should().Equal(children[1], root);
+        grandChildren1[0].Ancestors.Should().SequenceEqual(children[1], root);
+        grandChildren1[1].Ancestors.Should().SequenceEqual(children[1], root);
     }
 
     [Test]
@@ -104,14 +104,14 @@ public sealed partial class NodeTests
 
         var root = new ANode(children);
 
-        children[0].ThisAndAncestors.Should().Equal(children[0], root);
-        children[1].ThisAndAncestors.Should().Equal(children[1], root);
+        children[0].ThisAndAncestors.Should().SequenceEqual(children[0], root);
+        children[1].ThisAndAncestors.Should().SequenceEqual(children[1], root);
 
-        grandChildren0[0].ThisAndAncestors.Should().Equal(grandChildren0[0], children[0], root);
-        grandChildren0[1].ThisAndAncestors.Should().Equal(grandChildren0[1], children[0], root);
+        grandChildren0[0].ThisAndAncestors.Should().SequenceEqual(grandChildren0[0], children[0], root);
+        grandChildren0[1].ThisAndAncestors.Should().SequenceEqual(grandChildren0[1], children[0], root);
 
-        grandChildren1[0].ThisAndAncestors.Should().Equal(grandChildren1[0], children[1], root);
-        grandChildren1[1].ThisAndAncestors.Should().Equal(grandChildren1[1], children[1], root);
+        grandChildren1[0].ThisAndAncestors.Should().SequenceEqual(grandChildren1[0], children[1], root);
+        grandChildren1[1].ThisAndAncestors.Should().SequenceEqual(grandChildren1[1], children[1], root);
     }
 
     [Test]
@@ -119,7 +119,7 @@ public sealed partial class NodeTests
     {
         var root = new ANode(new ANode(), new BNode(), new CNode());
 
-        root.ThisAndAncestors.Should().Equal(root);
+        root.ThisAndAncestors.Should().SequenceEqual(root);
     }
 
     [Test]
@@ -135,14 +135,14 @@ public sealed partial class NodeTests
 
         var root = new ANode(child0, child1);
 
-        child0.AncestorsOfType<ANode>().Should().Equal(root);
+        child0.AncestorsOfType<ANode>().Should().SequenceEqual(root);
         child0.AncestorsOfType<BNode>().Should().BeEmpty();
 
-        grandChild00.AncestorsOfType<ANode>().Should().Equal(child0, root);
+        grandChild00.AncestorsOfType<ANode>().Should().SequenceEqual(child0, root);
         grandChild01.AncestorsOfType<BNode>().Should().BeEmpty();
 
-        grandChild10.AncestorsOfType<ANode>().Should().Equal(root);
-        grandChild10.AncestorsOfType<BNode>().Should().Equal(child1);
+        grandChild10.AncestorsOfType<ANode>().Should().SequenceEqual(root);
+        grandChild10.AncestorsOfType<BNode>().Should().SequenceEqual(child1);
     }
 
     [Test]
@@ -158,14 +158,14 @@ public sealed partial class NodeTests
 
         var root = new ANode(child0, child1);
 
-        child0.ThisAndAncestorsOfType<ANode>().Should().Equal(child0, root);
+        child0.ThisAndAncestorsOfType<ANode>().Should().SequenceEqual(child0, root);
         child0.ThisAndAncestorsOfType<BNode>().Should().BeEmpty();
 
-        grandChild00.ThisAndAncestorsOfType<ANode>().Should().Equal(grandChild00, child0, root);
-        grandChild01.ThisAndAncestorsOfType<BNode>().Should().Equal(grandChild01);
+        grandChild00.ThisAndAncestorsOfType<ANode>().Should().SequenceEqual(grandChild00, child0, root);
+        grandChild01.ThisAndAncestorsOfType<BNode>().Should().SequenceEqual(grandChild01);
 
-        grandChild10.ThisAndAncestorsOfType<ANode>().Should().Equal(root);
-        grandChild10.ThisAndAncestorsOfType<BNode>().Should().Equal(grandChild10, child1);
+        grandChild10.ThisAndAncestorsOfType<ANode>().Should().SequenceEqual(root);
+        grandChild10.ThisAndAncestorsOfType<BNode>().Should().SequenceEqual(grandChild10, child1);
     }
 
     [Test]
@@ -176,10 +176,10 @@ public sealed partial class NodeTests
         var child2 = new BNode();
         var root = new ANode(child1, child2);
 
-        grandChild.Root.Should().BeSameAs(root);
-        child1.Root.Should().BeSameAs(root);
-        child2.Root.Should().BeSameAs(root);
-        root.Root.Should().BeSameAs(root);
+        grandChild.Root.Should().BeTheSameInstanceAs(root);
+        child1.Root.Should().BeTheSameInstanceAs(root);
+        child2.Root.Should().BeTheSameInstanceAs(root);
+        root.Root.Should().BeTheSameInstanceAs(root);
     }
 
     [Test]
@@ -190,8 +190,8 @@ public sealed partial class NodeTests
         var root = new ANode(children);
 
         root.NextSibling.Should().BeNull();
-        children[0].NextSibling.Should().Be(children[1]);
-        children[1].NextSibling.Should().Be(children[2]);
+        children[0].NextSibling.Should().Equal(children[1]);
+        children[1].NextSibling.Should().Equal(children[2]);
         children[2].NextSibling.Should().BeNull();
     }
 
@@ -215,8 +215,8 @@ public sealed partial class NodeTests
 
         _ = new ANode(children);
 
-        children[0].NextSiblings.Should().Equal(children[1], children[2]);
-        children[1].NextSiblings.Should().Equal(children[2]);
+        children[0].NextSiblings.Should().SequenceEqual(children[1], children[2]);
+        children[1].NextSiblings.Should().SequenceEqual(children[2]);
     }
 
     [Test]
@@ -244,8 +244,8 @@ public sealed partial class NodeTests
 
         _ = new ANode(children);
 
-        children[0].ThisAndNextSiblings.Should().Equal(children[0], children[1], children[2]);
-        children[1].ThisAndNextSiblings.Should().Equal(children[1], children[2]);
+        children[0].ThisAndNextSiblings.Should().SequenceEqual(children[0], children[1], children[2]);
+        children[1].ThisAndNextSiblings.Should().SequenceEqual(children[1], children[2]);
     }
 
     [Test]
@@ -255,7 +255,7 @@ public sealed partial class NodeTests
 
         _ = new ANode(children);
 
-        children[2].ThisAndNextSiblings.Should().Equal(children[2]);
+        children[2].ThisAndNextSiblings.Should().SequenceEqual(children[2]);
     }
 
     [Test]
@@ -263,7 +263,7 @@ public sealed partial class NodeTests
     {
         var root = new ANode(new ANode(), new BNode(), new CNode());
 
-        root.ThisAndNextSiblings.Should().Equal(root);
+        root.ThisAndNextSiblings.Should().SequenceEqual(root);
     }
 
     [Test]
@@ -273,7 +273,7 @@ public sealed partial class NodeTests
 
         root.Invoking(r => r.AddNextSibling(new ANode()))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Cannot add a next sibling to the root node.");
+            .That.Should().HaveMessage("Cannot add a next sibling to the root node.");
     }
 
     [Test]
@@ -286,7 +286,7 @@ public sealed partial class NodeTests
         var sibling = new ANode();
 
         child1.AddNextSibling(sibling);
-        parent.Children.Should().BeEquivalentTo([child1, sibling, child2], c => c.WithStrictOrdering());
+        parent.Children.Should().SequenceEqual(child1, sibling, child2);
     }
 
     [Test]
@@ -299,7 +299,7 @@ public sealed partial class NodeTests
         var sibling = new ANode();
 
         child2.AddNextSibling(sibling);
-        parent.Children.Should().BeEquivalentTo([child1, child2, sibling], c => c.WithStrictOrdering());
+        parent.Children.Should().SequenceEqual(child1, child2, sibling);
     }
 
     [Test]
@@ -309,8 +309,8 @@ public sealed partial class NodeTests
         var child2 = new ANode();
         var parent = new ANode(child1, child2);
 
-        child1.RemoveNextSibling().Should().Be(child2);
-        parent.Children.Should().BeEquivalentTo([child1], c => c.WithStrictOrdering());
+        child1.RemoveNextSibling().Should().Equal(child2);
+        parent.Children.Should().SequenceEqual(child1);
     }
 
     [Test]
@@ -321,7 +321,7 @@ public sealed partial class NodeTests
         var parent = new ANode(child1, child2);
 
         child2.RemoveNextSibling().Should().BeNull();
-        parent.Children.Should().BeEquivalentTo([child1, child2], c => c.WithStrictOrdering());
+        parent.Children.Should().SequenceEqual(child1, child2);
     }
 
     [Test]
@@ -333,8 +333,8 @@ public sealed partial class NodeTests
 
         root.PreviousSibling.Should().BeNull();
         children[0].PreviousSibling.Should().BeNull();
-        children[1].PreviousSibling.Should().Be(children[0]);
-        children[2].PreviousSibling.Should().Be(children[1]);
+        children[1].PreviousSibling.Should().Equal(children[0]);
+        children[2].PreviousSibling.Should().Equal(children[1]);
     }
 
     [Test]
@@ -357,8 +357,8 @@ public sealed partial class NodeTests
 
         _ = new ANode(children);
 
-        children[1].PreviousSiblings.Should().Equal(children[0]);
-        children[2].PreviousSiblings.Should().Equal(children[1], children[0]);
+        children[1].PreviousSiblings.Should().SequenceEqual(children[0]);
+        children[2].PreviousSiblings.Should().SequenceEqual(children[1], children[0]);
     }
 
     [Test]
@@ -386,8 +386,8 @@ public sealed partial class NodeTests
 
         _ = new ANode(children);
 
-        children[1].ThisAndPreviousSiblings.Should().Equal(children[1], children[0]);
-        children[2].ThisAndPreviousSiblings.Should().Equal(children[2], children[1], children[0]);
+        children[1].ThisAndPreviousSiblings.Should().SequenceEqual(children[1], children[0]);
+        children[2].ThisAndPreviousSiblings.Should().SequenceEqual(children[2], children[1], children[0]);
     }
 
     [Test]
@@ -397,7 +397,7 @@ public sealed partial class NodeTests
 
         _ = new ANode(children);
 
-        children[0].ThisAndPreviousSiblings.Should().Equal(children[0]);
+        children[0].ThisAndPreviousSiblings.Should().SequenceEqual(children[0]);
     }
 
     [Test]
@@ -405,7 +405,7 @@ public sealed partial class NodeTests
     {
         var root = new ANode(new ANode(), new BNode(), new CNode());
 
-        root.ThisAndPreviousSiblings.Should().Equal(root);
+        root.ThisAndPreviousSiblings.Should().SequenceEqual(root);
     }
 
     [Test]
@@ -415,7 +415,7 @@ public sealed partial class NodeTests
 
         root.Invoking(r => r.AddPreviousSibling(new ANode()))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Cannot add a previous sibling to the root node.");
+            .That.Should().HaveMessage("Cannot add a previous sibling to the root node.");
     }
 
     [Test]
@@ -428,7 +428,7 @@ public sealed partial class NodeTests
         var sibling = new ANode();
 
         child2.AddPreviousSibling(sibling);
-        parent.Children.Should().BeEquivalentTo([child1, sibling, child2], c => c.WithStrictOrdering());
+        parent.Children.Should().SequenceEqual(child1, sibling, child2);
     }
 
     [Test]
@@ -441,7 +441,7 @@ public sealed partial class NodeTests
         var sibling = new ANode();
 
         child1.AddPreviousSibling(sibling);
-        parent.Children.Should().BeEquivalentTo([sibling, child1, child2], c => c.WithStrictOrdering());
+        parent.Children.Should().SequenceEqual(sibling, child1, child2);
     }
 
     [Test]
@@ -451,8 +451,8 @@ public sealed partial class NodeTests
         var child2 = new ANode();
         var parent = new ANode(child1, child2);
 
-        child2.RemovePreviousSibling().Should().Be(child1);
-        parent.Children.Should().BeEquivalentTo([child2], c => c.WithStrictOrdering());
+        child2.RemovePreviousSibling().Should().Equal(child1);
+        parent.Children.Should().SequenceEqual(child2);
     }
 
     [Test]
@@ -463,7 +463,7 @@ public sealed partial class NodeTests
         var parent = new ANode(child1, child2);
 
         child1.RemovePreviousSibling().Should().BeNull();
-        parent.Children.Should().BeEquivalentTo([child1, child2], c => c.WithStrictOrdering());
+        parent.Children.Should().SequenceEqual(child1, child2);
     }
 
     [Test]
@@ -475,10 +475,10 @@ public sealed partial class NodeTests
 
         var root = new ANode(children);
 
-        root.Descendents.Should().Equal(children[0], grandChildren0[0], grandChildren0[1], children[1], grandChildren1[0], grandChildren1[1]);
+        root.Descendents.Should().SequenceEqual(children[0], grandChildren0[0], grandChildren0[1], children[1], grandChildren1[0], grandChildren1[1]);
 
-        children[0].Descendents.Should().Equal(grandChildren0);
-        children[1].Descendents.Should().Equal(grandChildren1);
+        children[0].Descendents.Should().SequenceEqual(grandChildren0);
+        children[1].Descendents.Should().SequenceEqual(grandChildren1);
 
         grandChildren0[0].Descendents.Should().BeEmpty();
         grandChildren0[1].Descendents.Should().BeEmpty();
@@ -495,15 +495,15 @@ public sealed partial class NodeTests
 
         var root = new ANode(children);
 
-        root.ThisAndDescendents.Should().Equal(root, children[0], grandChildren0[0], grandChildren0[1], children[1], grandChildren1[0], grandChildren1[1]);
+        root.ThisAndDescendents.Should().SequenceEqual(root, children[0], grandChildren0[0], grandChildren0[1], children[1], grandChildren1[0], grandChildren1[1]);
 
-        children[0].ThisAndDescendents.Should().Equal(children[0], grandChildren0[0], grandChildren0[1]);
-        children[1].ThisAndDescendents.Should().Equal(children[1], grandChildren1[0], grandChildren1[1]);
+        children[0].ThisAndDescendents.Should().SequenceEqual(children[0], grandChildren0[0], grandChildren0[1]);
+        children[1].ThisAndDescendents.Should().SequenceEqual(children[1], grandChildren1[0], grandChildren1[1]);
 
-        grandChildren0[0].ThisAndDescendents.Should().Equal(grandChildren0[0]);
-        grandChildren0[1].ThisAndDescendents.Should().Equal(grandChildren0[1]);
-        grandChildren1[0].ThisAndDescendents.Should().Equal(grandChildren1[0]);
-        grandChildren1[1].ThisAndDescendents.Should().Equal(grandChildren1[1]);
+        grandChildren0[0].ThisAndDescendents.Should().SequenceEqual(grandChildren0[0]);
+        grandChildren0[1].ThisAndDescendents.Should().SequenceEqual(grandChildren0[1]);
+        grandChildren1[0].ThisAndDescendents.Should().SequenceEqual(grandChildren1[0]);
+        grandChildren1[1].ThisAndDescendents.Should().SequenceEqual(grandChildren1[1]);
     }
 
     [Test]
@@ -513,10 +513,10 @@ public sealed partial class NodeTests
 
         var root = new ANode(children);
 
-        root.IndexInParent.Should().Be(-1);
-        children[0].IndexInParent.Should().Be(0);
-        children[1].IndexInParent.Should().Be(1);
-        children[2].IndexInParent.Should().Be(2);
+        root.IndexInParent.Should().Equal(-1);
+        children[0].IndexInParent.Should().Equal(0);
+        children[1].IndexInParent.Should().Equal(1);
+        children[2].IndexInParent.Should().Equal(2);
     }
 
     [Test]

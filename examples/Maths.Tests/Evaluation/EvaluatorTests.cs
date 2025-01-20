@@ -10,7 +10,7 @@ public sealed class EvaluatorTests
     {
         var function = Parser.Parse("2 / 0");
 
-        FluentActions.Invoking(() => Evaluator.Evaluate(function)).Should().Throw<ArgumentException>();
+        AssertThat.Invoking(() => Evaluator.Evaluate(function)).Should().Throw<ArgumentException>();
     }
 
     [Test]
@@ -18,7 +18,7 @@ public sealed class EvaluatorTests
     {
         var function = Parser.Parse("a + b");
 
-        FluentActions.Invoking(() => Evaluator.Evaluate(function, 5)).Should().Throw<ArgumentException>();
+        AssertThat.Invoking(() => Evaluator.Evaluate(function, 5)).Should().Throw<ArgumentException>();
     }
 
     [TestCase("1", 1)]
@@ -33,6 +33,6 @@ public sealed class EvaluatorTests
 
         var actual = Evaluator.Evaluate(function, arguments);
 
-        actual.Should().Be(expected);
+        actual.Should().Equal(expected);
     }
 }

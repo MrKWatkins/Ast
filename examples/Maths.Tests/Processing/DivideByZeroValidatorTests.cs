@@ -26,9 +26,9 @@ public sealed class DivideByZeroValidatorTests : TestFixture
         var errors = function.ThisAndDescendentsWithErrors.ToList();
         errors.Should().HaveCount(1);
 
-        var @operator = errors[0].Should().BeOfType<BinaryOperation>().Subject;
-        @operator.Left.Should().BeOfType<Constant>().Which.Value.Should().Be(2);
-        @operator.Right.Should().BeOfType<Constant>().Which.Value.Should().Be(0);
-        @operator.Errors.Should().BeEquivalentTo(new[] { Message.Error("Divide by zero.") });
+        var @operator = errors[0].Should().BeOfType<BinaryOperation>().Value;
+        @operator.Left.Should().BeOfType<Constant>().That.Value.Should().Equal(2);
+        @operator.Right.Should().BeOfType<Constant>().That.Value.Should().Equal(0);
+        @operator.Errors.Should().SequenceEqual(Message.Error("Divide by zero."));
     }
 }

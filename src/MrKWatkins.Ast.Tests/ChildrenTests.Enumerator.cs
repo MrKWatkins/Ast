@@ -198,14 +198,14 @@ public sealed partial class ChildrenTests
             action(child);
         }
 
-        firstEnumeration.Should().HaveSameOrderAs(expectedFirstEnumeration);
-        P.Children.Should().HaveSameOrderAs(expectedSecondEnumeration ?? expectedFirstEnumeration);
+        firstEnumeration.Should().SequenceEqual(expectedFirstEnumeration);
+        P.Children.Should().SequenceEqual(expectedSecondEnumeration ?? expectedFirstEnumeration);
     }
 
     [Test]
     public void Enumerate_TooManyMutationsHaltsEnumeration()
     {
-        FluentActions.Invoking(
+        AssertThat.Invoking(
                 () =>
                 {
                     foreach (var node in P.Children)
@@ -218,7 +218,7 @@ public sealed partial class ChildrenTests
                     }
                 })
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node C2 has been removed from parent during enumeration at the same time as other mutations. Cannot determine sensible place to continue enumeration.");
+            .That.Should().HaveMessage("Node C2 has been removed from parent during enumeration at the same time as other mutations. Cannot determine sensible place to continue enumeration.");
     }
 
     [Test]
@@ -227,13 +227,13 @@ public sealed partial class ChildrenTests
         using var enumerator = P.Children.GetEnumerator();
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C1);
+        enumerator.Current.Should().BeTheSameInstanceAs(C1);
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C2);
+        enumerator.Current.Should().BeTheSameInstanceAs(C2);
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C3);
+        enumerator.Current.Should().BeTheSameInstanceAs(C3);
 
         enumerator.MoveNext().Should().BeFalse();
     }
@@ -244,21 +244,21 @@ public sealed partial class ChildrenTests
         using var enumerator = P.Children.GetEnumerator();
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C1);
+        enumerator.Current.Should().BeTheSameInstanceAs(C1);
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C2);
+        enumerator.Current.Should().BeTheSameInstanceAs(C2);
 
         enumerator.Reset();
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C1);
+        enumerator.Current.Should().BeTheSameInstanceAs(C1);
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C2);
+        enumerator.Current.Should().BeTheSameInstanceAs(C2);
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C3);
+        enumerator.Current.Should().BeTheSameInstanceAs(C3);
 
         enumerator.MoveNext().Should().BeFalse();
     }
@@ -269,13 +269,13 @@ public sealed partial class ChildrenTests
         var enumerator = ((IEnumerable) P.Children).GetEnumerator();
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C1);
+        enumerator.Current.Should().BeTheSameInstanceAs(C1);
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C2);
+        enumerator.Current.Should().BeTheSameInstanceAs(C2);
 
         enumerator.MoveNext().Should().BeTrue();
-        enumerator.Current.Should().BeSameAs(C3);
+        enumerator.Current.Should().BeTheSameInstanceAs(C3);
 
         enumerator.MoveNext().Should().BeFalse();
 

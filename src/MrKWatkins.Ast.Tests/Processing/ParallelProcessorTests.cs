@@ -7,23 +7,23 @@ public sealed class ParallelProcessorTests : TreeTestFixture
 {
     [Test]
     public void Constructor_ProcessorsEmptyThrows() =>
-        FluentActions.Invoking(() => new ParallelProcessor<TestNode>([], 5))
-            .Should().Throw<ArgumentException>()
-            .WithParameters("Value is empty.", "processors");
+        AssertThat.Invoking(() => new ParallelProcessor<TestNode>([], 5))
+            .Should().Throw<ArgumentException>().That.Should()
+            .HaveMessageStartingWith("Value is empty.").And
+            .HaveParamName("processors");
 
     [TestCase(0)]
     [TestCase(-1)]
     [SuppressMessage("Maintainability", "CA1507:Use nameof in place of string", Justification = "Name coincidentally is shared with parameter.")]
     public void Constructor_InvalidMaxDegreeOfParallelismThrows(int maxDegreeOfParallelism) =>
-        FluentActions.Invoking(() => new ParallelProcessor<TestNode>(new List<Processor<TestNode>> { new TestValidator() }, maxDegreeOfParallelism))
-            .Should().Throw<ArgumentOutOfRangeException>()
-            .WithParameters("maxDegreeOfParallelism", maxDegreeOfParallelism, "Value must be greater than 0.");
+        AssertThat.Invoking(() => new ParallelProcessor<TestNode>(new List<Processor<TestNode>> { new TestValidator() }, maxDegreeOfParallelism))
+            .Should().ThrowArgumentOutOfRangeException("Value must be greater than 0.", "maxDegreeOfParallelism", maxDegreeOfParallelism);
 
     [Test]
     public void Constructor()
     {
         var processor = new ParallelProcessor<TestNode>(new List<Processor<TestNode>> { new TestValidator(), new TestValidator() }, 5);
-        processor.MaxDegreeOfParallelism.Should().Be(5);
+        processor.MaxDegreeOfParallelism.Should().Equal(5);
     }
 
     [TestCase(1)]
@@ -45,13 +45,13 @@ public sealed class ParallelProcessorTests : TreeTestFixture
 
         parallel.Process(N1);
 
-        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo([N12, N121, N123]);
+        N1.ThisAndDescendentsWithMessages.Should().SequenceEqual(N12, N121, N123);
 
-        N12.Messages.Should().BeEquivalentTo([Message.Error("N12 Error")]);
+        N12.Messages.Should().SequenceEqual(Message.Error("N12 Error"));
 
         // Note that without the lock in Node<TNode>.AddMessage this contains just one message a good percentage of the time.
-        N121.Messages.Should().BeEquivalentTo([Message.Error("N121 Error"), Message.Error("N121 Error")]);
-        N123.Messages.Should().BeEquivalentTo([Message.Error("N123 Error")]);
+        N121.Messages.Should().SequenceEqual(Message.Error("N121 Error"), Message.Error("N121 Error"));
+        N123.Messages.Should().SequenceEqual(Message.Error("N123 Error"));
     }
 
     [TestCase(1)]
@@ -75,23 +75,23 @@ public sealed class ParallelProcessorTests : TreeTestFixture
 
         var parallel = new ParallelProcessor<TestNode>([validator1, validator2], maxDegreeOfParallelism);
 
-        var innerExceptions = parallel.Invoking(p => p.Process(N1)).Should().Throw<AggregateException>().Which.InnerExceptions;
+        var innerExceptions = parallel.Invoking(p => p.Process(N1)).Should().Throw<AggregateException>().That.InnerExceptions;
         innerExceptions.Should().HaveCount(2);
 
         var processingExceptions = innerExceptions.OfType<ProcessingException<TestNode>>().ToList();
         processingExceptions.Should().HaveCount(2);
-        processingExceptions.Should().ContainSingle(e => e.Node == N1).Which
-            .InnerException.Should().Be(n1Exception);
-        processingExceptions.Should().ContainSingle(e => e.Node == N121).Which
-            .InnerException.Should().Be(n121Exception);
+        processingExceptions.Should().ContainSingle(e => e.Node == N1).That
+            .Should().HaveInnerException(n1Exception);
+        processingExceptions.Should().ContainSingle(e => e.Node == N121).That
+            .Should().HaveInnerException(n121Exception);
 
         // The non-throwing validations in the tree should still have been processed.
-        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo([N12, N121, N123]);
+        N1.ThisAndDescendentsWithMessages.Should().SequenceEqual(N12, N121, N123);
 
-        N12.Messages.Should().BeEquivalentTo([Message.Error("N12 Error")]);
+        N12.Messages.Should().SequenceEqual(Message.Error("N12 Error"));
         // Only one because the other threw.
-        N121.Messages.Should().BeEquivalentTo([Message.Error("N121 Error")]);
-        N123.Messages.Should().BeEquivalentTo([Message.Error("N123 Error")]);
+        N121.Messages.Should().SequenceEqual(Message.Error("N121 Error"));
+        N123.Messages.Should().SequenceEqual(Message.Error("N123 Error"));
     }
 
     [Test]
@@ -152,10 +152,10 @@ public sealed class ParallelProcessorTests : TreeTestFixture
         validator2FirstNodeBlock.SetResult();
         await processTask;
 
-        N1.ThisAndDescendentsWithMessages.Should().BeEquivalentTo([N12, N121, N123]);
-        N12.Messages.Should().BeEquivalentTo([Message.Error("N12 Error")]);
-        N121.Messages.Should().BeEquivalentTo([Message.Error("N121 Error"), Message.Error("N121 Error")]);
-        N123.Messages.Should().BeEquivalentTo([Message.Error("N123 Error")]);
+        N1.ThisAndDescendentsWithMessages.Should().SequenceEqual(N12, N121, N123);
+        N12.Messages.Should().SequenceEqual(Message.Error("N12 Error"));
+        N121.Messages.Should().SequenceEqual(Message.Error("N121 Error"), Message.Error("N121 Error"));
+        N123.Messages.Should().SequenceEqual(Message.Error("N123 Error"));
     }
 
     private sealed class TestValidator : Validator<TestNode>, IEnumerable

@@ -6,9 +6,10 @@ public sealed class PipelineStageTests : TreeTestFixture
 {
     [Test]
     public void Constructor_ThrowsForNoStages() =>
-        FluentActions.Invoking(() => new PipelineStage<TestNode>("Test Stage", Array.Empty<Processor<TestNode>>(), _ => true))
-            .Should().Throw<ArgumentException>()
-            .WithParameters("Value is empty.", "processors");
+        AssertThat.Invoking(() => new PipelineStage<TestNode>("Test Stage", Array.Empty<Processor<TestNode>>(), _ => true))
+            .Should().Throw<ArgumentException>().That.Should()
+            .HaveMessageStartingWith("Value is empty.").And
+            .HaveParamName("processors");
 
     [Test]
     public void Run([Values(true, false)] bool shouldContinue)
@@ -17,16 +18,16 @@ public sealed class PipelineStageTests : TreeTestFixture
 
         bool ShouldContinue(TestNode root)
         {
-            root.Should().BeSameAs(N1);
+            root.Should().BeTheSameInstanceAs(N1);
             return shouldContinue;
         }
 
         var stage = new PipelineStage<TestNode>("Test Stage", processors, ShouldContinue);
-        stage.Name.Should().Be("Test Stage");
+        stage.Name.Should().Equal("Test Stage");
 
-        stage.Run(N1).Should().Be(shouldContinue);
-        processors[0].Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
-        processors[1].Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
+        stage.Run(N1).Should().Equal(shouldContinue);
+        processors[0].Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
+        processors[1].Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
     }
 
     [Test]
@@ -42,12 +43,12 @@ public sealed class PipelineStageTests : TreeTestFixture
         var stage = new PipelineStage<TestNode>("Test Stage", processors, _ => true);
 
         stage.Invoking(s => s.Run(N1))
-            .Should().Throw<PipelineException>()
-            .WithParameters("Exception occurred executing processor TestUnorderedProcessor.", "Test Stage")
-            .WithInnerException<AggregateException>()
-            .WithInnerException<ProcessingException<TestNode>>()
-            .WithParameters("Exception during ProcessNode.", N123)
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<PipelineException>().That.Should()
+            .HaveParameters("Exception occurred executing processor TestUnorderedProcessor.", "Test Stage").And
+            .HaveInnerException<AggregateException>().That.Should()
+            .HaveInnerException<ProcessingException<TestNode>>().That.Should()
+            .HaveParameters("Exception during ProcessNode.", N123).And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -60,8 +61,8 @@ public sealed class PipelineStageTests : TreeTestFixture
         var stage = new PipelineStage<TestNode>("Test Stage", processors, _ => throw exception);
 
         stage.Invoking(s => s.Run(N1))
-            .Should().Throw<PipelineException>()
-            .WithParameters("Exception occurred executing should continue function.", "Test Stage")
-            .WithInnerException<InvalidOperationException>().Which.Should().Be(exception);
+            .Should().Throw<PipelineException>().That.Should()
+            .HaveParameters("Exception occurred executing should continue function.", "Test Stage").And
+            .HaveInnerException(exception);
     }
 }

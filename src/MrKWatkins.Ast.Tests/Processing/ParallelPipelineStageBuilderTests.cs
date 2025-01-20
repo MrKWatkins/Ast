@@ -19,7 +19,7 @@ public sealed class ParallelPipelineStageBuilderTests : PipelineStageBuilderTest
 
         stage.Processors.Should().HaveCount(1);
         stage.Processors[0].Should().BeOfType<ParallelProcessor<TestNode>>()
-            .Which.MaxDegreeOfParallelism.Should().Be(Environment.ProcessorCount);
+            .Value.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
 
         stage.Run(N1).Should().BeTrue();
         processors[0].Processed.Should().HaveCount(NodeCount);
@@ -38,7 +38,7 @@ public sealed class ParallelPipelineStageBuilderTests : PipelineStageBuilderTest
             .Build();
 
         stage.Processors[0].Should().BeOfType<ParallelProcessor<TestNode>>()
-            .Which.MaxDegreeOfParallelism.Should().Be(5);
+            .Value.MaxDegreeOfParallelism.Should().Equal(5);
     }
 
     [TestCase(0)]
@@ -48,6 +48,8 @@ public sealed class ParallelPipelineStageBuilderTests : PipelineStageBuilderTest
         CreateBuilder(123)
             .Add(new TestUnorderedProcessor())
             .Invoking(b => b.WithMaxDegreeOfParallelism(maxDegreeOfParallelism))
-            .Should().Throw<ArgumentOutOfRangeException>()
-            .WithParameters("maxDegreeOfParallelism", maxDegreeOfParallelism, "Value must be greater than 0.");
+            .Should().Throw<ArgumentOutOfRangeException>().That.Should()
+            .HaveMessageStartingWith("Value must be greater than 0.").And
+            .HaveParamName("maxDegreeOfParallelism").And
+            .HaveActualValue(maxDegreeOfParallelism);
 }

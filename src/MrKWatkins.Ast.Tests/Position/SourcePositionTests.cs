@@ -12,11 +12,11 @@ public sealed class SourcePositionTests : EqualityTestFixture
 
         positionX.Invoking(x => x.Combine(positionY))
             .Should().Throw<ArgumentException>()
-            .WithMessage($"Value is not of type {nameof(TestPosition)}. (Parameter 'other')");
+            .That.Should().HaveMessage($"Value is not of type {nameof(TestPosition)}. (Parameter 'other')");
 
         positionY.Invoking(x => x.Combine(positionX))
             .Should().Throw<ArgumentException>()
-            .WithMessage($"Value is not of type {nameof(OtherPosition)}. (Parameter 'other')");
+            .That.Should().HaveMessage($"Value is not of type {nameof(OtherPosition)}. (Parameter 'other')");
     }
 
     [Test]
@@ -26,7 +26,7 @@ public sealed class SourcePositionTests : EqualityTestFixture
         var positionX = new TestPosition { Combined = combined };
         var positionY = new TestPosition();
 
-        positionX.Combine(positionY).Should().BeSameAs(combined);
+        positionX.Combine(positionY).Should().BeTheSameInstanceAs(combined);
     }
 
     [TestCaseSource(nameof(EqualityTestCases))]

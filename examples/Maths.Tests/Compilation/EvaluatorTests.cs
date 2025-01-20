@@ -10,7 +10,7 @@ public sealed class CompilerTests
     {
         var function = Parser.Parse("2 / 0");
 
-        FluentActions.Invoking(() => Compiler.Compile(function)).Should().Throw<ArgumentException>();
+        AssertThat.Invoking(() => Compiler.Compile(function)).Should().Throw<ArgumentException>();
     }
 
     [TestCase("1", 1)]
@@ -22,9 +22,9 @@ public sealed class CompilerTests
 
         var compiled = Compiler.Compile(function);
 
-        var func = compiled.Should().BeOfType<Func<int>>().Subject;
+        var func = compiled.Should().BeOfType<Func<int>>().Value;
 
-        func().Should().Be(expected);
+        func().Should().Equal(expected);
     }
 
     [TestCase("2 + a", 7, 5)]
@@ -35,9 +35,9 @@ public sealed class CompilerTests
 
         var compiled = Compiler.Compile(function);
 
-        var func = compiled.Should().BeOfType<Func<int, int>>().Subject;
+        var func = compiled.Should().BeOfType<Func<int, int>>().Value;
 
-        func(argument).Should().Be(expected);
+        func(argument).Should().Equal(expected);
     }
 
     [TestCase("a * b", 35, 5, 7)]
@@ -48,8 +48,8 @@ public sealed class CompilerTests
 
         var compiled = Compiler.Compile(function);
 
-        var func = compiled.Should().BeOfType<Func<int, int, int>>().Subject;
+        var func = compiled.Should().BeOfType<Func<int, int, int>>().Value;
 
-        func(argument0, argument1).Should().Be(expected);
+        func(argument0, argument1).Should().Equal(expected);
     }
 }

@@ -12,8 +12,8 @@ public sealed class PropertiesTests
         properties.Set("One", 1);
         properties.Set("Two", "2");
 
-        properties.GetOrThrow<int>("One").Should().Be(1);
-        properties.GetOrThrow<string>("Two").Should().Be("2");
+        properties.GetOrThrow<int>("One").Should().Equal(1);
+        properties.GetOrThrow<string>("Two").Should().Equal("2");
     }
 
     [Test]
@@ -24,7 +24,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetOrThrow<string>("Key"))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has multiple values.");
+            .That.Should().HaveMessage("Property \"Key\" has multiple values.");
     }
 
     [Test]
@@ -35,7 +35,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetOrThrow<string>("Two"))
             .Should().Throw<KeyNotFoundException>()
-            .WithMessage("No value for property with key \"Two\".");
+            .That.Should().HaveMessage("No value for property with key \"Two\".");
     }
 
     [Test]
@@ -46,11 +46,11 @@ public sealed class PropertiesTests
 
         string? cachedString = null;
 
-        properties.GetOrThrow("One", ref cachedString).Should().Be("1");
+        properties.GetOrThrow("One", ref cachedString).Should().Equal("1");
 
         cachedString = "Test";
 
-        properties.GetOrThrow("One", ref cachedString).Should().Be("Test");
+        properties.GetOrThrow("One", ref cachedString).Should().Equal("Test");
     }
 
     [Test]
@@ -62,7 +62,7 @@ public sealed class PropertiesTests
         string? cachedString = null;
         properties.Invoking(p => p.GetOrThrow("Key", ref cachedString))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has multiple values.");
+            .That.Should().HaveMessage("Property \"Key\" has multiple values.");
     }
 
     [Test]
@@ -74,7 +74,7 @@ public sealed class PropertiesTests
         string? cachedString = null;
         properties.Invoking(p => p.GetOrThrow("Two", ref cachedString))
             .Should().Throw<KeyNotFoundException>()
-            .WithMessage("No value for property with key \"Two\".");
+            .That.Should().HaveMessage("No value for property with key \"Two\".");
     }
 
     [Test]
@@ -85,11 +85,11 @@ public sealed class PropertiesTests
 
         int? cachedInt = null;
 
-        properties.GetOrThrow("One", ref cachedInt).Should().Be(1);
+        properties.GetOrThrow("One", ref cachedInt).Should().Equal(1);
 
         cachedInt = 2;
 
-        properties.GetOrThrow("One", ref cachedInt).Should().Be(2);
+        properties.GetOrThrow("One", ref cachedInt).Should().Equal(2);
     }
 
     [Test]
@@ -101,7 +101,7 @@ public sealed class PropertiesTests
         int? cachedInt = null;
         properties.Invoking(p => p.GetOrThrow("Key", ref cachedInt))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has multiple values.");
+            .That.Should().HaveMessage("Property \"Key\" has multiple values.");
     }
 
     [Test]
@@ -113,7 +113,7 @@ public sealed class PropertiesTests
         int? cachedInt = null;
         properties.Invoking(p => p.GetOrThrow("Two", ref cachedInt))
             .Should().Throw<KeyNotFoundException>()
-            .WithMessage("No value for property with key \"Two\".");
+            .That.Should().HaveMessage("No value for property with key \"Two\".");
     }
 
     [Test]
@@ -127,7 +127,7 @@ public sealed class PropertiesTests
             return new InvalidOperationException("Test");
         }
 
-        properties.GetOrThrow<int>("One", Creator).Should().Be(1);
+        properties.GetOrThrow<int>("One", Creator).Should().Equal(1);
     }
 
     [Test]
@@ -144,7 +144,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetOrThrow<string>("Key", Creator))
             .Should().Throw<InvalidOperationException>()
-            .Which.Should().BeSameAs(exception);
+            .That.Should().BeTheSameInstanceAs(exception);
     }
 
     [Test]
@@ -159,8 +159,8 @@ public sealed class PropertiesTests
         }
 
         string? cachedString = null;
-        properties.GetOrThrow("Key", ref cachedString, Creator).Should().Be("Value");
-        cachedString.Should().Be("Value");
+        properties.GetOrThrow("Key", ref cachedString, Creator).Should().Equal("Value");
+        cachedString.Should().Equal("Value");
     }
 
     [Test]
@@ -178,7 +178,7 @@ public sealed class PropertiesTests
         string? cachedString = null;
         properties.Invoking(p => p.GetOrThrow("Key", ref cachedString, Creator))
             .Should().Throw<InvalidOperationException>()
-            .Which.Should().BeSameAs(exception);
+            .That.Should().BeTheSameInstanceAs(exception);
     }
 
     [Test]
@@ -193,11 +193,11 @@ public sealed class PropertiesTests
         }
 
         int? cachedInt = null;
-        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);
-        cachedInt.Should().Be(1);
+        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Equal(1);
+        cachedInt.Should().Equal(1);
 
-        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);
-        cachedInt.Should().Be(1);
+        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Equal(1);
+        cachedInt.Should().Equal(1);
     }
 
     [Test]
@@ -215,7 +215,7 @@ public sealed class PropertiesTests
         int? cachedInt = null;
         properties.Invoking(p => p.GetOrThrow("Key", ref cachedInt, Creator))
             .Should().Throw<InvalidOperationException>()
-            .Which.Should().BeSameAs(exception);
+            .That.Should().BeTheSameInstanceAs(exception);
     }
 
     [Test]
@@ -229,7 +229,7 @@ public sealed class PropertiesTests
             return new InvalidOperationException("Test");
         }
 
-        properties.GetOrThrow<int>("One", Creator).Should().Be(1);
+        properties.GetOrThrow<int>("One", Creator).Should().Equal(1);
     }
 
     [Test]
@@ -241,13 +241,13 @@ public sealed class PropertiesTests
 
         Exception Creator(string key)
         {
-            key.Should().Be("Key");
+            key.Should().Equal("Key");
             return exception;
         }
 
         properties.Invoking(p => p.GetOrThrow<string>("Key", Creator))
             .Should().Throw<InvalidOperationException>()
-            .Which.Should().BeSameAs(exception);
+            .That.Should().BeTheSameInstanceAs(exception);
     }
 
     [Test]
@@ -262,8 +262,8 @@ public sealed class PropertiesTests
         }
 
         string? cachedString = null;
-        properties.GetOrThrow("Key", ref cachedString, Creator).Should().Be("Value");
-        cachedString.Should().Be("Value");
+        properties.GetOrThrow("Key", ref cachedString, Creator).Should().Equal("Value");
+        cachedString.Should().Equal("Value");
     }
 
     [Test]
@@ -275,14 +275,14 @@ public sealed class PropertiesTests
 
         Exception Creator(string key)
         {
-            key.Should().Be("Key");
+            key.Should().Equal("Key");
             return exception;
         }
 
         string? cachedString = null;
         properties.Invoking(p => p.GetOrThrow("Key", ref cachedString, Creator))
             .Should().Throw<InvalidOperationException>()
-            .Which.Should().BeSameAs(exception);
+            .That.Should().BeTheSameInstanceAs(exception);
     }
 
     [Test]
@@ -297,11 +297,11 @@ public sealed class PropertiesTests
         }
 
         int? cachedInt = null;
-        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);
-        cachedInt.Should().Be(1);
+        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Equal(1);
+        cachedInt.Should().Equal(1);
 
-        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Be(1);
-        cachedInt.Should().Be(1);
+        properties.GetOrThrow("One", ref cachedInt, Creator).Should().Equal(1);
+        cachedInt.Should().Equal(1);
     }
 
     [Test]
@@ -313,14 +313,14 @@ public sealed class PropertiesTests
 
         Exception Creator(string key)
         {
-            key.Should().Be("Key");
+            key.Should().Equal("Key");
             return exception;
         }
 
         int? cachedInt = null;
         properties.Invoking(p => p.GetOrThrow("Key", ref cachedInt, Creator))
             .Should().Throw<InvalidOperationException>()
-            .Which.Should().BeSameAs(exception);
+            .That.Should().BeTheSameInstanceAs(exception);
     }
 
     [Test]
@@ -331,7 +331,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetOrThrow<string>("One"))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has a value of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -343,7 +343,7 @@ public sealed class PropertiesTests
         string? cachedString = null;
         properties.Invoking(p => p.GetOrThrow("One", ref cachedString))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has a value of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -355,7 +355,7 @@ public sealed class PropertiesTests
         int? cachedInt = null;
         properties.Invoking(p => p.GetOrThrow("One", ref cachedInt))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has a value of type String; cannot change to Int32.");
+            .That.Should().HaveMessage("Property \"One\" has a value of type String; cannot change to Int32.");
     }
 
     [Test]
@@ -365,8 +365,8 @@ public sealed class PropertiesTests
         properties.Set("One", 1);
         properties.Set("Two", "2");
 
-        properties.GetOrDefault<int>("One").Should().Be(1);
-        properties.GetOrDefault<string>("Two").Should().Be("2");
+        properties.GetOrDefault<int>("One").Should().Equal(1);
+        properties.GetOrDefault<string>("Two").Should().Equal("2");
     }
 
     [Test]
@@ -376,10 +376,10 @@ public sealed class PropertiesTests
         properties.Set("One", 1);
 
         properties.GetOrDefault<string>("Two").Should().BeNull();
-        properties.GetOrDefault("Two", "Default").Should().Be("Default");
+        properties.GetOrDefault("Two", "Default").Should().Equal("Default");
 
-        properties.GetOrDefault<int>("Two").Should().Be(0);
-        properties.GetOrDefault("Two", 123).Should().Be(123);
+        properties.GetOrDefault<int>("Two").Should().Equal(0);
+        properties.GetOrDefault("Two", 123).Should().Equal(123);
     }
 
     [Test]
@@ -390,7 +390,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetOrDefault<string>("Key"))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has multiple values.");
+            .That.Should().HaveMessage("Property \"Key\" has multiple values.");
     }
 
     [Test]
@@ -401,7 +401,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetOrDefault<string>("One"))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has a value of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -410,7 +410,7 @@ public sealed class PropertiesTests
         var properties = new Properties();
         properties.Set("Key", 1);
 
-        properties.GetOrAdd("Key", ShouldNotBeCalled<int>).Should().Be(1);
+        properties.GetOrAdd("Key", ShouldNotBeCalled<int>).Should().Equal(1);
     }
 
     [Test]
@@ -420,13 +420,13 @@ public sealed class PropertiesTests
 
         static string Creator(string key)
         {
-            key.Should().Be("Key");
+            key.Should().Equal("Key");
             return "Value";
         }
 
-        properties.GetOrAdd("Key", Creator).Should().Be("Value");
+        properties.GetOrAdd("Key", Creator).Should().Equal("Value");
 
-        properties.GetOrThrow<string>("Key").Should().Be("Value");
+        properties.GetOrThrow<string>("Key").Should().Equal("Value");
     }
 
     [Test]
@@ -436,13 +436,13 @@ public sealed class PropertiesTests
 
         static string Creator(string key)
         {
-            key.Should().Be("Key");
+            key.Should().Equal("Key");
             return "Value";
         }
 
-        properties.GetOrAdd<object>("Key", Creator).Should().Be("Value");
+        properties.GetOrAdd<object>("Key", Creator).Should().Equal("Value");
 
-        properties.GetOrThrow<object>("Key").Should().Be("Value");
+        properties.GetOrThrow<object>("Key").Should().Equal("Value");
     }
 
     [Test]
@@ -453,7 +453,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetOrAdd("Key", ShouldNotBeCalled<string>))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has multiple values.");
+            .That.Should().HaveMessage("Property \"Key\" has multiple values.");
     }
 
     [Test]
@@ -464,7 +464,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetOrAdd("One", ShouldNotBeCalled<string>))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has a value of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -475,10 +475,10 @@ public sealed class PropertiesTests
         properties.Set("Two", "2");
 
         properties.TryGet<int>("One", out var one).Should().BeTrue();
-        one.Should().Be(1);
+        one.Should().Equal(1);
 
         properties.TryGet<string>("Two", out var two).Should().BeTrue();
-        two.Should().Be("2");
+        two.Should().Equal("2");
     }
 
     [Test]
@@ -498,7 +498,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.TryGet<string>("Key", out _))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has multiple values.");
+            .That.Should().HaveMessage("Property \"Key\" has multiple values.");
     }
 
     [Test]
@@ -509,7 +509,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.TryGet<string>("One", out _))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has a value of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -526,29 +526,29 @@ public sealed class PropertiesTests
     public void Count()
     {
         var properties = new Properties();
-        properties.Count.Should().Be(0);
+        properties.Count.Should().Equal(0);
 
         properties.Set("One", 1);
-        properties.Count.Should().Be(1);
+        properties.Count.Should().Equal(1);
 
         properties.SetMultiple("Two", [1, 2]);
-        properties.Count.Should().Be(2);
+        properties.Count.Should().Equal(2);
 
         properties.AddToMultiple("Two", 3);
-        properties.Count.Should().Be(2);
+        properties.Count.Should().Equal(2);
     }
 
     [Test]
     public void Set()
     {
         var properties = new Properties();
-        properties.GetOrDefault<int>("Key").Should().Be(0);
+        properties.GetOrDefault<int>("Key").Should().Equal(0);
 
         properties.Set("Key", 1);
-        properties.GetOrDefault<int>("Key").Should().Be(1);
+        properties.GetOrDefault<int>("Key").Should().Equal(1);
 
         properties.Set("Key", 2);
-        properties.GetOrDefault<int>("Key").Should().Be(2);
+        properties.GetOrDefault<int>("Key").Should().Equal(2);
     }
 
     [Test]
@@ -559,7 +559,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.Set("Key", 1))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has multiple values.");
+            .That.Should().HaveMessage("Property \"Key\" has multiple values.");
     }
 
     [Test]
@@ -570,7 +570,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.Set("One", "1"))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has a value of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has a value of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -580,7 +580,7 @@ public sealed class PropertiesTests
 
         properties.Set<object>("Key", "Value");
 
-        properties.GetOrThrow<object>("Key").Should().Be("Value");
+        properties.GetOrThrow<object>("Key").Should().Equal("Value");
     }
 
     [Test]
@@ -589,12 +589,12 @@ public sealed class PropertiesTests
         var properties = new Properties();
 
         properties.Set("Key", "Value", out var cachedField);
-        cachedField.Should().Be("Value");
-        properties.GetOrDefault<string>("Key").Should().Be("Value");
+        cachedField.Should().Equal("Value");
+        properties.GetOrDefault<string>("Key").Should().Equal("Value");
 
         properties.Set("Key", "Test", out cachedField);
-        cachedField.Should().Be("Test");
-        properties.GetOrDefault<string>("Key").Should().Be("Test");
+        cachedField.Should().Equal("Test");
+        properties.GetOrDefault<string>("Key").Should().Equal("Test");
     }
 
     [Test]
@@ -605,7 +605,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.Set("Key", "Value1", out _))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has multiple values.");
+            .That.Should().HaveMessage("Property \"Key\" has multiple values.");
     }
 
     [Test]
@@ -616,7 +616,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.Set("One", new StringBuilder(), out _))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has a value of type String; cannot change to StringBuilder.");
+            .That.Should().HaveMessage("Property \"One\" has a value of type String; cannot change to StringBuilder.");
     }
 
     [Test]
@@ -626,8 +626,8 @@ public sealed class PropertiesTests
 
         properties.Set<object>("Key", "Value", out var cachedString);
 
-        cachedString.Should().Be("Value");
-        properties.GetOrThrow<object>("Key").Should().Be("Value");
+        cachedString.Should().Equal("Value");
+        properties.GetOrThrow<object>("Key").Should().Equal("Value");
     }
 
     [Test]
@@ -636,12 +636,12 @@ public sealed class PropertiesTests
         var properties = new Properties();
 
         properties.Set("Key", 1, out var cachedField);
-        cachedField.Should().Be(1);
-        properties.GetOrDefault<int>("Key").Should().Be(1);
+        cachedField.Should().Equal(1);
+        properties.GetOrDefault<int>("Key").Should().Equal(1);
 
         properties.Set("Key", 3, out cachedField);
-        cachedField.Should().Be(3);
-        properties.GetOrDefault<int>("Key").Should().Be(3);
+        cachedField.Should().Equal(3);
+        properties.GetOrDefault<int>("Key").Should().Equal(3);
     }
 
     [Test]
@@ -652,7 +652,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.Set("Key", 1, out _))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has multiple values.");
+            .That.Should().HaveMessage("Property \"Key\" has multiple values.");
     }
 
     [Test]
@@ -663,7 +663,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.Set("One", 3M, out _))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has a value of type Int32; cannot change to Decimal.");
+            .That.Should().HaveMessage("Property \"One\" has a value of type Int32; cannot change to Decimal.");
     }
 
     [Test]
@@ -674,10 +674,10 @@ public sealed class PropertiesTests
         properties.GetMultiple<int>("Key").Should().BeEmpty();
 
         properties.AddToMultiple("Key", 1);
-        properties.GetMultiple<int>("Key").Should().Equal(1);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1);
 
         properties.AddToMultiple("Key", 2);
-        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1, 2);
     }
 
     [Test]
@@ -688,7 +688,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetMultiple<string>("Key"))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" is a single value.");
+            .That.Should().HaveMessage("Property \"Key\" is a single value.");
     }
 
     [Test]
@@ -699,7 +699,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.GetMultiple<string>("Key"))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" has values of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"Key\" has values of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -709,10 +709,10 @@ public sealed class PropertiesTests
         properties.GetMultiple<int>("Key").Should().BeEmpty();
 
         properties.SetMultiple("Key", [1]);
-        properties.GetMultiple<int>("Key").Should().Equal(1);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1);
 
         properties.SetMultiple("Key", [1, 2]);
-        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1, 2);
     }
 
     [Test]
@@ -723,7 +723,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.SetMultiple("Key", [1, 2]))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" is a single value.");
+            .That.Should().HaveMessage("Property \"Key\" is a single value.");
     }
 
     [Test]
@@ -734,7 +734,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.SetMultiple("One", ["1", "2"]))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has values of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has values of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -753,7 +753,7 @@ public sealed class PropertiesTests
 
         properties.SetMultiple<object>("Key", ["Value"]);
 
-        properties.GetMultiple<object>("Key").Should().Equal("Value");
+        properties.GetMultiple<object>("Key").Should().SequenceEqual("Value");
     }
 
     [Test]
@@ -763,10 +763,10 @@ public sealed class PropertiesTests
         properties.GetMultiple<int>("Key").Should().BeEmpty();
 
         properties.AddToMultiple("Key", 1);
-        properties.GetMultiple<int>("Key").Should().Equal(1);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1);
 
         properties.AddToMultiple("Key", 2);
-        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1, 2);
     }
 
     [Test]
@@ -777,7 +777,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.AddToMultiple("Key", 1))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" is a single value.");
+            .That.Should().HaveMessage("Property \"Key\" is a single value.");
     }
 
     [Test]
@@ -788,7 +788,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.AddToMultiple("One", "2"))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has values of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has values of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -798,7 +798,7 @@ public sealed class PropertiesTests
 
         properties.AddToMultiple<object>("Key", "Value");
 
-        properties.GetMultiple<object>("Key").Should().Equal("Value");
+        properties.GetMultiple<object>("Key").Should().SequenceEqual("Value");
     }
 
     [Test]
@@ -808,13 +808,13 @@ public sealed class PropertiesTests
         properties.GetMultiple<int>("Key").Should().BeEmpty();
 
         properties.TryAddToMultiple("Key", 1).Should().BeTrue();
-        properties.GetMultiple<int>("Key").Should().Equal(1);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1);
 
         properties.TryAddToMultiple("Key", 2).Should().BeTrue();
-        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1, 2);
 
         properties.TryAddToMultiple("Key", 1).Should().BeFalse();
-        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1, 2);
     }
 
     [Test]
@@ -822,13 +822,13 @@ public sealed class PropertiesTests
     {
         var properties = new Properties();
         properties.TryAddToMultiple("Key", "One", StringComparer.OrdinalIgnoreCase).Should().BeTrue();
-        properties.GetMultiple<string>("Key").Should().Equal("One");
+        properties.GetMultiple<string>("Key").Should().SequenceEqual("One");
 
         properties.TryAddToMultiple("Key", "one", StringComparer.OrdinalIgnoreCase).Should().BeFalse();
-        properties.GetMultiple<string>("Key").Should().Equal("One");
+        properties.GetMultiple<string>("Key").Should().SequenceEqual("One");
 
         properties.TryAddToMultiple("Key", "one").Should().BeTrue();
-        properties.GetMultiple<string>("Key").Should().Equal("One", "one");
+        properties.GetMultiple<string>("Key").Should().SequenceEqual("One", "one");
     }
 
     [Test]
@@ -839,7 +839,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.TryAddToMultiple("Key", 1))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" is a single value.");
+            .That.Should().HaveMessage("Property \"Key\" is a single value.");
     }
 
     [Test]
@@ -850,7 +850,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.TryAddToMultiple("One", "2"))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has values of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has values of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -860,7 +860,7 @@ public sealed class PropertiesTests
 
         properties.TryAddToMultiple<object>("Key", "Value").Should().BeTrue();
 
-        properties.GetMultiple<object>("Key").Should().Equal("Value");
+        properties.GetMultiple<object>("Key").Should().SequenceEqual("Value");
     }
 
     [Test]
@@ -870,10 +870,10 @@ public sealed class PropertiesTests
         properties.GetMultiple<int>("Key").Should().BeEmpty();
 
         properties.AddRangeToMultiple("Key", [1, 2]);
-        properties.GetMultiple<int>("Key").Should().Equal(1, 2);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1, 2);
 
         properties.AddRangeToMultiple("Key", [3, 4]);
-        properties.GetMultiple<int>("Key").Should().Equal(1, 2, 3, 4);
+        properties.GetMultiple<int>("Key").Should().SequenceEqual(1, 2, 3, 4);
     }
 
     [Test]
@@ -884,7 +884,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.AddRangeToMultiple("Key", [1, 2]))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"Key\" is a single value.");
+            .That.Should().HaveMessage("Property \"Key\" is a single value.");
     }
 
     [Test]
@@ -895,7 +895,7 @@ public sealed class PropertiesTests
 
         properties.Invoking(p => p.AddRangeToMultiple("One", ["1", "2"]))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Property \"One\" has values of type Int32; cannot change to String.");
+            .That.Should().HaveMessage("Property \"One\" has values of type Int32; cannot change to String.");
     }
 
     [Test]
@@ -905,7 +905,7 @@ public sealed class PropertiesTests
 
         properties.AddRangeToMultiple<object>("Key", ["1", "2"]);
 
-        properties.GetMultiple<object>("Key").Should().Equal("1", "2");
+        properties.GetMultiple<object>("Key").Should().SequenceEqual("1", "2");
     }
 
     [Test]
@@ -921,20 +921,20 @@ public sealed class PropertiesTests
         properties.SetMultiple("MultipleThree", new object[] { 1, "2" });
 
         var copy = properties.Copy();
-        copy.GetOrThrow<int>("SingleOne").Should().Be(1);
-        copy.GetOrThrow<string>("SingleTwo").Should().Be("Two");
-        copy.GetOrThrow<object>("SingleThree").Should().Be("Two");
+        copy.GetOrThrow<int>("SingleOne").Should().Equal(1);
+        copy.GetOrThrow<string>("SingleTwo").Should().Equal("Two");
+        copy.GetOrThrow<object>("SingleThree").Should().Equal("Two");
 
-        copy.GetMultiple<int>("MultipleOne").Should().Equal(1, 2);
-        copy.GetMultiple<string>("MultipleTwo").Should().Equal("1", "2");
-        copy.GetMultiple<object>("MultipleThree").Should().Equal(1, "2");
+        copy.GetMultiple<int>("MultipleOne").Should().SequenceEqual(1, 2);
+        copy.GetMultiple<string>("MultipleTwo").Should().SequenceEqual("1", "2");
+        copy.GetMultiple<object>("MultipleThree").Should().SequenceEqual(new object[] { 1, "2" });
 
         // Mutating the copy should not change the original.
         copy.Set("SingleOne", 2);
-        properties.GetOrThrow<int>("SingleOne").Should().Be(1);
+        properties.GetOrThrow<int>("SingleOne").Should().Equal(1);
 
         copy.AddToMultiple("MultipleOne", 3);
-        properties.GetMultiple<int>("MultipleOne").Should().Equal(1, 2);
+        properties.GetMultiple<int>("MultipleOne").Should().SequenceEqual(1, 2);
     }
 
     [Test]
@@ -951,17 +951,17 @@ public sealed class PropertiesTests
 
         var expected = new KeyValuePair<string, object>[]
         {
-            new ("SingleOne", 1),
+            new("SingleOne", 1),
             new("SingleTwo", "Two"),
             new("SingleThree", "Two"),
 
-            new("MultipleOne", new List<object> { 1, 2 }),
-            new("MultipleTwo", new List<object> { "1", "2" }),
-            new("MultipleThree", new List<object> { 1, "2" }),
+            new("MultipleOne", properties.GetMultiple<int>("MultipleOne")),
+            new("MultipleTwo", properties.GetMultiple<string>("MultipleTwo")),
+            new("MultipleThree", properties.GetMultiple<object>("MultipleThree"))
         };
 
-        properties.Should().BeEquivalentTo(expected);
-        ((IEnumerable) properties).Should().BeEquivalentTo(expected);
+        properties.Should().SequenceEqual(expected);
+        ((IEnumerable) properties).Should().SequenceEqual(expected.OfType<object>());
     }
 
     [DoesNotReturn]

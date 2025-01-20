@@ -17,6 +17,6 @@ public sealed class ReducerTests : TestFixture
 
         new Reducer().Process(function);
 
-        function.ToString().Should().BeEquivalentTo(reduced);
+        function.ToString().Should().SequenceEqual(reduced);
     }
 }

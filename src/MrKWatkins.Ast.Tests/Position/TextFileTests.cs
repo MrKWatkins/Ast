@@ -13,9 +13,9 @@ public sealed class TextFileTests : FileTextFixture
             File.WriteAllText(tempFile.FullName, text);
 
             var textFile = new TextFile(tempFile);
-            textFile.Name.Should().Be(tempFile.FullName);
-            textFile.Text.Should().Be(text);
-            textFile.Length.Should().Be(text.Length);
+            textFile.Name.Should().Equal(tempFile.FullName);
+            textFile.Text.Should().Equal(text);
+            textFile.Length.Should().Equal(text.Length);
         });
 
     [Test]
@@ -30,9 +30,9 @@ public sealed class TextFileTests : FileTextFixture
         stream.Position = 0;
 
         var textFile = new TextFile("Test Filename", stream);
-        textFile.Name.Should().Be("Test Filename");
-        textFile.Text.Should().Be(text);
-        textFile.Length.Should().Be(text.Length);
+        textFile.Name.Should().Equal("Test Filename");
+        textFile.Text.Should().Equal(text);
+        textFile.Length.Should().Equal(text.Length);
     }
 
     [Test]
@@ -41,10 +41,10 @@ public sealed class TextFileTests : FileTextFixture
         const string text = "Some Text";
 
         var textFile = new TextFile("Test Filename", text);
-        textFile.Name.Should().Be("Test Filename");
-        textFile.Text.Should().Be(text);
-        textFile.Length.Should().Be(text.Length);
-        textFile.Lines.Count.Should().Be(1);
+        textFile.Name.Should().Equal("Test Filename");
+        textFile.Text.Should().Equal(text);
+        textFile.Length.Should().Equal(text.Length);
+        textFile.Lines.Count.Should().Equal(1);
         textFile.IsEmpty.Should().BeFalse();
     }
 
@@ -52,10 +52,10 @@ public sealed class TextFileTests : FileTextFixture
     public void Constructor_Empty()
     {
         var textFile = new TextFile("Test Filename", "");
-        textFile.Name.Should().Be("Test Filename");
-        textFile.Text.Should().Be("");
-        textFile.Length.Should().Be(0);
-        textFile.Lines.Count.Should().Be(0);
+        textFile.Name.Should().Equal("Test Filename");
+        textFile.Text.Should().Equal("");
+        textFile.Length.Should().Equal(0);
+        textFile.Lines.Count.Should().Equal(0);
         textFile.IsEmpty.Should().BeTrue();
     }
 
@@ -67,15 +67,15 @@ public sealed class TextFileTests : FileTextFixture
         var textFile = new TextFile("Test Filename", text);
 
         var position = textFile.CreatePosition(15, 4, 1, 5);
-        position.File.Should().BeSameAs(textFile);
-        position.StartIndex.Should().Be(15);
-        position.Length.Should().Be(4);
-        position.StartLineIndex.Should().Be(1);
-        position.StartLineNumber.Should().Be(2);
-        position.StartColumnIndex.Should().Be(5);
-        position.StartColumnNumber.Should().Be(6);
-        position.StartLine.Should().Be("Some More Text");
-        position.Text.Should().Be("More");
+        position.File.Should().BeTheSameInstanceAs(textFile);
+        position.StartIndex.Should().Equal(15);
+        position.Length.Should().Equal(4);
+        position.StartLineIndex.Should().Equal(1);
+        position.StartLineNumber.Should().Equal(2);
+        position.StartColumnIndex.Should().Equal(5);
+        position.StartColumnNumber.Should().Equal(6);
+        position.StartLine.Should().Equal("Some More Text");
+        position.Text.Should().Equal("More");
     }
 
     [Test]
@@ -86,15 +86,15 @@ public sealed class TextFileTests : FileTextFixture
         var textFile = new TextFile("Test Filename", text);
 
         var position = textFile.CreateEntireFilePosition();
-        position.File.Should().BeSameAs(textFile);
-        position.StartIndex.Should().Be(0);
-        position.Length.Should().Be(24);
-        position.StartLineIndex.Should().Be(0);
-        position.StartLineNumber.Should().Be(1);
-        position.StartColumnIndex.Should().Be(0);
-        position.StartColumnNumber.Should().Be(1);
-        position.StartLine.Should().Be("Some Text");
-        position.Text.Should().Be(text);
+        position.File.Should().BeTheSameInstanceAs(textFile);
+        position.StartIndex.Should().Equal(0);
+        position.Length.Should().Equal(24);
+        position.StartLineIndex.Should().Equal(0);
+        position.StartLineNumber.Should().Equal(1);
+        position.StartColumnIndex.Should().Equal(0);
+        position.StartColumnNumber.Should().Equal(1);
+        position.StartLine.Should().Equal("Some Text");
+        position.Text.Should().Equal(text);
     }
 
     [Test]

@@ -11,27 +11,15 @@ public sealed partial class NodeTests
 
         node.AddMessage(new Message(MessageLevel.Info, "First Message"));
         node.HasMessages.Should().BeTrue();
-        node.Messages.Should().BeEquivalentTo(
-        [
-            new Message(MessageLevel.Info, "First Message")
-        ]);
+        node.Messages.Should().SequenceEqual(new Message(MessageLevel.Info, "First Message"));
 
         node.AddMessage(MessageLevel.Error, "M2", "Second Message");
         node.HasMessages.Should().BeTrue();
-        node.Messages.Should().BeEquivalentTo(
-        [
-            new Message(MessageLevel.Info, "First Message"),
-                new Message(MessageLevel.Error, "M2", "Second Message")
-        ]);
+        node.Messages.Should().SequenceEqual(new Message(MessageLevel.Info, "First Message"), new Message(MessageLevel.Error, "M2", "Second Message"));
 
         node.AddMessage(MessageLevel.Warning, "M3", "Third Message");
         node.HasMessages.Should().BeTrue();
-        node.Messages.Should().BeEquivalentTo(
-        [
-            new Message(MessageLevel.Info, "First Message"),
-                new Message(MessageLevel.Error, "M2", "Second Message"),
-                new Message(MessageLevel.Warning, "M3", "Third Message")
-        ]);
+        node.Messages.Should().SequenceEqual(new Message(MessageLevel.Info, "First Message"), new Message(MessageLevel.Error, "M2", "Second Message"), new Message(MessageLevel.Warning, "M3", "Third Message"));
     }
 
     [Test]
@@ -65,14 +53,14 @@ public sealed partial class NodeTests
         grandchild.ThisAndDescendentsWithMessages.Should().BeEmpty();
 
         parent.AddError("Parent Error");
-        parent.ThisAndDescendentsWithMessages.Should().BeEquivalentTo([parent]);
+        parent.ThisAndDescendentsWithMessages.Should().SequenceEqual(parent);
         child.ThisAndDescendentsWithMessages.Should().BeEmpty();
         grandchild.ThisAndDescendentsWithMessages.Should().BeEmpty();
 
         grandchild.AddWarning("Grandchild Warning");
-        parent.ThisAndDescendentsWithMessages.Should().BeEquivalentTo(new TestNode[] { parent, grandchild });
-        child.ThisAndDescendentsWithMessages.Should().BeEquivalentTo([grandchild]);
-        grandchild.ThisAndDescendentsWithMessages.Should().BeEquivalentTo([grandchild]);
+        parent.ThisAndDescendentsWithMessages.Should().SequenceEqual(new TestNode[] { parent, grandchild });
+        child.ThisAndDescendentsWithMessages.Should().SequenceEqual(grandchild);
+        grandchild.ThisAndDescendentsWithMessages.Should().SequenceEqual(grandchild);
     }
 
     [Test]
@@ -88,10 +76,7 @@ public sealed partial class NodeTests
 
         node.AddError("M2", "Second Message");
         node.HasErrors.Should().BeTrue();
-        node.Errors.Should().BeEquivalentTo(
-        [
-            new Message(MessageLevel.Error, "M2", "Second Message")
-        ]);
+        node.Errors.Should().SequenceEqual(new Message(MessageLevel.Error, "M2", "Second Message"));
     }
 
     [Test]
@@ -134,14 +119,14 @@ public sealed partial class NodeTests
         grandchild.ThisAndDescendentsWithErrors.Should().BeEmpty();
 
         parent.AddError("Parent Error");
-        parent.ThisAndDescendentsWithErrors.Should().BeEquivalentTo([parent]);
+        parent.ThisAndDescendentsWithErrors.Should().SequenceEqual(parent);
         child.ThisAndDescendentsWithErrors.Should().BeEmpty();
         grandchild.ThisAndDescendentsWithErrors.Should().BeEmpty();
 
         grandchild.AddError("Grandchild Error");
-        parent.ThisAndDescendentsWithErrors.Should().BeEquivalentTo(new TestNode[] { parent, grandchild });
-        child.ThisAndDescendentsWithErrors.Should().BeEquivalentTo([grandchild]);
-        grandchild.ThisAndDescendentsWithErrors.Should().BeEquivalentTo([grandchild]);
+        parent.ThisAndDescendentsWithErrors.Should().SequenceEqual(new TestNode[] { parent, grandchild });
+        child.ThisAndDescendentsWithErrors.Should().SequenceEqual(grandchild);
+        grandchild.ThisAndDescendentsWithErrors.Should().SequenceEqual(grandchild);
     }
 
     [Test]
@@ -157,10 +142,7 @@ public sealed partial class NodeTests
 
         node.AddWarning("M2", "Second Message");
         node.HasWarnings.Should().BeTrue();
-        node.Warnings.Should().BeEquivalentTo(
-        [
-            new Message(MessageLevel.Warning, "M2", "Second Message")
-        ]);
+        node.Warnings.Should().SequenceEqual(new Message(MessageLevel.Warning, "M2", "Second Message"));
     }
 
     [Test]
@@ -203,14 +185,14 @@ public sealed partial class NodeTests
         grandchild.ThisAndDescendentsWithWarnings.Should().BeEmpty();
 
         parent.AddWarning("Parent Warning");
-        parent.ThisAndDescendentsWithWarnings.Should().BeEquivalentTo([parent]);
+        parent.ThisAndDescendentsWithWarnings.Should().SequenceEqual(parent);
         child.ThisAndDescendentsWithWarnings.Should().BeEmpty();
         grandchild.ThisAndDescendentsWithWarnings.Should().BeEmpty();
 
         grandchild.AddWarning("Grandchild Warning");
-        parent.ThisAndDescendentsWithWarnings.Should().BeEquivalentTo(new TestNode[] { parent, grandchild });
-        child.ThisAndDescendentsWithWarnings.Should().BeEquivalentTo([grandchild]);
-        grandchild.ThisAndDescendentsWithWarnings.Should().BeEquivalentTo([grandchild]);
+        parent.ThisAndDescendentsWithWarnings.Should().SequenceEqual(new TestNode[] { parent, grandchild });
+        child.ThisAndDescendentsWithWarnings.Should().SequenceEqual(grandchild);
+        grandchild.ThisAndDescendentsWithWarnings.Should().SequenceEqual(grandchild);
     }
 
     [Test]
@@ -226,10 +208,7 @@ public sealed partial class NodeTests
 
         node.AddInfo("M2", "Second Message");
         node.HasInfos.Should().BeTrue();
-        node.Infos.Should().BeEquivalentTo(
-        [
-            new Message(MessageLevel.Info, "M2", "Second Message")
-        ]);
+        node.Infos.Should().SequenceEqual(new Message(MessageLevel.Info, "M2", "Second Message"));
     }
 
     [Test]
@@ -272,13 +251,13 @@ public sealed partial class NodeTests
         grandchild.ThisAndDescendentsWithInfos.Should().BeEmpty();
 
         parent.AddInfo("Parent Info");
-        parent.ThisAndDescendentsWithInfos.Should().BeEquivalentTo([parent]);
+        parent.ThisAndDescendentsWithInfos.Should().SequenceEqual(parent);
         child.ThisAndDescendentsWithInfos.Should().BeEmpty();
         grandchild.ThisAndDescendentsWithInfos.Should().BeEmpty();
 
         grandchild.AddInfo("Grandchild Info");
-        parent.ThisAndDescendentsWithInfos.Should().BeEquivalentTo(new TestNode[] { parent, grandchild });
-        child.ThisAndDescendentsWithInfos.Should().BeEquivalentTo([grandchild]);
-        grandchild.ThisAndDescendentsWithInfos.Should().BeEquivalentTo([grandchild]);
+        parent.ThisAndDescendentsWithInfos.Should().SequenceEqual(new TestNode[] { parent, grandchild });
+        child.ThisAndDescendentsWithInfos.Should().SequenceEqual(grandchild);
+        grandchild.ThisAndDescendentsWithInfos.Should().SequenceEqual(grandchild);
     }
 }

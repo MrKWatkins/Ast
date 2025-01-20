@@ -18,37 +18,37 @@ public sealed class PropertyNodeTests
 
         var copy = parent.Copy();
 
-        copy.Should().NotBeSameAs(parent);
-        copy.Name.Should().Be("P");
+        copy.Should().NotBeTheSameInstanceAs(parent);
+        copy.Name.Should().Equal("P");
         copy.Children.Should().HaveCount(3);
 
         var child1Copy = copy.Children[0];
-        child1Copy.Should().NotBeSameAs(child1);
-        child1Copy.Name.Should().Be("C1");
+        child1Copy.Should().NotBeTheSameInstanceAs(child1);
+        child1Copy.Name.Should().Equal("C1");
         child1Copy.Children.Should().HaveCount(2);
 
         var grandchild11Copy = child1Copy.Children[0];
-        grandchild11Copy.Should().NotBeSameAs(grandchild11);
-        grandchild11Copy.Name.Should().Be("GC11");
+        grandchild11Copy.Should().NotBeTheSameInstanceAs(grandchild11);
+        grandchild11Copy.Name.Should().Equal("GC11");
         grandchild11Copy.Children.Should().BeEmpty();
 
         var grandchild12Copy = child1Copy.Children[1];
-        grandchild12Copy.Should().NotBeSameAs(grandchild12);
-        grandchild12Copy.Name.Should().Be("GC12");
+        grandchild12Copy.Should().NotBeTheSameInstanceAs(grandchild12);
+        grandchild12Copy.Name.Should().Equal("GC12");
         grandchild12Copy.Children.Should().BeEmpty();
 
         var child2Copy = copy.Children[1];
-        child2Copy.Should().NotBeSameAs(child2);
-        child2Copy.Name.Should().Be("C2");
+        child2Copy.Should().NotBeTheSameInstanceAs(child2);
+        child2Copy.Name.Should().Equal("C2");
         child2Copy.Children.Should().HaveCount(1);
 
         var grandchild21Copy = child2Copy.Children[0];
-        grandchild21Copy.Should().NotBeSameAs(grandchild21);
-        grandchild21Copy.Name.Should().Be("GC21");
+        grandchild21Copy.Should().NotBeTheSameInstanceAs(grandchild21);
+        grandchild21Copy.Name.Should().Equal("GC21");
         grandchild21Copy.Children.Should().BeEmpty();
 
         var child3Copy = copy.Children[2];
-        child3Copy.Should().NotBeSameAs(child3);
+        child3Copy.Should().NotBeTheSameInstanceAs(child3);
         child3Copy.Invoking(c => c.Name).Should().Throw<KeyNotFoundException>();
         child3Copy.Children.Should().BeEmpty();
     }
@@ -67,7 +67,7 @@ public sealed class PropertyNodeTests
 
         var childCopy = copy.Children[0];
         childCopy.Should().BeOfType<CNode>();
-        childCopy.Name.Should().Be("Child");
+        childCopy.Name.Should().Equal("Child");
         childCopy.Children.Should().BeEmpty();
     }
 
@@ -80,7 +80,7 @@ public sealed class PropertyNodeTests
             new ("Name", "Child")
         };
 
-        node.EnumerateProperties().Should().BeEquivalentTo(expected);
+        node.EnumerateProperties().Should().SequenceEqual(expected);
     }
 
     private sealed class CustomNodeFactory : INodeFactory<TestNode>

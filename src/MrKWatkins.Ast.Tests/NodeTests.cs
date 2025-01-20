@@ -24,7 +24,7 @@ public sealed partial class NodeTests
         root.HasParent.Should().BeFalse();
         root.Invoking(r => r.Parent).Should().Throw<InvalidOperationException>();
 
-        root.Children.Should().BeEquivalentTo(children, options => options.WithStrictOrdering());
+        root.Children.Should().SequenceEqual(children);
         root.Children.Should().OnlyContain(c => c.HasParent);
         root.Children.Should().OnlyContain(c => ReferenceEquals(c.Parent, root));
     }
@@ -37,7 +37,7 @@ public sealed partial class NodeTests
         var root = new ANode(children);
         root.HasParent.Should().BeFalse();
 
-        root.Children.Should().BeEquivalentTo(children, options => options.WithStrictOrdering());
+        root.Children.Should().SequenceEqual(children);
         root.Children.Should().OnlyContain(c => c.HasParent);
         root.Children.Should().OnlyContain(c => ReferenceEquals(c.Parent, root));
     }
@@ -48,7 +48,7 @@ public sealed partial class NodeTests
         var node = new ANode();
         node.Invoking(n => n.Name).Should().Throw<KeyNotFoundException>();
         node.Name = "Test";
-        node.Name.Should().Be("Test");
+        node.Name.Should().Equal("Test");
     }
 
     [Test]
@@ -56,27 +56,27 @@ public sealed partial class NodeTests
     {
         var root = new ANode(new BNode());
 
-        FluentActions.Invoking(() => new ANode(root.Children[0]))
+        AssertThat.Invoking(() => new ANode(root.Children[0]))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Node is already the child of another node.");
+            .That.Should().HaveMessage("Node is already the child of another node.");
     }
 
     [Test]
     public void SourcePosition()
     {
         var node = new ANode();
-        node.SourcePosition.Should().BeSameAs(MrKWatkins.Ast.Position.SourcePosition.None);
+        node.SourcePosition.Should().BeTheSameInstanceAs(MrKWatkins.Ast.Position.SourcePosition.None);
 
         var position = new BinaryFilePosition(new BinaryFile("Test File", [1, 2, 3]), 0, 1);
         node.SourcePosition = position;
-        node.SourcePosition.Should().BeSameAs(position);
+        node.SourcePosition.Should().BeTheSameInstanceAs(position);
     }
 
     [Test]
     public void ToStringTest()
     {
-        new ANode().ToString().Should().Be("ANode");
-        new BNode().ToString().Should().Be("BNode");
-        new CNode().ToString().Should().Be("CNode");
+        new ANode().ToString().Should().Equal("ANode");
+        new BNode().ToString().Should().Equal("BNode");
+        new CNode().ToString().Should().Equal("CNode");
     }
 }

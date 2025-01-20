@@ -5,10 +5,10 @@ namespace MrKWatkins.Ast.Tests.Position;
 public sealed class NonePositionTests : EqualityTestFixture
 {
     [Test]
-    public void Combine() => SourcePosition.None.Combine(SourcePosition.None).Should().BeSameAs(SourcePosition.None);
+    public void Combine() => SourcePosition.None.Combine(SourcePosition.None).Should().BeTheSameInstanceAs(SourcePosition.None);
 
     [Test]
-    public void CreateZeroWidthPrefix() => SourcePosition.None.CreateZeroWidthPrefix().Should().BeSameAs(SourcePosition.None);
+    public void CreateZeroWidthPrefix() => SourcePosition.None.CreateZeroWidthPrefix().Should().BeTheSameInstanceAs(SourcePosition.None);
 
     [TestCaseSource(nameof(EqualityTestCases))]
     public void Equality(SourcePosition x, object? y, bool expected) => AssertEqual(x, y, expected);

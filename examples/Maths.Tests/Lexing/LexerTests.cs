@@ -17,8 +17,8 @@ public sealed class LexerTests
         tokens[0].Should().BeOfType<EndOfFile>();
 
         lexer.Invoking(l => l.Next())
-            .Should().Throw<InvalidOperationException>()
-            .WithMessage("Input has already been consumed.");
+            .Should().Throw<InvalidOperationException>().That
+            .Should().HaveMessage("Input has already been consumed.");
     }
 
     [Test]
@@ -29,8 +29,8 @@ public sealed class LexerTests
         var lexer = new Lexer(reader);
 
         lexer.Invoking(l => l.Next())
-            .Should().Throw<InvalidOperationException>()
-            .WithMessage("Unexpected character '_'.");
+            .Should().Throw<InvalidOperationException>().That
+            .Should().HaveMessage("Unexpected character '_'.");
     }
 
     [TestCase("1 + x * 3", "1 + x * 3 EOF")]
@@ -44,18 +44,18 @@ public sealed class LexerTests
         var tokens = lexer.ToList();
 
         var actual = string.Join(" ", tokens);
-        actual.Should().BeEquivalentTo(expected);
+        actual.Should().SequenceEqual(expected);
 
         foreach (var token in tokens)
         {
             if (token is EndOfFile endOfFile)
             {
-                endOfFile.StartIndex.Should().Be(input.Length);
-                endOfFile.Length.Should().Be(0);
+                endOfFile.StartIndex.Should().Equal(input.Length);
+                endOfFile.Length.Should().Equal(0);
             }
             else
             {
-                token.ToString().Should().Be(input.Substring(token.StartIndex, token.Length));
+                token.ToString().Should().Equal(input.Substring(token.StartIndex, token.Length));
             }
         }
     }
@@ -71,7 +71,7 @@ public sealed class LexerTests
         var tokens = enumerable.OfType<Token>().ToList();
 
         var actual = string.Join(" ", tokens);
-        actual.Should().BeEquivalentTo("123456 * 7890 EOF");
+        actual.Should().SequenceEqual("123456 * 7890 EOF");
     }
 
     [Test]
@@ -82,24 +82,24 @@ public sealed class LexerTests
         var lexer = new Lexer(reader);
 
         var number1 = lexer.Peek();
-        number1.Should().Be(new Number(0, 3, 123));
-        lexer.Peek().Should().BeSameAs(number1);
-        lexer.Next().Should().BeSameAs(number1);
+        number1.Should().Equal(new Number(0, 3, 123));
+        lexer.Peek().Should().BeTheSameInstanceAs(number1);
+        lexer.Next().Should().BeTheSameInstanceAs(number1);
 
         var @operator = lexer.Peek();
-        @operator.Should().Be(new Operator(4, '+'));
-        lexer.Peek().Should().BeSameAs(@operator);
-        lexer.Next().Should().BeSameAs(@operator);
+        @operator.Should().Equal(new Operator(4, '+'));
+        lexer.Peek().Should().BeTheSameInstanceAs(@operator);
+        lexer.Next().Should().BeTheSameInstanceAs(@operator);
 
         var number2 = lexer.Peek();
-        number2.Should().Be(new Number(6, 3, 456));
-        lexer.Peek().Should().BeSameAs(number2);
-        lexer.Next().Should().BeSameAs(number2);
+        number2.Should().Equal(new Number(6, 3, 456));
+        lexer.Peek().Should().BeTheSameInstanceAs(number2);
+        lexer.Next().Should().BeTheSameInstanceAs(number2);
 
         var eof = lexer.Peek();
-        eof.Should().Be(new EndOfFile(9));
-        lexer.Peek().Should().BeSameAs(eof);
-        lexer.Next().Should().BeSameAs(eof);
+        eof.Should().Equal(new EndOfFile(9));
+        lexer.Peek().Should().BeTheSameInstanceAs(eof);
+        lexer.Next().Should().BeTheSameInstanceAs(eof);
     }
 
     [Test]
@@ -114,7 +114,7 @@ public sealed class LexerTests
         tokens[0].Should().BeOfType<EndOfFile>();
 
         lexer.Invoking(l => l.Peek())
-            .Should().Throw<InvalidOperationException>()
-            .WithMessage("Input has already been consumed.");
+            .Should().Throw<InvalidOperationException>().That
+            .Should().HaveMessage("Input has already been consumed.");
     }
 }

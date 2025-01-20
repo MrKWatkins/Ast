@@ -8,8 +8,8 @@ public abstract class EqualityTestFixture
     protected static void AssertEqual<T>(T x, object? y, bool expected)
         where T : IEquatable<T>
     {
-        x.Equals(y).Should().Be(expected);
-        y?.Equals(x).Should().Be(expected);
+        x.Equals(y).Should().Equal(expected);
+        y?.Equals(x).Should().Equal(expected);
 
         if (y is T ty)
         {
@@ -21,19 +21,19 @@ public abstract class EqualityTestFixture
     protected static void AssertEqual<T>(T x, T? y, bool expected)
         where T : IEquatable<T>
     {
-        x.Equals(y).Should().Be(expected);
-        y?.Equals(x).Should().Be(expected);
+        x.Equals(y).Should().Equal(expected);
+        y?.Equals(x).Should().Equal(expected);
 
-        ((object) x).Equals(y).Should().Be(expected);
-        (y as object)?.Equals(x).Should().Be(expected);
+        ((object) x).Equals(y).Should().Equal(expected);
+        (y as object)?.Equals(x).Should().Equal(expected);
 
         AssertOperator("Equality", x, y, expected);
         AssertOperator("Inequality", x, y, !expected);
 
         if (y != null && expected)
         {
-            x.GetHashCode().Should().Be(y.GetHashCode());
-            y.GetHashCode().Should().Be(x.GetHashCode());
+            x.GetHashCode().Should().Equal(y.GetHashCode());
+            y.GetHashCode().Should().Equal(x.GetHashCode());
         }
     }
 
@@ -42,8 +42,8 @@ public abstract class EqualityTestFixture
         var method = typeof(T).GetMethod($"op_{name}", BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy);
         if (method != null)
         {
-            method.Invoke(null, [x, y]).Should().Be(expected);
-            method.Invoke(null, [y, x]).Should().Be(expected);
+            method.Invoke(null, [x, y]).Should().Equal(expected);
+            method.Invoke(null, [y, x]).Should().Equal(expected);
         }
     }
 }

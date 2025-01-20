@@ -10,9 +10,9 @@ public sealed class TextFilePositionTests : EqualityTestFixture
     {
         var textFile = new TextFile("Test Name", "Test Text");
 
-        FluentActions.Invoking(() => new TextFilePosition(textFile, 0, 5, -1, 0))
+        AssertThat.Invoking(() => new TextFilePosition(textFile, 0, 5, -1, 0))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be greater than 0. (Parameter 'startLineIndex'){Environment.NewLine}Actual value was -1.");
+            .That.Should().HaveMessage($"Value must be greater than 0. (Parameter 'startLineIndex'){Environment.NewLine}Actual value was -1.");
     }
 
     [Test]
@@ -20,9 +20,9 @@ public sealed class TextFilePositionTests : EqualityTestFixture
     {
         var textFile = new TextFile("Test Name", "Test Text");
 
-        FluentActions.Invoking(() => new TextFilePosition(textFile, 0, 5, 0, -1))
+        AssertThat.Invoking(() => new TextFilePosition(textFile, 0, 5, 0, -1))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be greater than 0. (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was -1.");
+            .That.Should().HaveMessage($"Value must be greater than 0. (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was -1.");
     }
 
     [TestCase(2)]
@@ -31,9 +31,9 @@ public sealed class TextFilePositionTests : EqualityTestFixture
     {
         var textFile = new TextFile("Test Name", $"Test Line 0{Environment.NewLine}Test Line 1");
 
-        FluentActions.Invoking(() => new TextFilePosition(textFile, 0, 5, startLineIndex, 0))
+        AssertThat.Invoking(() => new TextFilePosition(textFile, 0, 5, startLineIndex, 0))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be less than the number of lines in file. (2) (Parameter 'startLineIndex'){Environment.NewLine}Actual value was {startLineIndex}.");
+            .That.Should().HaveMessage($"Value must be less than the number of lines in file. (2) (Parameter 'startLineIndex'){Environment.NewLine}Actual value was {startLineIndex}.");
     }
 
     [TestCase(11)]
@@ -42,9 +42,9 @@ public sealed class TextFilePositionTests : EqualityTestFixture
     {
         var textFile = new TextFile("Test Name", $"Test Line 0{Environment.NewLine}Test Line 1");
 
-        FluentActions.Invoking(() => new TextFilePosition(textFile, 0, 5, 1, startColumnIndex))
+        AssertThat.Invoking(() => new TextFilePosition(textFile, 0, 5, 1, startColumnIndex))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be less than the length of the start line. (11) (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was {startColumnIndex}.");
+            .That.Should().HaveMessage($"Value must be less than the length of the start line. (11) (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was {startColumnIndex}.");
     }
 
     [Test]
@@ -52,9 +52,9 @@ public sealed class TextFilePositionTests : EqualityTestFixture
     {
         var textFile = new TextFile("Test Filename", $"Some Text{Environment.NewLine}{Environment.NewLine}Some More Text");
 
-        FluentActions.Invoking(() => new TextFilePosition(textFile, 10, 0, 1, 1))
+        AssertThat.Invoking(() => new TextFilePosition(textFile, 10, 0, 1, 1))
             .Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage($"Value must be 0 for a start line of 0 length. (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was 1.");
+            .That.Should().HaveMessage($"Value must be 0 for a start line of 0 length. (Parameter 'startColumnIndex'){Environment.NewLine}Actual value was 1.");
     }
 
     [Test]
@@ -63,15 +63,15 @@ public sealed class TextFilePositionTests : EqualityTestFixture
         var textFile = new TextFile("Test Filename", "Some Text\nSome More Text");
 
         var position = new TextFilePosition(textFile, 15, 4, 1, 5);
-        position.File.Should().BeSameAs(textFile);
-        position.StartIndex.Should().Be(15);
-        position.Length.Should().Be(4);
-        position.StartLineIndex.Should().Be(1);
-        position.StartLineNumber.Should().Be(2);
-        position.StartColumnIndex.Should().Be(5);
-        position.StartColumnNumber.Should().Be(6);
-        position.StartLine.Should().Be("Some More Text");
-        position.Text.Should().Be("More");
+        position.File.Should().BeTheSameInstanceAs(textFile);
+        position.StartIndex.Should().Equal(15);
+        position.Length.Should().Equal(4);
+        position.StartLineIndex.Should().Equal(1);
+        position.StartLineNumber.Should().Equal(2);
+        position.StartColumnIndex.Should().Equal(5);
+        position.StartColumnNumber.Should().Equal(6);
+        position.StartLine.Should().Equal("Some More Text");
+        position.Text.Should().Equal("More");
     }
 
     [Test]
@@ -80,15 +80,15 @@ public sealed class TextFilePositionTests : EqualityTestFixture
         var textFile = new TextFile("Test Filename", $"Some Text{Environment.NewLine}{Environment.NewLine}Some More Text");
 
         var position = new TextFilePosition(textFile, 10, 0, 1, 0);
-        position.File.Should().BeSameAs(textFile);
-        position.StartIndex.Should().Be(10);
-        position.Length.Should().Be(0);
-        position.StartLineIndex.Should().Be(1);
-        position.StartLineNumber.Should().Be(2);
-        position.StartColumnIndex.Should().Be(0);
-        position.StartColumnNumber.Should().Be(1);
-        position.StartLine.Should().Be("");
-        position.Text.Should().Be("");
+        position.File.Should().BeTheSameInstanceAs(textFile);
+        position.StartIndex.Should().Equal(10);
+        position.Length.Should().Equal(0);
+        position.StartLineIndex.Should().Equal(1);
+        position.StartLineNumber.Should().Equal(2);
+        position.StartColumnIndex.Should().Equal(0);
+        position.StartColumnNumber.Should().Equal(1);
+        position.StartLine.Should().Equal("");
+        position.Text.Should().Equal("");
     }
 
     [TestCase(
@@ -118,16 +118,16 @@ public sealed class TextFilePositionTests : EqualityTestFixture
         var positionY = new TextFilePosition(textFile, startIndexY, lengthY, startLineIndexY, startColumnIndexY);
 
         var combined = positionX.Combine(positionY);
-        combined.StartIndex.Should().Be(expectedStartIndex);
-        combined.Length.Should().Be(expectedLength);
-        combined.StartLineIndex.Should().Be(expectedStartLineIndex);
-        combined.StartColumnIndex.Should().Be(expectedStartColumnIndex);
+        combined.StartIndex.Should().Equal(expectedStartIndex);
+        combined.Length.Should().Equal(expectedLength);
+        combined.StartLineIndex.Should().Equal(expectedStartLineIndex);
+        combined.StartColumnIndex.Should().Equal(expectedStartColumnIndex);
 
         combined = positionY.Combine(positionX);
-        combined.StartIndex.Should().Be(expectedStartIndex);
-        combined.Length.Should().Be(expectedLength);
-        combined.StartLineIndex.Should().Be(expectedStartLineIndex);
-        combined.StartColumnIndex.Should().Be(expectedStartColumnIndex);
+        combined.StartIndex.Should().Equal(expectedStartIndex);
+        combined.Length.Should().Equal(expectedLength);
+        combined.StartLineIndex.Should().Equal(expectedStartLineIndex);
+        combined.StartColumnIndex.Should().Equal(expectedStartColumnIndex);
     }
 
     [Test]
@@ -138,8 +138,8 @@ public sealed class TextFilePositionTests : EqualityTestFixture
         var positionX = new TextFilePosition(textFile, 5, 4, 0, 5);
         var positionY = new TextFilePosition(textFile, 18, 4, 1, 5);
 
-        (positionX + positionY).Should().Be(positionX.Combine(positionY));
-        (positionY + positionX).Should().Be(positionY.Combine(positionX));
+        (positionX + positionY).Should().Equal(positionX.Combine(positionY));
+        (positionY + positionX).Should().Equal(positionY.Combine(positionX));
     }
 
     [Test]
@@ -150,7 +150,7 @@ public sealed class TextFilePositionTests : EqualityTestFixture
 
         var zeroWidth = position.CreateZeroWidthPrefix();
 
-        zeroWidth.Should().Be(new TextFilePosition(textFile, 18, 0, 1, 5));
+        zeroWidth.Should().Equal(new TextFilePosition(textFile, 18, 0, 1, 5));
     }
 
     [Test]
@@ -158,7 +158,7 @@ public sealed class TextFilePositionTests : EqualityTestFixture
     {
         var textFile = new TextFile("Test Name", "Test Line 0\nTest Line 1");
         var position = new TextFilePosition(textFile, 18, 4, 1, 5);
-        position.ToString().Should().Be("Test Name (2, 6)");
+        position.ToString().Should().Equal("Test Name (2, 6)");
     }
 
     [Test]
@@ -169,7 +169,7 @@ public sealed class TextFilePositionTests : EqualityTestFixture
 
         var stringBuilder = new StringBuilder();
         position.WriteSourceForMessage(stringBuilder);
-        stringBuilder.ToString().Should().BeEquivalentTo($" \t Test Line 0{Environment.NewLine} \t      ----");
+        stringBuilder.ToString().Should().SequenceEqual($" \t Test Line 0{Environment.NewLine} \t      ----");
     }
 
     [Test]
@@ -180,7 +180,7 @@ public sealed class TextFilePositionTests : EqualityTestFixture
 
         var stringBuilder = new StringBuilder();
         position.WriteSourceForMessage(stringBuilder);
-        stringBuilder.ToString().Should().BeEquivalentTo($" \t Test Line 0{Environment.NewLine} \t      ------");
+        stringBuilder.ToString().Should().SequenceEqual($" \t Test Line 0{Environment.NewLine} \t      ------");
     }
 
     [TestCaseSource(nameof(EqualityTestCases))]

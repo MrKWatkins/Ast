@@ -17,14 +17,14 @@ public sealed class SerialPipelineStageBuilderTests : PipelineStageBuilderTestFi
             .Add(processor)
             .Build();
 
-        stage.Name.Should().Be("123");
+        stage.Name.Should().Equal("123");
 
         stage.Run(N1).Should().BeTrue();
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1));
+        processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
 
         N12.AddError("Default should continue checks the tree for errors.");
         stage.Run(N1).Should().BeFalse();
-        processor.Processed.Should().HaveSameOrderAs(TestNode.Traverse.DepthFirstPreOrder(N1).Concat(TestNode.Traverse.DepthFirstPreOrder(N1)));
+        processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).Concat(TestNode.Traverse.DepthFirstPreOrder(N1)));
     }
 
     [Test]
@@ -47,7 +47,7 @@ public sealed class SerialPipelineStageBuilderTests : PipelineStageBuilderTestFi
             .Add(processors[0], processors[1], processors[2])
             .Build();
 
-        stage.Processors.Should().BeEquivalentTo(processors);
+        stage.Processors.Should().SequenceEqual(processors);
     }
 
     private sealed class TestProcessor : OrderedProcessor<TestNode>
