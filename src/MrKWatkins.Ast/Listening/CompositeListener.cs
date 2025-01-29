@@ -32,6 +32,9 @@ public sealed class CompositeListener<TContext, TBaseNode> : Listener<TContext, 
     /// <inheritdoc />
     protected internal override void AfterListenToNode(TContext context, TBaseNode node) => listeners.Get(node)?.AfterListenToNode(context, node);
 
+    /// <inheritdoc />
+    protected internal override bool ShouldListenToChildren(TContext context, TBaseNode node) => listeners.Get(node)?.ShouldListenToChildren(context, node) ?? true;
+
     [MustUseReturnValue]
     ICompositeListenerBuilder<TContext, TBaseNode> ICompositeListenerBuilder<TContext, TBaseNode>.With(Listener<TContext, TBaseNode> listener)
     {

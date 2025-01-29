@@ -4,7 +4,7 @@
 Collection of child nodes for a [Node&lt;TNode&gt;](MrKWatkins.Ast.Node-1.md).
 
 ```c#
-public sealed class Children<TNode> : IList<TNode>, ICollection<TNode>, IEnumerable<TNode>, IEnumerable
+public sealed class Children<TNode> : IList<TNode>, ICollection<TNode>, IEnumerable<TNode>, IEnumerable, IReadOnlyList<TNode>, IReadOnlyCollection<TNode>
    where TNode : Node<TNode>
 ```
 

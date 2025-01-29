@@ -42,7 +42,7 @@ public sealed class ListenerTests : TreeTestFixture
 
         protected internal override void AfterListenToNode(StringBuilder context, TestNode node) => context.Append(')');
 
-        protected override bool ShouldListenToChildren(StringBuilder context, TestNode node) => ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToChildren(context, node);
+        protected internal override bool ShouldListenToChildren(StringBuilder context, TestNode node) => ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToChildren(context, node);
     }
 
     private sealed class CallsBaseTestListener : Listener<StringBuilder, TestNode>

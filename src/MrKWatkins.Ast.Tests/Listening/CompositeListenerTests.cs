@@ -152,6 +152,35 @@ public sealed class CompositeListenerTests : TreeTestFixture
         rootListener.Count.Should().Equal(10);
     }
 
+    [Test]
+    public void Listen_ShouldListenToChildren()
+    {
+        var doListenToChildren = new TestListener<ANode> { ListenToChildren = (_, _) => true };
+        var doNotListenToChildren = new TestListener<BNode> { ListenToChildren = (_, _) => false };
+
+        var tree = new ANode(new ANode(new CNode()), new BNode(new BChild()), new CNode());
+
+        var listener = CompositeListener<TestContext, TestNode>
+            .Build()
+            .With(doListenToChildren)
+            .With(doNotListenToChildren)
+            .ToListener();
+
+        var context = new TestContext();
+        listener.Listen(context, tree);
+
+        context.Count.Should().Equal(3);
+        doListenToChildren.Count.Should().Equal(2);
+        doNotListenToChildren.Count.Should().Equal(1);
+
+        // Repeat to ensure cached handlers work.
+        listener.Listen(context, tree);
+
+        context.Count.Should().Equal(6);
+        doListenToChildren.Count.Should().Equal(4);
+        doNotListenToChildren.Count.Should().Equal(2);
+    }
+
     private class BChild : BNode;
 
     private class BGrandChild : BChild;
@@ -172,6 +201,8 @@ public sealed class CompositeListenerTests : TreeTestFixture
     private sealed class TestListener<TNode> : Listener<TestContext, TestNode, TNode>
         where TNode : TestNode
     {
+        public Func<TestContext, TNode, bool>? ListenToChildren { get; init; }
+
         public int Count { get; private set; }
 
         protected override void ListenToNode(TestContext context, TNode _)
@@ -179,6 +210,8 @@ public sealed class CompositeListenerTests : TreeTestFixture
             context.Count++;
             Count++;
         }
+
+        protected override bool ShouldListenToChildren(TestContext context, TNode node) => ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToChildren(context, node);
     }
 
     private sealed class TestContext

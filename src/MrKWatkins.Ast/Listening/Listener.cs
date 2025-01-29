@@ -68,7 +68,7 @@ public abstract class Listener<TContext, TNode>
     /// <param name="context">The context object.</param>
     /// <param name="node">The node whose children should be listened to or not.</param>
     /// <returns><c>true</c> if child nodes should be listened to, <c>false</c> otherwise.</returns>
-    protected virtual bool ShouldListenToChildren(TContext context, TNode node) => true;
+    protected internal virtual bool ShouldListenToChildren(TContext context, TNode node) => true;
 }
 
 /// <summary>
@@ -135,4 +135,16 @@ public abstract class Listener<TContext, TBaseNode, TNode> : Listener<TContext, 
     protected virtual void AfterListenToNode(TContext context, TNode node)
     {
     }
+
+    /// <inheritdoc />
+    protected internal sealed override bool ShouldListenToChildren(TContext context, TBaseNode node) =>
+        node is not TNode typedNode || ShouldListenToChildren(context, typedNode);
+
+    /// <summary>
+    /// Return a value indicating whether child nodes should be listened to or not. Defaults to <c>true</c>.
+    /// </summary>
+    /// <param name="context">The context object.</param>
+    /// <param name="node">The node whose children should be listened to or not.</param>
+    /// <returns><c>true</c> if child nodes should be listened to, <c>false</c> otherwise.</returns>
+    protected virtual bool ShouldListenToChildren(TContext context, TNode node) => true;
 }
