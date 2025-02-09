@@ -52,7 +52,7 @@ public sealed partial class NodeTests
         child2.ReplaceWith(replacement);
         child2.HasParent.Should().BeFalse();
 
-        parent.Children.Should().SequenceEqual(new TestNode[] { child1, replacement, child3 });
+        parent.Children.Should().SequenceEqual(child1, replacement, child3);
     }
 
     [Test]

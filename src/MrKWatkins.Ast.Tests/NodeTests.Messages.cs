@@ -58,7 +58,7 @@ public sealed partial class NodeTests
         grandchild.ThisAndDescendentsWithMessages.Should().BeEmpty();
 
         grandchild.AddWarning("Grandchild Warning");
-        parent.ThisAndDescendentsWithMessages.Should().SequenceEqual(new TestNode[] { parent, grandchild });
+        parent.ThisAndDescendentsWithMessages.Should().SequenceEqual(parent, grandchild);
         child.ThisAndDescendentsWithMessages.Should().SequenceEqual(grandchild);
         grandchild.ThisAndDescendentsWithMessages.Should().SequenceEqual(grandchild);
     }
@@ -124,7 +124,7 @@ public sealed partial class NodeTests
         grandchild.ThisAndDescendentsWithErrors.Should().BeEmpty();
 
         grandchild.AddError("Grandchild Error");
-        parent.ThisAndDescendentsWithErrors.Should().SequenceEqual(new TestNode[] { parent, grandchild });
+        parent.ThisAndDescendentsWithErrors.Should().SequenceEqual(parent, grandchild);
         child.ThisAndDescendentsWithErrors.Should().SequenceEqual(grandchild);
         grandchild.ThisAndDescendentsWithErrors.Should().SequenceEqual(grandchild);
     }
@@ -190,7 +190,7 @@ public sealed partial class NodeTests
         grandchild.ThisAndDescendentsWithWarnings.Should().BeEmpty();
 
         grandchild.AddWarning("Grandchild Warning");
-        parent.ThisAndDescendentsWithWarnings.Should().SequenceEqual(new TestNode[] { parent, grandchild });
+        parent.ThisAndDescendentsWithWarnings.Should().SequenceEqual(parent, grandchild);
         child.ThisAndDescendentsWithWarnings.Should().SequenceEqual(grandchild);
         grandchild.ThisAndDescendentsWithWarnings.Should().SequenceEqual(grandchild);
     }
@@ -256,7 +256,7 @@ public sealed partial class NodeTests
         grandchild.ThisAndDescendentsWithInfos.Should().BeEmpty();
 
         grandchild.AddInfo("Grandchild Info");
-        parent.ThisAndDescendentsWithInfos.Should().SequenceEqual(new TestNode[] { parent, grandchild });
+        parent.ThisAndDescendentsWithInfos.Should().SequenceEqual(parent, grandchild);
         child.ThisAndDescendentsWithInfos.Should().SequenceEqual(grandchild);
         grandchild.ThisAndDescendentsWithInfos.Should().SequenceEqual(grandchild);
     }

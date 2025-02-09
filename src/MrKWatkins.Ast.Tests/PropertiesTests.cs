@@ -927,7 +927,7 @@ public sealed class PropertiesTests
 
         copy.GetMultiple<int>("MultipleOne").Should().SequenceEqual(1, 2);
         copy.GetMultiple<string>("MultipleTwo").Should().SequenceEqual("1", "2");
-        copy.GetMultiple<object>("MultipleThree").Should().SequenceEqual(new object[] { 1, "2" });
+        copy.GetMultiple<object>("MultipleThree").Should().SequenceEqual(1, "2");
 
         // Mutating the copy should not change the original.
         copy.Set("SingleOne", 2);

@@ -758,7 +758,7 @@ public sealed partial class ChildrenTests
 
         parent.Children.ExceptOfType<ANode>().Should().SequenceEqual(b1, b2);
         parent.Children.ExceptOfType<BNode>().Should().SequenceEqual(a);
-        parent.Children.ExceptOfType<CNode>().Should().SequenceEqual(new TestNode[] { b1, a, b2 });
+        parent.Children.ExceptOfType<CNode>().Should().SequenceEqual(b1, a, b2);
     }
 
     [Test]
