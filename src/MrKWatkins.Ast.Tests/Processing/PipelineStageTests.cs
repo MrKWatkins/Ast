@@ -6,7 +6,7 @@ public sealed class PipelineStageTests : TreeTestFixture
 {
     [Test]
     public void Constructor_ThrowsForNoStages() =>
-        AssertThat.Invoking(() => new PipelineStage<TestNode>("Test Stage", Array.Empty<Processor<TestNode>>(), _ => true))
+        AssertThat.Invoking(() => new PipelineStage<TestNode>("Test Stage", [], _ => true))
             .Should().Throw<ArgumentException>().That.Should()
             .HaveMessageStartingWith("Value is empty.").And
             .HaveParamName("processors");

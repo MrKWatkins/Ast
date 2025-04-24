@@ -183,9 +183,9 @@ public sealed class CompositeListenerTests : TreeTestFixture
 
     private class BChild : BNode;
 
-    private class BGrandChild : BChild;
+    private sealed class BGrandChild : BChild;
 
-    private class CChild : CNode;
+    private sealed class CChild : CNode;
 
     private sealed class TestListener : Listener<TestContext, TestNode>
     {
@@ -205,7 +205,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
 
         public int Count { get; private set; }
 
-        protected override void ListenToNode(TestContext context, TNode _)
+        protected override void ListenToNode(TestContext context, TNode node)
         {
             context.Count++;
             Count++;

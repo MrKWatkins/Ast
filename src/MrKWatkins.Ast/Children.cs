@@ -375,8 +375,8 @@ public sealed partial class Children<TNode> : IList<TNode>, IReadOnlyList<TNode>
     [Pure]
     public TNode[] Slice(int index, int count)
     {
-        ArgumentOutOfRangeException.ThrowIfNegative(index, nameof(index));
-        ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+        ArgumentOutOfRangeException.ThrowIfNegative(index);
+        ArgumentOutOfRangeException.ThrowIfNegative(count);
 
         if (nodes.Length - index < count)
         {
@@ -399,8 +399,8 @@ public sealed partial class Children<TNode> : IList<TNode>, IReadOnlyList<TNode>
     [Pure]
     public IEnumerable<TNode> EnumerateSlice(int index, int count)
     {
-        ArgumentOutOfRangeException.ThrowIfNegative(index, nameof(index));
-        ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+        ArgumentOutOfRangeException.ThrowIfNegative(index);
+        ArgumentOutOfRangeException.ThrowIfNegative(count);
 
         if (nodes.Length - index < count)
         {

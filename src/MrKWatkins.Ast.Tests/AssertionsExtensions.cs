@@ -9,6 +9,9 @@ public static class AssertionsExtensions
     [Pure]
     public static ExceptionAssertions<ProcessingException<TestNode>> Should(this ProcessingException<TestNode>? value) => new(value);
 
+    [Pure]
+    public static ExceptionAssertions<PipelineException> Should(this PipelineException? value) => new(value);
+
     public static ExceptionAssertionsChain<ProcessingException<TestNode>> HaveParameters(
         this ExceptionAssertions<ProcessingException<TestNode>> assertions,
         string expectedMessage, TestNode expectedNode)
@@ -18,9 +21,6 @@ public static class AssertionsExtensions
 
         return new ExceptionAssertionsChain<ProcessingException<TestNode>>(assertions);
     }
-
-    [Pure]
-    public static ExceptionAssertions<PipelineException> Should(this PipelineException? value) => new(value);
 
     public static ExceptionAssertionsChain<PipelineException> HaveParameters(
         this ExceptionAssertions<PipelineException> assertions,

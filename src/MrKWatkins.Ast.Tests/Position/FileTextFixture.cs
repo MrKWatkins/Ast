@@ -4,7 +4,7 @@ public abstract class FileTextFixture : EqualityTestFixture
 {
     protected static void WithTempFile(Action<FileInfo> action)
     {
-        var tempFile = new FileInfo(Path.GetTempFileName());
+        var tempFile = new FileInfo(Path.GetRandomFileName());
         try
         {
             action(tempFile);
