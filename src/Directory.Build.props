@@ -8,12 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" PrivateAssets="All"/>
+        <PackageReference Include="JetBrains.Annotations" PrivateAssets="All" />
 
-        <Using Include="System.Diagnostics.CodeAnalysis"/>
-        <Using Include="System.Diagnostics.Contracts"/>
-        <Using Include="System.Diagnostics.Contracts.PureAttribute" Alias="PureAttribute"/>
-        <Using Include="JetBrains.Annotations"/>
+        <Using Include="System.Diagnostics.CodeAnalysis" />
+        <Using Include="System.Diagnostics.Contracts" />
+        <Using Include="System.Diagnostics.Contracts.PureAttribute" Alias="PureAttribute" />
+        <Using Include="JetBrains.Annotations" />
 
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
             <_Parameter1>$(AssemblyName).Tests</_Parameter1>
@@ -21,12 +21,12 @@
     </ItemGroup>
 
     <ItemGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
-        <PackageReference Include="MrKWatkins.Assertions"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-        <PackageReference Include="NUnit"/>
-        <PackageReference Include="NUnit3TestAdapter"/>
+        <PackageReference Include="MrKWatkins.Assertions" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="NUnit" />
+        <PackageReference Include="NUnit3TestAdapter" />
 
-        <Using Include="MrKWatkins.Assertions"/>
-        <Using Include="NUnit.Framework"/>
+        <Using Include="MrKWatkins.Assertions" />
+        <Using Include="NUnit.Framework" />
     </ItemGroup>
 </Project>
