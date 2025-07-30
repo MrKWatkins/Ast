@@ -135,8 +135,8 @@ public sealed class SourceFilePositionTests
     {
         protected override TestPosition CreateCombination(TestPosition other) => Combined;
 
-        public TestPosition Combined { get; init; } = null!;
+    public TestPosition Combined { get; init; } = null!;
 
-        public override SourcePosition CreateZeroWidthPrefix() => throw new NotSupportedException();
-    }
+    public override SourcePosition CreateZeroWidthPrefix() => throw new NotSupportedException();
+}
 }

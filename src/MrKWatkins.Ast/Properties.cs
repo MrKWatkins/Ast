@@ -570,8 +570,8 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>
     {
         public bool Multiple { get; } = multiple;
 
-        public Type Type { get; } = type;
+    public Type Type { get; } = type;
 
-        public object Value { get; } = value;
-    }
+    public object Value { get; } = value;
+}
 }

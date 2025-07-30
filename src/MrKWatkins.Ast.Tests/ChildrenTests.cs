@@ -253,7 +253,7 @@ public sealed partial class ChildrenTests
     {
         var child = new BNode();
         var parent = new ANode(child);
-        parent.Children.Invoking(c => c.Move((IEnumerable<BNode>) [new BNode(), child]))
+        parent.Children.Invoking(c => c.Move((IEnumerable<BNode>)[new BNode(), child]))
             .Should().Throw<InvalidOperationException>()
             .That.Should().HaveMessage("node is already in this collection.");
     }

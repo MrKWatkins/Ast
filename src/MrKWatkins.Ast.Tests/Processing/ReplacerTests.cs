@@ -279,38 +279,38 @@ public sealed class ReplacerTests : TreeTestFixture
     {
         public TestReplacer(TestNode original, TestNode? replacement, bool? processReplacements = null)
             : this(node => node == original, _ => replacement, processReplacements)
-        {
-        }
-
-        protected override TestNode? ReplaceNode(TestNode node) => shouldReplace(node) ? createReplacement(node) : node;
-
-        protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
+    {
     }
 
-    private sealed class TestOriginalTypedReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TestNode?> createReplacement, bool? processReplacements = null)
+    protected override TestNode? ReplaceNode(TestNode node) => shouldReplace(node) ? createReplacement(node) : node;
+
+    protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
+}
+
+private sealed class TestOriginalTypedReplacer(Func<TestNode, bool> shouldReplace, Func<TestNode, TestNode?> createReplacement, bool? processReplacements = null)
         : Replacer<TestNode, BNode>
     {
         public TestOriginalTypedReplacer(TestNode original, TestNode? replacement, bool? processReplacements = null)
             : this(node => node == original, _ => replacement, processReplacements)
-        {
-        }
+{
+}
 
-        protected override TestNode? ReplaceNode(BNode node) => shouldReplace(node) ? createReplacement(node) : node;
+protected override TestNode? ReplaceNode(BNode node) => shouldReplace(node) ? createReplacement(node) : node;
 
-        protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
-    }
+protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
+}
 
-    private sealed class TestOriginalAndReplacementTypedReplacer<TReplacement>(Func<TestNode, bool> shouldReplace, Func<TestNode, TReplacement?> createReplacement, bool? processReplacements = null)
+private sealed class TestOriginalAndReplacementTypedReplacer<TReplacement>(Func<TestNode, bool> shouldReplace, Func<TestNode, TReplacement?> createReplacement, bool ? processReplacements = null)
         : Replacer<TestNode, BNode, TReplacement>
         where TReplacement : TestNode
-    {
-        public TestOriginalAndReplacementTypedReplacer(TestNode original, TReplacement? replacement, bool? processReplacements = null)
+{
+    public TestOriginalAndReplacementTypedReplacer(TestNode original, TReplacement? replacement, bool? processReplacements = null)
             : this(node => node == original, _ => replacement, processReplacements)
         {
-        }
+    }
 
         protected override TReplacement? ReplaceNode(BNode node) => shouldReplace(node) ? createReplacement(node) : null;
 
-        protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
+protected override bool ProcessReplacements => processReplacements ?? base.ProcessReplacements;
     }
 }
