@@ -5,8 +5,8 @@
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
     <ItemGroup>
-        <PackageVersion Include="JetBrains.Annotations" Version="2024.3.0"/>
-        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0"/>
+        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.0" />
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
         <PackageVersion Include="MrKWatkins.Assertions" Version="0.0.21"/>
         <PackageVersion Include="NUnit" Version="4.3.2"/>
         <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0"/>
