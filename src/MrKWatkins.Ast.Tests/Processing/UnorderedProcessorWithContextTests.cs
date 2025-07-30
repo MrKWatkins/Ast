@@ -151,6 +151,6 @@ public sealed class UnorderedProcessorWithContextTests : TreeTestFixture
     {
         public TestNode Root { get; } = root;
 
-        public int NodesProcessed { get; set; }
-    }
+    public int NodesProcessed { get; set; }
+}
 }
