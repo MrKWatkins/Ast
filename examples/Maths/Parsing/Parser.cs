@@ -50,10 +50,7 @@ public static class Parser
         var parameters = new Dictionary<string, Parameter>();
         foreach (var variable in expression.ThisAndDescendents.OfType<Variable>())
         {
-            if (!parameters.ContainsKey(variable.Name))
-            {
-                parameters.Add(variable.Name, new Parameter(variable.Name));
-            }
+            parameters.TryAdd(variable.Name, new Parameter(variable.Name));
         }
 
         return new Function(parameters.Values.OrderBy(p => p.Name), expression);
