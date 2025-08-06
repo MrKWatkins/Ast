@@ -39,13 +39,11 @@ public abstract class PipelineStageBuilder<TSelf, TProcessor, TNode>
     /// <summary>
     /// Adds <see cref="Processor{TNode}">Processors</see> to the current stage.
     /// </summary>
-    /// <param name="processor">The first processor to add.</param>
-    /// <param name="others">Other processors to add.</param>
+    /// <param name="processors">The processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public TSelf Add(TProcessor processor, [InstantHandle] params IEnumerable<TProcessor> others)
+    public TSelf Add([InstantHandle] params IEnumerable<TProcessor> processors)
     {
-        Processors.Add(processor);
-        Processors.AddRange(others);
+        Processors.AddRange(processors);
         return Self;
     }
 

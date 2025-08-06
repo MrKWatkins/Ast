@@ -15,7 +15,10 @@ public sealed class ParallelPipelineStageBuilder<TNode> : PipelineStageBuilder<P
     }
 
     [Pure]
-    internal override PipelineStage<TNode> Build() => new(Name, [new ParallelProcessor<TNode>(Processors, maxDegreeOfParallelism)], ShouldContinue);
+    internal override PipelineStage<TNode> Build()
+    {
+        return new PipelineStage<TNode>(Name, [new ParallelProcessor<TNode>(Processors, maxDegreeOfParallelism)], ShouldContinue);
+    }
 
     /// <summary>
     /// Sets the maximum degree of parallelism for parallel processing. If set to 1 then the stage will proceed in serial. If greater than 1 then 1 thread

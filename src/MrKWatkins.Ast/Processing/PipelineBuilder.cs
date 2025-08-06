@@ -47,21 +47,19 @@ public sealed class PipelineBuilder<TNode>
     /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run serially.
     /// Its name will be the number of the stage.
     /// </summary>
-    /// <param name="processor">The first processor to add.</param>
-    /// <param name="others">Other processors to add.</param>
+    /// <param name="processors">The processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddStage(Processor<TNode> processor, [InstantHandle] params IEnumerable<Processor<TNode>> others) =>
-        AddStage(b => b.Add(processor, others));
+    public PipelineBuilder<TNode> AddStage([InstantHandle] params IEnumerable<Processor<TNode>> processors) =>
+        AddStage(b => b.Add(processors));
 
     /// <summary>
     /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run serially.
     /// </summary>
     /// <param name="name">The name of the stage.</param>
-    /// <param name="processor">The first processor to add.</param>
-    /// <param name="others">Other processors to add.</param>
+    /// <param name="processors">The processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddStage(string name, Processor<TNode> processor, [InstantHandle] params IEnumerable<Processor<TNode>> others) =>
-        AddStage(b => b.WithName(name).Add(processor, others));
+    public PipelineBuilder<TNode> AddStage(string name, [InstantHandle] params IEnumerable<Processor<TNode>> processors) =>
+        AddStage(b => b.WithName(name).Add(processors));
 
     /// <summary>
     /// Adds a stage to the pipeline that runs <see cref="UnorderedProcessor{TNode}">UnorderedProcessors</see> in parallel.
@@ -81,39 +79,33 @@ public sealed class PipelineBuilder<TNode>
     /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run in parallel.
     /// Its name will be the number of the stage.
     /// </summary>
-    /// <param name="processor1">The first processor to add.</param>
-    /// <param name="processor2">The second processor to add.</param>
-    /// <param name="others">Other processors to add.</param>
+    /// <param name="processors">The processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddParallelStage(UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> others) =>
-        AddParallelStage(b => b.Add(processor1).Add(processor2, others));
+    public PipelineBuilder<TNode> AddParallelStage([InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> processors) =>
+        AddParallelStage(b => b.Add(processors));
 
     /// <summary>
     /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run in parallel.
     /// Its name will be the number of the stage.
     /// </summary>
     /// <param name="name">The name of the stage.</param>
-    /// <param name="processor1">The first processor to add.</param>
-    /// <param name="processor2">The second processor to add.</param>
-    /// <param name="others">Other processors to add.</param>
+    /// <param name="processors">The processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddParallelStage(string name, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> others) =>
-        AddParallelStage(b => b.WithName(name).Add(processor1).Add(processor2, others));
+    public PipelineBuilder<TNode> AddParallelStage(string name, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> processors) =>
+        AddParallelStage(b => b.WithName(name).Add(processors));
 
     /// <summary>
     /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run in parallel with the specified maximum
     /// degree of parallelism. Its name will be the number of the stage.
     /// </summary>
     /// <param name="maxDegreeOfParallelism">
-    /// The maximum degree of parallelism. If set to 1 then the stage will proceed in serial. If greater than 1 then 1 thread
+    /// The maximum degree of parallelism. If set to one, then the stage will proceed in serial. If greater than one, then one thread
     /// will be used to walk the tree and the other threads will be used to process the nodes.
     /// </param>
-    /// <param name="processor1">The first processor to add.</param>
-    /// <param name="processor2">The second processor to add.</param>
-    /// <param name="others">Other processors to add.</param>
+    /// <param name="processors">The processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddParallelStage(int maxDegreeOfParallelism, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> others) =>
-        AddParallelStage(b => b.Add(processor1).Add(processor2, others).WithMaxDegreeOfParallelism(maxDegreeOfParallelism));
+    public PipelineBuilder<TNode> AddParallelStage(int maxDegreeOfParallelism, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> processors) =>
+        AddParallelStage(b => b.Add(processors).WithMaxDegreeOfParallelism(maxDegreeOfParallelism));
 
     /// <summary>
     /// Adds a stage with the specified name to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run in parallel
@@ -121,13 +113,11 @@ public sealed class PipelineBuilder<TNode>
     /// </summary>
     /// <param name="name">The name of the stage.</param>
     /// <param name="maxDegreeOfParallelism">
-    /// The maximum degree of parallelism. If set to 1 then the stage will proceed in serial. If greater than 1 then 1 thread
+    /// The maximum degree of parallelism. If set to one, then the stage will proceed in serial. If greater than one, then one thread
     /// will be used to walk the tree and the other threads will be used to process the nodes.
     /// </param>
-    /// <param name="processor1">The first processor to add.</param>
-    /// <param name="processor2">The second processor to add.</param>
-    /// <param name="others">Other processors to add.</param>
+    /// <param name="processors">The processors to add.</param>
     /// <returns>The fluent builder.</returns>
-    public PipelineBuilder<TNode> AddParallelStage(string name, int maxDegreeOfParallelism, UnorderedProcessor<TNode> processor1, UnorderedProcessor<TNode> processor2, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> others) =>
-        AddParallelStage(b => b.WithName(name).Add(processor1).Add(processor2, others).WithMaxDegreeOfParallelism(maxDegreeOfParallelism));
+    public PipelineBuilder<TNode> AddParallelStage(string name, int maxDegreeOfParallelism, [InstantHandle] params IEnumerable<UnorderedProcessor<TNode>> processors) =>
+        AddParallelStage(b => b.WithName(name).Add(processors).WithMaxDegreeOfParallelism(maxDegreeOfParallelism));
 }
