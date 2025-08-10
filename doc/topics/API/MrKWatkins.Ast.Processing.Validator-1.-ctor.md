@@ -1,4 +1,4 @@
-# Validator&lt;TNode&gt; Constructors
+# Validator&lt;TBaseNode&gt; Constructors
 
 ```c#
 protected Validator();

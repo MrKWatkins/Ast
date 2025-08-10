@@ -1,4 +1,4 @@
-# Replacer&lt;TBaseNode, TNode&gt; Constructors
+# Replacer&lt;TContext, TBaseNode&gt; Constructors
 
 ```c#
 protected Replacer();

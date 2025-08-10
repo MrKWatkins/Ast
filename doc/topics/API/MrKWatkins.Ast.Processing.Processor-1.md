@@ -1,22 +1,28 @@
-# Processor&lt;TNode&gt; Class
+# Processor&lt;TBaseNode&gt; Class
 ## Definition
 
-A processor to traverse a tree of nodes and perform some processing on some or all of them.
+Performs some processing on a given node in a [Pipeline&lt;TBaseNode&gt;](MrKWatkins.Ast.Processing.Pipeline-1.md).
 
 ```c#
-public abstract class Processor<TNode>
-   where TNode : Node<TNode>
+public abstract class Processor<TBaseNode>
+   where TBaseNode : Node<TBaseNode>
 ```
 
 ### Type Parameters
 
 | Name | Description |
 | ---- | ----------- |
-| TNode | The type of nodes in the tree. |
+| TBaseNode | The type of nodes in the tree. |
+
+## Constructors
+
+| Name | Description |
+| ---- | ----------- |
+| [Processor()](MrKWatkins.Ast.Processing.Processor-1.-ctor.md) |  |
 
 ## Methods
 
 | Name | Description |
 | ---- | ----------- |
-| [Process(TNode)](MrKWatkins.Ast.Processing.Processor-1.Process.md) | Processes a tree of nodes from the specified root node. |
+| [Process(TBaseNode)](MrKWatkins.Ast.Processing.Processor-1.Process.md) | Performs processing on the specified `node`. Does not process any descendents. |
 

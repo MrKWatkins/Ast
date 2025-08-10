@@ -26,3 +26,6 @@ public sealed class DepthFirstPreOrderTraversal<TNode> : ITraversal<TNode>
 | ---- | ----------- |
 | [Enumerate(TNode, Boolean, Func&lt;TNode, Boolean&gt;)](MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal-1.Enumerate.md) |  |
 
+## See Also
+
+[](https://en.wikipedia.org/wiki/Depth-first_search)

@@ -1,4 +1,4 @@
-# OrderedProcessor&lt;TNode&gt; Constructors
+# OrderedProcessor&lt;TBaseNode&gt; Constructors
 
 ```c#
 protected OrderedProcessor();

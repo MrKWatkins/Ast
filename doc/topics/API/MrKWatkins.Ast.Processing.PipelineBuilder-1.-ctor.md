@@ -1,4 +1,4 @@
-# PipelineBuilder&lt;TNode&gt; Constructors
+# PipelineBuilder&lt;TBaseNode&gt; Constructors
 
 ```c#
 public PipelineBuilder();

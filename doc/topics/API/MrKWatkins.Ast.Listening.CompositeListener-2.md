@@ -23,4 +23,5 @@ public sealed class CompositeListener<TContext, TBaseNode> : Listener<TContext, 
 | [BeforeListenToNode(TContext, TBaseNode)](MrKWatkins.Ast.Listening.CompositeListener-2.BeforeListenToNode.md) |  |
 | [Build()](MrKWatkins.Ast.Listening.CompositeListener-2.Build.md) | Fluent interface to build a [CompositeListener&lt;TContext, TBaseNode&gt;](MrKWatkins.Ast.Listening.CompositeListener-2.md). |
 | [ListenToNode(TContext, TBaseNode)](MrKWatkins.Ast.Listening.CompositeListener-2.ListenToNode.md) |  |
+| [ShouldListenToChildren(TContext, TBaseNode)](MrKWatkins.Ast.Listening.CompositeListener-2.ShouldListenToChildren.md) |  |
 

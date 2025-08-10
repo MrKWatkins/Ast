@@ -33,4 +33,6 @@ public abstract class Listener<TContext, TBaseNode, TNode> : Listener<TContext, 
 | [BeforeListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.Listener-3.BeforeListenToNode.md#mrkwatkins-ast-listening-listener-3-beforelistentonode(-0-2)) | Called before a node *and its descendents* are listened to. |
 | [ListenToNode(TContext, TBaseNode)](MrKWatkins.Ast.Listening.Listener-3.ListenToNode.md#mrkwatkins-ast-listening-listener-3-listentonode(-0-1)) |  |
 | [ListenToNode(TContext, TNode)](MrKWatkins.Ast.Listening.Listener-3.ListenToNode.md#mrkwatkins-ast-listening-listener-3-listentonode(-0-2)) | Called when the node is listened to. |
+| [ShouldListenToChildren(TContext, TBaseNode)](MrKWatkins.Ast.Listening.Listener-3.ShouldListenToChildren.md#mrkwatkins-ast-listening-listener-3-shouldlistentochildren(-0-1)) |  |
+| [ShouldListenToChildren(TContext, TNode)](MrKWatkins.Ast.Listening.Listener-3.ShouldListenToChildren.md#mrkwatkins-ast-listening-listener-3-shouldlistentochildren(-0-2)) | Return a value indicating whether child nodes should be listened to or not. Defaults to `true`. |
 

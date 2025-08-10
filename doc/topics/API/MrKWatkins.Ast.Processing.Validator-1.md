@@ -1,18 +1,18 @@
-# Validator&lt;TNode&gt; Class
+# Validator&lt;TBaseNode&gt; Class
 ## Definition
 
-An [UnorderedProcessor&lt;TNode&gt;](MrKWatkins.Ast.Processing.UnorderedProcessor-1.md) for validating nodes in a tree.
+An [Processor&lt;TBaseNode&gt;](MrKWatkins.Ast.Processing.Processor-1.md) for validating nodes in a tree.
 
 ```c#
-public abstract class Validator<TNode> : UnorderedProcessor<TNode>
-   where TNode : Node<TNode>
+public abstract class Validator<TBaseNode> : Processor<TBaseNode>
+   where TBaseNode : Node<TBaseNode>
 ```
 
 ### Type Parameters
 
 | Name | Description |
 | ---- | ----------- |
-| TNode |  |
+| TBaseNode | The base type of nodes to validate. |
 
 ## Constructors
 
@@ -24,6 +24,6 @@ public abstract class Validator<TNode> : UnorderedProcessor<TNode>
 
 | Name | Description |
 | ---- | ----------- |
-| [ProcessNode(TNode)](MrKWatkins.Ast.Processing.Validator-1.ProcessNode.md) |  |
-| [ValidateNode(TNode)](MrKWatkins.Ast.Processing.Validator-1.ValidateNode.md) | Validate the node and return any [Messages](MrKWatkins.Ast.Message.md) to attach to the node to describe any validation issues. |
+| [Process(TBaseNode)](MrKWatkins.Ast.Processing.Validator-1.Process.md) |  |
+| [Validate(TBaseNode)](MrKWatkins.Ast.Processing.Validator-1.Validate.md) | Validate the node and return any [Messages](MrKWatkins.Ast.Message.md) to attach to the node to describe any validation issues. |
 

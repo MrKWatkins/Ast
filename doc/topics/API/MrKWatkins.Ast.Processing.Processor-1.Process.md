@@ -1,15 +1,15 @@
-# Processor&lt;TNode&gt;.Process Method
+# Processor&lt;TBaseNode&gt;.Process Method
 ## Definition
 
-Processes a tree of nodes from the specified root node.
+Performs processing on the specified `node`. Does not process any descendents.
 
 ```c#
-public void Process(TNode root);
+public abstract void Process(TBaseNode node);
 ```
 
 ## Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| root | TNode | The root node. |
+| node | TBaseNode | The node to process. |
 

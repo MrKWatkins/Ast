@@ -1,18 +1,18 @@
-# Replacer&lt;TNode&gt; Class
+# Replacer&lt;TBaseNode&gt; Class
 ## Definition
 
-An [OrderedProcessor&lt;TNode&gt;](MrKWatkins.Ast.Processing.OrderedProcessor-1.md) for optionally replacing nodes in a tree.
+An [OrderedProcessor&lt;TBaseNode&gt;](MrKWatkins.Ast.Processing.OrderedProcessor-1.md) for optionally replacing nodes in a tree.
 
 ```c#
-public abstract class Replacer<TNode> : OrderedProcessor<TNode>
-   where TNode : Node<TNode>
+public abstract class Replacer<TBaseNode> : OrderedProcessor<TBaseNode>
+   where TBaseNode : Node<TBaseNode>
 ```
 
 ### Type Parameters
 
 | Name | Description |
 | ---- | ----------- |
-| TNode | The type of nodes in the tree. |
+| TBaseNode | The base type of nodes in the tree. |
 
 ## Constructors
 
@@ -20,16 +20,10 @@ public abstract class Replacer<TNode> : OrderedProcessor<TNode>
 | ---- | ----------- |
 | [Replacer()](MrKWatkins.Ast.Processing.Replacer-1.-ctor.md) |  |
 
-## Properties
-
-| Name | Description |
-| ---- | ----------- |
-| [ProcessReplacements](MrKWatkins.Ast.Processing.Replacer-1.ProcessReplacements.md) | If set to `true` then replacement nodes and their children will be processed too. Defaults to `false`. |
-
 ## Methods
 
 | Name | Description |
 | ---- | ----------- |
-| [ProcessNode(TNode)](MrKWatkins.Ast.Processing.Replacer-1.ProcessNode.md) |  |
-| [ReplaceNode(TNode)](MrKWatkins.Ast.Processing.Replacer-1.ReplaceNode.md) | Optionally replace the specified node. |
+| [Process(TBaseNode)](MrKWatkins.Ast.Processing.Replacer-1.Process.md) |  |
+| [Replace(TBaseNode)](MrKWatkins.Ast.Processing.Replacer-1.Replace.md) | Optionally replace the specified node. |
 

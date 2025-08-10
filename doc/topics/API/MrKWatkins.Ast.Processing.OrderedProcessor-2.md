@@ -1,20 +1,19 @@
-# OrderedProcessor&lt;TBaseNode, TNode&gt; Class
+# OrderedProcessor&lt;TContext, TBaseNode&gt; Class
 ## Definition
 
-A [Processor&lt;TNode&gt;](MrKWatkins.Ast.Processing.Processor-1.md) that processes the nodes of a specific type in a tree in a specified order.
+Performs some processing on a given node using a processing context in a [Pipeline&lt;TBaseNode&gt;](MrKWatkins.Ast.Processing.Pipeline-1.md). The processor can specify the order the pipeline should traverse the tree and whether to process descendents or not.
 
 ```c#
-public abstract class OrderedProcessor<TBaseNode, TNode> : Processor<TBaseNode>
+public abstract class OrderedProcessor<TContext, TBaseNode> : Processor<TContext, TBaseNode>
    where TBaseNode : Node<TBaseNode>
-   where TNode : TBaseNode
 ```
 
 ### Type Parameters
 
 | Name | Description |
 | ---- | ----------- |
-| TBaseNode | The base type of nodes in the tree. |
-| TNode | The type of nodes to process. |
+| TContext | The type of the processing context. |
+| TBaseNode | The type of nodes in the tree. |
 
 ## Constructors
 
@@ -22,17 +21,10 @@ public abstract class OrderedProcessor<TBaseNode, TNode> : Processor<TBaseNode>
 | ---- | ----------- |
 | [OrderedProcessor()](MrKWatkins.Ast.Processing.OrderedProcessor-2.-ctor.md) |  |
 
-## Properties
-
-| Name | Description |
-| ---- | ----------- |
-| [Traversal](MrKWatkins.Ast.Processing.OrderedProcessor-2.Traversal.md) | Override this property to specify the [ITraversal&lt;TNode&gt;](MrKWatkins.Ast.Traversal.ITraversal-1.md) to use to traverse the tree. Defaults to [DepthFirstPreOrderTraversal&lt;TNode&gt;](MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal-1.md). |
-
 ## Methods
 
 | Name | Description |
 | ---- | ----------- |
-| [ProcessNode(TNode)](MrKWatkins.Ast.Processing.OrderedProcessor-2.ProcessNode.md) | Process the specified node. |
-| [ShouldProcessChildren(TBaseNode)](MrKWatkins.Ast.Processing.OrderedProcessor-2.ShouldProcessChildren.md) | Override this method to optionally decide whether to process the children of the specified node or not. Defaults to processing all nodes. |
-| [ShouldProcessNode(TNode)](MrKWatkins.Ast.Processing.OrderedProcessor-2.ShouldProcessNode.md) | Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes. |
+| [GetTraversal(TContext, TBaseNode)](MrKWatkins.Ast.Processing.OrderedProcessor-2.GetTraversal.md) | Gets the traversal that the [Pipeline&lt;TBaseNode&gt;](MrKWatkins.Ast.Processing.Pipeline-1.md) should use for this processor. |
+| [ShouldProcessDescendents(TContext, TBaseNode)](MrKWatkins.Ast.Processing.OrderedProcessor-2.ShouldProcessDescendents.md) | Whether descendents of this node should be processed by the [Pipeline&lt;TBaseNode&gt;](MrKWatkins.Ast.Processing.Pipeline-1.md) or not. Defaults to `true`. |
 

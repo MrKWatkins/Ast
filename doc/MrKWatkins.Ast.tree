@@ -186,6 +186,7 @@
           <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-2.BeforeListenToNode.md" />
           <toc-element toc-title="Build" topic="MrKWatkins.Ast.Listening.CompositeListener-2.Build.md" />
           <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.CompositeListener-2.ListenToNode.md" />
+          <toc-element toc-title="ShouldListenToChildren" topic="MrKWatkins.Ast.Listening.CompositeListener-2.ShouldListenToChildren.md" />
         </toc-element>
       </toc-element>
       <toc-element toc-title="ICompositeListenerBuilder&lt;TContext, TBaseNode&gt;">
@@ -213,6 +214,7 @@
           <toc-element toc-title="AfterListenToNode" topic="MrKWatkins.Ast.Listening.Listener-3.AfterListenToNode.md" />
           <toc-element toc-title="BeforeListenToNode" topic="MrKWatkins.Ast.Listening.Listener-3.BeforeListenToNode.md" />
           <toc-element toc-title="ListenToNode" topic="MrKWatkins.Ast.Listening.Listener-3.ListenToNode.md" />
+          <toc-element toc-title="ShouldListenToChildren" topic="MrKWatkins.Ast.Listening.Listener-3.ShouldListenToChildren.md" />
         </toc-element>
       </toc-element>
     </toc-element>
@@ -339,75 +341,146 @@
       </toc-element>
     </toc-element>
     <toc-element toc-title="MrKWatkins.Ast.Processing">
-      <toc-element toc-title="OrderedProcessor&lt;TNode&gt;">
-        <toc-element toc-title="OrderedProcessor&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.md" />
+      <toc-element toc-title="NodeProcessor&lt;TBaseNode, TNode&gt;">
+        <toc-element toc-title="NodeProcessor&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.NodeProcessor-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.NodeProcessor-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.NodeProcessor-2.Process.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="NodeProcessor&lt;TContext, TBaseNode, TNode&gt;">
+        <toc-element toc-title="NodeProcessor&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.NodeProcessor-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.NodeProcessor-3.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.NodeProcessor-3.Process.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="NodeReplacer&lt;TBaseNode, TNode&gt;">
+        <toc-element toc-title="NodeReplacer&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.NodeReplacer-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.NodeReplacer-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.NodeReplacer-2.Process.md" />
+          <toc-element toc-title="Replace" topic="MrKWatkins.Ast.Processing.NodeReplacer-2.Replace.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="NodeReplacer&lt;TContext, TBaseNode, TNode&gt;">
+        <toc-element toc-title="NodeReplacer&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.NodeReplacer-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.NodeReplacer-3.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.NodeReplacer-3.Process.md" />
+          <toc-element toc-title="Replace" topic="MrKWatkins.Ast.Processing.NodeReplacer-3.Replace.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="NodeValidator&lt;TBaseNode, TNode&gt;">
+        <toc-element toc-title="NodeValidator&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.NodeValidator-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.NodeValidator-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.NodeValidator-2.Process.md" />
+          <toc-element toc-title="Validate" topic="MrKWatkins.Ast.Processing.NodeValidator-2.Validate.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="NodeValidator&lt;TContext, TBaseNode, TNode&gt;">
+        <toc-element toc-title="NodeValidator&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.NodeValidator-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.NodeValidator-3.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.NodeValidator-3.Process.md" />
+          <toc-element toc-title="Validate" topic="MrKWatkins.Ast.Processing.NodeValidator-3.Validate.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="OrderedNodeProcessor&lt;TBaseNode, TNode&gt;">
+        <toc-element toc-title="OrderedNodeProcessor&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedNodeProcessor-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedNodeProcessor-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.OrderedNodeProcessor-2.Process.md" />
+          <toc-element toc-title="ShouldProcessDescendents" topic="MrKWatkins.Ast.Processing.OrderedNodeProcessor-2.ShouldProcessDescendents.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="OrderedNodeProcessor&lt;TContext, TBaseNode, TNode&gt;">
+        <toc-element toc-title="OrderedNodeProcessor&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedNodeProcessor-3.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedNodeProcessor-3.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.OrderedNodeProcessor-3.Process.md" />
+          <toc-element toc-title="ShouldProcessDescendents" topic="MrKWatkins.Ast.Processing.OrderedNodeProcessor-3.ShouldProcessDescendents.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="OrderedProcessor&lt;TBaseNode&gt;">
+        <toc-element toc-title="OrderedProcessor&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.md" />
         <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.-ctor.md" />
-        <toc-element toc-title="Properties">
-          <toc-element toc-title="Traversal" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.Traversal.md" />
-        </toc-element>
         <toc-element toc-title="Methods">
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.ProcessNode.md" />
-          <toc-element toc-title="ShouldProcessChildren" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.ShouldProcessChildren.md" />
-          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.ShouldProcessNode.md" />
+          <toc-element toc-title="GetTraversal" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.GetTraversal.md" />
+          <toc-element toc-title="ShouldProcessDescendents" topic="MrKWatkins.Ast.Processing.OrderedProcessor-1.ShouldProcessDescendents.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="OrderedProcessor&lt;TBaseNode, TNode&gt;">
-        <toc-element toc-title="OrderedProcessor&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.md" />
+      <toc-element toc-title="OrderedProcessor&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="OrderedProcessor&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.md" />
         <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.-ctor.md" />
-        <toc-element toc-title="Properties">
-          <toc-element toc-title="Traversal" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.Traversal.md" />
-        </toc-element>
         <toc-element toc-title="Methods">
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.ProcessNode.md" />
-          <toc-element toc-title="ShouldProcessChildren" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.ShouldProcessChildren.md" />
-          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.ShouldProcessNode.md" />
+          <toc-element toc-title="GetTraversal" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.GetTraversal.md" />
+          <toc-element toc-title="ShouldProcessDescendents" topic="MrKWatkins.Ast.Processing.OrderedProcessor-2.ShouldProcessDescendents.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="OrderedProcessorWithContext&lt;TContext, TNode&gt;">
-        <toc-element toc-title="OrderedProcessorWithContext&lt;TContext, TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.-ctor.md" />
+      <toc-element toc-title="ParallelPipelineStage&lt;TBaseNode&gt;">
+        <toc-element toc-title="ParallelPipelineStage&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.ParallelPipelineStage-1.md" />
         <toc-element toc-title="Properties">
-          <toc-element toc-title="Traversal" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.Traversal.md" />
-        </toc-element>
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="CreateContext" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.CreateContext.md" />
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ProcessNode.md" />
-          <toc-element toc-title="ShouldProcessChildren" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ShouldProcessChildren.md" />
-          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-2.ShouldProcessNode.md" />
+          <toc-element toc-title="MaxDegreeOfParallelism" topic="MrKWatkins.Ast.Processing.ParallelPipelineStage-1.MaxDegreeOfParallelism.md" />
+          <toc-element toc-title="Processors" topic="MrKWatkins.Ast.Processing.ParallelPipelineStage-1.Processors.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="OrderedProcessorWithContext&lt;TContext, TBaseNode, TNode&gt;">
-        <toc-element toc-title="OrderedProcessorWithContext&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.-ctor.md" />
+      <toc-element toc-title="ParallelPipelineStage&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="ParallelPipelineStage&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.ParallelPipelineStage-2.md" />
         <toc-element toc-title="Properties">
-          <toc-element toc-title="Traversal" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.Traversal.md" />
-        </toc-element>
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="CreateContext" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.CreateContext.md" />
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.ProcessNode.md" />
-          <toc-element toc-title="ShouldProcessChildren" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.ShouldProcessChildren.md" />
-          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.OrderedProcessorWithContext-3.ShouldProcessNode.md" />
+          <toc-element toc-title="MaxDegreeOfParallelism" topic="MrKWatkins.Ast.Processing.ParallelPipelineStage-2.MaxDegreeOfParallelism.md" />
+          <toc-element toc-title="Processors" topic="MrKWatkins.Ast.Processing.ParallelPipelineStage-2.Processors.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="ParallelPipelineStageBuilder&lt;TNode&gt;">
-        <toc-element toc-title="ParallelPipelineStageBuilder&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.md" />
+      <toc-element toc-title="ParallelPipelineStageBuilder&lt;TBaseNode&gt;">
+        <toc-element toc-title="ParallelPipelineStageBuilder&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.md" />
         <toc-element toc-title="Methods">
+          <toc-element toc-title="WithAlwaysContinue" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.WithAlwaysContinue.md" />
           <toc-element toc-title="WithMaxDegreeOfParallelism" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.WithMaxDegreeOfParallelism.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="Pipeline&lt;TNode&gt;">
-        <toc-element toc-title="Pipeline&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.Pipeline-1.md" />
+      <toc-element toc-title="ParallelPipelineStageBuilder&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="ParallelPipelineStageBuilder&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-2.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="WithAlwaysContinue" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-2.WithAlwaysContinue.md" />
+          <toc-element toc-title="WithMaxDegreeOfParallelism" topic="MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-2.WithMaxDegreeOfParallelism.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Pipeline&lt;TBaseNode&gt;">
+        <toc-element toc-title="Pipeline&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.Pipeline-1.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Stages" topic="MrKWatkins.Ast.Processing.Pipeline-1.Stages.md" />
+        </toc-element>
         <toc-element toc-title="Methods">
           <toc-element toc-title="Build" topic="MrKWatkins.Ast.Processing.Pipeline-1.Build.md" />
           <toc-element toc-title="Run" topic="MrKWatkins.Ast.Processing.Pipeline-1.Run.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="PipelineBuilder&lt;TNode&gt;">
-        <toc-element toc-title="PipelineBuilder&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.md" />
+      <toc-element toc-title="Pipeline&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="Pipeline&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.Pipeline-2.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Stages" topic="MrKWatkins.Ast.Processing.Pipeline-2.Stages.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Build" topic="MrKWatkins.Ast.Processing.Pipeline-2.Build.md" />
+          <toc-element toc-title="Run" topic="MrKWatkins.Ast.Processing.Pipeline-2.Run.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="PipelineBuilder&lt;TBaseNode&gt;">
+        <toc-element toc-title="PipelineBuilder&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.md" />
         <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.-ctor.md" />
         <toc-element toc-title="Methods">
           <toc-element toc-title="AddParallelStage" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.AddParallelStage.md" />
           <toc-element toc-title="AddStage" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.AddStage.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="PipelineBuilder&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="PipelineBuilder&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineBuilder-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.PipelineBuilder-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="AddParallelStage" topic="MrKWatkins.Ast.Processing.PipelineBuilder-2.AddParallelStage.md" />
+          <toc-element toc-title="AddStage" topic="MrKWatkins.Ast.Processing.PipelineBuilder-2.AddStage.md" />
         </toc-element>
       </toc-element>
       <toc-element toc-title="PipelineException">
@@ -417,115 +490,106 @@
           <toc-element toc-title="Stage" topic="MrKWatkins.Ast.Processing.PipelineException.Stage.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="PipelineStageBuilder&lt;TSelf, TProcessor, TNode&gt;">
-        <toc-element toc-title="PipelineStageBuilder&lt;TSelf, TProcessor, TNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.md" />
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="Add" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.Add.md" />
-          <toc-element toc-title="WithAlwaysContinue" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.WithAlwaysContinue.md" />
-          <toc-element toc-title="WithName" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.WithName.md" />
-          <toc-element toc-title="WithShouldContinue" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-3.WithShouldContinue.md" />
-        </toc-element>
-      </toc-element>
-      <toc-element toc-title="ProcessingException">
-        <toc-element toc-title="ProcessingException" topic="MrKWatkins.Ast.Processing.ProcessingException.md" />
-      </toc-element>
-      <toc-element toc-title="ProcessingException&lt;TNode&gt;">
-        <toc-element toc-title="ProcessingException&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.ProcessingException-1.md" />
+      <toc-element toc-title="PipelineStage&lt;TBaseNode&gt;">
+        <toc-element toc-title="PipelineStage&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineStage-1.md" />
         <toc-element toc-title="Properties">
-          <toc-element toc-title="Message" topic="MrKWatkins.Ast.Processing.ProcessingException-1.Message.md" />
-          <toc-element toc-title="Node" topic="MrKWatkins.Ast.Processing.ProcessingException-1.Node.md" />
+          <toc-element toc-title="DefaultTraversal" topic="MrKWatkins.Ast.Processing.PipelineStage-1.DefaultTraversal.md" />
+          <toc-element toc-title="Name" topic="MrKWatkins.Ast.Processing.PipelineStage-1.Name.md" />
+          <toc-element toc-title="ShouldContinue" topic="MrKWatkins.Ast.Processing.PipelineStage-1.ShouldContinue.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Run" topic="MrKWatkins.Ast.Processing.PipelineStage-1.Run.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="Processor&lt;TNode&gt;">
-        <toc-element toc-title="Processor&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.Processor-1.md" />
+      <toc-element toc-title="PipelineStage&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="PipelineStage&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineStage-2.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="DefaultTraversal" topic="MrKWatkins.Ast.Processing.PipelineStage-2.DefaultTraversal.md" />
+          <toc-element toc-title="Name" topic="MrKWatkins.Ast.Processing.PipelineStage-2.Name.md" />
+          <toc-element toc-title="ShouldContinue" topic="MrKWatkins.Ast.Processing.PipelineStage-2.ShouldContinue.md" />
+        </toc-element>
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Run" topic="MrKWatkins.Ast.Processing.PipelineStage-2.Run.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="PipelineStageBuilder&lt;TSelf, TStage, TBaseNode, TProcessor, TShouldContinue&gt;">
+        <toc-element toc-title="PipelineStageBuilder&lt;TSelf, TStage, TBaseNode, TProcessor, TShouldContinue&gt;" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-5.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Add" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-5.Add.md" />
+          <toc-element toc-title="WithAlwaysContinue" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-5.WithAlwaysContinue.md" />
+          <toc-element toc-title="WithDefaultTraversal" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-5.WithDefaultTraversal.md" />
+          <toc-element toc-title="WithName" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-5.WithName.md" />
+          <toc-element toc-title="WithShouldContinue" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-5.WithShouldContinue.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Processor&lt;TBaseNode&gt;">
+        <toc-element toc-title="Processor&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.Processor-1.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Processor-1.-ctor.md" />
         <toc-element toc-title="Methods">
           <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.Processor-1.Process.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="Replacer&lt;TNode&gt;">
-        <toc-element toc-title="Replacer&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.Replacer-1.md" />
+      <toc-element toc-title="Processor&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="Processor&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.Processor-2.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Processor-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.Processor-2.Process.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="Replacer&lt;TBaseNode&gt;">
+        <toc-element toc-title="Replacer&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.Replacer-1.md" />
         <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Replacer-1.-ctor.md" />
-        <toc-element toc-title="Properties">
-          <toc-element toc-title="ProcessReplacements" topic="MrKWatkins.Ast.Processing.Replacer-1.ProcessReplacements.md" />
-        </toc-element>
         <toc-element toc-title="Methods">
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Replacer-1.ProcessNode.md" />
-          <toc-element toc-title="ReplaceNode" topic="MrKWatkins.Ast.Processing.Replacer-1.ReplaceNode.md" />
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.Replacer-1.Process.md" />
+          <toc-element toc-title="Replace" topic="MrKWatkins.Ast.Processing.Replacer-1.Replace.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="Replacer&lt;TBaseNode, TNode&gt;">
-        <toc-element toc-title="Replacer&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.Replacer-2.md" />
+      <toc-element toc-title="Replacer&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="Replacer&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.Replacer-2.md" />
         <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Replacer-2.-ctor.md" />
+        <toc-element toc-title="Methods">
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.Replacer-2.Process.md" />
+          <toc-element toc-title="Replace" topic="MrKWatkins.Ast.Processing.Replacer-2.Replace.md" />
+        </toc-element>
+      </toc-element>
+      <toc-element toc-title="SerialPipelineStage&lt;TBaseNode&gt;">
+        <toc-element toc-title="SerialPipelineStage&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.SerialPipelineStage-1.md" />
         <toc-element toc-title="Properties">
-          <toc-element toc-title="ProcessReplacements" topic="MrKWatkins.Ast.Processing.Replacer-2.ProcessReplacements.md" />
-        </toc-element>
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Replacer-2.ProcessNode.md" />
-          <toc-element toc-title="ReplaceNode" topic="MrKWatkins.Ast.Processing.Replacer-2.ReplaceNode.md" />
+          <toc-element toc-title="Processors" topic="MrKWatkins.Ast.Processing.SerialPipelineStage-1.Processors.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="Replacer&lt;TBaseNode, TNode, TReplacementNode&gt;">
-        <toc-element toc-title="Replacer&lt;TBaseNode, TNode, TReplacementNode&gt;" topic="MrKWatkins.Ast.Processing.Replacer-3.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Replacer-3.-ctor.md" />
+      <toc-element toc-title="SerialPipelineStage&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="SerialPipelineStage&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.SerialPipelineStage-2.md" />
         <toc-element toc-title="Properties">
-          <toc-element toc-title="ProcessReplacements" topic="MrKWatkins.Ast.Processing.Replacer-3.ProcessReplacements.md" />
+          <toc-element toc-title="Processors" topic="MrKWatkins.Ast.Processing.SerialPipelineStage-2.Processors.md" />
         </toc-element>
+      </toc-element>
+      <toc-element toc-title="SerialPipelineStageBuilder&lt;TBaseNode&gt;">
+        <toc-element toc-title="SerialPipelineStageBuilder&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.SerialPipelineStageBuilder-1.md" />
         <toc-element toc-title="Methods">
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Replacer-3.ProcessNode.md" />
-          <toc-element toc-title="ReplaceNode" topic="MrKWatkins.Ast.Processing.Replacer-3.ReplaceNode.md" />
+          <toc-element toc-title="WithAlwaysContinue" topic="MrKWatkins.Ast.Processing.SerialPipelineStageBuilder-1.WithAlwaysContinue.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="SerialPipelineStageBuilder&lt;TNode&gt;">
-        <toc-element toc-title="SerialPipelineStageBuilder&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.SerialPipelineStageBuilder-1.md" />
-      </toc-element>
-      <toc-element toc-title="UnorderedProcessor&lt;TNode&gt;">
-        <toc-element toc-title="UnorderedProcessor&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-1.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-1.-ctor.md" />
+      <toc-element toc-title="SerialPipelineStageBuilder&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="SerialPipelineStageBuilder&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.SerialPipelineStageBuilder-2.md" />
         <toc-element toc-title="Methods">
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-1.ProcessNode.md" />
-          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-1.ShouldProcessNode.md" />
+          <toc-element toc-title="WithAlwaysContinue" topic="MrKWatkins.Ast.Processing.SerialPipelineStageBuilder-2.WithAlwaysContinue.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="UnorderedProcessor&lt;TBaseNode, TNode&gt;">
-        <toc-element toc-title="UnorderedProcessor&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-2.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-2.-ctor.md" />
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-2.ProcessNode.md" />
-          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessor-2.ShouldProcessNode.md" />
-        </toc-element>
-      </toc-element>
-      <toc-element toc-title="UnorderedProcessorWithContext&lt;TContext, TNode&gt;">
-        <toc-element toc-title="UnorderedProcessorWithContext&lt;TContext, TNode&gt;" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.-ctor.md" />
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="CreateContext" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.CreateContext.md" />
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.ProcessNode.md" />
-          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-2.ShouldProcessNode.md" />
-        </toc-element>
-      </toc-element>
-      <toc-element toc-title="UnorderedProcessorWithContext&lt;TContext, TBaseNode, TNode&gt;">
-        <toc-element toc-title="UnorderedProcessorWithContext&lt;TContext, TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.md" />
-        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.-ctor.md" />
-        <toc-element toc-title="Methods">
-          <toc-element toc-title="CreateContext" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.CreateContext.md" />
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.ProcessNode.md" />
-          <toc-element toc-title="ShouldProcessNode" topic="MrKWatkins.Ast.Processing.UnorderedProcessorWithContext-3.ShouldProcessNode.md" />
-        </toc-element>
-      </toc-element>
-      <toc-element toc-title="Validator&lt;TNode&gt;">
-        <toc-element toc-title="Validator&lt;TNode&gt;" topic="MrKWatkins.Ast.Processing.Validator-1.md" />
+      <toc-element toc-title="Validator&lt;TBaseNode&gt;">
+        <toc-element toc-title="Validator&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.Validator-1.md" />
         <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Validator-1.-ctor.md" />
         <toc-element toc-title="Methods">
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Validator-1.ProcessNode.md" />
-          <toc-element toc-title="ValidateNode" topic="MrKWatkins.Ast.Processing.Validator-1.ValidateNode.md" />
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.Validator-1.Process.md" />
+          <toc-element toc-title="Validate" topic="MrKWatkins.Ast.Processing.Validator-1.Validate.md" />
         </toc-element>
       </toc-element>
-      <toc-element toc-title="Validator&lt;TBaseNode, TNode&gt;">
-        <toc-element toc-title="Validator&lt;TBaseNode, TNode&gt;" topic="MrKWatkins.Ast.Processing.Validator-2.md" />
+      <toc-element toc-title="Validator&lt;TContext, TBaseNode&gt;">
+        <toc-element toc-title="Validator&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.Validator-2.md" />
         <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.Processing.Validator-2.-ctor.md" />
         <toc-element toc-title="Methods">
-          <toc-element toc-title="ProcessNode" topic="MrKWatkins.Ast.Processing.Validator-2.ProcessNode.md" />
-          <toc-element toc-title="ValidateNode" topic="MrKWatkins.Ast.Processing.Validator-2.ValidateNode.md" />
+          <toc-element toc-title="Process" topic="MrKWatkins.Ast.Processing.Validator-2.Process.md" />
+          <toc-element toc-title="Validate" topic="MrKWatkins.Ast.Processing.Validator-2.Validate.md" />
         </toc-element>
       </toc-element>
     </toc-element>

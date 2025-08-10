@@ -1,10 +1,10 @@
-# ParallelPipelineStageBuilder&lt;TNode&gt;.WithMaxDegreeOfParallelism Method
+# ParallelPipelineStageBuilder&lt;TBaseNode&gt;.WithMaxDegreeOfParallelism Method
 ## Definition
 
-Sets the maximum degree of parallelism for parallel processing. If set to 1 then the stage will proceed in serial. If greater than 1 then 1 thread will be used to walk the tree and the other threads will be used to process the nodes. Defaults to the number of processors in the machine.
+Sets the maximum degree of parallelism for parallel processing. Defaults to the number of processors in the machine.
 
 ```c#
-public ParallelPipelineStageBuilder<TNode> WithMaxDegreeOfParallelism(int maxDegreeOfParallelism);
+public ParallelPipelineStageBuilder<TBaseNode> WithMaxDegreeOfParallelism(int maxDegreeOfParallelism);
 ```
 
 ## Parameters
@@ -15,6 +15,6 @@ public ParallelPipelineStageBuilder<TNode> WithMaxDegreeOfParallelism(int maxDeg
 
 ## Returns
 
-[ParallelPipelineStageBuilder&lt;TNode&gt;](MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.md)
+[ParallelPipelineStageBuilder&lt;TBaseNode&gt;](MrKWatkins.Ast.Processing.ParallelPipelineStageBuilder-1.md)
 
 The fluent builder.
