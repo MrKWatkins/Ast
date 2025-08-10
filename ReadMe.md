@@ -1,6 +1,7 @@
 # MrKWatkins.Ast
 
 [![Build Status](https://github.com/MrKWatkins/Ast/actions/workflows/build.yml/badge.svg)](https://github.com/MrKWatkins/Ast/actions/workflows/build.yml)
+[![DeepSource](https://app.deepsource.com/gh/MrKWatkins/Ast.svg/?label=code+coverage&show_trend=false&token=YbDA0NC3FoCqGIsxHDrVDV7L)](https://app.deepsource.com/gh/MrKWatkins/Ast/)
 [![NuGet Version](https://img.shields.io/nuget/v/MrKWatkins.Ast)](https://www.nuget.org/packages/MrKWatkins.Ast)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/MrKWatkins.Ast)](https://www.nuget.org/packages/MrKWatkins.Ast)
 
