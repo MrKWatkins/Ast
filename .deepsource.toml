@@ -1,7 +1,16 @@
 version = 1
 
+test_patterns = ["**/*.Tests/**"]
+
+exclude_patterns = ["examples/**"]
+
 [[analyzers]]
 name = "csharp"
+enabled = true
+
+[[analyzers]]
+name = "test-coverage"
+enabled = true
 
 [[transformers]]
 name = "dotnet-format"

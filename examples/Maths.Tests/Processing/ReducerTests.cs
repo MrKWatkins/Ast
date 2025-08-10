@@ -1,4 +1,6 @@
 using MrKWatkins.Ast.Examples.Maths.Processing;
+using MrKWatkins.Ast.Examples.Maths.Tree;
+using MrKWatkins.Ast.Processing;
 
 namespace MrKWatkins.Ast.Examples.Maths.Tests.Processing;
 
@@ -15,7 +17,8 @@ public sealed class ReducerTests : TestFixture
     {
         var function = ParseWithoutProcessing(expression);
 
-        new Reducer().Process(function);
+        var pipeline = Pipeline<MathsNode>.Build(builder => builder.AddStage<Reducer>("Reduction"));
+        pipeline.Run(function);
 
         function.ToString().Should().SequenceEqual(reduced);
     }

@@ -1,4 +1,3 @@
-using System.Collections;
 using MrKWatkins.Ast.Processing;
 
 namespace MrKWatkins.Ast.Tests.Processing;
@@ -8,81 +7,52 @@ public sealed class ValidatorTests : TreeTestFixture
     [Test]
     public void Process()
     {
-        var validator = new TestValidator
-        {
-            { N12, Message.Error("N12 Error") },
-            { N121, Message.Warning("N121 Warning"), Message.Error("N121 Error") }
-        };
+        var validator = new TestValidator();
 
         validator.Process(N1);
+        N1.Messages.Should().BeEmpty();
 
-        N1.ThisAndDescendentsWithMessages.Should().SequenceEqual(N12, N121);
-        N12.Messages.Should().SequenceEqual(Message.Error("N12 Error"));
-        N121.Messages.Should().SequenceEqual(Message.Warning("N121 Warning"), Message.Error("N121 Error"));
+        validator.Add(N1, Message.Error("N1 Error"));
+
+        validator.Process(N1);
+        N1.Messages.Should().SequenceEqual(Message.Error("N1 Error"));
     }
 
     [Test]
-    public void Process_Typed()
+    public void WithContext_Process()
     {
-        var validator = new TestTypedValidator
-        {
-            { N1, Message.Error("N1 Error") },
-            { N11, Message.Info("N11 Info") },
-            { N121, Message.Warning("N121 Warning"), Message.Error("N121 Error") },
-            { N122, Message.Info("Not an ANode") }
-        };
+        var context = new object();
+        var validator = new TestValidator<object>(context);
 
-        validator.Process(N1);
+        validator.Process(context, N1);
+        N1.Messages.Should().BeEmpty();
 
-        N1.ThisAndDescendentsWithMessages.Should().SequenceEqual(N1, N11, N121);
+        validator.Add(N1, Message.Error("N1 Error"));
+
+        validator.Process(context, N1);
         N1.Messages.Should().SequenceEqual(Message.Error("N1 Error"));
-        N11.Messages.Should().SequenceEqual(Message.Info("N11 Info"));
-        N121.Messages.Should().SequenceEqual(Message.Warning("N121 Warning"), Message.Error("N121 Error"));
     }
 
-    [Test]
-    public void Process_Typed_OverrideShouldProcessNode()
-    {
-        var validator = new TestTypedValidator
-        {
-            { N1, Message.Error("N1 Error") },
-            { N11, Message.Info("Not processing N11") },
-            { N121, Message.Warning("N121 Warning"), Message.Error("N121 Error") },
-            { N122, Message.Info("Not an ANode") }
-        };
-        validator.ShouldProcessNodeOverride = n => n != N11;
-
-        validator.Process(N1);
-
-        N1.ThisAndDescendentsWithMessages.Should().SequenceEqual(N1, N121);
-        N1.Messages.Should().SequenceEqual(Message.Error("N1 Error"));
-        N121.Messages.Should().SequenceEqual(Message.Warning("N121 Warning"), Message.Error("N121 Error"));
-    }
-
-    private sealed class TestValidator : Validator<TestNode>, IEnumerable
+    private sealed class TestValidator : Validator<TestNode>
     {
         private readonly Dictionary<TestNode, IReadOnlyList<Message>> messagesByNode = new();
 
         public void Add(TestNode node, params Message[] messages) => messagesByNode.Add(node, messages);
 
-        protected override IEnumerable<Message> ValidateNode(TestNode node) =>
+        protected override IEnumerable<Message> Validate(TestNode node) =>
             messagesByNode.TryGetValue(node, out var messages) ? messages : Enumerable.Empty<Message>();
-
-        public IEnumerator GetEnumerator() => throw new NotSupportedException();
     }
 
-    private sealed class TestTypedValidator : Validator<TestNode, ANode>, IEnumerable
+    private sealed class TestValidator<TContext>(TContext expectedContext) : Validator<TContext, TestNode>
     {
         private readonly Dictionary<TestNode, IReadOnlyList<Message>> messagesByNode = new();
-        public Func<TestNode, bool>? ShouldProcessNodeOverride { get; set; }
-
-        protected override bool ShouldProcessNode(ANode node) => ShouldProcessNodeOverride?.Invoke(node) ?? base.ShouldProcessNode(node);
 
         public void Add(TestNode node, params Message[] messages) => messagesByNode.Add(node, messages);
 
-        protected override IEnumerable<Message> ValidateNode(ANode node) =>
-            messagesByNode.TryGetValue(node, out var messages) ? messages : Enumerable.Empty<Message>();
-
-        public IEnumerator GetEnumerator() => throw new NotSupportedException();
+        protected override IEnumerable<Message> Validate(TContext context, TestNode node)
+        {
+            context.Should().BeTheSameInstanceAs(expectedContext);
+            return messagesByNode.TryGetValue(node, out var messages) ? messages : Enumerable.Empty<Message>();
+        }
     }
 }

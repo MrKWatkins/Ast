@@ -3,90 +3,52 @@ using MrKWatkins.Ast.Traversal;
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
-/// A <see cref="Processor{TNode}" /> that processes the nodes in a tree in a specified order.
+/// Performs some processing on a given node in a <see cref="Pipeline{Node}" />. The processor can specify the order the pipeline
+/// should traverse the tree and whether to process descendents or not.
 /// </summary>
-/// <typeparam name="TNode">The type of nodes in the tree.</typeparam>
-public abstract class OrderedProcessor<TNode> : Processor<TNode>
-    where TNode : Node<TNode>
+/// <typeparam name="TBaseNode">The type of nodes in the tree.</typeparam>
+public abstract class OrderedProcessor<TBaseNode> : Processor<TBaseNode>
+    where TBaseNode : Node<TBaseNode>
 {
-    internal override ProcessorState<TNode> CreateState(TNode root) => ProcessorState<TNode>.Create(ShouldProcessNode, ProcessNode);
-
     /// <summary>
-    /// Override this property to specify the <see cref="ITraversal{TNode}" /> to use to traverse the tree. Defaults to <see cref="DepthFirstPreOrderTraversal{TNode}" />.
+    /// Gets the traversal that the <see cref="Pipeline{Node}" /> should use for this processor.
     /// </summary>
-    protected virtual ITraversal<TNode> Traversal => DepthFirstPreOrderTraversal<TNode>.Instance;
-
-    private protected sealed override IEnumerable<TNode> EnumerateNodes(ProcessorState<TNode> state, TNode root) =>
-        Traversal.Enumerate(
-            root,
-            true,
-            node => state.Exceptions.Trap(node, nameof(ShouldProcessChildren), ShouldProcessChildren));
+    /// <param name="root">The root of the tree.</param>
+    /// <returns>The traversal to use.</returns>
+    public virtual ITraversal<TBaseNode> GetTraversal(TBaseNode root) => DepthFirstPreOrderTraversal<TBaseNode>.Instance;
 
     /// <summary>
-    /// Override this method to optionally decide whether to process the children of the specified node or not. Defaults to processing all nodes.
+    /// Whether descendents of this node should be processed by the <see cref="Pipeline{Node}" /> or not. Defaults to <c>true</c>.
     /// </summary>
     /// <param name="node">The node.</param>
-    /// <returns><c>true</c> if children should be processed, <c>false</c> otherwise.</returns>
+    /// <returns><c>true</c> if descendents of <paramref name="node" /> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
-    protected virtual bool ShouldProcessChildren(TNode node) => true;
-
-    /// <summary>
-    /// Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes.
-    /// </summary>
-    /// <param name="node">The node.</param>
-    /// <returns><c>true</c> if <paramref name="node"/> should be processed, <c>false</c> otherwise.</returns>
-    [Pure]
-    protected virtual bool ShouldProcessNode(TNode node) => true;
-
-    /// <summary>
-    /// Process the specified node.
-    /// </summary>
-    /// <param name="node">The node to process.</param>
-    protected abstract void ProcessNode(TNode node);
+    public virtual bool ShouldProcessDescendents(TBaseNode node) => true;
 }
 
 /// <summary>
-/// A <see cref="Processor{TNode}" /> that processes the nodes of a specific type in a tree in a specified order.
+/// Performs some processing on a given node using a processing context in a <see cref="Pipeline{Node}" />. The processor can
+/// specify the order the pipeline should traverse the tree and whether to process descendents or not.
 /// </summary>
-/// <typeparam name="TBaseNode">The base type of nodes in the tree.</typeparam>
-/// <typeparam name="TNode">The type of nodes to process.</typeparam>
-public abstract class OrderedProcessor<TBaseNode, TNode> : Processor<TBaseNode>
+/// <typeparam name="TContext">The type of the processing context.</typeparam>
+/// <typeparam name="TBaseNode">The type of nodes in the tree.</typeparam>
+public abstract class OrderedProcessor<TContext, TBaseNode> : Processor<TContext, TBaseNode>
     where TBaseNode : Node<TBaseNode>
-    where TNode : TBaseNode
 {
-    internal override ProcessorState<TBaseNode> CreateState(TBaseNode root) => ProcessorState<TBaseNode>.Create<TNode>(ShouldProcessNode, ProcessNode);
+    /// <summary>
+    /// Gets the traversal that the <see cref="Pipeline{Node}" /> should use for this processor.
+    /// </summary>
+    /// <param name="context">The processing context.</param>
+    /// <param name="root">The root of the tree.</param>
+    /// <returns>The traversal to use.</returns>
+    public virtual ITraversal<TBaseNode> GetTraversal(TContext context, TBaseNode root) => DepthFirstPreOrderTraversal<TBaseNode>.Instance;
 
     /// <summary>
-    /// Override this property to specify the <see cref="ITraversal{TNode}" /> to use to traverse the tree. Defaults to <see cref="DepthFirstPreOrderTraversal{TNode}" />.
+    /// Whether descendents of this node should be processed by the <see cref="Pipeline{Node}" /> or not. Defaults to <c>true</c>.
     /// </summary>
-    /// <returns>The <see cref="ITraversal{TNode}" /> to use.</returns>
-    protected virtual ITraversal<TBaseNode> Traversal => DepthFirstPreOrderTraversal<TBaseNode>.Instance;
-
-    private protected sealed override IEnumerable<TBaseNode> EnumerateNodes(ProcessorState<TBaseNode> state, TBaseNode root) =>
-        Traversal.Enumerate(
-            root,
-            true,
-            node => state.Exceptions.Trap<TBaseNode, TBaseNode>(node, nameof(ShouldProcessChildren), ShouldProcessChildren));
-
-    /// <summary>
-    /// Override this method to optionally decide whether to process the children of the specified node or not. Defaults to processing all nodes.
-    /// </summary>
+    /// <param name="context">The processing context.</param>
     /// <param name="node">The node.</param>
-    /// <returns><c>true</c> if children should be processed, <c>false</c> otherwise.</returns>
+    /// <returns><c>true</c> if descendents of <paramref name="node" /> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
-    protected virtual bool ShouldProcessChildren(TBaseNode node) => true;
-
-    /// <summary>
-    /// Override this method to optionally decide whether to process the specified node or not. Defaults to processing all nodes.
-    /// </summary>
-    /// <param name="node">The node.</param>
-    /// <returns><c>true</c> if <paramref name="node"/> should be processed, <c>false</c> otherwise.</returns>
-    [Pure]
-    protected virtual bool ShouldProcessNode(TNode node) => true;
-
-    /// <summary>
-    /// Process the specified node.
-    /// </summary>
-    /// <param name="node">The node to process.</param>
-    protected abstract void ProcessNode(TNode node);
+    public virtual bool ShouldProcessDescendents(TContext context, TBaseNode node) => true;
 }

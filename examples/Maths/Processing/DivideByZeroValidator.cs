@@ -6,9 +6,9 @@ namespace MrKWatkins.Ast.Examples.Maths.Processing;
 /// <summary>
 /// Validator to check for divide by zero.
 /// </summary>
-internal sealed class DivideByZeroValidator : Validator<MathsNode, BinaryOperation>
+internal sealed class DivideByZeroValidator : NodeValidator<MathsNode, BinaryOperation>
 {
-    protected override IEnumerable<Message> ValidateNode(BinaryOperation node)
+    protected override IEnumerable<Message> Validate(BinaryOperation node)
     {
         if (node is { Operator: '/', Right: Constant { Value: 0 } })
         {

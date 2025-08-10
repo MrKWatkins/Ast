@@ -1,5 +1,6 @@
 using MrKWatkins.Ast.Examples.Maths.Processing;
 using MrKWatkins.Ast.Examples.Maths.Tree;
+using MrKWatkins.Ast.Processing;
 
 namespace MrKWatkins.Ast.Examples.Maths.Tests.Processing;
 
@@ -12,7 +13,8 @@ public sealed class DivideByZeroValidatorTests : TestFixture
     {
         var function = ParseWithoutProcessing(expression);
 
-        new DivideByZeroValidator().Process(function);
+        var pipeline = Pipeline<MathsNode>.Build(builder => builder.AddStage<DivideByZeroValidator>("DivideByZero"));
+        pipeline.Run(function);
 
         function.ThisAndDescendentsWithErrors.Should().BeEmpty();
     }
@@ -21,7 +23,9 @@ public sealed class DivideByZeroValidatorTests : TestFixture
     public void Process_Error()
     {
         var function = ParseWithoutProcessing("2 / 0");
-        new DivideByZeroValidator().Process(function);
+
+        var pipeline = Pipeline<MathsNode>.Build(builder => builder.AddStage<DivideByZeroValidator>("DivideByZero"));
+        pipeline.Run(function);
 
         var errors = function.ThisAndDescendentsWithErrors.ToList();
         errors.Should().HaveCount(1);

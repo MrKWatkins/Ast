@@ -1,14 +1,16 @@
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
-/// An <see cref="OrderedProcessor{TNode}" /> for optionally replacing nodes in a tree.
+/// An <see cref="OrderedNodeProcessor{TBaseNode, TNode}" /> for optionally replacing nodes of a specific type in a tree.
 /// </summary>
 /// <typeparam name="TBaseNode">The base type of nodes in the tree.</typeparam>
-public abstract class Replacer<TBaseNode> : OrderedProcessor<TBaseNode>
+/// <typeparam name="TNode">The type of nodes to replace.</typeparam>
+public abstract class NodeReplacer<TBaseNode, TNode> : OrderedNodeProcessor<TBaseNode, TNode>
     where TBaseNode : Node<TBaseNode>
+    where TNode : TBaseNode
 {
     /// <inheritdoc />
-    public sealed override void Process(TBaseNode node)
+    protected sealed override void Process(TNode node)
     {
         var newNode = Replace(node);
         if (newNode != null && !ReferenceEquals(node, newNode))
@@ -30,19 +32,21 @@ public abstract class Replacer<TBaseNode> : OrderedProcessor<TBaseNode>
     /// A new node to replace <paramref name="node" /> in the tree. Return <paramref name="node" /> or <c>null</c> to leave <paramref name="node" /> in the tree.
     /// </returns>
     [Pure]
-    protected abstract TBaseNode? Replace(TBaseNode node);
+    protected abstract TBaseNode? Replace(TNode node);
 }
 
 /// <summary>
-/// An <see cref="OrderedProcessor{TContext, TNode}" /> for optionally replacing nodes in a tree.
+/// An <see cref="OrderedNodeProcessor{TContext, TBaseNode, TNode}" /> for optionally replacing nodes of a specific type in a tree.
 /// </summary>
 /// <typeparam name="TContext">The type of the processing context.</typeparam>
 /// <typeparam name="TBaseNode">The base type of nodes in the tree.</typeparam>
-public abstract class Replacer<TContext, TBaseNode> : OrderedProcessor<TContext, TBaseNode>
+/// <typeparam name="TNode">The type of nodes to replace.</typeparam>
+public abstract class NodeReplacer<TContext, TBaseNode, TNode> : OrderedNodeProcessor<TContext, TBaseNode, TNode>
     where TBaseNode : Node<TBaseNode>
+    where TNode : TBaseNode
 {
     /// <inheritdoc />
-    public sealed override void Process(TContext context, TBaseNode node)
+    protected sealed override void Process(TContext context, TNode node)
     {
         var newNode = Replace(context, node);
         if (newNode != null && !ReferenceEquals(node, newNode))
@@ -65,5 +69,5 @@ public abstract class Replacer<TContext, TBaseNode> : OrderedProcessor<TContext,
     /// A new node to replace <paramref name="node" /> in the tree. Return <paramref name="node" /> or <c>null</c> to leave <paramref name="node" /> in the tree.
     /// </returns>
     [Pure]
-    protected abstract TBaseNode? Replace(TContext context, TBaseNode node);
+    protected abstract TBaseNode? Replace(TContext context, TNode node);
 }

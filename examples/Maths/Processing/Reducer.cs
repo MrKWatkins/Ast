@@ -8,14 +8,14 @@ namespace MrKWatkins.Ast.Examples.Maths.Processing;
 /// Simple <see cref="Replacer{TBaseNode,TNode}"/> that reduces constant expressions by evaluating up front.
 /// </summary>
 /// <remarks>
-/// Not by any means exhaustive! For example it will not take associativity into account and rearrange as necessary
-/// to perform further reductions; 1 + 2 + x will reduce to 3 + x but 1 + x + 2 will not reduce.
+/// Not by any means exhaustive! For example, it will not take associativity into account and rearrange as necessary
+/// to perform further reductions; 1 + 2 + x will reduce to 3 + x, but 1 + x + 2 will not reduce.
 /// </remarks>
-internal sealed class Reducer : Replacer<MathsNode, BinaryOperation>
+internal sealed class Reducer : NodeReplacer<MathsNode, BinaryOperation>
 {
-    protected override ITraversal<MathsNode> Traversal => DepthFirstPostOrderTraversal<MathsNode>.Instance;
+    public override ITraversal<MathsNode> GetTraversal(MathsNode root) => DepthFirstPostOrderTraversal<MathsNode>.Instance;
 
-    protected override MathsNode? ReplaceNode(BinaryOperation node)
+    protected override MathsNode? Replace(BinaryOperation node)
     {
         if (node is { Children: { First: Constant left, Last: Constant right } })
         {

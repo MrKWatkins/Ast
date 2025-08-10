@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\ReadMe.md = ..\ReadMe.md
 		..\.gitignore = ..\.gitignore
 		..\.editorconfig = ..\.editorconfig
+		..\.deepsource.toml = ..\.deepsource.toml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C893FF4B-FA20-4B58-B7D3-3DA372503F01}"
@@ -23,12 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
 		..\.github\workflows\release.yml = ..\.github\workflows\release.yml
-		..\.github\workflows\codeql.yml = ..\.github\workflows\codeql.yml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sonarlint", ".sonarlint", "{A37D03A9-230B-4ABA-B405-69EB5414F9FE}"
-	ProjectSection(SolutionItems) = preProject
-		..\.sonarlint\Ast.json = ..\.sonarlint\Ast.json
 	EndProjectSection
 EndProject
 Global
@@ -49,6 +44,5 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C893FF4B-FA20-4B58-B7D3-3DA372503F01} = {0EE2E846-632C-4EA4-88D8-82A90776FC8D}
 		{2DC33C7E-4983-471B-B34B-9FFCCB0A62F9} = {C893FF4B-FA20-4B58-B7D3-3DA372503F01}
-		{A37D03A9-230B-4ABA-B405-69EB5414F9FE} = {0EE2E846-632C-4EA4-88D8-82A90776FC8D}
 	EndGlobalSection
 EndGlobal

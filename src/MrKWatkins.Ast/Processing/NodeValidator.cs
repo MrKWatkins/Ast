@@ -1,14 +1,16 @@
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
-/// An <see cref="Processor{TNode}" /> for validating nodes in a tree.
+/// An <see cref="NodeProcessor{TBaseNode, TNode}" /> for validating nodes of a specific type in a tree.
 /// </summary>
-/// <typeparam name="TBaseNode">The base type of nodes to validate.</typeparam>
-public abstract class Validator<TBaseNode> : Processor<TBaseNode>
+/// <typeparam name="TBaseNode">The base type of nodes in the tree.</typeparam>
+/// <typeparam name="TNode">The type of nodes to validate.</typeparam>
+public abstract class NodeValidator<TBaseNode, TNode> : NodeProcessor<TBaseNode, TNode>
     where TBaseNode : Node<TBaseNode>
+    where TNode : TBaseNode
 {
     /// <inheritdoc />
-    public sealed override void Process(TBaseNode node)
+    protected sealed override void Process(TNode node)
     {
         foreach (var message in Validate(node))
         {
@@ -22,19 +24,21 @@ public abstract class Validator<TBaseNode> : Processor<TBaseNode>
     /// <param name="node">The node to validate.</param>
     /// <returns><see cref="Message">Messages</see> to attach to the node.</returns>
     [Pure]
-    protected abstract IEnumerable<Message> Validate(TBaseNode node);
+    protected abstract IEnumerable<Message> Validate(TNode node);
 }
 
 /// <summary>
-/// An <see cref="Processor{TNode}" /> for validating nodes in a tree.
+/// An <see cref="NodeProcessor{TBaseNode, TNode}" /> for validating nodes of a specific type in a tree.
 /// </summary>
 /// <typeparam name="TContext">The type of the processing context.</typeparam>
-/// <typeparam name="TBaseNode">The base type of nodes to validate.</typeparam>
-public abstract class Validator<TContext, TBaseNode> : Processor<TContext, TBaseNode>
+/// <typeparam name="TBaseNode">The base type of nodes in the tree.</typeparam>
+/// <typeparam name="TNode">The type of nodes to validate.</typeparam>
+public abstract class NodeValidator<TContext, TBaseNode, TNode> : NodeProcessor<TContext, TBaseNode, TNode>
     where TBaseNode : Node<TBaseNode>
+    where TNode : TBaseNode
 {
     /// <inheritdoc />
-    public sealed override void Process(TContext context, TBaseNode node)
+    protected sealed override void Process(TContext context, TNode node)
     {
         foreach (var message in Validate(context, node))
         {
@@ -49,5 +53,5 @@ public abstract class Validator<TContext, TBaseNode> : Processor<TContext, TBase
     /// <param name="node">The node to validate.</param>
     /// <returns><see cref="Message">Messages</see> to attach to the node.</returns>
     [Pure]
-    protected abstract IEnumerable<Message> Validate(TContext context, TBaseNode node);
+    protected abstract IEnumerable<Message> Validate(TContext context, TNode node);
 }
