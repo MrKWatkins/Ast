@@ -85,6 +85,18 @@
           <toc-element toc-title="FormatErrors" topic="MrKWatkins.Ast.MessageFormatter.FormatErrors.md" />
         </toc-element>
       </toc-element>
+      <toc-element toc-title="MessageFormatterOptions">
+        <toc-element toc-title="MessageFormatterOptions" topic="MrKWatkins.Ast.MessageFormatterOptions.md" />
+        <toc-element toc-title="Constructors" topic="MrKWatkins.Ast.MessageFormatterOptions.-ctor.md" />
+        <toc-element toc-title="Properties">
+          <toc-element toc-title="Default" topic="MrKWatkins.Ast.MessageFormatterOptions.Default.md" />
+          <toc-element toc-title="HighlightOnly" topic="MrKWatkins.Ast.MessageFormatterOptions.HighlightOnly.md" />
+          <toc-element toc-title="HighlightSourcePosition" topic="MrKWatkins.Ast.MessageFormatterOptions.HighlightSourcePosition.md" />
+          <toc-element toc-title="PrefixAndHighlight" topic="MrKWatkins.Ast.MessageFormatterOptions.PrefixAndHighlight.md" />
+          <toc-element toc-title="PrefixOnly" topic="MrKWatkins.Ast.MessageFormatterOptions.PrefixOnly.md" />
+          <toc-element toc-title="PrefixWithSourcePosition" topic="MrKWatkins.Ast.MessageFormatterOptions.PrefixWithSourcePosition.md" />
+        </toc-element>
+      </toc-element>
       <toc-element toc-title="MessageLevel" topic="MrKWatkins.Ast.MessageLevel.md" />
       <toc-element toc-title="Node&lt;TNode&gt;">
         <toc-element toc-title="Node&lt;TNode&gt;" topic="MrKWatkins.Ast.Node-1.md" />

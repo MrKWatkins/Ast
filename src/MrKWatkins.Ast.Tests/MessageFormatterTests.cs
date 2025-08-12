@@ -19,12 +19,23 @@ public sealed class MessageFormatterTests
         MessageFormatter.FormatErrors(parent).Should().SequenceEqual(
             "Error: Parent Error 1",
             "Error: Parent Error 2",
-            $"Test File (1, 6): Error: Grandchild Error{Environment.NewLine}Some Test Text{Environment.NewLine}     ----");
+            "Error: Grandchild Error");
 
-        MessageFormatter.FormatErrors(parent, false).Should().SequenceEqual(
+        MessageFormatter.FormatErrors(parent, MessageFormatterOptions.PrefixOnly).Should().SequenceEqual(
             "Error: Parent Error 1",
             "Error: Parent Error 2",
             "Test File (1, 6): Error: Grandchild Error");
+
+        MessageFormatter.FormatErrors(parent, MessageFormatterOptions.HighlightOnly).Should().SequenceEqual(
+            "Error: Parent Error 1",
+            "Error: Parent Error 2",
+            $"Error: Grandchild Error{Environment.NewLine}Some Test Text{Environment.NewLine}     ----");
+
+        MessageFormatter.FormatErrors(parent, MessageFormatterOptions.PrefixAndHighlight).Should().SequenceEqual(
+            "Error: Parent Error 1",
+            "Error: Parent Error 2",
+            $"Test File (1, 6): Error: Grandchild Error{Environment.NewLine}Some Test Text{Environment.NewLine}     ----");
+
     }
 
     [Test]
@@ -41,12 +52,22 @@ public sealed class MessageFormatterTests
         grandchild.AddWarning("Grandchild Warning 2");
 
         MessageFormatter.Format(parent, MessageLevel.Warning).Should().SequenceEqual(
-            $"Test File (1, 6): Warning: Parent Warning{Environment.NewLine}Some Test Text{Environment.NewLine}     ----",
+            "Warning: Parent Warning",
+            "Warning: Grandchild Warning 1",
+            "Warning: Grandchild Warning 2");
+
+        MessageFormatter.Format(parent, MessageLevel.Warning, MessageFormatterOptions.PrefixOnly).Should().SequenceEqual(
+            "Test File (1, 6): Warning: Parent Warning",
             "Non-Text File (1, 1): Warning: Grandchild Warning 1",
             "Non-Text File (1, 1): Warning: Grandchild Warning 2");
 
-        MessageFormatter.Format(parent, MessageLevel.Warning, false).Should().SequenceEqual(
-            "Test File (1, 6): Warning: Parent Warning",
+        MessageFormatter.Format(parent, MessageLevel.Warning, MessageFormatterOptions.HighlightOnly).Should().SequenceEqual(
+            $"Warning: Parent Warning{Environment.NewLine}Some Test Text{Environment.NewLine}     ----",
+            "Warning: Grandchild Warning 1",
+            "Warning: Grandchild Warning 2");
+
+        MessageFormatter.Format(parent, MessageLevel.Warning, MessageFormatterOptions.PrefixAndHighlight).Should().SequenceEqual(
+            $"Test File (1, 6): Warning: Parent Warning{Environment.NewLine}Some Test Text{Environment.NewLine}     ----",
             "Non-Text File (1, 1): Warning: Grandchild Warning 1",
             "Non-Text File (1, 1): Warning: Grandchild Warning 2");
     }
@@ -64,7 +85,7 @@ public sealed class MessageFormatterTests
         grandchild.AddWarning("Grandchild Warning 1");
         grandchild.AddWarning("Grandchild Warning 2");
 
-        var messagesByLevel = MessageFormatter.Format(parent).ToList();
+        var messagesByLevel = MessageFormatter.Format(parent, MessageFormatterOptions.PrefixAndHighlight).ToList();
         messagesByLevel.Should().HaveCount(3);
         messagesByLevel[0].Key.Should().Equal(MessageLevel.Error);
         messagesByLevel[0].Should().SequenceEqual(
@@ -78,7 +99,7 @@ public sealed class MessageFormatterTests
         messagesByLevel[2].Should().SequenceEqual(
             "Info: Child Info");
 
-        messagesByLevel = MessageFormatter.Format(parent, false).ToList();
+        messagesByLevel = MessageFormatter.Format(parent, MessageFormatterOptions.PrefixOnly).ToList();
         messagesByLevel.Should().HaveCount(3);
         messagesByLevel[0].Key.Should().Equal(MessageLevel.Error);
         messagesByLevel[0].Should().SequenceEqual(
