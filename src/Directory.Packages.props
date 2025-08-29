@@ -5,7 +5,7 @@
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
     <ItemGroup>
-        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.0" />
+        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.1" />
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
         <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
         <PackageVersion Include="MrKWatkins.Assertions" Version="0.0.21" />
