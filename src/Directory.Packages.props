@@ -1,15 +1,15 @@
 <Project>
-    <PropertyGroup>
-        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-        <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
-        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.0" />
-        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-        <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-        <PackageVersion Include="MrKWatkins.Assertions" Version="0.0.21" />
-        <PackageVersion Include="NUnit" Version="4.4.0" />
-        <PackageVersion Include="NUnit3TestAdapter" Version="5.1.0" />
-    </ItemGroup>
+  <PropertyGroup>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="JetBrains.Annotations" Version="2025.2.2" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageVersion Include="MrKWatkins.Assertions" Version="0.0.21" />
+    <PackageVersion Include="NUnit" Version="4.4.0" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="5.1.0" />
+  </ItemGroup>
 </Project>

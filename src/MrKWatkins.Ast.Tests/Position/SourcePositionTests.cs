@@ -61,5 +61,7 @@ public sealed class SourcePositionTests : EqualityTestFixture
         public override SourcePosition CreateZeroWidthPrefix() => throw new NotSupportedException();
 
         public override bool Equals(SourcePosition? other) => ReferenceEquals(this, other);
+
+        public override int GetHashCode() => 0;
     }
 }

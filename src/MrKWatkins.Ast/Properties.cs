@@ -488,14 +488,9 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>
         var newProperties = new Dictionary<string, Property>(properties.Count);
         foreach (var (key, property) in properties)
         {
-            if (property.Multiple)
-            {
-                newProperties[key] = new Property(true, property.Type, ListCopiers.GetOrAdd(property.Type, BuildListCopier)(property.Value));
-            }
-            else
-            {
-                newProperties[key] = property;
-            }
+            newProperties[key] = property.Multiple
+                ? new Property(true, property.Type, ListCopiers.GetOrAdd(property.Type, BuildListCopier)(property.Value))
+                : property;
         }
 
         return new Properties(newProperties);

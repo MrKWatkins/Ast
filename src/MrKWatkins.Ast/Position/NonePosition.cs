@@ -7,4 +7,6 @@ internal sealed class NonePosition : SourcePosition<NonePosition>
     public override NonePosition CreateZeroWidthPrefix() => this;
 
     public override bool Equals(SourcePosition? other) => ReferenceEquals(this, other);
+
+    public override int GetHashCode() => 0;
 }
