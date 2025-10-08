@@ -20,9 +20,18 @@
         </AssemblyAttribute>
     </ItemGroup>
 
+    <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
+        <EnableNUnitRunner>true</EnableNUnitRunner>
+        <OutputType>Exe</OutputType>
+        <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+        <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
+    </PropertyGroup>
+
     <ItemGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
         <PackageReference Include="MrKWatkins.Assertions" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+        <PackageReference Include="Microsoft.Testing.Extensions.VSTestBridge" />
         <PackageReference Include="NUnit" />
         <PackageReference Include="NUnit3TestAdapter" />
 

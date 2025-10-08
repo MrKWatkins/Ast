@@ -21,32 +21,22 @@ jobs:
 
       - name: Build MrKWatkins.Ast
         uses: MrKWatkins/dotnet-build@main
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
         with:
           name: MrKWatkins.Ast
           directory: src
 
-      - name: Upload Code Coverage to DeepSource
-        run: |
-          curl https://deepsource.io/cli | sh
-          ./bin/deepsource report --analyzer test-coverage --key csharp --value-file ./src/coverage.xml
-        env:
-          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
-
       - name: Build Examples
         uses: MrKWatkins/dotnet-build@main
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
         with:
           name: Examples
           directory: examples
-          coverage-run-settings: coverage.runsettings
+          coverage-assembly-filters: -MrKWatkins.Ast
 
       - name: Build Documentation
         uses: MrKWatkins/writerside-build@main
         with:
           instance: MrKWatkins.Ast
-
-      - name: Upload Code Coverage to DeepSource
-        run: |
-          curl https://deepsource.io/cli | sh
-          ./bin/deepsource report --analyzer test-coverage --key csharp --value-file ./examples/coverage.xml
-        env:
-          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
