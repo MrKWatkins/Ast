@@ -1,9 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <!-- Allow underscores in test method names. -->
-        <NoWarn>CA1707</NoWarn>
-    </PropertyGroup>
-
     <ItemGroup>
         <ProjectReference Include="..\MrKWatkins.Ast\MrKWatkins.Ast.csproj" />
     </ItemGroup>

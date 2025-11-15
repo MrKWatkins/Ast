@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -21,6 +21,9 @@
     </ItemGroup>
 
     <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
+        <!-- Allow underscores in test method names. -->
+        <NoWarn>CA1707</NoWarn>
+        <IsTestProject>true</IsTestProject>
         <EnableNUnitRunner>true</EnableNUnitRunner>
         <OutputType>Exe</OutputType>
         <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
