@@ -5,7 +5,7 @@
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
     <ItemGroup>
-        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.2"/>
+        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4"/>
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1"/>
         <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
         <!-- Needed until NUnit3TestAdapter references v2.0.0. -->
