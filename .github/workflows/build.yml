@@ -17,20 +17,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Build MrKWatkins.Ast
         uses: MrKWatkins/dotnet-build@main
-        env:
-          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
         with:
           name: MrKWatkins.Ast
           directory: src
 
       - name: Build Examples
         uses: MrKWatkins/dotnet-build@main
-        env:
-          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
         with:
           name: Examples
           directory: examples
