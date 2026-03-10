@@ -2,7 +2,7 @@
 ## Definition
 
 ```c#
-public sealed override void Process(TContext? context, TBaseNode node);
+public sealed override TBaseNode Process(TContext context, TBaseNode node);
 ```
 
 ## Parameters
@@ -12,3 +12,6 @@ public sealed override void Process(TContext? context, TBaseNode node);
 | context | TContext |  |
 | node | TBaseNode |  |
 
+## Returns
+
+TBaseNode

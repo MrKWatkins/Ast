@@ -59,7 +59,11 @@ public sealed class OrderedNodeProcessorTests : TreeTestFixture
         public bool ProcessedCalled { get; private set; }
         public bool ShouldProcessDescendentsCalled { get; private set; }
 
-        protected override void Process(BNode node) => ProcessedCalled = true;
+        protected override TestNode Process(BNode node)
+        {
+            ProcessedCalled = true;
+            return node;
+        }
 
         protected override bool ShouldProcessDescendents(BNode node)
         {
@@ -73,10 +77,11 @@ public sealed class OrderedNodeProcessorTests : TreeTestFixture
         public bool ProcessedCalled { get; private set; }
         public bool ShouldProcessDescendentsCalled { get; private set; }
 
-        protected override void Process(TContext context, BNode node)
+        protected override TestNode Process(TContext context, BNode node)
         {
             context.Should().BeTheSameInstanceAs(expectedContext);
             ProcessedCalled = true;
+            return node;
         }
 
         protected override bool ShouldProcessDescendents(TContext context, BNode node)

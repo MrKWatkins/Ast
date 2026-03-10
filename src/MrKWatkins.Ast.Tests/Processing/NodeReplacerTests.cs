@@ -49,6 +49,16 @@ public sealed class NodeReplacerTests : TreeTestFixture
     }
 
     [Test]
+    public void Process_ReturnNewNode_RootNode()
+    {
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestNodeReplacer(replacement);
+        var root = new BNode { Name = "Root" };
+        var result = replacer.Process(root);
+        result.Should().BeTheSameInstanceAs(replacement);
+    }
+
+    [Test]
     public void WithContext_Process_ReturnOriginal()
     {
         var context = new object();
@@ -87,6 +97,17 @@ public sealed class NodeReplacerTests : TreeTestFixture
         replacer.Invoking(p => p.Process(context, N12))
             .Should().Throw<InvalidOperationException>().That.Should()
             .HaveMessage("Replacement node Replacement already has a parent Parent.");
+    }
+
+    [Test]
+    public void WithContext_Process_ReturnNewNode_RootNode()
+    {
+        var context = new object();
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestNodeReplacer<object>(context, replacement);
+        var root = new BNode { Name = "Root" };
+        var result = replacer.Process(context, root);
+        result.Should().BeTheSameInstanceAs(replacement);
     }
 
     private sealed class TestNodeReplacer(TestNode? replacement) : NodeReplacer<TestNode, BNode>

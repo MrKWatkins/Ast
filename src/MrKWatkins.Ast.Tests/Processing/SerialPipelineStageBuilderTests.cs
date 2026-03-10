@@ -17,9 +17,9 @@ public sealed class SerialPipelineStageBuilderTests
         var hasErrors = new ANode();
         hasErrors.AddError("Test");
 
-        stage.Run(new ANode()).Should().BeTrue();
-        stage.Run(hasErrors).Should().BeFalse();
-        stage.Run(new ANode(hasErrors)).Should().BeFalse();
+        stage.Run(new ANode()).Success.Should().BeTrue();
+        stage.Run(hasErrors).Success.Should().BeFalse();
+        stage.Run(new ANode(hasErrors)).Success.Should().BeFalse();
     }
 
     [Test]
@@ -58,8 +58,8 @@ public sealed class SerialPipelineStageBuilderTests
         var hasErrors = new ANode();
         hasErrors.AddError("Test");
 
-        stage.Run(new ANode()).Should().BeTrue();
-        stage.Run(hasErrors).Should().BeTrue();
+        stage.Run(new ANode()).Success.Should().BeTrue();
+        stage.Run(hasErrors).Success.Should().BeTrue();
     }
 
     [Test]
@@ -82,9 +82,9 @@ public sealed class SerialPipelineStageBuilderTests
         var hasErrors = new ANode();
         hasErrors.AddError("Test");
 
-        stage.Run(new object(), new ANode()).Should().BeTrue();
-        stage.Run(new object(), hasErrors).Should().BeFalse();
-        stage.Run(new object(), new ANode(hasErrors)).Should().BeFalse();
+        stage.Run(new object(), new ANode()).Success.Should().BeTrue();
+        stage.Run(new object(), hasErrors).Success.Should().BeFalse();
+        stage.Run(new object(), new ANode(hasErrors)).Success.Should().BeFalse();
     }
 
     [Test]
@@ -123,8 +123,8 @@ public sealed class SerialPipelineStageBuilderTests
         var hasErrors = new ANode();
         hasErrors.AddError("Test");
 
-        stage.Run(new object(), new ANode()).Should().BeTrue();
-        stage.Run(new object(), hasErrors).Should().BeTrue();
+        stage.Run(new object(), new ANode()).Success.Should().BeTrue();
+        stage.Run(new object(), hasErrors).Success.Should().BeTrue();
     }
 
     [Test]

@@ -4,7 +4,7 @@
 Performs processing on the specified `node`. Does not process any descendents.
 
 ```c#
-public abstract void Process(TBaseNode node);
+public abstract TBaseNode Process(TBaseNode node);
 ```
 
 ## Parameters
@@ -12,4 +12,10 @@ public abstract void Process(TBaseNode node);
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | node | TBaseNode | The node to process. |
+
+## Returns
+
+TBaseNode
+
+The root node of the tree, which may have been replaced.
 

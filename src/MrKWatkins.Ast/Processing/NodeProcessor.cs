@@ -9,23 +9,23 @@ public abstract class NodeProcessor<TBaseNode, TNode> : Processor<TBaseNode>
     where TBaseNode : Node<TBaseNode>
     where TNode : TBaseNode
 {
-    /// <summary>
-    /// Performs processing on the specified <paramref name="node" /> if it is of type <typeparamref name="TNode" />. Does not process any descendents.
-    /// </summary>
-    /// <param name="node">The node to process.</param>
-    public sealed override void Process(TBaseNode node)
+    /// <inheritdoc />
+    public sealed override TBaseNode Process(TBaseNode node)
     {
         if (node is TNode typedNode)
         {
-            Process(typedNode);
+            return Process(typedNode);
         }
+
+        return node;
     }
 
     /// <summary>
     /// Performs processing on the specified <paramref name="node" />. Does not process any descendents.
     /// </summary>
     /// <param name="node">The node to process.</param>
-    protected abstract void Process(TNode node);
+    /// <returns>The root node of the tree, which may have been replaced.</returns>
+    protected abstract TBaseNode Process(TNode node);
 }
 
 /// <summary>
@@ -38,17 +38,15 @@ public abstract class NodeProcessor<TContext, TBaseNode, TNode> : Processor<TCon
     where TBaseNode : Node<TBaseNode>
     where TNode : TBaseNode
 {
-    /// <summary>
-    /// Performs processing on the specified <paramref name="node" /> if it is of type <typeparamref name="TNode" />. Does not process any descendents.
-    /// </summary>
-    /// <param name="context">The processing context.</param>
-    /// <param name="node">The node to process.</param>
-    public sealed override void Process(TContext context, TBaseNode node)
+    /// <inheritdoc />
+    public sealed override TBaseNode Process(TContext context, TBaseNode node)
     {
         if (node is TNode typedNode)
         {
-            Process(context, typedNode);
+            return Process(context, typedNode);
         }
+
+        return node;
     }
 
     /// <summary>
@@ -56,5 +54,6 @@ public abstract class NodeProcessor<TContext, TBaseNode, TNode> : Processor<TCon
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="node">The node to process.</param>
-    protected abstract void Process(TContext context, TNode node);
+    /// <returns>The root node of the tree, which may have been replaced.</returns>
+    protected abstract TBaseNode Process(TContext context, TNode node);
 }

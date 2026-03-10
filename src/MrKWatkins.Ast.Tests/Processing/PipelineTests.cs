@@ -26,7 +26,7 @@ public sealed class PipelineTests : TreeTestFixture
 
         var pipeline = new Pipeline<TestNode>(stages);
 
-        pipeline.Run(N1).Should().Equal(lastStageShouldContinue);
+        pipeline.Run(N1).Success.Should().Equal(lastStageShouldContinue);
 
         processor1.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         processor2.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
@@ -46,7 +46,8 @@ public sealed class PipelineTests : TreeTestFixture
 
         var pipeline = new Pipeline<TestNode>(stages);
 
-        pipeline.Run(N1, out var lastStageRan).Should().Equal(lastStageShouldContinue);
+        var (success, _, lastStageRan) = pipeline.Run(N1);
+        success.Should().Equal(lastStageShouldContinue);
         lastStageRan.Should().Equal("Stage 2");
 
         processor1.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
@@ -67,7 +68,8 @@ public sealed class PipelineTests : TreeTestFixture
 
         var pipeline = new Pipeline<TestNode>(stages);
 
-        pipeline.Run(N1, out var lastStageRan).Should().BeFalse();
+        var (success, _, lastStageRan) = pipeline.Run(N1);
+        success.Should().BeFalse();
         lastStageRan.Should().Equal("Stage 1");
 
         processor1.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
@@ -88,10 +90,66 @@ public sealed class PipelineTests : TreeTestFixture
 
         var pipeline = new Pipeline<TestNode>(stages);
 
-        pipeline.Run(N1).Should().BeFalse();
+        pipeline.Run(N1).Success.Should().BeFalse();
 
         processor1.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         processor2.Processed.Should().BeEmpty();
+    }
+
+    [Test]
+    public void Run_Tuple_ReplacesRoot()
+    {
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer(replacement);
+        var processor = new TestProcessor();
+
+        var stages = new PipelineStage<TestNode>[]
+        {
+            new SerialPipelineStage<TestNode>("Stage 1", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer]),
+            new SerialPipelineStage<TestNode>("Stage 2", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor])
+        };
+
+        var pipeline = new Pipeline<TestNode>(stages);
+
+        var (success, root, lastStageRun) = pipeline.Run(N1);
+        success.Should().BeTrue();
+        root.Should().BeTheSameInstanceAs(replacement);
+        lastStageRun.Should().Equal("Stage 2");
+    }
+
+    [Test]
+    public void Run_Out_ReplacesRoot()
+    {
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer(replacement);
+
+        var stages = new PipelineStage<TestNode>[]
+        {
+            new SerialPipelineStage<TestNode>("Stage 1", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer])
+        };
+
+        var pipeline = new Pipeline<TestNode>(stages);
+
+        pipeline.Run(N1, out var newRoot).Should().BeTrue();
+        newRoot.Should().BeTheSameInstanceAs(replacement);
+    }
+
+    [Test]
+    public void Run_Out_LastStageRun_ReplacesRoot()
+    {
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer(replacement);
+
+        var stages = new PipelineStage<TestNode>[]
+        {
+            new SerialPipelineStage<TestNode>("Stage 1", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer])
+        };
+
+        var pipeline = new Pipeline<TestNode>(stages);
+
+        pipeline.Run(N1, out var newRoot, out var lastStageRun).Should().BeTrue();
+        newRoot.Should().BeTheSameInstanceAs(replacement);
+        lastStageRun.Should().Equal("Stage 1");
     }
 
     [Test]
@@ -126,7 +184,7 @@ public sealed class PipelineTests : TreeTestFixture
 
         var pipeline = new Pipeline<object, TestNode>(stages);
 
-        pipeline.Run(context, N1).Should().Equal(lastStageShouldContinue);
+        pipeline.Run(context, N1).Success.Should().Equal(lastStageShouldContinue);
 
         processor1.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         processor2.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
@@ -157,7 +215,8 @@ public sealed class PipelineTests : TreeTestFixture
 
         var pipeline = new Pipeline<object, TestNode>(stages);
 
-        pipeline.Run(context, N1, out var lastStageRan).Should().Equal(lastStageShouldContinue);
+        var (success, _, lastStageRan) = pipeline.Run(context, N1);
+        success.Should().Equal(lastStageShouldContinue);
         lastStageRan.Should().Equal("Stage 2");
 
         processor1.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
@@ -179,7 +238,8 @@ public sealed class PipelineTests : TreeTestFixture
 
         var pipeline = new Pipeline<object, TestNode>(stages);
 
-        pipeline.Run(context, N1, out var lastStageRan).Should().BeFalse();
+        var (success, _, lastStageRan) = pipeline.Run(context, N1);
+        success.Should().BeFalse();
         lastStageRan.Should().Equal("Stage 1");
 
         processor1.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
@@ -201,9 +261,80 @@ public sealed class PipelineTests : TreeTestFixture
 
         var pipeline = new Pipeline<object, TestNode>(stages);
 
-        pipeline.Run(context, N1).Should().BeFalse();
+        pipeline.Run(context, N1).Success.Should().BeFalse();
 
         processor1.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         processor2.Processed.Should().BeEmpty();
+    }
+
+    [Test]
+    public void WithContext_Run_Tuple_ReplacesRoot()
+    {
+        var context = new object();
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer<object>(context, replacement);
+
+        var stages = new PipelineStage<object, TestNode>[]
+        {
+            new SerialPipelineStage<object, TestNode>("Stage 1", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer])
+        };
+
+        var pipeline = new Pipeline<object, TestNode>(stages);
+
+        var (success, root, lastStageRun) = pipeline.Run(context, N1);
+        success.Should().BeTrue();
+        root.Should().BeTheSameInstanceAs(replacement);
+        lastStageRun.Should().Equal("Stage 1");
+    }
+
+    [Test]
+    public void WithContext_Run_Out_ReplacesRoot()
+    {
+        var context = new object();
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer<object>(context, replacement);
+
+        var stages = new PipelineStage<object, TestNode>[]
+        {
+            new SerialPipelineStage<object, TestNode>("Stage 1", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer])
+        };
+
+        var pipeline = new Pipeline<object, TestNode>(stages);
+
+        pipeline.Run(context, N1, out var newRoot).Should().BeTrue();
+        newRoot.Should().BeTheSameInstanceAs(replacement);
+    }
+
+    [Test]
+    public void WithContext_Run_Out_LastStageRun_ReplacesRoot()
+    {
+        var context = new object();
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer<object>(context, replacement);
+
+        var stages = new PipelineStage<object, TestNode>[]
+        {
+            new SerialPipelineStage<object, TestNode>("Stage 1", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer])
+        };
+
+        var pipeline = new Pipeline<object, TestNode>(stages);
+
+        pipeline.Run(context, N1, out var newRoot, out var lastStageRun).Should().BeTrue();
+        newRoot.Should().BeTheSameInstanceAs(replacement);
+        lastStageRun.Should().Equal("Stage 1");
+    }
+
+    private sealed class TestRootReplacer(TestNode replacement) : Replacer<TestNode>
+    {
+        protected override TestNode? Replace(TestNode node) => node.HasParent ? node : replacement;
+    }
+
+    private sealed class TestRootReplacer<TContext>(TContext expectedContext, TestNode replacement) : Replacer<TContext, TestNode>
+    {
+        protected override TestNode? Replace(TContext context, TestNode node)
+        {
+            context.Should().BeTheSameInstanceAs(expectedContext);
+            return node.HasParent ? node : replacement;
+        }
     }
 }

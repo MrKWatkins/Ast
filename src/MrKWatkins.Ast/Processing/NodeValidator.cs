@@ -10,12 +10,14 @@ public abstract class NodeValidator<TBaseNode, TNode> : NodeProcessor<TBaseNode,
     where TNode : TBaseNode
 {
     /// <inheritdoc />
-    protected sealed override void Process(TNode node)
+    protected sealed override TBaseNode Process(TNode node)
     {
         foreach (var message in Validate(node))
         {
             node.AddMessage(message);
         }
+
+        return node;
     }
 
     /// <summary>
@@ -38,12 +40,14 @@ public abstract class NodeValidator<TContext, TBaseNode, TNode> : NodeProcessor<
     where TNode : TBaseNode
 {
     /// <inheritdoc />
-    protected sealed override void Process(TContext context, TNode node)
+    protected sealed override TBaseNode Process(TContext context, TNode node)
     {
         foreach (var message in Validate(context, node))
         {
             node.AddMessage(message);
         }
+
+        return node;
     }
 
     /// <summary>

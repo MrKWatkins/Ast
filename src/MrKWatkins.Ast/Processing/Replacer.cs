@@ -8,7 +8,7 @@ public abstract class Replacer<TBaseNode> : OrderedProcessor<TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
     /// <inheritdoc />
-    public sealed override void Process(TBaseNode node)
+    public sealed override TBaseNode Process(TBaseNode node)
     {
         var newNode = Replace(node);
         if (newNode != null && !ReferenceEquals(node, newNode))
@@ -18,8 +18,16 @@ public abstract class Replacer<TBaseNode> : OrderedProcessor<TBaseNode>
                 throw new InvalidOperationException($"Replacement node {newNode} already has a parent {newNode.Parent}.");
             }
 
-            node.ReplaceWith(newNode);
+            if (node.HasParent)
+            {
+                node.ReplaceWith(newNode);
+                return node;
+            }
+
+            return newNode;
         }
+
+        return node;
     }
 
     /// <summary>
@@ -42,7 +50,7 @@ public abstract class Replacer<TContext, TBaseNode> : OrderedProcessor<TContext,
     where TBaseNode : Node<TBaseNode>
 {
     /// <inheritdoc />
-    public sealed override void Process(TContext context, TBaseNode node)
+    public sealed override TBaseNode Process(TContext context, TBaseNode node)
     {
         var newNode = Replace(context, node);
         if (newNode != null && !ReferenceEquals(node, newNode))
@@ -52,8 +60,16 @@ public abstract class Replacer<TContext, TBaseNode> : OrderedProcessor<TContext,
                 throw new InvalidOperationException($"Replacement node {newNode} already has a parent {newNode.Parent}.");
             }
 
-            node.ReplaceWith(newNode);
+            if (node.HasParent)
+            {
+                node.ReplaceWith(newNode);
+                return node;
+            }
+
+            return newNode;
         }
+
+        return node;
     }
 
     /// <summary>

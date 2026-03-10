@@ -1,49 +1,52 @@
 # Pipeline&lt;TContext, TBaseNode&gt;.Run Method
 ## Overloads
-
 | Name | Description |
 | ---- | ----------- |
-| [Run(TContext, TBaseNode)](MrKWatkins.Ast.Processing.Pipeline-2.Run.md#mrkwatkins-ast-processing-pipeline-2-run(-0-1)) | Runs the pipeline on the specified root node. |
-| [Run(TContext, TBaseNode, String)](MrKWatkins.Ast.Processing.Pipeline-2.Run.md#mrkwatkins-ast-processing-pipeline-2-run(-0-1-system-string@)) | Runs the pipeline on the specified root node. |
-
-## Run(TContext, TBaseNode) {id="mrkwatkins-ast-processing-pipeline-2-run(-0-1)"}
-
-Runs the pipeline on the specified root node.
-
+| [Run(TContext, TBaseNode)](MrKWatkins.Ast.Processing.Pipeline-2.Run.md#runtcontext-tbasenode) | Runs the pipeline on the specified root node, returning a tuple with the result, the potentially replaced root node and the last stage run. |
+| [Run(TContext, TBaseNode, out TBaseNode)](MrKWatkins.Ast.Processing.Pipeline-2.Run.md#runtcontext-tbasenode-out-tbasenode) | Runs the pipeline on the specified root node, returning the potentially new root via an out parameter. |
+| [Run(TContext, TBaseNode, out TBaseNode, out String)](MrKWatkins.Ast.Processing.Pipeline-2.Run.md#runtcontext-tbasenode-out-tbasenode-out-string) | Runs the pipeline on the specified root node, returning the potentially new root and last stage run via out parameters. |
+## Run(TContext, TBaseNode) {id="runtcontext-tbasenode"}
+### Definition
+Runs the pipeline on the specified root node, returning a tuple with the result, the potentially replaced root node and the last stage run.
 ```c#
-public bool Run(TContext? context, TBaseNode root);
+public (bool Success, TBaseNode Root, string LastStageRun) Run(TContext context, TBaseNode root);
 ```
-
-## Parameters {id="parameters-mrkwatkins-ast-processing-pipeline-2-run(-0-1)"}
-
+### Parameters
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | context | TContext | The processing context. |
 | root | TBaseNode | The root node to run the pipeline on. |
-
-## Returns {id="returns-mrkwatkins-ast-processing-pipeline-2-run(-0-1)"}
-
+### Returns
+(bool Success, TBaseNode Root, [String](https://learn.microsoft.com/en-gb/dotnet/api/System.String) LastStageRun)
+A tuple of whether all stages ran successfully, the root node which may have been replaced, and the name of the last stage that was run.
+## Run(TContext, TBaseNode, out TBaseNode) {id="runtcontext-tbasenode-out-tbasenode"}
+### Definition
+Runs the pipeline on the specified root node, returning the potentially new root via an out parameter.
+```c#
+public bool Run(TContext context, TBaseNode root, out TBaseNode newRoot);
+```
+### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| context | TContext | The processing context. |
+| root | TBaseNode | The root node to run the pipeline on. |
+| newRoot | TBaseNode | The root node after processing, which may have been replaced by a [Replacer&lt;TContext, TBaseNode&gt;](MrKWatkins.Ast.Processing.Replacer-2.md). |
+### Returns
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
-
 `true` if all stages ran successfully, `false` otherwise.
-## Run(TContext, TBaseNode, String) {id="mrkwatkins-ast-processing-pipeline-2-run(-0-1-system-string@)"}
-
-Runs the pipeline on the specified root node.
-
+## Run(TContext, TBaseNode, out TBaseNode, out String) {id="runtcontext-tbasenode-out-tbasenode-out-string"}
+### Definition
+Runs the pipeline on the specified root node, returning the potentially new root and last stage run via out parameters.
 ```c#
-public bool Run(TContext? context, TBaseNode root, out string lastStageRun);
+public bool Run(TContext context, TBaseNode root, out TBaseNode newRoot, out string lastStageRun);
 ```
-
-## Parameters {id="parameters-mrkwatkins-ast-processing-pipeline-2-run(-0-1-system-string@)"}
-
+### Parameters
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | context | TContext | The processing context. |
 | root | TBaseNode | The root node to run the pipeline on. |
+| newRoot | TBaseNode | The root node after processing, which may have been replaced by a [Replacer&lt;TContext, TBaseNode&gt;](MrKWatkins.Ast.Processing.Replacer-2.md). |
 | lastStageRun | [String](https://learn.microsoft.com/en-gb/dotnet/api/System.String) | The name of the last stage that was run. If `false` is returned then this will be the name of the stage that stopped further stages from continuing. |
-
-## Returns {id="returns-mrkwatkins-ast-processing-pipeline-2-run(-0-1-system-string@)"}
-
+### Returns
 [Boolean](https://learn.microsoft.com/en-gb/dotnet/api/System.Boolean)
-
 `true` if all stages ran successfully, `false` otherwise.

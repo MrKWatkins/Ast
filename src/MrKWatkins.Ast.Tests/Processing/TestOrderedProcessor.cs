@@ -14,10 +14,11 @@ public sealed class TestOrderedProcessor : OrderedProcessor<TestNode>
 
     public IEnumerable<TestNode> Processed => processed;
 
-    public override void Process(TestNode node)
+    public override TestNode Process(TestNode node)
     {
         processed.Enqueue(node);
         ProcessNodeOverride?.Invoke(node);
+        return node;
     }
 
     public override bool ShouldProcessDescendents(TestNode node) => ShouldProcessDescendentsOverride?.Invoke(node) ?? base.ShouldProcessDescendents(node);
@@ -41,7 +42,7 @@ public sealed class TestOrderedProcessor<TContext>(TContext? expectedContext) : 
 
     public IEnumerable<TestNode> Processed => processed;
 
-    public override void Process(TContext context, TestNode node)
+    public override TestNode Process(TContext context, TestNode node)
     {
         if (expectedContext != null)
         {
@@ -49,6 +50,7 @@ public sealed class TestOrderedProcessor<TContext>(TContext? expectedContext) : 
         }
         processed.Enqueue(node);
         ProcessNodeOverride?.Invoke(node);
+        return node;
     }
 
     public override bool ShouldProcessDescendents(TContext context, TestNode node)

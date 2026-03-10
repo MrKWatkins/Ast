@@ -45,7 +45,7 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
         var stage = new ParallelPipelineStage<TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount);
         stage.Name.Should().Equal("Test Stage");
 
-        stage.Run(N1).Should().Equal(shouldContinue);
+        stage.Run(N1).Success.Should().Equal(shouldContinue);
         processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
         processors[1].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
     }
@@ -165,7 +165,7 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
         var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount);
         stage.Name.Should().Equal("Test Stage");
 
-        stage.Run(context, N1).Should().Equal(shouldContinue);
+        stage.Run(context, N1).Success.Should().Equal(shouldContinue);
         processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
         processors[1].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
     }

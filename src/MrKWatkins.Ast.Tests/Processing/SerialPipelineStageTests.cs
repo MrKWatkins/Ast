@@ -29,7 +29,7 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
         var stage = new SerialPipelineStage<TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor, orderedProcessor, orderedProcessorShouldProcessDescendentsOverride, orderedProcessorTraversalOverride]);
         stage.Name.Should().Equal("Test Stage");
 
-        stage.Run(N1).Should().Equal(shouldContinue);
+        stage.Run(N1).Success.Should().Equal(shouldContinue);
         processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         orderedProcessor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         orderedProcessorShouldProcessDescendentsOverride.Processed.Should().SequenceEqual(N1, N11, N12, N13);
@@ -79,6 +79,43 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
     }
 
     [Test]
+    public void Run_Tuple_ReplacesRoot([Values(true, false)] bool shouldContinue)
+    {
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer(replacement);
+
+        var stage = new SerialPipelineStage<TestNode>("Test Stage", _ => shouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer]);
+
+        var (success, root) = stage.Run(N1);
+        success.Should().Equal(shouldContinue);
+        root.Should().BeTheSameInstanceAs(replacement);
+    }
+
+    [Test]
+    public void Run_Out_ReplacesRoot()
+    {
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer(replacement);
+
+        var stage = new SerialPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer]);
+
+        stage.Run(N1, out var newRoot).Should().BeTrue();
+        newRoot.Should().BeTheSameInstanceAs(replacement);
+    }
+
+    [Test]
+    public void Run_Tuple_NoRootReplacement()
+    {
+        var processor = new TestProcessor();
+
+        var stage = new SerialPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor]);
+
+        var (success, root) = stage.Run(N1);
+        success.Should().BeTrue();
+        root.Should().BeTheSameInstanceAs(N1);
+    }
+
+    [Test]
     public void WithContext_Constructor_ThrowsForNoStages() =>
         AssertThat.Invoking(() => new SerialPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, []))
             .Should().Throw<ArgumentException>().That.Should()
@@ -104,7 +141,7 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
         var stage = new SerialPipelineStage<object, TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor, orderedProcessor, orderedProcessorShouldProcessDescendentsOverride, orderedProcessorTraversalOverride]);
         stage.Name.Should().Equal("Test Stage");
 
-        stage.Run(context, N1).Should().Equal(shouldContinue);
+        stage.Run(context, N1).Success.Should().Equal(shouldContinue);
         processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         orderedProcessor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         orderedProcessorShouldProcessDescendentsOverride.Processed.Should().SequenceEqual(N1, N11, N12, N13);
@@ -153,5 +190,87 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
             .Should().Throw<PipelineException>().That.Should()
             .HaveParameters("Exception occurred executing the should continue function.", "Test Stage").And
             .HaveInnerException(exception);
+    }
+
+    [Test]
+    public void WithContext_Run_Tuple_ReplacesRoot([Values(true, false)] bool shouldContinue)
+    {
+        var context = new object();
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer<object>(context, replacement);
+
+        var stage = new SerialPipelineStage<object, TestNode>("Test Stage", (_, _) => shouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer]);
+
+        var (success, root) = stage.Run(context, N1);
+        success.Should().Equal(shouldContinue);
+        root.Should().BeTheSameInstanceAs(replacement);
+    }
+
+    [Test]
+    public void WithContext_Run_Out_ReplacesRoot()
+    {
+        var context = new object();
+        var replacement = new ANode { Name = "Replacement" };
+        var replacer = new TestRootReplacer<object>(context, replacement);
+
+        var stage = new SerialPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer]);
+
+        stage.Run(context, N1, out var newRoot).Should().BeTrue();
+        newRoot.Should().BeTheSameInstanceAs(replacement);
+    }
+
+    [Test]
+    public void Run_Tuple_ReplacesRoot_NonOrderedProcessor()
+    {
+        var replacement = new ANode { Name = "Replacement" };
+        var processor = new TestNonOrderedRootReplacer(replacement);
+
+        var stage = new SerialPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor]);
+
+        var (success, root) = stage.Run(N1);
+        success.Should().BeTrue();
+        root.Should().BeTheSameInstanceAs(replacement);
+    }
+
+    [Test]
+    public void WithContext_Run_Tuple_ReplacesRoot_NonOrderedProcessor()
+    {
+        var context = new object();
+        var replacement = new ANode { Name = "Replacement" };
+        var processor = new TestNonOrderedRootReplacer<object>(context, replacement);
+
+        var stage = new SerialPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor]);
+
+        var (success, root) = stage.Run(context, N1);
+        success.Should().BeTrue();
+        root.Should().BeTheSameInstanceAs(replacement);
+    }
+
+    private sealed class TestRootReplacer(TestNode replacement) : Replacer<TestNode>
+    {
+        protected override TestNode? Replace(TestNode node) => node.HasParent ? node : replacement;
+    }
+
+    private sealed class TestRootReplacer<TContext>(TContext expectedContext, TestNode replacement) : Replacer<TContext, TestNode>
+    {
+        protected override TestNode? Replace(TContext context, TestNode node)
+        {
+            context.Should().BeTheSameInstanceAs(expectedContext);
+            return node.HasParent ? node : replacement;
+        }
+    }
+
+    private sealed class TestNonOrderedRootReplacer(TestNode replacement) : Processor<TestNode>
+    {
+        public override TestNode Process(TestNode node) => node.HasParent ? node : replacement;
+    }
+
+    private sealed class TestNonOrderedRootReplacer<TContext>(TContext expectedContext, TestNode replacement) : Processor<TContext, TestNode>
+    {
+        public override TestNode Process(TContext context, TestNode node)
+        {
+            context.Should().BeTheSameInstanceAs(expectedContext);
+            return node.HasParent ? node : replacement;
+        }
     }
 }

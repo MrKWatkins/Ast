@@ -42,7 +42,7 @@ public sealed class ParallelPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
     public int MaxDegreeOfParallelism { get; }
 
     /// <inheritdoc />
-    private protected override void Process(TBaseNode root)
+    private protected override TBaseNode Process(TBaseNode root)
     {
         var nodesWithProcessors = DefaultTraversal.Enumerate(root).SelectMany(node => Processors.Select(processor => (Node: node, Processor: processor)));
 
@@ -60,6 +60,8 @@ public sealed class ParallelPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
                     throw new PipelineException($"Exception occurred executing processor {nodeWithProcessor.Processor.GetType().SimpleName()} for node {nodeWithProcessor.Node}.", Name, exception);
                 }
             });
+
+        return root;
     }
 }
 
@@ -104,7 +106,7 @@ public sealed class ParallelPipelineStage<TContext, TBaseNode> : PipelineStage<T
     public int MaxDegreeOfParallelism { get; }
 
     /// <inheritdoc />
-    private protected override void Process(TContext context, TBaseNode root)
+    private protected override TBaseNode Process(TContext context, TBaseNode root)
     {
         var nodesWithProcessors = DefaultTraversal.Enumerate(root).SelectMany(node => Processors.Select(processor => (Node: node, Processor: processor)));
 
@@ -122,5 +124,7 @@ public sealed class ParallelPipelineStage<TContext, TBaseNode> : PipelineStage<T
                     throw new PipelineException($"Exception occurred executing processor {nodeWithProcessor.Processor.GetType().SimpleName()} for node {nodeWithProcessor.Node}.", Name, exception);
                 }
             });
+
+        return root;
     }
 }

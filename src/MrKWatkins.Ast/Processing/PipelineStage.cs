@@ -32,18 +32,32 @@ public abstract class PipelineStage<TBaseNode>
     public ITraversal<TBaseNode> DefaultTraversal { get; }
 
     /// <summary>
-    /// Runs the stage.
+    /// Runs the stage, returning the potentially new root via an out parameter.
     /// </summary>
     /// <param name="root">The root node to run processing on.</param>
+    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TBaseNode}"/>.</param>
     /// <returns><c>true</c> if the pipeline should proceed to the next stage, <c>false</c> otherwise.</returns>
     /// <exception cref="PipelineException">If an unhandled exception occurs during processing.</exception>
-    public bool Run(TBaseNode root)
+    public bool Run(TBaseNode root, out TBaseNode newRoot)
     {
-        Process(root);
+        var (success, resultRoot) = Run(root);
+        newRoot = resultRoot;
+        return success;
+    }
+
+    /// <summary>
+    /// Runs the stage, returning a tuple of whether the pipeline should continue and the potentially replaced root node.
+    /// </summary>
+    /// <param name="root">The root node to run processing on.</param>
+    /// <returns>A tuple of whether processing should continue and the root node, which may have been replaced by a <see cref="Replacer{TBaseNode}"/>.</returns>
+    /// <exception cref="PipelineException">If an unhandled exception occurs during processing.</exception>
+    public (bool Success, TBaseNode Root) Run(TBaseNode root)
+    {
+        var newRoot = Process(root);
 
         try
         {
-            return ShouldContinue(root);
+            return (ShouldContinue(newRoot), newRoot);
         }
         catch (Exception exception)
         {
@@ -55,7 +69,8 @@ public abstract class PipelineStage<TBaseNode>
     /// Processes the specified tree.
     /// </summary>
     /// <param name="root">The root node of the tree.</param>
-    private protected abstract void Process(TBaseNode root);
+    /// <returns>The root node, which may have been replaced.</returns>
+    private protected abstract TBaseNode Process(TBaseNode root);
 }
 
 /// <summary>
@@ -89,19 +104,34 @@ public abstract class PipelineStage<TContext, TBaseNode>
     public ITraversal<TBaseNode> DefaultTraversal { get; }
 
     /// <summary>
-    /// Runs the stage.
+    /// Runs the stage, returning the potentially new root via an out parameter.
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="root">The root node to run processing on.</param>
+    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TContext, TBaseNode}"/>.</param>
     /// <returns><c>true</c> if the pipeline should proceed to the next stage, <c>false</c> otherwise.</returns>
     /// <exception cref="PipelineException">If an unhandled exception occurs during processing.</exception>
-    public bool Run(TContext context, TBaseNode root)
+    public bool Run(TContext context, TBaseNode root, out TBaseNode newRoot)
     {
-        Process(context, root);
+        var (success, resultRoot) = Run(context, root);
+        newRoot = resultRoot;
+        return success;
+    }
+
+    /// <summary>
+    /// Runs the stage, returning a tuple of whether the pipeline should continue and the potentially replaced root node.
+    /// </summary>
+    /// <param name="context">The processing context.</param>
+    /// <param name="root">The root node to run processing on.</param>
+    /// <returns>A tuple of whether processing should continue and the root node, which may have been replaced by a <see cref="Replacer{TContext, TBaseNode}"/>.</returns>
+    /// <exception cref="PipelineException">If an unhandled exception occurs during processing.</exception>
+    public (bool Success, TBaseNode Root) Run(TContext context, TBaseNode root)
+    {
+        var newRoot = Process(context, root);
 
         try
         {
-            return ShouldContinue(context, root);
+            return (ShouldContinue(context, newRoot), newRoot);
         }
         catch (Exception exception)
         {
@@ -114,5 +144,6 @@ public abstract class PipelineStage<TContext, TBaseNode>
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="root">The root node of the tree.</param>
-    private protected abstract void Process(TContext context, TBaseNode root);
+    /// <returns>The root node, which may have been replaced.</returns>
+    private protected abstract TBaseNode Process(TContext context, TBaseNode root);
 }

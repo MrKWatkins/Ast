@@ -23,13 +23,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Publish to NuGet
         uses: MrKWatkins/nuget-publish@main
         with:
           nuget-api-key: ${{ secrets.NUGET_API_KEY }}
           version: ${{ inputs.version }}
+          directory: src
 
       - name: Deploy Documentation
         uses: MrKWatkins/writerside-build@main

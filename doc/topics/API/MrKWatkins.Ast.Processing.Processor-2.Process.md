@@ -4,7 +4,7 @@
 Performs processing on the specified `node`. Does not process any descendents.
 
 ```c#
-public abstract void Process(TContext? context, TBaseNode node);
+public abstract TBaseNode Process(TContext context, TBaseNode node);
 ```
 
 ## Parameters
@@ -14,3 +14,8 @@ public abstract void Process(TContext? context, TBaseNode node);
 | context | TContext | The processing context. |
 | node | TBaseNode | The node to process. |
 
+## Returns
+
+TBaseNode
+
+The root node of the tree, which may have been replaced.

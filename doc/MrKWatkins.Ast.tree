@@ -467,7 +467,7 @@
         <toc-element toc-title="Methods">
           <toc-element toc-title="Build" topic="MrKWatkins.Ast.Processing.Pipeline-1.Build.md" />
           <toc-element toc-title="Run" topic="MrKWatkins.Ast.Processing.Pipeline-1.Run.md" />
-        </toc-element>
+      </toc-element>
       </toc-element>
       <toc-element toc-title="Pipeline&lt;TContext, TBaseNode&gt;">
         <toc-element toc-title="Pipeline&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.Pipeline-2.md" />
@@ -477,7 +477,7 @@
         <toc-element toc-title="Methods">
           <toc-element toc-title="Build" topic="MrKWatkins.Ast.Processing.Pipeline-2.Build.md" />
           <toc-element toc-title="Run" topic="MrKWatkins.Ast.Processing.Pipeline-2.Run.md" />
-        </toc-element>
+      </toc-element>
       </toc-element>
       <toc-element toc-title="PipelineBuilder&lt;TBaseNode&gt;">
         <toc-element toc-title="PipelineBuilder&lt;TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineBuilder-1.md" />
@@ -511,7 +511,7 @@
         </toc-element>
         <toc-element toc-title="Methods">
           <toc-element toc-title="Run" topic="MrKWatkins.Ast.Processing.PipelineStage-1.Run.md" />
-        </toc-element>
+      </toc-element>
       </toc-element>
       <toc-element toc-title="PipelineStage&lt;TContext, TBaseNode&gt;">
         <toc-element toc-title="PipelineStage&lt;TContext, TBaseNode&gt;" topic="MrKWatkins.Ast.Processing.PipelineStage-2.md" />
@@ -522,7 +522,7 @@
         </toc-element>
         <toc-element toc-title="Methods">
           <toc-element toc-title="Run" topic="MrKWatkins.Ast.Processing.PipelineStage-2.Run.md" />
-        </toc-element>
+      </toc-element>
       </toc-element>
       <toc-element toc-title="PipelineStageBuilder&lt;TSelf, TStage, TBaseNode, TProcessor, TShouldContinue&gt;">
         <toc-element toc-title="PipelineStageBuilder&lt;TSelf, TStage, TBaseNode, TProcessor, TShouldContinue&gt;" topic="MrKWatkins.Ast.Processing.PipelineStageBuilder-5.md" />

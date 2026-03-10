@@ -11,7 +11,7 @@
 Performs processing on the specified `node` if it is of type `TNode`. Does not process any descendents.
 
 ```c#
-public sealed override void Process(TBaseNode node);
+public sealed override TBaseNode Process(TBaseNode node);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-processing-nodeprocessor-2-process(-0)"}
@@ -20,12 +20,18 @@ public sealed override void Process(TBaseNode node);
 | ---- | ---- | ----------- |
 | node | TBaseNode | The node to process. |
 
+## Returns {id="returns-mrkwatkins-ast-processing-nodeprocessor-2-process(-0)"}
+
+TBaseNode
+
+The root node of the tree, which may have been replaced.
+
 ## Process(TNode) {id="mrkwatkins-ast-processing-nodeprocessor-2-process(-1)"}
 
 Performs processing on the specified `node`. Does not process any descendents.
 
 ```c#
-protected new abstract void Process(TNode node);
+protected new abstract TBaseNode Process(TNode node);
 ```
 
 ## Parameters {id="parameters-mrkwatkins-ast-processing-nodeprocessor-2-process(-1)"}
@@ -34,3 +40,8 @@ protected new abstract void Process(TNode node);
 | ---- | ---- | ----------- |
 | node | TNode | The node to process. |
 
+## Returns {id="returns-mrkwatkins-ast-processing-nodeprocessor-2-process(-1)"}
+
+TBaseNode
+
+The root node of the tree, which may have been replaced.

@@ -2,7 +2,7 @@
 ## Definition
 
 ```c#
-public sealed override void Process(TBaseNode node);
+public sealed override TBaseNode Process(TBaseNode node);
 ```
 
 ## Parameters
@@ -11,3 +11,6 @@ public sealed override void Process(TBaseNode node);
 | ---- | ---- | ----------- |
 | node | TBaseNode |  |
 
+## Returns
+
+TBaseNode

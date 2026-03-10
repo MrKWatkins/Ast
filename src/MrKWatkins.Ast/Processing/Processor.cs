@@ -11,7 +11,8 @@ public abstract class Processor<TBaseNode>
     /// Performs processing on the specified <paramref name="node" />. Does not process any descendents.
     /// </summary>
     /// <param name="node">The node to process.</param>
-    public abstract void Process(TBaseNode node);
+    /// <returns>The root node of the tree, which may have been replaced.</returns>
+    public abstract TBaseNode Process(TBaseNode node);
 }
 
 /// <summary>
@@ -27,5 +28,6 @@ public abstract class Processor<TContext, TBaseNode>
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="node">The node to process.</param>
-    public abstract void Process(TContext context, TBaseNode node);
+    /// <returns>The root node of the tree, which may have been replaced.</returns>
+    public abstract TBaseNode Process(TContext context, TBaseNode node);
 }

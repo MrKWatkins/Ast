@@ -38,36 +38,59 @@ public sealed class Pipeline<TBaseNode>
     }
 
     /// <summary>
-    /// Runs the pipeline on the specified root node.
+    /// Runs the pipeline on the specified root node, returning the potentially new root via an out parameter.
     /// </summary>
     /// <param name="root">The root node to run the pipeline on.</param>
+    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TBaseNode}"/>.</param>
     /// <returns><c>true</c> if all stages ran successfully, <c>false</c> otherwise.</returns>
-    public bool Run(TBaseNode root) => Run(root, out _);
+    public bool Run(TBaseNode root, out TBaseNode newRoot)
+    {
+        var (success, resultRoot, _) = Run(root);
+        newRoot = resultRoot;
+        return success;
+    }
 
     /// <summary>
-    /// Runs the pipeline on the specified root node.
+    /// Runs the pipeline on the specified root node, returning the potentially new root and last stage run via out parameters.
     /// </summary>
     /// <param name="root">The root node to run the pipeline on.</param>
+    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TBaseNode}"/>.</param>
     /// <param name="lastStageRun">
     /// The name of the last stage that was run. If <c>false</c> is returned then this will be the name of the stage that stopped
     /// further stages from continuing.
     /// </param>
     /// <returns><c>true</c> if all stages ran successfully, <c>false</c> otherwise.</returns>
-    public bool Run(TBaseNode root, out string lastStageRun)
+    public bool Run(TBaseNode root, out TBaseNode newRoot, out string lastStageRun)
     {
-        lastStageRun = null!;
+        var (success, resultRoot, lastStage) = Run(root);
+        newRoot = resultRoot;
+        lastStageRun = lastStage;
+        return success;
+    }
+
+    /// <summary>
+    /// Runs the pipeline on the specified root node, returning a tuple with the result, the potentially replaced root node and the last stage run.
+    /// </summary>
+    /// <param name="root">The root node to run the pipeline on.</param>
+    /// <returns>A tuple of whether all stages ran successfully, the root node which may have been replaced, and the name of the last stage that was run.</returns>
+    public (bool Success, TBaseNode Root, string LastStageRun) Run(TBaseNode root)
+    {
+        var lastStageRun = (string)null!;
 
         foreach (var stage in Stages)
         {
             lastStageRun = stage.Name;
 
-            if (!stage.Run(root))
+            var (success, newRoot) = stage.Run(root);
+            root = newRoot;
+
+            if (!success)
             {
-                return false;
+                return (false, root, lastStageRun);
             }
         }
 
-        return true;
+        return (true, root, lastStageRun);
     }
 }
 
@@ -110,37 +133,61 @@ public sealed class Pipeline<TContext, TBaseNode>
     }
 
     /// <summary>
-    /// Runs the pipeline on the specified root node.
+    /// Runs the pipeline on the specified root node, returning the potentially new root via an out parameter.
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="root">The root node to run the pipeline on.</param>
+    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TContext, TBaseNode}"/>.</param>
     /// <returns><c>true</c> if all stages ran successfully, <c>false</c> otherwise.</returns>
-    public bool Run(TContext context, TBaseNode root) => Run(context, root, out _);
+    public bool Run(TContext context, TBaseNode root, out TBaseNode newRoot)
+    {
+        var (success, resultRoot, _) = Run(context, root);
+        newRoot = resultRoot;
+        return success;
+    }
 
     /// <summary>
-    /// Runs the pipeline on the specified root node.
+    /// Runs the pipeline on the specified root node, returning the potentially new root and last stage run via out parameters.
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="root">The root node to run the pipeline on.</param>
+    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TContext, TBaseNode}"/>.</param>
     /// <param name="lastStageRun">
     /// The name of the last stage that was run. If <c>false</c> is returned then this will be the name of the stage that stopped
     /// further stages from continuing.
     /// </param>
     /// <returns><c>true</c> if all stages ran successfully, <c>false</c> otherwise.</returns>
-    public bool Run(TContext context, TBaseNode root, out string lastStageRun)
+    public bool Run(TContext context, TBaseNode root, out TBaseNode newRoot, out string lastStageRun)
     {
-        lastStageRun = null!;
+        var (success, resultRoot, lastStage) = Run(context, root);
+        newRoot = resultRoot;
+        lastStageRun = lastStage;
+        return success;
+    }
+
+    /// <summary>
+    /// Runs the pipeline on the specified root node, returning a tuple with the result, the potentially replaced root node and the last stage run.
+    /// </summary>
+    /// <param name="context">The processing context.</param>
+    /// <param name="root">The root node to run the pipeline on.</param>
+    /// <returns>A tuple of whether all stages ran successfully, the root node which may have been replaced, and the name of the last stage that was run.</returns>
+    public (bool Success, TBaseNode Root, string LastStageRun) Run(TContext context, TBaseNode root)
+    {
+        string lastStageRun = null!;
 
         foreach (var stage in Stages)
         {
             lastStageRun = stage.Name;
 
-            if (!stage.Run(context, root))
+            var (success, newRoot) = stage.Run(context, root);
+            root = newRoot;
+
+            if (!success)
             {
-                return false;
+                return (false, root, lastStageRun);
             }
         }
 
-        return true;
+        return (true, root, lastStageRun);
     }
 }

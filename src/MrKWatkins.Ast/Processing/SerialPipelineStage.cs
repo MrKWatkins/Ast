@@ -26,7 +26,7 @@ public sealed class SerialPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
     public IReadOnlyList<Processor<TBaseNode>> Processors { get; }
 
     /// <inheritdoc />
-    private protected override void Process(TBaseNode root)
+    private protected override TBaseNode Process(TBaseNode root)
     {
         foreach (var processor in Processors)
         {
@@ -34,11 +34,11 @@ public sealed class SerialPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
             {
                 if (processor is OrderedProcessor<TBaseNode> orderedProcessor)
                 {
-                    Process(root, orderedProcessor);
+                    root = Process(root, orderedProcessor);
                 }
                 else
                 {
-                    Process(root, processor);
+                    root = Process(root, processor);
                 }
             }
             catch (Exception exception)
@@ -46,24 +46,38 @@ public sealed class SerialPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
                 throw new PipelineException($"Exception occurred executing processor {processor.GetType().SimpleName()}.", Name, exception);
             }
         }
+
+        return root;
     }
 
-    private void Process(TBaseNode root, Processor<TBaseNode> processor)
+    private TBaseNode Process(TBaseNode root, Processor<TBaseNode> processor)
     {
         foreach (var node in DefaultTraversal.Enumerate(root))
         {
-            processor.Process(node);
+            var result = processor.Process(node);
+            if (!ReferenceEquals(result, node))
+            {
+                root = result;
+            }
         }
+
+        return root;
     }
 
-    private static void Process(TBaseNode root, OrderedProcessor<TBaseNode> processor)
+    private static TBaseNode Process(TBaseNode root, OrderedProcessor<TBaseNode> processor)
     {
         var traversal = processor.GetTraversal(root);
 
         foreach (var node in traversal.Enumerate(root, shouldEnumerateDescendents: processor.ShouldProcessDescendents))
         {
-            processor.Process(node);
+            var result = processor.Process(node);
+            if (!ReferenceEquals(result, node))
+            {
+                root = result;
+            }
         }
+
+        return root;
     }
 }
 
@@ -92,7 +106,7 @@ public sealed class SerialPipelineStage<TContext, TBaseNode> : PipelineStage<TCo
     public IReadOnlyList<Processor<TContext, TBaseNode>> Processors { get; }
 
     /// <inheritdoc />
-    private protected override void Process(TContext context, TBaseNode root)
+    private protected override TBaseNode Process(TContext context, TBaseNode root)
     {
         foreach (var processor in Processors)
         {
@@ -100,11 +114,11 @@ public sealed class SerialPipelineStage<TContext, TBaseNode> : PipelineStage<TCo
             {
                 if (processor is OrderedProcessor<TContext, TBaseNode> orderedProcessor)
                 {
-                    Process(context, root, orderedProcessor);
+                    root = Process(context, root, orderedProcessor);
                 }
                 else
                 {
-                    Process(context, root, processor);
+                    root = Process(context, root, processor);
                 }
             }
             catch (Exception exception)
@@ -112,23 +126,37 @@ public sealed class SerialPipelineStage<TContext, TBaseNode> : PipelineStage<TCo
                 throw new PipelineException($"Exception occurred executing processor {processor.GetType().SimpleName()}.", Name, exception);
             }
         }
+
+        return root;
     }
 
-    private void Process(TContext context, TBaseNode root, Processor<TContext, TBaseNode> processor)
+    private TBaseNode Process(TContext context, TBaseNode root, Processor<TContext, TBaseNode> processor)
     {
         foreach (var node in DefaultTraversal.Enumerate(root))
         {
-            processor.Process(context, node);
+            var result = processor.Process(context, node);
+            if (!ReferenceEquals(result, node))
+            {
+                root = result;
+            }
         }
+
+        return root;
     }
 
-    private static void Process(TContext context, TBaseNode root, OrderedProcessor<TContext, TBaseNode> processor)
+    private static TBaseNode Process(TContext context, TBaseNode root, OrderedProcessor<TContext, TBaseNode> processor)
     {
         var traversal = processor.GetTraversal(context, root);
 
         foreach (var node in traversal.Enumerate(root, shouldEnumerateDescendents: n => processor.ShouldProcessDescendents(context, n)))
         {
-            processor.Process(context, node);
+            var result = processor.Process(context, node);
+            if (!ReferenceEquals(result, node))
+            {
+                root = result;
+            }
         }
+
+        return root;
     }
 }

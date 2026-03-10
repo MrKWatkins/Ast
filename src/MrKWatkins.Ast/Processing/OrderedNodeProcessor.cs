@@ -11,19 +11,22 @@ public abstract class OrderedNodeProcessor<TBaseNode, TNode> : OrderedProcessor<
     where TNode : TBaseNode
 {
     /// <inheritdoc />
-    public sealed override void Process(TBaseNode node)
+    public sealed override TBaseNode Process(TBaseNode node)
     {
         if (node is TNode typedNode)
         {
-            Process(typedNode);
+            return Process(typedNode);
         }
+
+        return node;
     }
 
     /// <summary>
     /// Performs processing on the specified <paramref name="node" />. Does not process any descendents.
     /// </summary>
     /// <param name="node">The node to process.</param>
-    protected abstract void Process(TNode node);
+    /// <returns>The root node of the tree, which may have been replaced.</returns>
+    protected abstract TBaseNode Process(TNode node);
 
     /// <inheritdoc />
     public sealed override bool ShouldProcessDescendents(TBaseNode node)
@@ -57,12 +60,14 @@ public abstract class OrderedNodeProcessor<TContext, TBaseNode, TNode> : Ordered
     where TNode : TBaseNode
 {
     /// <inheritdoc />
-    public sealed override void Process(TContext context, TBaseNode node)
+    public sealed override TBaseNode Process(TContext context, TBaseNode node)
     {
         if (node is TNode typedNode)
         {
-            Process(context, typedNode);
+            return Process(context, typedNode);
         }
+
+        return node;
     }
 
     /// <summary>
@@ -70,7 +75,8 @@ public abstract class OrderedNodeProcessor<TContext, TBaseNode, TNode> : Ordered
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="node">The node to process.</param>
-    protected abstract void Process(TContext context, TNode node);
+    /// <returns>The root node of the tree, which may have been replaced.</returns>
+    protected abstract TBaseNode Process(TContext context, TNode node);
 
     /// <inheritdoc />
     public sealed override bool ShouldProcessDescendents(TContext context, TBaseNode node)
