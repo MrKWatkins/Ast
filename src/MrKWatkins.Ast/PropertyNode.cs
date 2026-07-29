@@ -32,6 +32,8 @@ public abstract class PropertyNode<TNode> : Node<TNode>
     /// <remarks>The properties.</remarks>
     protected Properties Properties => properties ??= new Properties();
 
+    internal Properties? PropertiesOrNull => properties;
+
     /// <summary>
     /// Returns an <see cref="IEnumerable{T}"/> that enumerates over the properties as <see cref="KeyValuePair{TKey, TValue}"/>s.
     /// Returns the name as the key and an untyped object for the value. This will be the object itself for single value properties

@@ -8,7 +8,7 @@ namespace MrKWatkins.Ast;
 /// A collection of properties for a node. Properties allow you to store arbitrary data against a node and will be copying during
 /// calls to <see cref="PropertyNode{TNode}.Copy()"/>. Properties can have a single value or multiple values.
 /// </summary>
-public sealed class Properties : IEnumerable<KeyValuePair<string, object>>
+public sealed class Properties : IEnumerable<KeyValuePair<string, object>>, IEquatable<Properties>
 {
     private static readonly ConcurrentDictionary<Type, Func<object, object>> ListCopiers = new();
     private readonly Dictionary<string, Property> properties;
@@ -480,6 +480,104 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>
         }
 
         list.AddRange(values);
+    }
+
+    /// <summary>
+    /// Returns <c>true</c> if this collection equals another collection, <c>false</c> otherwise. Collections are equal if they have
+    /// the same property keys, and the values for each key are single or multiple valued to match, have the same type and are equal,
+    /// using <see cref="object.Equals(object)" /> for single values and element-wise for multiple values.
+    /// </summary>
+    /// <param name="other">The collection to compare against.</param>
+    /// <returns><c>true</c> if the collections are equal, <c>false</c> otherwise.</returns>
+    [Pure]
+    public bool Equals(Properties? other) => other is not null && (ReferenceEquals(this, other) || Equal(this, other));
+
+    /// <inheritdoc />
+    [Pure]
+    public override bool Equals(object? obj) => Equals(obj as Properties);
+
+    /// <summary>
+    /// Returns a hash code for this collection consistent with <see cref="Equals(Properties)" />, based on the number of properties.
+    /// </summary>
+    /// <returns>A hash code for this collection.</returns>
+    [Pure]
+    public override int GetHashCode() => properties.Count;
+
+    /// <summary>
+    /// Returns <c>true</c> if two collections are equal, <c>false</c> otherwise.
+    /// </summary>
+    /// <param name="x">The first collection.</param>
+    /// <param name="y">The second collection.</param>
+    /// <returns><c>true</c> if the collections are equal, <c>false</c> otherwise.</returns>
+    [Pure]
+    public static bool operator ==(Properties? x, Properties? y) => x?.Equals(y) ?? y is null;
+
+    /// <summary>
+    /// Returns <c>true</c> if two collections are not equal, <c>false</c> otherwise.
+    /// </summary>
+    /// <param name="x">The first collection.</param>
+    /// <param name="y">The second collection.</param>
+    /// <returns><c>true</c> if the collections are not equal, <c>false</c> otherwise.</returns>
+    [Pure]
+    public static bool operator !=(Properties? x, Properties? y) => !(x == y);
+
+    [Pure]
+    internal static bool Equal(Properties? x, Properties? y)
+    {
+        var xProperties = x?.properties;
+        var yProperties = y?.properties;
+        var xCount = xProperties?.Count ?? 0;
+        var yCount = yProperties?.Count ?? 0;
+        if (xCount != yCount)
+        {
+            return false;
+        }
+
+        if (xCount == 0)
+        {
+            return true;
+        }
+
+        foreach (var (key, xProperty) in xProperties!)
+        {
+            if (!yProperties!.TryGetValue(key, out var yProperty) || !Equal(xProperty, yProperty))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    [Pure]
+    private static bool Equal(Property x, Property y)
+    {
+        if (x.Multiple != y.Multiple || x.Type != y.Type)
+        {
+            return false;
+        }
+
+        if (!x.Multiple)
+        {
+            return x.Value.Equals(y.Value);
+        }
+
+        var xValues = (IList) x.Value;
+        var yValues = (IList) y.Value;
+        if (xValues.Count != yValues.Count)
+        {
+            return false;
+        }
+
+        for (var f = 0; f < xValues.Count; f++)
+        {
+            if (!Equals(xValues[f], yValues[f]))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     [Pure]

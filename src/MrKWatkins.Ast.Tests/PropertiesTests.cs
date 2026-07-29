@@ -3,7 +3,7 @@ using System.Text;
 
 namespace MrKWatkins.Ast.Tests;
 
-public sealed class PropertiesTests
+public sealed class PropertiesTests : EqualityTestFixture
 {
     [Test]
     public void GetOrThrow()
@@ -962,6 +962,158 @@ public sealed class PropertiesTests
 
         properties.Should().SequenceEqual(expected);
         ((IEnumerable) properties).Should().SequenceEqual(expected.OfType<object>());
+    }
+
+    [Test]
+    public void Equal_BothNull() => Properties.Equal(null, null).Should().BeTrue();
+
+    [Test]
+    public void Equal_NullAndEmpty()
+    {
+        var properties = new Properties();
+
+        Properties.Equal(null, properties).Should().BeTrue();
+        Properties.Equal(properties, null).Should().BeTrue();
+    }
+
+    [Test]
+    public void Equal_BothEmpty() => Properties.Equal(new Properties(), new Properties()).Should().BeTrue();
+
+    [Test]
+    public void Equal()
+    {
+        var x = new Properties();
+        x.Set("One", 1);
+        x.Set("Two", "2");
+        x.SetMultiple("Three", [3, 33]);
+
+        var y = new Properties();
+        y.Set("One", 1);
+        y.Set("Two", "2");
+        y.SetMultiple("Three", [3, 33]);
+
+        Properties.Equal(x, y).Should().BeTrue();
+        Properties.Equal(y, x).Should().BeTrue();
+    }
+
+    [Test]
+    public void Equal_CountsDiffer()
+    {
+        var x = new Properties();
+        x.Set("One", 1);
+
+        var y = new Properties();
+        y.Set("One", 1);
+        y.Set("Two", 2);
+
+        Properties.Equal(x, y).Should().BeFalse();
+        Properties.Equal(y, x).Should().BeFalse();
+    }
+
+    [Test]
+    public void Equal_KeysDiffer()
+    {
+        var x = new Properties();
+        x.Set("One", 1);
+
+        var y = new Properties();
+        y.Set("Two", 2);
+
+        Properties.Equal(x, y).Should().BeFalse();
+    }
+
+    [Test]
+    public void Equal_SingleAndMultiple()
+    {
+        var x = new Properties();
+        x.Set("One", 1);
+
+        var y = new Properties();
+        y.AddToMultiple("One", 1);
+
+        Properties.Equal(x, y).Should().BeFalse();
+    }
+
+    [Test]
+    public void Equal_ValueTypesDiffer()
+    {
+        var x = new Properties();
+        x.Set("One", 1);
+
+        var y = new Properties();
+        y.Set("One", "1");
+
+        Properties.Equal(x, y).Should().BeFalse();
+    }
+
+    [Test]
+    public void Equal_SingleValuesDiffer()
+    {
+        var x = new Properties();
+        x.Set("One", 1);
+
+        var y = new Properties();
+        y.Set("One", 2);
+
+        Properties.Equal(x, y).Should().BeFalse();
+    }
+
+    [Test]
+    public void Equal_MultipleValueCountsDiffer()
+    {
+        var x = new Properties();
+        x.SetMultiple("One", [1, 2]);
+
+        var y = new Properties();
+        y.SetMultiple("One", [1]);
+
+        Properties.Equal(x, y).Should().BeFalse();
+    }
+
+    [Test]
+    public void Equal_MultipleValuesDiffer()
+    {
+        var x = new Properties();
+        x.SetMultiple("One", [1, 2, 3]);
+
+        var y = new Properties();
+        y.SetMultiple("One", [1, 5, 3]);
+
+        Properties.Equal(x, y).Should().BeFalse();
+    }
+
+    [Test]
+    public void Equality()
+    {
+        var x = new Properties();
+        x.Set("One", 1);
+        x.SetMultiple("Two", [2, 22]);
+
+        var y = new Properties();
+        y.Set("One", 1);
+        y.SetMultiple("Two", [2, 22]);
+
+        AssertEqual(x, x, true);
+        AssertEqual(x, y, true);
+
+        var z = new Properties();
+        z.Set("One", 2);
+        z.SetMultiple("Two", [2, 22]);
+
+        AssertEqual(x, z, false);
+        AssertEqual(x, new Properties(), false);
+        AssertEqual(x, null, false);
+        AssertEqual(x, (object) "Other", false);
+    }
+
+    [Test]
+    public void Equality_NullOperands()
+    {
+        Properties?[] values = [null, null, new Properties()];
+
+        (values[0] == values[1]).Should().BeTrue();
+        (values[0] != values[1]).Should().BeFalse();
+        (values[0] == values[2]).Should().BeFalse();
     }
 
     [DoesNotReturn]
