@@ -1,1 +1,0 @@
-# SourcePosition.Equality Operator

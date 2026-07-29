@@ -32,9 +32,24 @@ jobs:
           version: ${{ inputs.version }}
           directory: src
 
-      - name: Deploy Documentation
-        uses: MrKWatkins/writerside-build@main
+      - name: Build
+        uses: MrKWatkins/dotnet-build@main
         with:
-          instance: MrKWatkins.Ast
-          deploy: true
-          version: ${{ inputs.version }}
+          name: MrKWatkins.Ast
+          directory: src
+
+      - name: Install Sesharp
+        run: dotnet tool install --tool-path ./.tools MrKWatkins.Sesharp.Tool
+
+      - name: Make API Docs Directory
+        run: mkdir -p doc/docs/API
+
+      - name: Generate API Docs
+        run: ./.tools/sesharp src/MrKWatkins.Ast/bin/Release/net10.0/MrKWatkins.Ast.dll --output doc/docs/API --repository https://github.com/MrKWatkins/Ast
+
+      - name: Deploy docs
+        uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG_FILE: doc/mkdocs.yml
+          REQUIREMENTS: doc/requirements.txt

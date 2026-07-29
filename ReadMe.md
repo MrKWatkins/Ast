@@ -11,12 +11,14 @@
 As part of my [Oakley](https://www.mrkwatkins.co.uk/tag/oakley/) project to create a compiler and it's associated OakAsm project to create an assembler (details coming soon) I needed to represent
 [abstract syntax trees](https://en.wikipedia.org/wiki/Abstract_syntax_tree) in C#. This library was created so I could share the code between those two projects.
 
+Full documentation is available at [mrkwatkins.github.io/Ast](https://mrkwatkins.github.io/Ast/). Source code and issue tracking are on [GitHub](https://github.com/MrKWatkins/Ast).
+
 ## Usage
 
 Create a base node type for your abstract syntax tree:
 
 ```csharp
-public abstract class Expression : Node<Expression>
+public abstract class Expression : PropertyNode<Expression>
 {
 }
 ```
@@ -66,7 +68,7 @@ Mark nodes with errors, warnings and info messages:
 
 ```csharp
 sixty.AddError("Value must be less than 55.");
-var expressionHasErrors = expression.HasErrors; // true.
+var expressionHasErrors = expression.ThisAndDescendentsHaveErrors; // true.
 ```
 
 Associate nodes with their position in source code during parsing:
@@ -81,9 +83,9 @@ sixty.SourcePosition = source.CreatePosition(5, 2, 0, 5);
 Output errors with highlighted source information:
 
 ```csharp
-var errors = MessageFormatter.FormatErrors(expression);
+var errors = MessageFormatter.FormatErrors(expression, MessageFormatterOptions.PrefixAndHighlight);
 
-// MySource.code (1, 6): Error: Parent Value must be less than 55.
+// MySource.code (1, 6): Error: Value must be less than 55.
 // 50 + 60
 //      --
 ```
@@ -95,8 +97,6 @@ sixty.ReplaceWith(new ConstantNumber(55));
 
 var copy = expression.Copy();
 ```
-
-Full documentation will be available with version 1.0.x.
 
 ## Install
 

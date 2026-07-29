@@ -31,8 +31,3 @@ jobs:
           name: Examples
           directory: examples
           coverage-assembly-filters: -MrKWatkins.Ast
-
-      - name: Build Documentation
-        uses: MrKWatkins/writerside-build@main
-        with:
-          instance: MrKWatkins.Ast

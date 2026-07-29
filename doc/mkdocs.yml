@@ -1,0 +1,40 @@
+site_name: MrKWatkins.Ast
+theme:
+  name: material
+  repo_url: https://github.com/MrKWatkins/Ast
+  features:
+    - navigation.sections
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: purple
+      accent: purple
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    - media: "(prefers-color-scheme: light)"
+      primary: purple
+      accent: purple
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      primary: purple
+      accent: purple
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+plugins:
+  - search
+  - macros
+  - awesome-nav
+  - mkdocs-simple-hooks:
+      hooks:
+        on_nav: "doc.hooks:on_nav"
+extra_css:
+  - stylesheets/overrides.css
+markdown_extensions:
+  - attr_list

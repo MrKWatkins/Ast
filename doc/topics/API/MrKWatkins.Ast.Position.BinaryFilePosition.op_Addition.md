@@ -1,1 +1,0 @@
-# BinaryFilePosition.Addition Operator
