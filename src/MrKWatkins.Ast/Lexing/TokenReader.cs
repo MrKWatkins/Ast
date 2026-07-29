@@ -1,3 +1,5 @@
+using MrKWatkins.Ast.Position;
+
 namespace MrKWatkins.Ast.Lexing;
 
 /// <summary>
@@ -113,6 +115,22 @@ public sealed class TokenReader<TKind>
         token = default;
         return false;
     }
+
+    /// <summary>
+    /// If the token at the current position is of the specified kind then the reader advances, otherwise the reader does not move.
+    /// </summary>
+    /// <param name="kind">The kind of token to consume.</param>
+    /// <returns><c>true</c> if a token was consumed, <c>false</c> otherwise.</returns>
+    public bool TryConsume(TKind kind) => TryConsume(kind, out _);
+
+    /// <summary>
+    /// Creates a <see cref="TextFilePosition" /> spanning from the specified token up to and including the last token consumed.
+    /// Typically used to set the position of a node from the token that started it once parsing of the node has finished.
+    /// </summary>
+    /// <param name="start">The token the position starts at.</param>
+    /// <returns>A <see cref="TextFilePosition" /> spanning from <paramref name="start" /> to the last token consumed.</returns>
+    [Pure]
+    public TextFilePosition PositionFrom(Token<TKind> start) => start.Position + Peek(-1).Position;
 
     /// <summary>
     /// Advances the reader until the current token is one of the specified kinds, stopping at the last token if none is found. Always

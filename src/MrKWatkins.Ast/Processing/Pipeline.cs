@@ -75,7 +75,7 @@ public sealed class Pipeline<TBaseNode>
     /// <returns>A tuple of whether all stages ran successfully, the root node which may have been replaced, and the name of the last stage that was run.</returns>
     public (bool Success, TBaseNode Root, string LastStageRun) Run(TBaseNode root)
     {
-        var lastStageRun = (string)null!;
+        var lastStageRun = (string) null!;
 
         foreach (var stage in Stages)
         {

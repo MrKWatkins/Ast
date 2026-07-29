@@ -129,6 +129,50 @@ public sealed class TokenReaderTests
     }
 
     [Test]
+    public void TryConsume_WithoutToken()
+    {
+        var reader = CreateReader();
+
+        reader.TryConsume(TestTokenKind.Word).Should().BeTrue();
+        reader.Position.Should().Equal(1);
+    }
+
+    [Test]
+    public void TryConsume_WithoutToken_WrongKind()
+    {
+        var reader = CreateReader();
+
+        reader.TryConsume(TestTokenKind.Number).Should().BeFalse();
+        reader.Position.Should().Equal(0);
+    }
+
+    [Test]
+    public void PositionFrom()
+    {
+        var reader = CreateReader();
+        var start = reader.Current;
+
+        reader.Advance();
+        reader.Advance();
+
+        var position = reader.PositionFrom(start);
+        position.StartIndex.Should().Equal(0);
+        position.Length.Should().Equal(5);
+        position.StartLineIndex.Should().Equal(0);
+        position.StartColumnIndex.Should().Equal(0);
+    }
+
+    [Test]
+    public void PositionFrom_NothingConsumed()
+    {
+        var reader = CreateReader();
+
+        var position = reader.PositionFrom(reader.Current);
+        position.StartIndex.Should().Equal(0);
+        position.Length.Should().Equal(3);
+    }
+
+    [Test]
     public void SkipUntil()
     {
         var reader = CreateReader();
