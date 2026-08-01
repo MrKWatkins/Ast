@@ -148,4 +148,27 @@ public sealed class SourceReader
     public Token<TKind> CreateToken<TKind>(TKind kind, SourceMark start)
         where TKind : struct, Enum =>
         new(kind, File, start.Index, Index - start.Index, start.LineIndex, start.ColumnIndex);
+
+    /// <summary>
+    /// Creates a <see cref="Token{TKind}" /> of the specified kind and length starting at the current position, advancing the
+    /// reader over it. Stops at the end of the file if it is reached first, shortening the token accordingly.
+    /// </summary>
+    /// <param name="kind">The kind of the token.</param>
+    /// <param name="length">The length of the token.</param>
+    /// <typeparam name="TKind">The type of the enum that identifies the different kinds of token.</typeparam>
+    /// <returns>A new <see cref="Token{TKind}" /> instance.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length" /> is less than 0.</exception>
+    [MustUseReturnValue]
+    public Token<TKind> ReadToken<TKind>(TKind kind, int length)
+        where TKind : struct, Enum
+    {
+        if (length < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(length), length, "Value must be greater than or equal to 0.");
+        }
+
+        var start = Mark();
+        Advance(length);
+        return CreateToken(kind, start);
+    }
 }

@@ -109,6 +109,15 @@ public readonly record struct Token<TKind>
     }
 
     /// <summary>
+    /// Returns <c>true</c> if this token ends exactly where <paramref name="other" /> starts, i.e. the tokens are directly adjacent
+    /// in the file with nothing between them. Both tokens are assumed to come from the same file.
+    /// </summary>
+    /// <param name="other">The other token.</param>
+    /// <returns><c>true</c> if this token is directly before <paramref name="other" />, <c>false</c> otherwise.</returns>
+    [Pure]
+    public bool IsDirectlyBefore(in Token<TKind> other) => StartIndex + Length == other.StartIndex;
+
+    /// <summary>
     /// Returns a string representation of this token, i.e. the <see cref="Kind" /> followed by the <see cref="Text" /> if the token
     /// has any.
     /// </summary>

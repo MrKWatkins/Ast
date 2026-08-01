@@ -188,6 +188,48 @@ public sealed class SourceReaderTests
     }
 
     [Test]
+    public void ReadToken()
+    {
+        var file = new TextFile("Test", "a<<b");
+        var reader = new SourceReader(file);
+        reader.Advance();
+
+        var token = reader.ReadToken(TestTokenKind.Symbol, 2);
+        token.Kind.Should().Equal(TestTokenKind.Symbol);
+        token.File.Should().BeTheSameInstanceAs(file);
+        token.StartIndex.Should().Equal(1);
+        token.Length.Should().Equal(2);
+        token.StartLineIndex.Should().Equal(0);
+        token.StartColumnIndex.Should().Equal(1);
+        token.Text.ToString().Should().Equal("<<");
+
+        reader.Index.Should().Equal(3);
+        reader.Current.Should().Equal('b');
+    }
+
+    [Test]
+    public void ReadToken_StopsAtEndOfFile()
+    {
+        var reader = new SourceReader(new TextFile("Test", "ab"));
+        reader.Advance();
+
+        var token = reader.ReadToken(TestTokenKind.Word, 5);
+        token.StartIndex.Should().Equal(1);
+        token.Length.Should().Equal(1);
+        reader.AtEnd.Should().BeTrue();
+    }
+
+    [Test]
+    public void ReadToken_Negative()
+    {
+        var reader = new SourceReader(new TextFile("Test", "ab"));
+
+        reader.Invoking(r => _ = r.ReadToken(TestTokenKind.Word, -1))
+            .Should().Throw<ArgumentOutOfRangeException>()
+            .That.Should().HaveParamName("length");
+    }
+
+    [Test]
     public void CreateToken()
     {
         var file = new TextFile("Test", "ab\n123 x");

@@ -29,6 +29,23 @@ public sealed class TokenTests : EqualityTestFixture
     }
 
     [Test]
+    public void IsDirectlyBefore()
+    {
+        var file = new TextFile("Test", "One 123");
+
+        var word = new Token<TestTokenKind>(TestTokenKind.Word, file, 0, 3, 0, 0);
+        var symbol = new Token<TestTokenKind>(TestTokenKind.Symbol, file, 3, 1, 0, 3);
+        var number = new Token<TestTokenKind>(TestTokenKind.Number, file, 4, 3, 0, 4);
+
+        word.IsDirectlyBefore(symbol).Should().BeTrue();
+        symbol.IsDirectlyBefore(number).Should().BeTrue();
+
+        word.IsDirectlyBefore(number).Should().BeFalse();
+        number.IsDirectlyBefore(word).Should().BeFalse();
+        word.IsDirectlyBefore(word).Should().BeFalse();
+    }
+
+    [Test]
     public void Position()
     {
         var file = new TextFile("Test", "One\nTwo");
