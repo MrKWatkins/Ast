@@ -10,7 +10,7 @@
         <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.401"/>
         <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.9.0"/>
         <PackageVersion Include="MrKWatkins.Assertions" Version="1.6.0"/>
-        <PackageVersion Include="NUnit" Version="4.6.1"/>
+        <PackageVersion Include="NUnit" Version="5.0.0"/>
         <PackageVersion Include="NUnit3TestAdapter" Version="6.2.0"/>
     </ItemGroup>
 </Project>
