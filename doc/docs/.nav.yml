@@ -6,5 +6,6 @@ nav:
   - source-positions.md
   - lexing.md
   - listeners.md
+  - visitors.md
   - processing.md
   - API

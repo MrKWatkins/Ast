@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\Visitors\Visitors.csproj"/>
+    </ItemGroup>
+</Project>

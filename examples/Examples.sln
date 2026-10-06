@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maths", "Maths\Maths.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maths.Tests", "Maths.Tests\Maths.Tests.csproj", "{849D2EFC-28D3-476F-BB19-347001E79BAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visitors", "Visitors\Visitors.csproj", "{01A12FE0-ADE9-451B-AB57-92D9F84EEE47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visitors.Tests", "Visitors.Tests\Visitors.Tests.csproj", "{33ED91AF-0347-4705-B463-79FB50169D38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,14 @@ Global
 		{849D2EFC-28D3-476F-BB19-347001E79BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{849D2EFC-28D3-476F-BB19-347001E79BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{849D2EFC-28D3-476F-BB19-347001E79BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01A12FE0-ADE9-451B-AB57-92D9F84EEE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A12FE0-ADE9-451B-AB57-92D9F84EEE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A12FE0-ADE9-451B-AB57-92D9F84EEE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A12FE0-ADE9-451B-AB57-92D9F84EEE47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33ED91AF-0347-4705-B463-79FB50169D38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33ED91AF-0347-4705-B463-79FB50169D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33ED91AF-0347-4705-B463-79FB50169D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33ED91AF-0347-4705-B463-79FB50169D38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

@@ -1,6 +1,6 @@
 # Listeners
 
-Listeners walk a tree and are notified as nodes are reached. They are the lightweight alternative to [processing](processing.md): a listener has access to a context object it can accumulate results in, which makes it a good fit for building something new out of a tree — a string representation, IL, an evaluated value. Reach for [processing](processing.md) instead when the job is to mutate the tree.
+Listeners walk a tree and are notified as nodes are reached. They are the lightweight alternative to [processing](processing.md): a listener has access to a context object it can accumulate results in, which makes it a good fit for building something new out of a tree — a string representation, IL, a report of the tree. Reach for [processing](processing.md) instead when the job is to mutate the tree, or for [visitors](visitors.md) when each node should produce a value, such as when evaluating a tree.
 
 ## Creating a Listener
 
@@ -54,4 +54,4 @@ Only one listener can be registered per type, and [`ToListener`](API/MrKWatkins.
 
 ## Example
 
-The [Listeners example](https://github.com/MrKWatkins/Ast/tree/main/examples/Listeners) uses composite listeners to produce a string representation of a tree. The [Maths example](https://github.com/MrKWatkins/Ast/tree/main/examples/Maths) uses them twice over, to evaluate an expression tree and to compile it.
+The [Listeners example](https://github.com/MrKWatkins/Ast/tree/main/examples/Listeners) uses composite listeners to produce a string representation of a tree. The [Maths example](https://github.com/MrKWatkins/Ast/tree/main/examples/Maths) uses them to compile an expression tree, alongside a [visitor](visitors.md) that evaluates it.
