@@ -1,5 +1,5 @@
 using MrKWatkins.Ast.Examples.Maths.Tree;
-using MrKWatkins.Ast.Listening;
+using MrKWatkins.Ast.Visiting;
 
 namespace MrKWatkins.Ast.Examples.Maths.Evaluation;
 
@@ -8,13 +8,13 @@ namespace MrKWatkins.Ast.Examples.Maths.Evaluation;
 /// </summary>
 public static class Evaluator
 {
-    private static readonly CompositeListener<EvaluationContext, MathsNode> Listener =
-        CompositeListener<EvaluationContext, MathsNode>
+    private static readonly CompositeVisitor<EvaluationContext, MathsNode, int> Visitor =
+        CompositeVisitor<EvaluationContext, MathsNode, int>
             .Build()
-            .With(new BinaryOperationListener())
-            .With(new ConstantListener())
-            .With(new VariableListener())
-            .ToListener();
+            .With(new BinaryOperationVisitor())
+            .With(new ConstantVisitor())
+            .With(new VariableVisitor())
+            .ToVisitor();
 
     /// <summary>
     /// Evaluates a <see cref="Function" />.
@@ -41,8 +41,6 @@ public static class Evaluator
 
         var context = new EvaluationContext(parameters.Zip(arguments).ToDictionary(x => x.First.Name, x => x.Second));
 
-        Listener.Listen(context, function.Expression);
-
-        return context.Values.Pop();
+        return Visitor.Visit(context, function.Expression);
     }
 }

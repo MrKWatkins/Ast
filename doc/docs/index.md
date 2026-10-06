@@ -50,6 +50,12 @@ Listeners walk a tree and are notified as nodes are reached, with access to a co
 
 [Read more](listeners.md)
 
+## Visitors
+
+Visitors visit a tree and return a value for each node, combining the values of a node's children into its own. A visitor controls the walk itself, so it can skip children or visit them in any order, which makes it the natural fit for evaluating a tree.
+
+[Read more](visitors.md)
+
 ## Processing
 
 Processing runs a pipeline of stages over a tree, each stage containing one or more processors running serially or in parallel. It is best suited to mutating a tree, with replacers and validators for the two most common cases.
@@ -67,13 +73,15 @@ Reference documentation is generated from the release assembly:
 - [`SourcePosition`](API/MrKWatkins.Ast.Position/SourcePosition/index.md)
 - [`SourceReader`](API/MrKWatkins.Ast.Lexing/SourceReader/index.md)
 - [`Listener<TContext, TNode>`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/index.md)
+- [`Visitor<TContext, TNode, TResult>`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TNode-TResult/index.md)
 - [`Pipeline<TBaseNode>`](API/MrKWatkins.Ast.Processing/Pipeline-TBaseNode/index.md)
 
 ## Examples
 
-Two worked examples live alongside the source:
+Three worked examples live alongside the source:
 
 - [Listeners](https://github.com/MrKWatkins/Ast/tree/main/examples/Listeners) builds a string representation of a tree using composite listeners.
+- [Visitors](https://github.com/MrKWatkins/Ast/tree/main/examples/Visitors) evaluates boolean expressions, with short-circuiting, using composite visitors.
 - [Maths](https://github.com/MrKWatkins/Ast/tree/main/examples/Maths) lexes, parses, reduces, validates, evaluates and compiles mathematical expressions.
 
 ## Pull Requests

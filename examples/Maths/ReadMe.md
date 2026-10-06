@@ -8,5 +8,5 @@ a set of input parameters, determined by the variables used in the expression. T
 * Lexing. Hand rolled lexer that splits an expression into tokens.
 * Parser. Hand rolled parser that consumes a set of tokens and produces an AST.
 * Processing. Processors that the parser runs after parsing. Constant expressions are reduced into smaller ones, e.g. 3 + 4 would just become 7. Validation is performed for dividing by a constant zero.
-* Evaluation. Evaluates a Function on the fly for the specified set of arguments.
-* Compilation. Compiles a Function into a .NET delegate using LINQ expression trees.
+* Evaluation. Evaluates a Function on the fly for the specified set of arguments, using a composite visitor.
+* Compilation. Compiles a Function into a .NET delegate using LINQ expression trees, using a composite listener.

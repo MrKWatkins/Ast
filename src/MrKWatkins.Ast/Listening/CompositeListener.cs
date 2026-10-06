@@ -10,7 +10,7 @@ namespace MrKWatkins.Ast.Listening;
 public sealed class CompositeListener<TContext, TBaseNode> : Listener<TContext, TBaseNode>, ICompositeListenerBuilder<TContext, TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
-    private readonly ListenerLookup<TBaseNode, Listener<TContext, TBaseNode>> listeners = new();
+    private readonly NodeTypeLookup<TBaseNode, Listener<TContext, TBaseNode>> listeners = new("listener");
 
     /// <summary>
     /// Fluent interface to build a <see cref="CompositeListener{TContext, TBaseNode}"/>.
