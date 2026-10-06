@@ -7,6 +7,12 @@ namespace MrKWatkins.Ast.Processing;
 /// </summary>
 public sealed class PipelineException : Exception
 {
+    internal PipelineException(string message, string stage)
+        : base(message)
+    {
+        Stage = stage;
+    }
+
     internal PipelineException(string message, string stage, Exception innerException)
         : base(message, innerException)
     {

@@ -77,6 +77,7 @@ public sealed class PipelineBuilderTests
         var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<TestNode>>().Value;
         stage.Name.Should().Equal("1");
         stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
+        stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
         stage.Processors.Should().SequenceEqual(processor);
     }
 
@@ -90,6 +91,7 @@ public sealed class PipelineBuilderTests
         var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<TestNode>>().Value;
         stage.Name.Should().Equal("1");
         stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
+        stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
         stage.Processors.Should().SequenceEqual(processors);
     }
 
@@ -103,6 +105,7 @@ public sealed class PipelineBuilderTests
         var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<TestNode>>().Value;
         stage.Name.Should().Equal("TestName");
         stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
+        stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
         stage.Processors.Should().SequenceEqual(processors);
     }
 
@@ -205,6 +208,7 @@ public sealed class PipelineBuilderTests
         var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<object, TestNode>>().Value;
         stage.Name.Should().Equal("1");
         stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
+        stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
         stage.Processors.Should().SequenceEqual(processor);
     }
 
@@ -218,6 +222,7 @@ public sealed class PipelineBuilderTests
         var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<object, TestNode>>().Value;
         stage.Name.Should().Equal("1");
         stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
+        stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
         stage.Processors.Should().SequenceEqual(processors);
     }
 
@@ -231,6 +236,7 @@ public sealed class PipelineBuilderTests
         var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<object, TestNode>>().Value;
         stage.Name.Should().Equal("TestName");
         stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
+        stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
         stage.Processors.Should().SequenceEqual(processors);
     }
 

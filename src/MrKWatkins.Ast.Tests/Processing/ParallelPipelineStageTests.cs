@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using MrKWatkins.Ast.Processing;
 using MrKWatkins.Ast.Traversal;
@@ -10,7 +11,7 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
 
     [Test]
     public void Constructor_ThrowsForNoStages() =>
-        AssertThat.Invoking(() => new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [], Environment.ProcessorCount))
+        AssertThat.Invoking(() => new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [], Environment.ProcessorCount, ParallelStrategy.PerNode))
             .Should().Throw<ArgumentException>().That.Should()
             .HaveMessageStartingWith("Value is empty.").And
             .HaveParamName("processors");
@@ -18,7 +19,7 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
     [Test]
     public void Constructor_ThrowsForOrderedProcessor() =>
         AssertThat
-            .Invoking(() => new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestOrderedProcessor()], Environment.ProcessorCount))
+            .Invoking(() => new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestOrderedProcessor()], Environment.ProcessorCount, ParallelStrategy.PerNode))
             .Should().Throw<ArgumentException>().That.Should()
             .HaveMessageStartingWith("OrderedProcessors cannot be used in a parallel stage.").And
             .HaveParamName("processors");
@@ -26,13 +27,20 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
     [TestCase(0)]
     [TestCase(-1)]
     public void Constructor_ThrowsForInvalidMaxDegreeOfParallelism(int maxDegreeOfParallelism) =>
-        AssertThat.Invoking(() => new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestProcessor()], maxDegreeOfParallelism))
+        AssertThat.Invoking(() => new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestProcessor()], maxDegreeOfParallelism, ParallelStrategy.PerNode))
             .Should().Throw<ArgumentException>().That.Should()
             .HaveMessageStartingWith("Value must be greater than 0.").And
             .HaveParamName("maxDegreeOfParallelism");
 
     [Test]
-    public void Run([Values(true, false)] bool shouldContinue)
+    public void Constructor_ThrowsForInvalidStrategy() =>
+        AssertThat.Invoking(() => new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestProcessor()], Environment.ProcessorCount, (ParallelStrategy) 123))
+            .Should().Throw<ArgumentException>().That.Should()
+            .HaveMessageStartingWith("Value is not a valid strategy.").And
+            .HaveParamName("strategy");
+
+    [Test]
+    public void Run([Values(true, false)] bool shouldContinue, [Values] ParallelStrategy strategy)
     {
         var processors = new[] { new TestProcessor(), new TestProcessor() };
 
@@ -42,8 +50,9 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
             return shouldContinue;
         }
 
-        var stage = new ParallelPipelineStage<TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount);
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, strategy);
         stage.Name.Should().Equal("Test Stage");
+        stage.Strategy.Should().Equal(strategy);
 
         stage.Run(N1).Success.Should().Equal(shouldContinue);
         processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
@@ -51,39 +60,162 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
     }
 
     [Test]
-    public async Task Run_ProcessesInParallel()
+    public void Run_PerNode_ProcessorsRunInOrderOnOneThreadForEachNode()
     {
-        // Use a small tree to avoid blocking all threads on the build server.
-        (Environment.ProcessorCount > 3).Should().BeTrue();
-        var tree = new ANode(new ANode());
+        // Record the processor index and thread that processed each node, in order.
+        var processedBy = new ConcurrentDictionary<TestNode, ConcurrentQueue<(int Processor, int Thread)>>();
 
-        var block = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var processors = new[]
+        var processors = Enumerable.Range(0, 3)
+            .Select(index => new TestProcessor
+            {
+                ProcessNodeOverride = node =>
+                {
+                    processedBy.GetOrAdd(node, _ => new ConcurrentQueue<(int, int)>()).Enqueue((index, Environment.CurrentManagedThreadId));
+                    Thread.Sleep(1); // Widen the window for another thread to break in if the guarantee did not hold.
+                }
+            })
+            .ToArray();
+
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, ParallelStrategy.PerNode);
+
+        stage.Run(N1);
+
+        processedBy.Keys.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+        foreach (var record in processedBy.Values)
         {
-            new TestProcessor { ProcessNodeOverride = _ => block.Task.Wait() },
-            new TestProcessor()
-        };
-
-        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount);
-        stage.Name.Should().Equal("Test Stage");
-
-        var runTask = Task.Run(() => stage.Run(tree));
-
-        // processors[0] blocks. Wait until processors[1] is complete.
-        await WaitUntil(() => processors[1].Processed.Count() == 2);
-
-        // processors[1] should still be empty.
-        processors[0].Processed.Should().BeEmpty();
-
-        // Unblock; processors[1] should complete.
-        block.SetResult();
-        await WaitUntil(() => processors[1].Processed.Count() == 2);
-
-        await runTask.WaitAsync(Timeout);
+            // Every processor ran, in registration order, on one thread.
+            record.Select(r => r.Processor).Should().SequenceEqual(0, 1, 2);
+            record.Select(r => r.Thread).Distinct().Should().HaveCount(1);
+        }
     }
 
     [Test]
-    public void Run_ProcessorThrows()
+    public void Run_PerNode_NodesAreProcessedConcurrently()
+    {
+        (Environment.ProcessorCount > 1).Should().BeTrue();
+
+        // The first node to be processed waits for a second node to start being processed. If nodes were processed
+        // one at a time the wait would time out.
+        var arrivals = 0;
+        using var secondArrived = new ManualResetEventSlim();
+        var sawConcurrency = false;
+
+        var processor = new TestProcessor
+        {
+            ProcessNodeOverride = _ =>
+            {
+                if (Interlocked.Increment(ref arrivals) == 1)
+                {
+                    sawConcurrency = secondArrived.Wait(Timeout);
+                }
+                else
+                {
+                    secondArrived.Set();
+                }
+            }
+        };
+
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor], Environment.ProcessorCount, ParallelStrategy.PerNode);
+
+        stage.Run(N1);
+
+        sawConcurrency.Should().BeTrue();
+        processor.Processed.Should().HaveCount(NodeCount);
+    }
+
+    [Test]
+    public async Task Run_PerNode_NodeIsNotProcessedByTwoProcessorsAtOnce()
+    {
+        (Environment.ProcessorCount > 1).Should().BeTrue();
+
+        // processors[0] blocks on the root. processors[1] should process every other node but not the root, as per node
+        // means the root is held by processors[0] until it is unblocked.
+        var block = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var processors = new[]
+        {
+            new TestProcessor
+            {
+                ProcessNodeOverride = node =>
+                {
+                    if (node == N1)
+                    {
+                        block.Task.Wait(Timeout).Should().BeTrue();
+                    }
+                }
+            },
+            new TestProcessor()
+        };
+
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, ParallelStrategy.PerNode);
+
+        var runTask = Task.Run(() => stage.Run(N1));
+
+        await WaitUntil(() => processors[1].Processed.Count() == NodeCount - 1);
+
+        processors[1].Processed.Contains(N1).Should().BeFalse();
+        processors[0].Processed.Contains(N1).Should().BeFalse();
+
+        block.SetResult();
+        await runTask.WaitAsync(Timeout);
+
+        processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+        processors[1].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+    }
+
+    [Test]
+    public void Run_PerProcessor_EachProcessorWalksTheWholeTreeInOrderOnOneThread()
+    {
+        var threads = new ConcurrentDictionary<int, ConcurrentBag<int>>();
+
+        var processors = Enumerable.Range(0, 3)
+            .Select(index => new TestProcessor
+            {
+                ProcessNodeOverride = _ => threads.GetOrAdd(index, _ => []).Add(Environment.CurrentManagedThreadId)
+            })
+            .ToArray();
+
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, ParallelStrategy.PerProcessor);
+
+        stage.Run(N1);
+
+        for (var index = 0; index < processors.Length; index++)
+        {
+            // Each processor sees the nodes in traversal order, as it has its own walk of the tree, all on one thread.
+            processors[index].Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
+            threads[index].Distinct().Should().HaveCount(1);
+        }
+    }
+
+    [Test]
+    public async Task Run_PerProcessor_ProcessorsRunConcurrently()
+    {
+        (Environment.ProcessorCount > 1).Should().BeTrue();
+
+        // processors[0] blocks on every node, so cannot get past the root. processors[1] should process the whole tree
+        // regardless, including the root that processors[0] is blocked on.
+        var block = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var processors = new[]
+        {
+            new TestProcessor { ProcessNodeOverride = _ => block.Task.Wait(Timeout).Should().BeTrue() },
+            new TestProcessor()
+        };
+
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, ParallelStrategy.PerProcessor);
+
+        var runTask = Task.Run(() => stage.Run(N1));
+
+        await WaitUntil(() => processors[1].Processed.Count() == NodeCount);
+
+        processors[0].Processed.Should().BeEmpty();
+
+        block.SetResult();
+        await runTask.WaitAsync(Timeout);
+
+        processors[0].Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
+    }
+
+    [Test]
+    public void Run_ProcessorThrows([Values] ParallelStrategy strategy)
     {
         var exception = new InvalidOperationException("Test");
 
@@ -101,13 +233,26 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
             new TestProcessor { ProcessNodeOverride = ProcessNodeOverride }
         };
 
-        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount);
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, strategy);
 
         stage.Invoking(s => s.Run(N1))
-            .Should().Throw<AggregateException>().That.Should()
-            .HaveInnerException<PipelineException>().That.Should()
+            .Should().Throw<PipelineException>().That.Should()
             .HaveParameters("Exception occurred executing processor TestProcessor for node N123.", "Test Stage").And
             .HaveInnerException(exception);
+    }
+
+    [Test]
+    public void Run_ProcessorReturnsDifferentNode([Values] ParallelStrategy strategy)
+    {
+        var processors = new Processor<TestNode>[] { new TestProcessor(), new ReplacingProcessor(N123) };
+
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, strategy);
+
+        var exception = stage.Invoking(s => s.Run(N1))
+            .Should().Throw<PipelineException>().That;
+
+        exception.Should().HaveParameters("Processor ReplacingProcessor returned a different node for node N123. Processors in a parallel stage cannot replace nodes.", "Test Stage");
+        exception.InnerException.Should().BeNull();
     }
 
     [Test]
@@ -117,7 +262,7 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
 
         var exception = new InvalidOperationException("Test");
 
-        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => throw exception, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount);
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => throw exception, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, ParallelStrategy.PerNode);
 
         stage.Invoking(s => s.Run(N1))
             .Should().Throw<PipelineException>().That.Should()
@@ -127,7 +272,7 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
 
     [Test]
     public void WithContext_Constructor_ThrowsForNoStages() =>
-        AssertThat.Invoking(() => new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [], Environment.ProcessorCount))
+        AssertThat.Invoking(() => new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [], Environment.ProcessorCount, ParallelStrategy.PerNode))
             .Should().Throw<ArgumentException>().That.Should()
             .HaveMessageStartingWith("Value is empty.").And
             .HaveParamName("processors");
@@ -135,7 +280,7 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
     [Test]
     public void WithContext_Constructor_ThrowsForOrderedProcessor() =>
         AssertThat.Invoking(() => new ParallelPipelineStage<object, TestNode>(
-                "Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestOrderedProcessor<object>(new object())], Environment.ProcessorCount))
+                "Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestOrderedProcessor<object>(new object())], Environment.ProcessorCount, ParallelStrategy.PerNode))
             .Should().Throw<ArgumentException>().That.Should()
             .HaveMessageStartingWith("OrderedProcessors cannot be used in a parallel stage.").And
             .HaveParamName("processors");
@@ -144,13 +289,21 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
     [TestCase(-1)]
     public void WithContext_Constructor_ThrowsForInvalidMaxDegreeOfParallelism(int maxDegreeOfParallelism) =>
         AssertThat.Invoking(() => new ParallelPipelineStage<object, TestNode>(
-                "Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestProcessor<object>()], maxDegreeOfParallelism))
+                "Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestProcessor<object>()], maxDegreeOfParallelism, ParallelStrategy.PerNode))
             .Should().Throw<ArgumentException>().That.Should()
             .HaveMessageStartingWith("Value must be greater than 0.").And
             .HaveParamName("maxDegreeOfParallelism");
 
     [Test]
-    public void WithContext_Run([Values(true, false)] bool shouldContinue)
+    public void WithContext_Constructor_ThrowsForInvalidStrategy() =>
+        AssertThat.Invoking(() => new ParallelPipelineStage<object, TestNode>(
+                "Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestProcessor<object>()], Environment.ProcessorCount, (ParallelStrategy) 123))
+            .Should().Throw<ArgumentException>().That.Should()
+            .HaveMessageStartingWith("Value is not a valid strategy.").And
+            .HaveParamName("strategy");
+
+    [Test]
+    public void WithContext_Run([Values(true, false)] bool shouldContinue, [Values] ParallelStrategy strategy)
     {
         var context = new object();
         var processors = new[] { new TestProcessor<object>(context), new TestProcessor<object>(context) };
@@ -162,8 +315,9 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
             return shouldContinue;
         }
 
-        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount);
+        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, strategy);
         stage.Name.Should().Equal("Test Stage");
+        stage.Strategy.Should().Equal(strategy);
 
         stage.Run(context, N1).Success.Should().Equal(shouldContinue);
         processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
@@ -171,7 +325,73 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
     }
 
     [Test]
-    public void WithContext_Run_ProcessorThrows()
+    public async Task WithContext_Run_PerNode_NodeIsNotProcessedByTwoProcessorsAtOnce()
+    {
+        (Environment.ProcessorCount > 1).Should().BeTrue();
+
+        var context = new object();
+        var block = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var processors = new[]
+        {
+            new TestProcessor<object>(context)
+            {
+                ProcessNodeOverride = node =>
+                {
+                    if (node == N1)
+                    {
+                        block.Task.Wait(Timeout).Should().BeTrue();
+                    }
+                }
+            },
+            new TestProcessor<object>(context)
+        };
+
+        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, ParallelStrategy.PerNode);
+
+        var runTask = Task.Run(() => stage.Run(context, N1));
+
+        await WaitUntil(() => processors[1].Processed.Count() == NodeCount - 1);
+
+        processors[1].Processed.Contains(N1).Should().BeFalse();
+        processors[0].Processed.Contains(N1).Should().BeFalse();
+
+        block.SetResult();
+        await runTask.WaitAsync(Timeout);
+
+        processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+        processors[1].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+    }
+
+    [Test]
+    public async Task WithContext_Run_PerProcessor_ProcessorsRunConcurrently()
+    {
+        (Environment.ProcessorCount > 1).Should().BeTrue();
+
+        var context = new object();
+        var block = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var processors = new[]
+        {
+            new TestProcessor<object>(context) { ProcessNodeOverride = _ => block.Task.Wait(Timeout).Should().BeTrue() },
+            new TestProcessor<object>(context)
+        };
+
+        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, ParallelStrategy.PerProcessor);
+
+        var runTask = Task.Run(() => stage.Run(context, N1));
+
+        await WaitUntil(() => processors[1].Processed.Count() == NodeCount);
+
+        processors[0].Processed.Should().BeEmpty();
+
+        block.SetResult();
+        await runTask.WaitAsync(Timeout);
+
+        processors[0].Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
+        processors[1].Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
+    }
+
+    [Test]
+    public void WithContext_Run_ProcessorThrows([Values] ParallelStrategy strategy)
     {
         var context = new object();
         var exception = new InvalidOperationException("Test");
@@ -190,13 +410,27 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
             new TestProcessor<object>(context) { ProcessNodeOverride = ProcessNodeOverride }
         };
 
-        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount);
+        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, strategy);
 
         stage.Invoking(s => s.Run(context, N1))
-            .Should().Throw<AggregateException>().That.Should()
-            .HaveInnerException<PipelineException>().That.Should()
+            .Should().Throw<PipelineException>().That.Should()
             .HaveParameters("Exception occurred executing processor TestProcessor<Object> for node N123.", "Test Stage").And
             .HaveInnerException(exception);
+    }
+
+    [Test]
+    public void WithContext_Run_ProcessorReturnsDifferentNode([Values] ParallelStrategy strategy)
+    {
+        var context = new object();
+        var processors = new Processor<object, TestNode>[] { new TestProcessor<object>(context), new ReplacingProcessor<object>(N123) };
+
+        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, strategy);
+
+        var exception = stage.Invoking(s => s.Run(context, N1))
+            .Should().Throw<PipelineException>().That;
+
+        exception.Should().HaveParameters("Processor ReplacingProcessor<Object> returned a different node for node N123. Processors in a parallel stage cannot replace nodes.", "Test Stage");
+        exception.InnerException.Should().BeNull();
     }
 
     [Test]
@@ -207,7 +441,7 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
 
         var exception = new InvalidOperationException("Test");
 
-        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => throw exception, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount);
+        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => throw exception, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, ParallelStrategy.PerNode);
 
         stage.Invoking(s => s.Run(context, N1))
             .Should().Throw<PipelineException>().That.Should()
@@ -232,5 +466,18 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
 
             await Task.Delay(100);
         }
+    }
+
+    /// <summary>
+    /// Returns a new node in place of <see cref="toReplace" />, which is only valid in a serial stage.
+    /// </summary>
+    private sealed class ReplacingProcessor(TestNode toReplace) : Processor<TestNode>
+    {
+        public override TestNode Process(TestNode node) => node == toReplace ? new ANode { Name = "Replacement" } : node;
+    }
+
+    private sealed class ReplacingProcessor<TContext>(TestNode toReplace) : Processor<TContext, TestNode>
+    {
+        public override TestNode Process(TContext context, TestNode node) => node == toReplace ? new ANode { Name = "Replacement" } : node;
     }
 }

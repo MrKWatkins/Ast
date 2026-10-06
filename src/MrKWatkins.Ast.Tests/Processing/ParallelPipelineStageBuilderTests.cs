@@ -12,6 +12,8 @@ public sealed class ParallelPipelineStageBuilderTests
         var stage = builder.Build();
         stage.Name.Should().Equal("5");
         stage.DefaultTraversal.Should().BeTheSameInstanceAs(DepthFirstPreOrderTraversal<TestNode>.Instance);
+        stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
+        stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
 
         // Default should continue will return false if this or descendents have errors.
         var hasErrors = new ANode();
@@ -101,12 +103,29 @@ public sealed class ParallelPipelineStageBuilderTests
     }
 
     [Test]
+    public void WithStrategy()
+    {
+        var builder = new ParallelPipelineStageBuilder<TestNode>(5).Add(new TestProcessor()).WithStrategy(ParallelStrategy.PerProcessor);
+        var stage = builder.Build();
+        stage.Strategy.Should().Equal(ParallelStrategy.PerProcessor);
+    }
+
+    [Test]
+    public void WithStrategy_ThrowsForInvalidValue()
+    {
+        var builder = new ParallelPipelineStageBuilder<TestNode>(5);
+        builder.Invoking(b => b.WithStrategy((ParallelStrategy) 123)).Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
     public void WithContext_Build_DefaultOptions()
     {
         var builder = new ParallelPipelineStageBuilder<object, TestNode>(5).Add(new TestProcessor<object>());
         var stage = builder.Build();
         stage.Name.Should().Equal("5");
         stage.DefaultTraversal.Should().BeTheSameInstanceAs(DepthFirstPreOrderTraversal<TestNode>.Instance);
+        stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
+        stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
 
         // Default should continue will return false if this or descendents have errors.
         var hasErrors = new ANode();
@@ -193,5 +212,20 @@ public sealed class ParallelPipelineStageBuilderTests
     {
         var builder = new ParallelPipelineStageBuilder<object, TestNode>(5);
         builder.Invoking(b => b.WithMaxDegreeOfParallelism(maxDegreeOfParallelism)).Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    public void WithContext_WithStrategy()
+    {
+        var builder = new ParallelPipelineStageBuilder<object, TestNode>(5).Add(new TestProcessor<object>()).WithStrategy(ParallelStrategy.PerProcessor);
+        var stage = builder.Build();
+        stage.Strategy.Should().Equal(ParallelStrategy.PerProcessor);
+    }
+
+    [Test]
+    public void WithContext_WithStrategy_ThrowsForInvalidValue()
+    {
+        var builder = new ParallelPipelineStageBuilder<object, TestNode>(5);
+        builder.Invoking(b => b.WithStrategy((ParallelStrategy) 123)).Should().Throw<ArgumentOutOfRangeException>();
     }
 }

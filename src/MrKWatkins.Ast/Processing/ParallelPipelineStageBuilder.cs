@@ -8,6 +8,7 @@ public sealed class ParallelPipelineStageBuilder<TBaseNode> : PipelineStageBuild
     where TBaseNode : Node<TBaseNode>
 {
     private int maxDegreeOfParallelism = Environment.ProcessorCount;
+    private ParallelStrategy strategy = ParallelStrategy.PerNode;
 
     internal ParallelPipelineStageBuilder(int number)
         : base(number, root => !root.ThisAndDescendentsHaveErrors)
@@ -15,7 +16,7 @@ public sealed class ParallelPipelineStageBuilder<TBaseNode> : PipelineStageBuild
     }
 
     [Pure]
-    internal override ParallelPipelineStage<TBaseNode> Build() => new(Name, ShouldContinue, DefaultTraversal, Processors, maxDegreeOfParallelism);
+    internal override ParallelPipelineStage<TBaseNode> Build() => new(Name, ShouldContinue, DefaultTraversal, Processors, maxDegreeOfParallelism, strategy);
 
     private protected override void VerifyProcessorCanBeAdded(Processor<TBaseNode> processor)
     {
@@ -49,6 +50,25 @@ public sealed class ParallelPipelineStageBuilder<TBaseNode> : PipelineStageBuild
 
         return Self;
     }
+
+    /// <summary>
+    /// Sets how the stage divides its work between threads. Defaults to <see cref="ParallelStrategy.PerNode" />.
+    /// </summary>
+    /// <param name="strategy">The strategy.</param>
+    /// <returns>The fluent builder.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="strategy" /> is not a valid <see cref="ParallelStrategy" />.</exception>
+    // ReSharper disable once ParameterHidesMember
+    public ParallelPipelineStageBuilder<TBaseNode> WithStrategy(ParallelStrategy strategy)
+    {
+        if (!Enum.IsDefined(strategy))
+        {
+            throw new ArgumentOutOfRangeException(nameof(strategy), strategy, "Value is not a valid strategy.");
+        }
+
+        this.strategy = strategy;
+
+        return Self;
+    }
 }
 
 /// <summary>
@@ -60,6 +80,7 @@ public sealed class ParallelPipelineStageBuilder<TContext, TBaseNode> : Pipeline
     where TBaseNode : Node<TBaseNode>
 {
     private int maxDegreeOfParallelism = Environment.ProcessorCount;
+    private ParallelStrategy strategy = ParallelStrategy.PerNode;
 
     internal ParallelPipelineStageBuilder(int number)
         : base(number, (_, root) => !root.ThisAndDescendentsHaveErrors)
@@ -67,7 +88,7 @@ public sealed class ParallelPipelineStageBuilder<TContext, TBaseNode> : Pipeline
     }
 
     [Pure]
-    internal override ParallelPipelineStage<TContext, TBaseNode> Build() => new(Name, ShouldContinue, DefaultTraversal, Processors, maxDegreeOfParallelism);
+    internal override ParallelPipelineStage<TContext, TBaseNode> Build() => new(Name, ShouldContinue, DefaultTraversal, Processors, maxDegreeOfParallelism, strategy);
 
     private protected override void VerifyProcessorCanBeAdded(Processor<TContext, TBaseNode> processor)
     {
@@ -98,6 +119,25 @@ public sealed class ParallelPipelineStageBuilder<TContext, TBaseNode> : Pipeline
         }
 
         this.maxDegreeOfParallelism = maxDegreeOfParallelism;
+
+        return Self;
+    }
+
+    /// <summary>
+    /// Sets how the stage divides its work between threads. Defaults to <see cref="ParallelStrategy.PerNode" />.
+    /// </summary>
+    /// <param name="strategy">The strategy.</param>
+    /// <returns>The fluent builder.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="strategy" /> is not a valid <see cref="ParallelStrategy" />.</exception>
+    // ReSharper disable once ParameterHidesMember
+    public ParallelPipelineStageBuilder<TContext, TBaseNode> WithStrategy(ParallelStrategy strategy)
+    {
+        if (!Enum.IsDefined(strategy))
+        {
+            throw new ArgumentOutOfRangeException(nameof(strategy), strategy, "Value is not a valid strategy.");
+        }
+
+        this.strategy = strategy;
 
         return Self;
     }

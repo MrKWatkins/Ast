@@ -32,7 +32,7 @@ A plain [`Processor<TBaseNode>`](API/MrKWatkins.Ast.Processing/Processor-TBaseNo
 - [`GetTraversal`](API/MrKWatkins.Ast.Processing/OrderedProcessor-TBaseNode/GetTraversal.md) returns the [`ITraversal<TNode>`](API/MrKWatkins.Ast.Traversal/ITraversal-TNode/index.md) the pipeline should walk the tree with for this processor, defaulting to [depth first pre-order](API/MrKWatkins.Ast.Traversal/DepthFirstPreOrderTraversal-TNode/index.md).
 - [`ShouldProcessDescendents`](API/MrKWatkins.Ast.Processing/OrderedProcessor-TBaseNode/ShouldProcessDescendents.md) decides whether to walk into a node's descendents at all.
 
-Ordered processors cannot be added to a parallel stage; the builder throws an `ArgumentException` if you try. In a parallel stage the tree is walked on one thread and nodes are handed to others for processing, so there is no order to guarantee.
+Ordered processors cannot be added to a parallel stage; the builder throws an `ArgumentException` if you try. In a parallel stage nodes are processed across threads, so there is no order to guarantee.
 
 [`OrderedNodeProcessor<TBaseNode, TNode>`](API/MrKWatkins.Ast.Processing/OrderedNodeProcessor-TBaseNode-TNode/index.md) combines the two, filtering by node type while still controlling the traversal.
 
@@ -98,7 +98,7 @@ private static readonly Pipeline<MathsNode> Pipeline =
                     .AddStage<DivideByZeroValidator>("Validation"));
 ```
 
-[`AddStage`](API/MrKWatkins.Ast.Processing/PipelineBuilder-TBaseNode/AddStage.md) creates a stage whose processors run one after the other, each getting its own walk of the tree. [`AddParallelStage`](API/MrKWatkins.Ast.Processing/PipelineBuilder-TBaseNode/AddParallelStage.md) creates one where the tree is walked once and node-and-processor pairs are dispatched across threads. Overloads of both take processor instances, a processor type with a parameterless constructor, an optional stage name, and an action on the stage builder for finer control. Unnamed stages are named after their position in the pipeline.
+[`AddStage`](API/MrKWatkins.Ast.Processing/PipelineBuilder-TBaseNode/AddStage.md) creates a stage whose processors run one after the other, each getting its own walk of the tree. [`AddParallelStage`](API/MrKWatkins.Ast.Processing/PipelineBuilder-TBaseNode/AddParallelStage.md) creates one where processing is spread across threads; see [Parallel Stages](#parallel-stages) below. Overloads of both take processor instances, a processor type with a parameterless constructor, an optional stage name, and an action on the stage builder for finer control. Unnamed stages are named after their position in the pipeline.
 
 The stage builders offer:
 
@@ -110,6 +110,7 @@ The stage builders offer:
 | [`WithAlwaysContinue`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithAlwaysContinue.md) | Continues regardless of errors in the tree. |
 | [`WithDefaultTraversal`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithDefaultTraversal.md) | Sets the traversal used for processors that don't specify their own. |
 | [`WithMaxDegreeOfParallelism`](API/MrKWatkins.Ast.Processing/ParallelPipelineStageBuilder-TBaseNode/WithMaxDegreeOfParallelism.md) | Parallel stages only; defaults to the machine's processor count. |
+| [`WithStrategy`](API/MrKWatkins.Ast.Processing/ParallelPipelineStageBuilder-TBaseNode/WithStrategy.md) | Parallel stages only; how work is divided between threads. See [Parallel Stages](#parallel-stages). |
 
 Run the pipeline on a root node:
 
@@ -121,7 +122,18 @@ var (success, newRoot, lastStageRun) = Pipeline.Run(function);
 
 By default a stage stops the pipeline if the tree has any errors once the stage completes — that is, if [`ThisAndDescendentsHaveErrors`](API/MrKWatkins.Ast/Node-TNode/ThisAndDescendentsHaveErrors.md) is `true` for the root. Use [`WithShouldContinue`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithShouldContinue.md) for a different rule, or [`WithAlwaysContinue`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithAlwaysContinue.md) to press on regardless — useful for a stage that only gathers extra diagnostics.
 
-Exceptions from a processor, or from a should-continue function, are wrapped in a [`PipelineException`](API/MrKWatkins.Ast.Processing/PipelineException/index.md) naming the [`Stage`](API/MrKWatkins.Ast.Processing/PipelineException/Stage.md) they came from.
+Exceptions from a processor, or from a should-continue function, are wrapped in a [`PipelineException`](API/MrKWatkins.Ast.Processing/PipelineException/index.md) naming the [`Stage`](API/MrKWatkins.Ast.Processing/PipelineException/Stage.md) they came from. This holds for parallel stages too: if several processors throw, the first exception is the one you get.
+
+## Parallel Stages
+
+A parallel stage is for passes that leave the shape of the tree alone — validators, and processors that annotate the nodes they are given. The tree is walked lazily while the processors run, so it is never loaded into memory in its entirety, but it also means nodes are processed concurrently with their ancestors and descendents and a structural change would corrupt the walk. Replacers are ordered processors and so cannot be added, and a processor that returns a node other than the one it was given, which in a serial stage would signal a new root, causes a [`PipelineException`](API/MrKWatkins.Ast.Processing/PipelineException/index.md).
+
+How the work is divided between threads is set with [`WithStrategy`](API/MrKWatkins.Ast.Processing/ParallelPipelineStageBuilder-TBaseNode/WithStrategy.md) and a [`ParallelStrategy`](API/MrKWatkins.Ast.Processing/ParallelStrategy/index.md):
+
+| Strategy | Description |
+| -------- | ----------- |
+| [`PerNode`](API/MrKWatkins.Ast.Processing/ParallelStrategy/index.md) | The default. The tree is walked once and each node is handed to a thread, which runs every processor on it in turn. A node is only ever being processed by one thread at a time, so processors can safely write to the node they are given. Suits many cheap processors. |
+| [`PerProcessor`](API/MrKWatkins.Ast.Processing/ParallelStrategy/index.md) | Each processor runs on its own thread and walks the whole tree itself. Different processors can be processing the same node at once, so writes to a node must be thread safe; adding messages is. Suits a few expensive processors, or ones that read neighbouring nodes. |
 
 ## Example
 
