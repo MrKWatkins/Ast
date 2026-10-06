@@ -7,7 +7,7 @@ Listeners walk a tree and are notified as nodes are reached. They are the lightw
 There are two base classes to inherit from:
 
 - [`Listener<TContext, TNode>`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/index.md) listens to every node in the tree.
-- [`Listener<TContext, TBaseNode, TNode>`](API/MrKWatkins.Ast.Listening/Listener-TContext-TBaseNode-TNode/index.md) listens only to nodes of a specific type. Other nodes are ignored, but their descendents are still walked, so the whole tree is visited either way.
+- [`NodeListener<TContext, TBaseNode, TNode>`](API/MrKWatkins.Ast.Listening/NodeListener-TContext-TBaseNode-TNode/index.md) listens only to nodes of a specific type. Other nodes are ignored, but their descendents are still walked, so the whole tree is visited either way.
 
 Three methods can be overridden to get at the nodes:
 
@@ -35,6 +35,21 @@ The context is passed in to [`Listen`](API/MrKWatkins.Ast.Listening/Listener-TCo
 
 Exceptions are not handled. If a listener throws, the exception escapes from [`Listen`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/Listen.md) and no further nodes are visited.
 
+## Listeners Without a Context
+
+Every listener type has a form that takes no context object: [`Listener<TNode>`](API/MrKWatkins.Ast.Listening/Listener-TNode/index.md), [`NodeListener<TBaseNode, TNode>`](API/MrKWatkins.Ast.Listening/NodeListener-TBaseNode-TNode/index.md) and [`CompositeListener<TBaseNode>`](API/MrKWatkins.Ast.Listening/CompositeListener-TBaseNode/index.md). They have the same methods minus the context parameter, so a listener that accumulates into its own fields, or that only has side effects, need not invent a context type:
+
+```c#
+internal sealed class NodeCounter : Listener<Expression>
+{
+    public int Count { get; private set; }
+
+    protected internal override void ListenToNode(Expression node) => Count++;
+}
+```
+
+A listener without a context holds its state itself, so unlike one with a context a single instance should not be used to walk several trees at once. Under the covers the context-free forms share the implementation of the context-taking ones using the empty [`NoContext`](API/MrKWatkins.Ast/NoContext/index.md) type; that only matters if you see `NoContext` in a base class chain.
+
 ## Composite Listeners
 
 Walking a tree usually means doing something different for each kind of node. Rather than one listener with a `switch` over node types, build a [`CompositeListener<TContext, TBaseNode>`](API/MrKWatkins.Ast.Listening/CompositeListener-TContext-TBaseNode/index.md) from listeners that each handle one type, using the fluent interface from [`Build`](API/MrKWatkins.Ast.Listening/CompositeListener-TContext-TBaseNode/Build.md):
@@ -50,7 +65,7 @@ private static readonly CompositeListener<FormattingContext, Expression> Listene
 
 Exactly one listener will ever be used for a node — the one registered for the most specific type that node matches. Registering a listener for a base type therefore gives fallback behaviour for anything more specific that has no listener of its own, and the [`With`](API/MrKWatkins.Ast.Listening/ICompositeListenerBuilder-TContext-TBaseNode/With.md) overload taking a two parameter listener registers a catch-all for the base node type itself. If no listener matches at all the node is skipped, though its descendents are still visited.
 
-Only one listener can be registered per type, and [`ToListener`](API/MrKWatkins.Ast.Listening/ICompositeListenerBuilder-TContext-TBaseNode/ToListener.md) throws if no listeners were registered at all. Listeners can share implementation through their own base classes in the usual way.
+Only one listener can be registered per type, and [`ToListener`](API/MrKWatkins.Ast.Listening/ICompositeListenerBuilder-TContext-TBaseNode/ToListener.md) throws if no listeners were registered at all. Listeners can share implementation through their own base classes in the usual way. [`CompositeListener<TBaseNode>`](API/MrKWatkins.Ast.Listening/CompositeListener-TBaseNode/index.md) does the same for listeners without a context.
 
 ## Example
 

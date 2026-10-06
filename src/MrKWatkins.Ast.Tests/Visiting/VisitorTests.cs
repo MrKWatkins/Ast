@@ -2,7 +2,7 @@ using MrKWatkins.Ast.Visiting;
 
 namespace MrKWatkins.Ast.Tests.Visiting;
 
-public sealed class VisitorTests : TreeTestFixture
+public sealed partial class VisitorTests : TreeTestFixture
 {
     [Test]
     public void Visit()
@@ -104,7 +104,7 @@ public sealed class VisitorTests : TreeTestFixture
         protected internal override string VisitNode(TestContext context, TestNode node) => node.Name;
     }
 
-    private sealed class TypedTestVisitor<TNode> : Visitor<TestContext, TestNode, TNode, string>
+    private sealed class TypedTestVisitor<TNode> : NodeVisitor<TestContext, TestNode, TNode, string>
         where TNode : TestNode
     {
         public Func<TestContext, TestNode, string>? Unhandled { get; init; }

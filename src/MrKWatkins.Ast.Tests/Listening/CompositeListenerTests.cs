@@ -2,7 +2,7 @@ using MrKWatkins.Ast.Listening;
 
 namespace MrKWatkins.Ast.Tests.Listening;
 
-public sealed class CompositeListenerTests : TreeTestFixture
+public sealed partial class CompositeListenerTests : TreeTestFixture
 {
     [Test]
     public void With_ThrowsIfListenerForTypeAlreadyRegistered()
@@ -198,7 +198,7 @@ public sealed class CompositeListenerTests : TreeTestFixture
         }
     }
 
-    private sealed class TestListener<TNode> : Listener<TestContext, TestNode, TNode>
+    private sealed class TestListener<TNode> : NodeListener<TestContext, TestNode, TNode>
         where TNode : TestNode
     {
         public Func<TestContext, TNode, bool>? ListenToChildren { get; init; }

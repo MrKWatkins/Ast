@@ -9,12 +9,12 @@ The other difference is who drives the walk. A listener is notified as the libra
 There are two base classes to inherit from:
 
 - [`Visitor<TContext, TNode, TResult>`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TNode-TResult/index.md) visits any node in the tree.
-- [`Visitor<TContext, TBaseNode, TNode, TResult>`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TBaseNode-TNode-TResult/index.md) visits only nodes of a specific type. These are the building blocks for [composite visitors](#composite-visitors).
+- [`NodeVisitor<TContext, TBaseNode, TNode, TResult>`](API/MrKWatkins.Ast.Visiting/NodeVisitor-TContext-TBaseNode-TNode-TResult/index.md) visits only nodes of a specific type. These are the building blocks for [composite visitors](#composite-visitors).
 
 Override [`VisitNode`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TNode-TResult/VisitNode.md) to return the value for a node. Inside it, call [`Visit`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TNode-TResult/Visit.md) to visit a child and get its value, or [`VisitChildren`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TNode-TResult/VisitChildren.md) to visit all the children in order:
 
 ```c#
-internal sealed class AndVisitor : Visitor<EvaluationContext, Expression, And, bool>
+internal sealed class AndVisitor : NodeVisitor<EvaluationContext, Expression, And, bool>
 {
     protected override bool VisitNode(EvaluationContext context, And and) =>
         Visit(context, and.Left) && Visit(context, and.Right);
@@ -33,9 +33,22 @@ return visitor.Visit(context, expression);
 
 As with listeners, the context is passed in rather than held by the visitor. Visitors hold no state of their own between runs, so a single instance can be used to visit many trees, including concurrently.
 
-A typed visitor given a node of a type it does not handle calls [`VisitUnhandledNode`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TBaseNode-TNode-TResult/VisitUnhandledNode.md). By default that throws an `InvalidOperationException`; override it to return a fallback value instead. A visitor cannot silently ignore a node the way a listener can, because it has to return something for it.
+A typed visitor given a node of a type it does not handle calls [`VisitUnhandledNode`](API/MrKWatkins.Ast.Visiting/NodeVisitor-TContext-TBaseNode-TNode-TResult/VisitUnhandledNode.md). By default that throws an `InvalidOperationException`; override it to return a fallback value instead. A visitor cannot silently ignore a node the way a listener can, because it has to return something for it.
 
 Exceptions are not handled. If a visitor throws, the exception escapes from [`Visit`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TNode-TResult/Visit.md) and no further nodes are visited.
+
+## Visitors Without a Context
+
+Every visitor type has a form that takes no context object: [`Visitor<TNode, TResult>`](API/MrKWatkins.Ast.Visiting/Visitor-TNode-TResult/index.md), [`NodeVisitor<TBaseNode, TNode, TResult>`](API/MrKWatkins.Ast.Visiting/NodeVisitor-TBaseNode-TNode-TResult/index.md) and [`CompositeVisitor<TBaseNode, TResult>`](API/MrKWatkins.Ast.Visiting/CompositeVisitor-TBaseNode-TResult/index.md). They have the same methods minus the context parameter, which suits visitors whose result depends only on the tree:
+
+```c#
+internal sealed class NodeCounter : Visitor<Expression, int>
+{
+    protected internal override int VisitNode(Expression node) => 1 + VisitChildren(node).Sum();
+}
+```
+
+Under the covers the context-free forms share the implementation of the context-taking ones using the empty [`NoContext`](API/MrKWatkins.Ast/NoContext/index.md) type; that only matters if you see `NoContext` in a base class chain.
 
 ## Composite Visitors
 
@@ -57,7 +70,7 @@ Exactly one visitor is used for a node: the one registered for the most specific
 
 Once a visitor has been registered with a composite, its [`Visit`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TNode-TResult/Visit.md) method dispatches through the composite. That is what lets the `AndVisitor` above visit its operands without knowing what types they are: the composite picks the right visitor for each. It also means a visitor instance can only belong to one composite. Composites can be nested by registering one with another, in which case dispatch goes through the outermost composite.
 
-Only one visitor can be registered per type, and [`ToVisitor`](API/MrKWatkins.Ast.Visiting/ICompositeVisitorBuilder-TContext-TBaseNode-TResult/ToVisitor.md) throws if no visitors were registered at all.
+Only one visitor can be registered per type, and [`ToVisitor`](API/MrKWatkins.Ast.Visiting/ICompositeVisitorBuilder-TContext-TBaseNode-TResult/ToVisitor.md) throws if no visitors were registered at all. [`CompositeVisitor<TBaseNode, TResult>`](API/MrKWatkins.Ast.Visiting/CompositeVisitor-TBaseNode-TResult/index.md) does the same for visitors without a context.
 
 ## Example
 

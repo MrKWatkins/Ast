@@ -72,79 +72,63 @@ public abstract class Listener<TContext, TNode>
 }
 
 /// <summary>
-/// A <see cref="Listener{TContext, TNode}" /> that only listens to nodes of a specific type. All other nodes will be ignored. The listener will
-/// still proceed to descendents of nodes that aren't listened too, i.e. the entire tree will be walked.
+/// A <see cref="Listener{TContext, TNode}" /> that does not take a context object. Any state the listener needs must be held by the
+/// listener itself.
 /// </summary>
-/// <typeparam name="TContext">The type of the context object.</typeparam>
-/// <typeparam name="TBaseNode">The base type of all nodes in the tree.</typeparam>
+/// <remarks>
+/// Exceptions are not handled; if the listener throws then the exception will escape from the <see cref="Listen(TNode)"/> method and no
+/// further nodes will be processed.
+/// </remarks>
 /// <typeparam name="TNode">The type of the nodes to listen to.</typeparam>
-public abstract class Listener<TContext, TBaseNode, TNode> : Listener<TContext, TBaseNode>
-    where TBaseNode : Node<TBaseNode>
-    where TNode : TBaseNode
+public abstract class Listener<TNode> : Listener<NoContext, TNode>
+    where TNode : Node<TNode>
 {
+    /// <summary>
+    /// Listen to the specified node and its descendents.
+    /// </summary>
+    /// <param name="node">The node to listen to.</param>
+    public void Listen(TNode node) => Listen(default, node);
+
     /// <inheritdoc />
-    protected internal sealed override void BeforeListenToNode(TContext context, TBaseNode node)
-    {
-        if (node is TNode typedNode)
-        {
-            BeforeListenToNode(context, typedNode);
-        }
-    }
+    protected internal sealed override void BeforeListenToNode(NoContext context, TNode node) => BeforeListenToNode(node);
 
     /// <summary>
     /// Called before a node *and its descendents* are listened to.
     /// </summary>
-    /// <param name="context">The context object.</param>
     /// <param name="node">The node about to be listened to.</param>
-    protected virtual void BeforeListenToNode(TContext context, TNode node)
+    protected internal virtual void BeforeListenToNode(TNode node)
     {
     }
 
     /// <inheritdoc />
-    protected internal sealed override void ListenToNode(TContext context, TBaseNode node)
-    {
-        if (node is TNode typedNode)
-        {
-            ListenToNode(context, typedNode);
-        }
-    }
+    protected internal sealed override void ListenToNode(NoContext context, TNode node) => ListenToNode(node);
 
     /// <summary>
     /// Called when the node is listened to.
     /// </summary>
-    /// <param name="context">The context object.</param>
     /// <param name="node">The node being listened to.</param>
-    protected virtual void ListenToNode(TContext context, TNode node)
+    protected internal virtual void ListenToNode(TNode node)
     {
     }
 
     /// <inheritdoc />
-    protected internal sealed override void AfterListenToNode(TContext context, TBaseNode node)
-    {
-        if (node is TNode typedNode)
-        {
-            AfterListenToNode(context, typedNode);
-        }
-    }
+    protected internal sealed override void AfterListenToNode(NoContext context, TNode node) => AfterListenToNode(node);
 
     /// <summary>
     /// Called after a node *and its descendents* have been listened to.
     /// </summary>
-    /// <param name="context">The context object.</param>
     /// <param name="node">The node that has been listened to.</param>
-    protected virtual void AfterListenToNode(TContext context, TNode node)
+    protected internal virtual void AfterListenToNode(TNode node)
     {
     }
 
     /// <inheritdoc />
-    protected internal sealed override bool ShouldListenToChildren(TContext context, TBaseNode node) =>
-        node is not TNode typedNode || ShouldListenToChildren(context, typedNode);
+    protected internal sealed override bool ShouldListenToChildren(NoContext context, TNode node) => ShouldListenToChildren(node);
 
     /// <summary>
     /// Return a value indicating whether child nodes should be listened to or not. Defaults to <c>true</c>.
     /// </summary>
-    /// <param name="context">The context object.</param>
     /// <param name="node">The node whose children should be listened to or not.</param>
     /// <returns><c>true</c> if child nodes should be listened to, <c>false</c> otherwise.</returns>
-    protected virtual bool ShouldListenToChildren(TContext context, TNode node) => true;
+    protected internal virtual bool ShouldListenToChildren(TNode node) => true;
 }

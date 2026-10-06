@@ -6,7 +6,7 @@ namespace MrKWatkins.Ast.Examples.Maths.Evaluation;
 /// <summary>
 /// Visitor for a binary operation. Visits the left and right operands to get their values, then combines them using the operator.
 /// </summary>
-internal sealed class BinaryOperationVisitor : Visitor<EvaluationContext, MathsNode, BinaryOperation, int>
+internal sealed class BinaryOperationVisitor : NodeVisitor<EvaluationContext, MathsNode, BinaryOperation, int>
 {
     protected override int VisitNode(EvaluationContext context, BinaryOperation operation)
     {

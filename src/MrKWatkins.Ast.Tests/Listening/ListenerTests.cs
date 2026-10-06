@@ -3,7 +3,7 @@ using MrKWatkins.Ast.Listening;
 
 namespace MrKWatkins.Ast.Tests.Listening;
 
-public sealed class ListenerTests : TreeTestFixture
+public sealed partial class ListenerTests : TreeTestFixture
 {
     [TestCase(typeof(TestListener), "(N1(N11(N111))(N12(N121)(N122)(N123))(N13))")]
     [TestCase(typeof(CallsBaseTestListener), "(N1(N11(N111))(N12(N121)(N122)(N123))(N13))")] // Explicitly test the base methods do nothing.
@@ -71,7 +71,7 @@ public sealed class ListenerTests : TreeTestFixture
         }
     }
 
-    private sealed class TypedTestListener : Listener<StringBuilder, TestNode, ANode>
+    private sealed class TypedTestListener : NodeListener<StringBuilder, TestNode, ANode>
     {
         private readonly Stack<ANode> stack = new();
 
@@ -94,7 +94,7 @@ public sealed class ListenerTests : TreeTestFixture
         }
     }
 
-    private sealed class CallsBaseTypedTestListener : Listener<StringBuilder, TestNode, ANode>
+    private sealed class CallsBaseTypedTestListener : NodeListener<StringBuilder, TestNode, ANode>
     {
         protected override void BeforeListenToNode(StringBuilder context, ANode node)
         {

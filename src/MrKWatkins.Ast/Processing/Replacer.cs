@@ -1,48 +1,28 @@
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
-/// An <see cref="OrderedProcessor{TNode}" /> for optionally replacing nodes in a tree.
+/// An <see cref="OrderedProcessor{TBaseNode}" /> for optionally replacing nodes in a tree.
 /// </summary>
 /// <typeparam name="TBaseNode">The base type of nodes in the tree.</typeparam>
 public abstract class Replacer<TBaseNode> : OrderedProcessor<TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
     /// <inheritdoc />
-    public sealed override TBaseNode Process(TBaseNode node)
-    {
-        var newNode = Replace(node);
-        if (newNode != null && !ReferenceEquals(node, newNode))
-        {
-            if (newNode.HasParent)
-            {
-                throw new InvalidOperationException($"Replacement node {newNode} already has a parent {newNode.Parent}.");
-            }
-
-            if (node.HasParent)
-            {
-                node.ReplaceWith(newNode);
-                return node;
-            }
-
-            return newNode;
-        }
-
-        return node;
-    }
+    public sealed override TBaseNode Process(TBaseNode node) => Replacement.Apply(node, Replace(node));
 
     /// <summary>
     /// Optionally replace the specified node.
     /// </summary>
     /// <param name="node">The node to potentially replace.</param>
     /// <returns>
-    /// A new node to replace <paramref name="node" /> in the tree. Return <paramref name="node" /> or <c>null</c> to leave <paramref name="node" /> in the tree.
+    /// The replacement node, or <paramref name="node" /> or <c>null</c> to leave it alone. The replacement must not already have a parent.
     /// </returns>
     [Pure]
     protected abstract TBaseNode? Replace(TBaseNode node);
 }
 
 /// <summary>
-/// An <see cref="OrderedProcessor{TContext, TNode}" /> for optionally replacing nodes in a tree.
+/// An <see cref="OrderedProcessor{TContext, TBaseNode}" /> for optionally replacing nodes in a tree.
 /// </summary>
 /// <typeparam name="TContext">The type of the processing context.</typeparam>
 /// <typeparam name="TBaseNode">The base type of nodes in the tree.</typeparam>
@@ -50,27 +30,7 @@ public abstract class Replacer<TContext, TBaseNode> : OrderedProcessor<TContext,
     where TBaseNode : Node<TBaseNode>
 {
     /// <inheritdoc />
-    public sealed override TBaseNode Process(TContext context, TBaseNode node)
-    {
-        var newNode = Replace(context, node);
-        if (newNode != null && !ReferenceEquals(node, newNode))
-        {
-            if (newNode.HasParent)
-            {
-                throw new InvalidOperationException($"Replacement node {newNode} already has a parent {newNode.Parent}.");
-            }
-
-            if (node.HasParent)
-            {
-                node.ReplaceWith(newNode);
-                return node;
-            }
-
-            return newNode;
-        }
-
-        return node;
-    }
+    public sealed override TBaseNode Process(TContext context, TBaseNode node) => Replacement.Apply(node, Replace(context, node));
 
     /// <summary>
     /// Optionally replace the specified node.
@@ -78,7 +38,7 @@ public abstract class Replacer<TContext, TBaseNode> : OrderedProcessor<TContext,
     /// <param name="context">The processing context.</param>
     /// <param name="node">The node to potentially replace.</param>
     /// <returns>
-    /// A new node to replace <paramref name="node" /> in the tree. Return <paramref name="node" /> or <c>null</c> to leave <paramref name="node" /> in the tree.
+    /// The replacement node, or <paramref name="node" /> or <c>null</c> to leave it alone. The replacement must not already have a parent.
     /// </returns>
     [Pure]
     protected abstract TBaseNode? Replace(TContext context, TBaseNode node);

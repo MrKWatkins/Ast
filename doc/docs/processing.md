@@ -23,7 +23,7 @@ internal sealed class OperatorCounter : NodeProcessor<MathsNode, BinaryOperation
 }
 ```
 
-Each family of processors also has a `TContext` variant — [`Processor<TContext, TBaseNode>`](API/MrKWatkins.Ast.Processing/Processor-TContext-TBaseNode/index.md), [`NodeProcessor<TContext, TBaseNode, TNode>`](API/MrKWatkins.Ast.Processing/NodeProcessor-TContext-TBaseNode-TNode/index.md) and so on — taking a context object supplied when the pipeline is run. Unlike [listeners](listeners.md), where the context is the point of the exercise, a processing context is usually for configuration or for caching data gathered as the tree is walked.
+Each family of processors also has a `TContext` variant — [`Processor<TContext, TBaseNode>`](API/MrKWatkins.Ast.Processing/Processor-TContext-TBaseNode/index.md), [`NodeProcessor<TContext, TBaseNode, TNode>`](API/MrKWatkins.Ast.Processing/NodeProcessor-TContext-TBaseNode-TNode/index.md) and so on — taking a context object supplied when the pipeline is run. Unlike [listeners](listeners.md), where the context is the point of the exercise, a processing context is usually for configuration or for caching data gathered as the tree is walked. The two forms cannot be mixed in one pipeline. Under the covers the context-free pipeline, stages and processors are thin wrappers over the context-taking ones using the empty [`NoContext`](API/MrKWatkins.Ast/NoContext/index.md) type, so both behave identically.
 
 ## Ordered Processors
 

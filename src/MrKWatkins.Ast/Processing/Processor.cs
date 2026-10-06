@@ -1,12 +1,15 @@
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
-/// Performs some processing on a given node in a <see cref="Pipeline{Node}" />.
+/// Performs some processing on a given node in a <see cref="Pipeline{TBaseNode}" />. Does not take a processing context.
 /// </summary>
 /// <typeparam name="TBaseNode">The type of nodes in the tree.</typeparam>
-public abstract class Processor<TBaseNode>
+public abstract class Processor<TBaseNode> : Processor<NoContext, TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
+    /// <inheritdoc />
+    public sealed override TBaseNode Process(NoContext context, TBaseNode node) => Process(node);
+
     /// <summary>
     /// Performs processing on the specified <paramref name="node" />. Does not process any descendents.
     /// </summary>

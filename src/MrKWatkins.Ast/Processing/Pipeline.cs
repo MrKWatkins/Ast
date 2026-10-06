@@ -1,21 +1,22 @@
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
-/// A pipeline to process nodes in a tree. A pipeline consists of multiple named stages, each of which has one or more <see cref="Processing.Processor{TNode}" />s
+/// A pipeline to process nodes in a tree. A pipeline consists of multiple named stages, each of which has one or more <see cref="Processor{TBaseNode}" />s
 /// running in serial or parallel. Stages can optionally specify whether pipeline processing should continue once the stage has completed.
 /// By default, processing will not continue if there are any errors in the tree.
 /// </summary>
+/// <remarks>
+/// A pipeline that does not take a context is a thin wrapper over a <see cref="Pipeline{TContext, TBaseNode}" /> using <see cref="NoContext" />.
+/// </remarks>
 /// <typeparam name="TBaseNode">The base type of nodes in the tree.</typeparam>
 public sealed class Pipeline<TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
+    private readonly Pipeline<NoContext, TBaseNode> inner;
+
     internal Pipeline(IReadOnlyList<PipelineStage<TBaseNode>> stages)
     {
-        if (stages.Count == 0)
-        {
-            throw new ArgumentException("Value is empty.", nameof(stages));
-        }
-
+        inner = new Pipeline<NoContext, TBaseNode>(stages.Select(s => s.Inner).ToList());
         Stages = stages;
     }
 
@@ -25,10 +26,10 @@ public sealed class Pipeline<TBaseNode>
     public IReadOnlyList<PipelineStage<TBaseNode>> Stages { get; }
 
     /// <summary>
-    /// Fluent interface to build a <see cref="Pipeline{TNode}"/>.
+    /// Fluent interface to build a <see cref="Pipeline{TBaseNode}"/>.
     /// </summary>
-    /// <param name="build">An action to perform on a <see cref="PipelineBuilder{TNode}"/> to build the pipeline.</param>
-    /// <returns>The <see cref="Pipeline{TNode}"/>.</returns>
+    /// <param name="build">An action to perform on a <see cref="PipelineBuilder{TBaseNode}"/> to build the pipeline.</param>
+    /// <returns>The pipeline.</returns>
     [Pure]
     public static Pipeline<TBaseNode> Build(Action<PipelineBuilder<TBaseNode>> build)
     {
@@ -41,57 +42,25 @@ public sealed class Pipeline<TBaseNode>
     /// Runs the pipeline on the specified root node, returning the potentially new root via an out parameter.
     /// </summary>
     /// <param name="root">The root node to run the pipeline on.</param>
-    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TBaseNode}"/>.</param>
-    /// <returns><c>true</c> if all stages ran successfully, <c>false</c> otherwise.</returns>
-    public bool Run(TBaseNode root, out TBaseNode newRoot)
-    {
-        var (success, resultRoot, _) = Run(root);
-        newRoot = resultRoot;
-        return success;
-    }
+    /// <param name="newRoot">The root node after processing, which may have been replaced.</param>
+    /// <returns><c>true</c> if all stages ran, <c>false</c> if a stage stopped the pipeline.</returns>
+    public bool Run(TBaseNode root, out TBaseNode newRoot) => inner.Run(default, root, out newRoot);
 
     /// <summary>
     /// Runs the pipeline on the specified root node, returning the potentially new root and last stage run via out parameters.
     /// </summary>
     /// <param name="root">The root node to run the pipeline on.</param>
-    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TBaseNode}"/>.</param>
-    /// <param name="lastStageRun">
-    /// The name of the last stage that was run. If <c>false</c> is returned then this will be the name of the stage that stopped
-    /// further stages from continuing.
-    /// </param>
-    /// <returns><c>true</c> if all stages ran successfully, <c>false</c> otherwise.</returns>
-    public bool Run(TBaseNode root, out TBaseNode newRoot, out string lastStageRun)
-    {
-        var (success, resultRoot, lastStage) = Run(root);
-        newRoot = resultRoot;
-        lastStageRun = lastStage;
-        return success;
-    }
+    /// <param name="newRoot">The root node after processing, which may have been replaced.</param>
+    /// <param name="lastStageRun">The name of the last stage that ran.</param>
+    /// <returns><c>true</c> if all stages ran, <c>false</c> if a stage stopped the pipeline.</returns>
+    public bool Run(TBaseNode root, out TBaseNode newRoot, out string lastStageRun) => inner.Run(default, root, out newRoot, out lastStageRun);
 
     /// <summary>
     /// Runs the pipeline on the specified root node, returning a tuple with the result, the potentially replaced root node and the last stage run.
     /// </summary>
     /// <param name="root">The root node to run the pipeline on.</param>
-    /// <returns>A tuple of whether all stages ran successfully, the root node which may have been replaced, and the name of the last stage that was run.</returns>
-    public (bool Success, TBaseNode Root, string LastStageRun) Run(TBaseNode root)
-    {
-        var lastStageRun = (string) null!;
-
-        foreach (var stage in Stages)
-        {
-            lastStageRun = stage.Name;
-
-            var (success, newRoot) = stage.Run(root);
-            root = newRoot;
-
-            if (!success)
-            {
-                return (false, root, lastStageRun);
-            }
-        }
-
-        return (true, root, lastStageRun);
-    }
+    /// <returns>A tuple of whether all stages ran, the root node after processing, and the name of the last stage that ran.</returns>
+    public (bool Success, TBaseNode Root, string LastStageRun) Run(TBaseNode root) => inner.Run(default, root);
 }
 
 /// <summary>

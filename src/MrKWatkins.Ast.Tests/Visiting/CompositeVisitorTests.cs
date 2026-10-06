@@ -2,7 +2,7 @@ using MrKWatkins.Ast.Visiting;
 
 namespace MrKWatkins.Ast.Tests.Visiting;
 
-public sealed class CompositeVisitorTests : TreeTestFixture
+public sealed partial class CompositeVisitorTests : TreeTestFixture
 {
     [Test]
     public void With_ThrowsIfVisitorForTypeAlreadyRegistered()
@@ -253,7 +253,7 @@ public sealed class CompositeVisitorTests : TreeTestFixture
         }
     }
 
-    private sealed class TestVisitor<TNode> : Visitor<TestContext, TestNode, TNode, string>
+    private sealed class TestVisitor<TNode> : NodeVisitor<TestContext, TestNode, TNode, string>
         where TNode : TestNode
     {
         private readonly string prefix;

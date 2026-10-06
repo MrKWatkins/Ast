@@ -20,7 +20,7 @@ public sealed class ParallelPipelineStageBuilder<TBaseNode> : PipelineStageBuild
 
     private protected override void VerifyProcessorCanBeAdded(Processor<TBaseNode> processor)
     {
-        if (processor is OrderedProcessor<TBaseNode>)
+        if (processor is IOrderedProcessor<NoContext, TBaseNode>)
         {
             throw new ArgumentException("A parallel stage cannot contain an ordered processor.", nameof(processor));
         }
@@ -92,7 +92,7 @@ public sealed class ParallelPipelineStageBuilder<TContext, TBaseNode> : Pipeline
 
     private protected override void VerifyProcessorCanBeAdded(Processor<TContext, TBaseNode> processor)
     {
-        if (processor is OrderedProcessor<TContext, TBaseNode>)
+        if (processor is IOrderedProcessor<TContext, TBaseNode>)
         {
             throw new ArgumentException("A parallel stage cannot contain an ordered processor.", nameof(processor));
         }

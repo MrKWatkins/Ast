@@ -3,27 +3,31 @@ using MrKWatkins.Ast.Traversal;
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
-/// Performs some processing on a given node in a <see cref="Pipeline{Node}" />. The processor can specify the order the pipeline
-/// should traverse the tree and whether to process descendents or not.
+/// Performs some processing on a given node in a <see cref="Pipeline{TBaseNode}" />. The processor can specify the order the pipeline
+/// should traverse the tree and whether to process descendents or not. Does not take a processing context.
 /// </summary>
 /// <typeparam name="TBaseNode">The type of nodes in the tree.</typeparam>
-public abstract class OrderedProcessor<TBaseNode> : Processor<TBaseNode>
+public abstract class OrderedProcessor<TBaseNode> : Processor<TBaseNode>, IOrderedProcessor<NoContext, TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
     /// <summary>
-    /// Gets the traversal that the <see cref="Pipeline{Node}" /> should use for this processor.
+    /// Gets the traversal that the <see cref="Pipeline{TBaseNode}" /> should use for this processor.
     /// </summary>
     /// <param name="root">The root of the tree.</param>
-    /// <returns>The traversal to use.</returns>
+    /// <returns>The traversal. Defaults to <see cref="DepthFirstPreOrderTraversal{TNode}" />.</returns>
     public virtual ITraversal<TBaseNode> GetTraversal(TBaseNode root) => DepthFirstPreOrderTraversal<TBaseNode>.Instance;
 
     /// <summary>
-    /// Whether descendents of this node should be processed by the <see cref="Pipeline{Node}" /> or not. Defaults to <c>true</c>.
+    /// Whether descendents of this node should be processed by the <see cref="Pipeline{TBaseNode}" /> or not. Defaults to <c>true</c>.
     /// </summary>
     /// <param name="node">The node.</param>
-    /// <returns><c>true</c> if descendents of <paramref name="node" /> should be processed, <c>false</c> otherwise.</returns>
+    /// <returns><c>true</c> if descendents should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     public virtual bool ShouldProcessDescendents(TBaseNode node) => true;
+
+    ITraversal<TBaseNode> IOrderedProcessor<NoContext, TBaseNode>.GetTraversal(NoContext context, TBaseNode root) => GetTraversal(root);
+
+    bool IOrderedProcessor<NoContext, TBaseNode>.ShouldProcessDescendents(NoContext context, TBaseNode node) => ShouldProcessDescendents(node);
 }
 
 /// <summary>
@@ -32,7 +36,7 @@ public abstract class OrderedProcessor<TBaseNode> : Processor<TBaseNode>
 /// </summary>
 /// <typeparam name="TContext">The type of the processing context.</typeparam>
 /// <typeparam name="TBaseNode">The type of nodes in the tree.</typeparam>
-public abstract class OrderedProcessor<TContext, TBaseNode> : Processor<TContext, TBaseNode>
+public abstract class OrderedProcessor<TContext, TBaseNode> : Processor<TContext, TBaseNode>, IOrderedProcessor<TContext, TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
     /// <summary>
@@ -51,4 +55,8 @@ public abstract class OrderedProcessor<TContext, TBaseNode> : Processor<TContext
     /// <returns><c>true</c> if descendents of <paramref name="node" /> should be processed, <c>false</c> otherwise.</returns>
     [Pure]
     public virtual bool ShouldProcessDescendents(TContext context, TBaseNode node) => true;
+
+    ITraversal<TBaseNode> IOrderedProcessor<TContext, TBaseNode>.GetTraversal(TContext context, TBaseNode root) => GetTraversal(context, root);
+
+    bool IOrderedProcessor<TContext, TBaseNode>.ShouldProcessDescendents(TContext context, TBaseNode node) => ShouldProcessDescendents(context, node);
 }

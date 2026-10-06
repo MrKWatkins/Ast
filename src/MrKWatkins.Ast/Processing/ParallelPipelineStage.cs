@@ -15,32 +15,18 @@ namespace MrKWatkins.Ast.Processing;
 public sealed class ParallelPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
+    private readonly ParallelPipelineStage<NoContext, TBaseNode> inner;
+
     internal ParallelPipelineStage(string name, Func<TBaseNode, bool> shouldContinue, ITraversal<TBaseNode> defaultTraversal, IReadOnlyList<Processor<TBaseNode>> processors, int maxDegreeOfParallelism, ParallelStrategy strategy)
-        : base(name, shouldContinue, defaultTraversal)
+        : this(new ParallelPipelineStage<NoContext, TBaseNode>(name, (_, root) => shouldContinue(root), defaultTraversal, processors, maxDegreeOfParallelism, strategy), shouldContinue, processors)
     {
-        if (processors.Count == 0)
-        {
-            throw new ArgumentException("Value is empty.", nameof(processors));
-        }
+    }
 
-        if (processors.Any(p => p is OrderedProcessor<TBaseNode>))
-        {
-            throw new ArgumentException("OrderedProcessors cannot be used in a parallel stage.", nameof(processors));
-        }
-
-        if (maxDegreeOfParallelism <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(maxDegreeOfParallelism), maxDegreeOfParallelism, "Value must be greater than 0.");
-        }
-
-        if (!Enum.IsDefined(strategy))
-        {
-            throw new ArgumentOutOfRangeException(nameof(strategy), strategy, "Value is not a valid strategy.");
-        }
-
+    private ParallelPipelineStage(ParallelPipelineStage<NoContext, TBaseNode> inner, Func<TBaseNode, bool> shouldContinue, IReadOnlyList<Processor<TBaseNode>> processors)
+        : base(inner, shouldContinue)
+    {
+        this.inner = inner;
         Processors = processors;
-        MaxDegreeOfParallelism = maxDegreeOfParallelism;
-        Strategy = strategy;
     }
 
     /// <summary>
@@ -53,84 +39,13 @@ public sealed class ParallelPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
     /// The maximum degree of parallelism to use when processing nodes.
     /// </summary>
     /// <returns>The maximum degree of parallelism.</returns>
-    public int MaxDegreeOfParallelism { get; }
+    public int MaxDegreeOfParallelism => inner.MaxDegreeOfParallelism;
 
     /// <summary>
     /// How the stage divides its work between threads.
     /// </summary>
     /// <returns>The strategy.</returns>
-    public ParallelStrategy Strategy { get; }
-
-    private protected override TBaseNode Process(TBaseNode root)
-    {
-        var options = new ParallelOptions { MaxDegreeOfParallelism = MaxDegreeOfParallelism };
-
-        try
-        {
-            switch (Strategy)
-            {
-                case ParallelStrategy.PerNode:
-                    Parallel.ForEach(
-                        DefaultTraversal.Enumerate(root),
-                        options,
-                        node =>
-                        {
-                            foreach (var processor in Processors)
-                            {
-                                Process(processor, node);
-                            }
-                        });
-                    break;
-
-                case ParallelStrategy.PerProcessor:
-                    Parallel.ForEach(
-                        Processors,
-                        options,
-                        processor =>
-                        {
-                            foreach (var node in DefaultTraversal.Enumerate(root))
-                            {
-                                Process(processor, node);
-                            }
-                        });
-                    break;
-
-                default:
-                    throw new InvalidOperationException($"Unsupported strategy {Strategy}.");
-            }
-        }
-        catch (AggregateException exception)
-        {
-            // Parallel.ForEach wraps exceptions in an AggregateException; unwrap the first PipelineException so parallel stages throw the same as serial ones.
-            var pipelineException = exception.InnerExceptions.OfType<PipelineException>().FirstOrDefault();
-            if (pipelineException != null)
-            {
-                ExceptionDispatchInfo.Throw(pipelineException);
-            }
-
-            throw;
-        }
-
-        return root;
-    }
-
-    private void Process(Processor<TBaseNode> processor, TBaseNode node)
-    {
-        TBaseNode result;
-        try
-        {
-            result = processor.Process(node);
-        }
-        catch (Exception exception)
-        {
-            throw new PipelineException($"Exception occurred executing processor {processor.GetType().SimpleName()} for node {node}.", Name, exception);
-        }
-
-        if (!ReferenceEquals(result, node))
-        {
-            throw new PipelineException($"Processor {processor.GetType().SimpleName()} returned a different node for node {node}. Processors in a parallel stage cannot replace nodes.", Name);
-        }
-    }
+    public ParallelStrategy Strategy => inner.Strategy;
 }
 
 /// <summary>
@@ -154,7 +69,7 @@ public sealed class ParallelPipelineStage<TContext, TBaseNode> : PipelineStage<T
             throw new ArgumentException("Value is empty.", nameof(processors));
         }
 
-        if (processors.Any(p => p is OrderedProcessor<TContext, TBaseNode>))
+        if (processors.Any(p => p is IOrderedProcessor<TContext, TBaseNode>))
         {
             throw new ArgumentException("OrderedProcessors cannot be used in a parallel stage.", nameof(processors));
         }

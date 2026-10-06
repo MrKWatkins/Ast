@@ -10,13 +10,8 @@ public sealed class SerialPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
     internal SerialPipelineStage(string name, Func<TBaseNode, bool> shouldContinue, ITraversal<TBaseNode> defaultTraversal, IReadOnlyList<Processor<TBaseNode>> processors)
-        : base(name, shouldContinue, defaultTraversal)
+        : base(new SerialPipelineStage<NoContext, TBaseNode>(name, (_, root) => shouldContinue(root), defaultTraversal, processors), shouldContinue)
     {
-        if (processors.Count == 0)
-        {
-            throw new ArgumentException("Value is empty.", nameof(processors));
-        }
-
         Processors = processors;
     }
 
@@ -24,61 +19,6 @@ public sealed class SerialPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
     /// The processors in this stage.
     /// </summary>
     public IReadOnlyList<Processor<TBaseNode>> Processors { get; }
-
-    /// <inheritdoc />
-    private protected override TBaseNode Process(TBaseNode root)
-    {
-        foreach (var processor in Processors)
-        {
-            try
-            {
-                if (processor is OrderedProcessor<TBaseNode> orderedProcessor)
-                {
-                    root = Process(root, orderedProcessor);
-                }
-                else
-                {
-                    root = Process(root, processor);
-                }
-            }
-            catch (Exception exception)
-            {
-                throw new PipelineException($"Exception occurred executing processor {processor.GetType().SimpleName()}.", Name, exception);
-            }
-        }
-
-        return root;
-    }
-
-    private TBaseNode Process(TBaseNode root, Processor<TBaseNode> processor)
-    {
-        foreach (var node in DefaultTraversal.Enumerate(root))
-        {
-            var result = processor.Process(node);
-            if (!ReferenceEquals(result, node))
-            {
-                root = result;
-            }
-        }
-
-        return root;
-    }
-
-    private static TBaseNode Process(TBaseNode root, OrderedProcessor<TBaseNode> processor)
-    {
-        var traversal = processor.GetTraversal(root);
-
-        foreach (var node in traversal.Enumerate(root, shouldEnumerateDescendents: processor.ShouldProcessDescendents))
-        {
-            var result = processor.Process(node);
-            if (!ReferenceEquals(result, node))
-            {
-                root = result;
-            }
-        }
-
-        return root;
-    }
 }
 
 /// <summary>
@@ -112,9 +52,9 @@ public sealed class SerialPipelineStage<TContext, TBaseNode> : PipelineStage<TCo
         {
             try
             {
-                if (processor is OrderedProcessor<TContext, TBaseNode> orderedProcessor)
+                if (processor is IOrderedProcessor<TContext, TBaseNode> orderedProcessor)
                 {
-                    root = Process(context, root, orderedProcessor);
+                    root = Process(context, root, processor, orderedProcessor);
                 }
                 else
                 {
@@ -144,11 +84,11 @@ public sealed class SerialPipelineStage<TContext, TBaseNode> : PipelineStage<TCo
         return root;
     }
 
-    private static TBaseNode Process(TContext context, TBaseNode root, OrderedProcessor<TContext, TBaseNode> processor)
+    private static TBaseNode Process(TContext context, TBaseNode root, Processor<TContext, TBaseNode> processor, IOrderedProcessor<TContext, TBaseNode> orderedProcessor)
     {
-        var traversal = processor.GetTraversal(context, root);
+        var traversal = orderedProcessor.GetTraversal(context, root);
 
-        foreach (var node in traversal.Enumerate(root, shouldEnumerateDescendents: n => processor.ShouldProcessDescendents(context, n)))
+        foreach (var node in traversal.Enumerate(root, shouldEnumerateDescendents: n => orderedProcessor.ShouldProcessDescendents(context, n)))
         {
             var result = processor.Process(context, node);
             if (!ReferenceEquals(result, node))

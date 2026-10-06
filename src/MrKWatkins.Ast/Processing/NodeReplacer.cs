@@ -10,34 +10,14 @@ public abstract class NodeReplacer<TBaseNode, TNode> : OrderedNodeProcessor<TBas
     where TNode : TBaseNode
 {
     /// <inheritdoc />
-    protected sealed override TBaseNode Process(TNode node)
-    {
-        var newNode = Replace(node);
-        if (newNode != null && !ReferenceEquals(node, newNode))
-        {
-            if (newNode.HasParent)
-            {
-                throw new InvalidOperationException($"Replacement node {newNode} already has a parent {newNode.Parent}.");
-            }
-
-            if (node.HasParent)
-            {
-                node.ReplaceWith(newNode);
-                return node;
-            }
-
-            return newNode;
-        }
-
-        return node;
-    }
+    protected sealed override TBaseNode Process(TNode node) => Replacement.Apply(node, Replace(node));
 
     /// <summary>
     /// Optionally replace the specified node.
     /// </summary>
     /// <param name="node">The node to potentially replace.</param>
     /// <returns>
-    /// A new node to replace <paramref name="node" /> in the tree. Return <paramref name="node" /> or <c>null</c> to leave <paramref name="node" /> in the tree.
+    /// The replacement node, or <paramref name="node" /> or <c>null</c> to leave it alone. The replacement must not already have a parent.
     /// </returns>
     [Pure]
     protected abstract TBaseNode? Replace(TNode node);
@@ -54,27 +34,7 @@ public abstract class NodeReplacer<TContext, TBaseNode, TNode> : OrderedNodeProc
     where TNode : TBaseNode
 {
     /// <inheritdoc />
-    protected sealed override TBaseNode Process(TContext context, TNode node)
-    {
-        var newNode = Replace(context, node);
-        if (newNode != null && !ReferenceEquals(node, newNode))
-        {
-            if (newNode.HasParent)
-            {
-                throw new InvalidOperationException($"Replacement node {newNode} already has a parent {newNode.Parent}.");
-            }
-
-            if (node.HasParent)
-            {
-                node.ReplaceWith(newNode);
-                return node;
-            }
-
-            return newNode;
-        }
-
-        return node;
-    }
+    protected sealed override TBaseNode Process(TContext context, TNode node) => Replacement.Apply(node, Replace(context, node));
 
     /// <summary>
     /// Optionally replace the specified node.
@@ -82,7 +42,7 @@ public abstract class NodeReplacer<TContext, TBaseNode, TNode> : OrderedNodeProc
     /// <param name="context">The processing context.</param>
     /// <param name="node">The node to potentially replace.</param>
     /// <returns>
-    /// A new node to replace <paramref name="node" /> in the tree. Return <paramref name="node" /> or <c>null</c> to leave <paramref name="node" /> in the tree.
+    /// The replacement node, or <paramref name="node" /> or <c>null</c> to leave it alone. The replacement must not already have a parent.
     /// </returns>
     [Pure]
     protected abstract TBaseNode? Replace(TContext context, TNode node);

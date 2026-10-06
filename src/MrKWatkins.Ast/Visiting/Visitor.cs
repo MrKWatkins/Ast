@@ -77,40 +77,44 @@ public abstract class Visitor<TContext, TNode, TResult>
 }
 
 /// <summary>
-/// A <see cref="Visitor{TContext, TNode, TResult}" /> that only visits nodes of a specific type. Visiting a node of any other type calls
-/// <see cref="VisitUnhandledNode" />, which throws by default. Typed visitors are usually combined in a <see cref="CompositeVisitor{TContext, TBaseNode, TResult}" />,
-/// which dispatches each node to the visitor for its type.
+/// A <see cref="Visitor{TContext, TNode, TResult}" /> that does not take a context object. Any state the visitor needs must be held by the
+/// visitor itself.
 /// </summary>
-/// <typeparam name="TContext">The type of the context object.</typeparam>
-/// <typeparam name="TBaseNode">The base type of all nodes in the tree.</typeparam>
+/// <remarks>
+/// Exceptions are not handled; if the visitor throws then the exception will escape from the <see cref="Visit(TNode)"/> method and no
+/// further nodes will be visited.
+/// </remarks>
 /// <typeparam name="TNode">The type of the nodes to visit.</typeparam>
 /// <typeparam name="TResult">The type of the result of visiting a node.</typeparam>
-public abstract class Visitor<TContext, TBaseNode, TNode, TResult> : Visitor<TContext, TBaseNode, TResult>
-    where TBaseNode : Node<TBaseNode>
-    where TNode : TBaseNode
+public abstract class Visitor<TNode, TResult> : Visitor<NoContext, TNode, TResult>
+    where TNode : Node<TNode>
 {
+    /// <summary>
+    /// Visits the specified node and returns the result.
+    /// </summary>
+    /// <remarks>
+    /// If this visitor has been registered with a <see cref="CompositeVisitor{TBaseNode, TResult}" /> then the node will be dispatched
+    /// through that composite, so that a visitor for one node type can visit children of other node types. Visitors should therefore always use
+    /// this method, rather than <see cref="VisitNode(TNode)" />, to visit children.
+    /// </remarks>
+    /// <param name="node">The node to visit.</param>
+    /// <returns>The result of visiting <paramref name="node" />.</returns>
+    public TResult Visit(TNode node) => Visit(default, node);
+
+    /// <summary>
+    /// Visits all the children of the specified node in order and returns their results.
+    /// </summary>
+    /// <param name="node">The node whose children should be visited.</param>
+    /// <returns>The results of visiting each child of <paramref name="node" />, in the same order as the children.</returns>
+    protected TResult[] VisitChildren(TNode node) => VisitChildren(default, node);
+
     /// <inheritdoc />
-    protected internal sealed override TResult VisitNode(TContext context, TBaseNode node) =>
-        node is TNode typedNode
-            ? VisitNode(context, typedNode)
-            : VisitUnhandledNode(context, node);
+    protected internal sealed override TResult VisitNode(NoContext context, TNode node) => VisitNode(node);
 
     /// <summary>
-    /// Called to visit a node of type <typeparamref name="TNode" />.
+    /// Called to visit a node.
     /// </summary>
-    /// <param name="context">The context object.</param>
     /// <param name="node">The node being visited.</param>
     /// <returns>The result of visiting <paramref name="node" />.</returns>
-    protected abstract TResult VisitNode(TContext context, TNode node);
-
-    /// <summary>
-    /// Called to visit a node that is not of type <typeparamref name="TNode" />. Throws an <see cref="InvalidOperationException" /> by default;
-    /// override to return a fallback value instead.
-    /// </summary>
-    /// <param name="context">The context object.</param>
-    /// <param name="node">The node being visited.</param>
-    /// <returns>The result of visiting <paramref name="node" />.</returns>
-    /// <exception cref="InvalidOperationException">By default.</exception>
-    protected virtual TResult VisitUnhandledNode(TContext context, TBaseNode node) =>
-        throw new InvalidOperationException($"{GetType().SimpleName()} cannot visit nodes of type {node.GetType().SimpleName()}.");
+    protected internal abstract TResult VisitNode(TNode node);
 }
