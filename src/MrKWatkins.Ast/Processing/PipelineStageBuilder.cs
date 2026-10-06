@@ -91,10 +91,11 @@ public abstract class PipelineStageBuilder<TSelf, TStage, TBaseNode, TProcessor,
     public abstract TSelf WithAlwaysContinue();
 
     /// <summary>
-    /// The default <see cref="ITraversal{TNode}" /> to use to walk through the tree. <see cref="OrderedProcessor{TNode}" />s will specify their own
-    /// traversal to use. Defaults to <see cref="DepthFirstPreOrderTraversal{TNode}"/>
+    /// Sets the <see cref="ITraversal{TNode}" /> used to walk the tree for processors that do not specify their own. Defaults to
+    /// <see cref="DepthFirstPreOrderTraversal{TNode}" />. An <see cref="OrderedProcessor{TBaseNode}" /> or <see cref="OrderedProcessor{TContext, TBaseNode}" />
+    /// always uses the traversal from its <c>GetTraversal</c> method instead, so this is only the default for unordered processors.
     /// </summary>
-    /// <param name="defaultTraversal">The default <see cref="ITraversal{TNode}" />.</param>
+    /// <param name="defaultTraversal">The default traversal.</param>
     /// <returns>The fluent builder.</returns>
     public TSelf WithDefaultTraversal(ITraversal<TBaseNode> defaultTraversal)
     {

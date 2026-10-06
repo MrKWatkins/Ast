@@ -16,7 +16,7 @@ public sealed class DivideByZeroValidatorTests : TestFixture
         var pipeline = Pipeline<MathsNode>.Build(builder => builder.AddStage<DivideByZeroValidator>("DivideByZero"));
         pipeline.Run(function);
 
-        function.ThisAndDescendentsWithErrors.Should().BeEmpty();
+        function.ThisAndDescendantsWithErrors.Should().BeEmpty();
     }
 
     [Test]
@@ -27,7 +27,7 @@ public sealed class DivideByZeroValidatorTests : TestFixture
         var pipeline = Pipeline<MathsNode>.Build(builder => builder.AddStage<DivideByZeroValidator>("DivideByZero"));
         pipeline.Run(function);
 
-        var errors = function.ThisAndDescendentsWithErrors.ToList();
+        var errors = function.ThisAndDescendantsWithErrors.ToList();
         errors.Should().HaveCount(1);
 
         var @operator = errors[0].Should().BeOfType<BinaryOperation>().Value;

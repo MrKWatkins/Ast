@@ -14,7 +14,7 @@ public abstract class Listener<TContext, TNode>
     where TNode : Node<TNode>
 {
     /// <summary>
-    /// Listen to the specified node and its descendents.
+    /// Listen to the specified node and its descendants.
     /// </summary>
     /// <param name="context">The context object.</param>
     /// <param name="node">The node to listen to.</param>
@@ -24,7 +24,7 @@ public abstract class Listener<TContext, TNode>
 
         ListenToNode(context, node);
 
-        if (ShouldListenToChildren(context, node))
+        if (ShouldListenToDescendants(context, node))
         {
             foreach (var child in node.Children)
             {
@@ -36,7 +36,7 @@ public abstract class Listener<TContext, TNode>
     }
 
     /// <summary>
-    /// Called before a node *and its descendents* are listened to.
+    /// Called before a node *and its descendants* are listened to.
     /// </summary>
     /// <param name="context">The context object.</param>
     /// <param name="node">The node about to be listened to.</param>
@@ -54,7 +54,7 @@ public abstract class Listener<TContext, TNode>
     }
 
     /// <summary>
-    /// Called after a node *and its descendents* have been listened to.
+    /// Called after a node *and its descendants* have been listened to.
     /// </summary>
     /// <param name="context">The context object.</param>
     /// <param name="node">The node that has been listened to.</param>
@@ -68,7 +68,7 @@ public abstract class Listener<TContext, TNode>
     /// <param name="context">The context object.</param>
     /// <param name="node">The node whose children should be listened to or not.</param>
     /// <returns><c>true</c> if child nodes should be listened to, <c>false</c> otherwise.</returns>
-    protected internal virtual bool ShouldListenToChildren(TContext context, TNode node) => true;
+    protected internal virtual bool ShouldListenToDescendants(TContext context, TNode node) => true;
 }
 
 /// <summary>
@@ -84,7 +84,7 @@ public abstract class Listener<TNode> : Listener<NoContext, TNode>
     where TNode : Node<TNode>
 {
     /// <summary>
-    /// Listen to the specified node and its descendents.
+    /// Listen to the specified node and its descendants.
     /// </summary>
     /// <param name="node">The node to listen to.</param>
     public void Listen(TNode node) => Listen(default, node);
@@ -93,7 +93,7 @@ public abstract class Listener<TNode> : Listener<NoContext, TNode>
     protected internal sealed override void BeforeListenToNode(NoContext context, TNode node) => BeforeListenToNode(node);
 
     /// <summary>
-    /// Called before a node *and its descendents* are listened to.
+    /// Called before a node *and its descendants* are listened to.
     /// </summary>
     /// <param name="node">The node about to be listened to.</param>
     protected internal virtual void BeforeListenToNode(TNode node)
@@ -115,7 +115,7 @@ public abstract class Listener<TNode> : Listener<NoContext, TNode>
     protected internal sealed override void AfterListenToNode(NoContext context, TNode node) => AfterListenToNode(node);
 
     /// <summary>
-    /// Called after a node *and its descendents* have been listened to.
+    /// Called after a node *and its descendants* have been listened to.
     /// </summary>
     /// <param name="node">The node that has been listened to.</param>
     protected internal virtual void AfterListenToNode(TNode node)
@@ -123,12 +123,12 @@ public abstract class Listener<TNode> : Listener<NoContext, TNode>
     }
 
     /// <inheritdoc />
-    protected internal sealed override bool ShouldListenToChildren(NoContext context, TNode node) => ShouldListenToChildren(node);
+    protected internal sealed override bool ShouldListenToDescendants(NoContext context, TNode node) => ShouldListenToDescendants(node);
 
     /// <summary>
     /// Return a value indicating whether child nodes should be listened to or not. Defaults to <c>true</c>.
     /// </summary>
     /// <param name="node">The node whose children should be listened to or not.</param>
     /// <returns><c>true</c> if child nodes should be listened to, <c>false</c> otherwise.</returns>
-    protected internal virtual bool ShouldListenToChildren(TNode node) => true;
+    protected internal virtual bool ShouldListenToDescendants(TNode node) => true;
 }

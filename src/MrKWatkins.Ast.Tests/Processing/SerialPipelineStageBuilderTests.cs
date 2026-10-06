@@ -13,7 +13,7 @@ public sealed class SerialPipelineStageBuilderTests
         stage.Name.Should().Equal("5");
         stage.DefaultTraversal.Should().BeTheSameInstanceAs(DepthFirstPreOrderTraversal<TestNode>.Instance);
 
-        // Default should continue will return false if this or descendents have errors.
+        // Default should continue will return false if this or descendants have errors.
         var hasErrors = new ANode();
         hasErrors.AddError("Test");
 
@@ -78,7 +78,7 @@ public sealed class SerialPipelineStageBuilderTests
         stage.Name.Should().Equal("5");
         stage.DefaultTraversal.Should().BeTheSameInstanceAs(DepthFirstPreOrderTraversal<TestNode>.Instance);
 
-        // Default should continue will return false if this or descendents have errors.
+        // Default should continue will return false if this or descendants have errors.
         var hasErrors = new ANode();
         hasErrors.AddError("Test");
 

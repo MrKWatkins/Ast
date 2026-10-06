@@ -19,7 +19,7 @@ public sealed class BreadthFirstTraversal<TNode> : ITraversal<TNode>
     }
 
     /// <inheritdoc />
-    public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null)
+    public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendants = null)
     {
         // Start by queuing and yielding the root.
         var queue = new Queue<TNode>();
@@ -34,12 +34,12 @@ public sealed class BreadthFirstTraversal<TNode> : ITraversal<TNode>
         // This means for each level we will then yield all their children, i.e. giving the level below,
         // whilst at the same time queueing them up so that next time around will will get the level below
         // and so on.
-        shouldEnumerateDescendents ??= _ => true;
+        shouldEnumerateDescendants ??= _ => true;
         while (queue.Count > 0)
         {
             var node = queue.Dequeue();
 
-            if (!shouldEnumerateDescendents(node))
+            if (!shouldEnumerateDescendants(node))
             {
                 continue;
             }

@@ -77,6 +77,25 @@ public sealed class PipelineBuilder<TBaseNode>
     }
 
     /// <summary>
+    /// Adds a parallel stage with a single processor of type <typeparamref name="TProcessor" /> to the pipeline. The stage will be named after its position in the pipeline.
+    /// </summary>
+    /// <typeparam name="TProcessor">The type of the processor.</typeparam>
+    /// <returns>The fluent builder.</returns>
+    public PipelineBuilder<TBaseNode> AddParallelStage<TProcessor>()
+        where TProcessor : Processor<TBaseNode>, new() =>
+        AddParallelStage(b => b.Add<TProcessor>());
+
+    /// <summary>
+    /// Adds a parallel stage with the specified name and a single processor of type <typeparamref name="TProcessor" /> to the pipeline.
+    /// </summary>
+    /// <typeparam name="TProcessor">The type of the processor.</typeparam>
+    /// <param name="name">The name of the stage.</param>
+    /// <returns>The fluent builder.</returns>
+    public PipelineBuilder<TBaseNode> AddParallelStage<TProcessor>(string name)
+        where TProcessor : Processor<TBaseNode>, new() =>
+        AddParallelStage(b => b.WithName(name).Add<TProcessor>());
+
+    /// <summary>
     /// Adds a stage to the pipeline with the specified <see cref="Processor{TNode}">Processors</see> to be run in parallel.
     /// Its name will be the number of the stage.
     /// </summary>
@@ -199,6 +218,25 @@ public sealed class PipelineBuilder<TContext, TBaseNode>
         stages.Add(builder.Build());
         return this;
     }
+
+    /// <summary>
+    /// Adds a parallel stage with a single processor of type <typeparamref name="TProcessor" /> to the pipeline. The stage will be named after its position in the pipeline.
+    /// </summary>
+    /// <typeparam name="TProcessor">The type of the processor.</typeparam>
+    /// <returns>The fluent builder.</returns>
+    public PipelineBuilder<TContext, TBaseNode> AddParallelStage<TProcessor>()
+        where TProcessor : Processor<TContext, TBaseNode>, new() =>
+        AddParallelStage(b => b.Add<TProcessor>());
+
+    /// <summary>
+    /// Adds a parallel stage with the specified name and a single processor of type <typeparamref name="TProcessor" /> to the pipeline.
+    /// </summary>
+    /// <typeparam name="TProcessor">The type of the processor.</typeparam>
+    /// <param name="name">The name of the stage.</param>
+    /// <returns>The fluent builder.</returns>
+    public PipelineBuilder<TContext, TBaseNode> AddParallelStage<TProcessor>(string name)
+        where TProcessor : Processor<TContext, TBaseNode>, new() =>
+        AddParallelStage(b => b.WithName(name).Add<TProcessor>());
 
     /// <summary>
     /// Adds a stage to the pipeline with the specified <see cref="Processor{TContext, TNode}">Processors</see> to be run in parallel.

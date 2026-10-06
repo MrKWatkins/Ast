@@ -9,19 +9,18 @@ public sealed class TestOrderedProcessor : OrderedProcessor<TestNode>
     private readonly ConcurrentQueue<TestNode> processed = new();
 
     public Action<TestNode>? ProcessNodeOverride { get; init; }
-    public Func<TestNode, bool>? ShouldProcessDescendentsOverride { get; init; }
+    public Func<TestNode, bool>? ShouldProcessDescendantsOverride { get; init; }
     public ITraversal<TestNode>? TraversalOverride { get; init; }
 
     public IEnumerable<TestNode> Processed => processed;
 
-    public override TestNode Process(TestNode node)
+    public override void Process(TestNode node)
     {
         processed.Enqueue(node);
         ProcessNodeOverride?.Invoke(node);
-        return node;
     }
 
-    public override bool ShouldProcessDescendents(TestNode node) => ShouldProcessDescendentsOverride?.Invoke(node) ?? base.ShouldProcessDescendents(node);
+    public override bool ShouldProcessDescendants(TestNode node) => ShouldProcessDescendantsOverride?.Invoke(node) ?? base.ShouldProcessDescendants(node);
 
     public override ITraversal<TestNode> GetTraversal(TestNode root) => TraversalOverride ?? base.GetTraversal(root);
 }
@@ -37,12 +36,12 @@ public sealed class TestOrderedProcessor<TContext>(TContext? expectedContext) : 
     private readonly ConcurrentQueue<TestNode> processed = new();
 
     public Action<TestNode>? ProcessNodeOverride { get; init; }
-    public Func<TestNode, bool>? ShouldProcessDescendentsOverride { get; init; }
+    public Func<TestNode, bool>? ShouldProcessDescendantsOverride { get; init; }
     public ITraversal<TestNode>? TraversalOverride { get; init; }
 
     public IEnumerable<TestNode> Processed => processed;
 
-    public override TestNode Process(TContext context, TestNode node)
+    public override void Process(TContext context, TestNode node)
     {
         if (expectedContext != null)
         {
@@ -50,13 +49,12 @@ public sealed class TestOrderedProcessor<TContext>(TContext? expectedContext) : 
         }
         processed.Enqueue(node);
         ProcessNodeOverride?.Invoke(node);
-        return node;
     }
 
-    public override bool ShouldProcessDescendents(TContext context, TestNode node)
+    public override bool ShouldProcessDescendants(TContext context, TestNode node)
     {
         context.Should().BeTheSameInstanceAs(expectedContext);
-        return ShouldProcessDescendentsOverride?.Invoke(node) ?? base.ShouldProcessDescendents(context, node);
+        return ShouldProcessDescendantsOverride?.Invoke(node) ?? base.ShouldProcessDescendants(context, node);
     }
 
     public override ITraversal<TestNode> GetTraversal(TContext context, TestNode root)

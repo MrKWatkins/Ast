@@ -16,7 +16,7 @@ dotnet add package MrKWatkins.Ast
 
 ## Nodes and Trees
 
-Trees are built from a self-generic base node type of your own. Nodes expose their children as a rich collection type and can be navigated by parent, sibling, ancestor and descendent, with several strategies for walking the whole tree.
+Trees are built from a self-generic base node type of your own. Nodes expose their children as a rich collection type and can be navigated by parent, sibling, ancestor and descendant, with several strategies for walking the whole tree.
 
 [Read more](nodes.md)
 

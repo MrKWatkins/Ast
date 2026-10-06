@@ -5,7 +5,7 @@ namespace MrKWatkins.Ast.Processing;
 /// </summary>
 /// <remarks>
 /// Whichever strategy is used the tree is walked lazily; it is never loaded into memory in its entirety. Processors in a parallel stage must not change
-/// the structure of the tree as the walk is in progress whilst they run, and nodes are processed concurrently with their ancestors and descendents.
+/// the structure of the tree as the walk is in progress whilst they run, and nodes are processed concurrently with their ancestors and descendants.
 /// </remarks>
 public enum ParallelStrategy
 {

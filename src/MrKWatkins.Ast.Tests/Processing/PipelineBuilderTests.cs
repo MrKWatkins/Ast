@@ -82,6 +82,30 @@ public sealed class PipelineBuilderTests
     }
 
     [Test]
+    public void AddParallelStage_ConstructableProcessor()
+    {
+        var pipeline = Pipeline<TestNode>.Build(p => p.AddParallelStage<TestProcessor>().Should().BeTheSameInstanceAs(p));
+        pipeline.Stages.Should().HaveCount(1);
+
+        var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<TestNode>>().Value;
+        stage.Name.Should().Equal("1");
+        stage.Processors.Should().HaveCount(1);
+        stage.Processors[0].Should().BeOfType<TestProcessor>();
+    }
+
+    [Test]
+    public void AddParallelStage_ConstructableProcessor_Name()
+    {
+        var pipeline = Pipeline<TestNode>.Build(p => p.AddParallelStage<TestProcessor>("TestName").Should().BeTheSameInstanceAs(p));
+        pipeline.Stages.Should().HaveCount(1);
+
+        var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<TestNode>>().Value;
+        stage.Name.Should().Equal("TestName");
+        stage.Processors.Should().HaveCount(1);
+        stage.Processors[0].Should().BeOfType<TestProcessor>();
+    }
+
+    [Test]
     public void AddParallelStage_Processors()
     {
         var processors = new[] { new TestProcessor(), new TestProcessor() };
@@ -210,6 +234,30 @@ public sealed class PipelineBuilderTests
         stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
         stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
         stage.Processors.Should().SequenceEqual(processor);
+    }
+
+    [Test]
+    public void WithContext_AddParallelStage_ConstructableProcessor()
+    {
+        var pipeline = Pipeline<object, TestNode>.Build(p => p.AddParallelStage<TestProcessor<object>>().Should().BeTheSameInstanceAs(p));
+        pipeline.Stages.Should().HaveCount(1);
+
+        var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<object, TestNode>>().Value;
+        stage.Name.Should().Equal("1");
+        stage.Processors.Should().HaveCount(1);
+        stage.Processors[0].Should().BeOfType<TestProcessor<object>>();
+    }
+
+    [Test]
+    public void WithContext_AddParallelStage_ConstructableProcessor_Name()
+    {
+        var pipeline = Pipeline<object, TestNode>.Build(p => p.AddParallelStage<TestProcessor<object>>("TestName").Should().BeTheSameInstanceAs(p));
+        pipeline.Stages.Should().HaveCount(1);
+
+        var stage = pipeline.Stages[0].Should().BeOfType<ParallelPipelineStage<object, TestNode>>().Value;
+        stage.Name.Should().Equal("TestName");
+        stage.Processors.Should().HaveCount(1);
+        stage.Processors[0].Should().BeOfType<TestProcessor<object>>();
     }
 
     [Test]

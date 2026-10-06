@@ -48,7 +48,7 @@ public static class Parser
         var expression = ParseExpression(lexer, 0);
 
         var parameters = new Dictionary<string, Parameter>();
-        foreach (var variable in expression.ThisAndDescendents.OfType<Variable>())
+        foreach (var variable in expression.ThisAndDescendants.OfType<Variable>())
         {
             parameters.TryAdd(variable.Name, new Parameter(variable.Name));
         }

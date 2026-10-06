@@ -11,11 +11,10 @@ public sealed class TestProcessor : Processor<TestNode>
 
     public IEnumerable<TestNode> Processed => processed;
 
-    public override TestNode Process(TestNode node)
+    public override void Process(TestNode node)
     {
         ProcessNodeOverride?.Invoke(node);
         processed.Enqueue(node);
-        return node;
     }
 }
 
@@ -33,7 +32,7 @@ public sealed class TestProcessor<TContext>(TContext? expectedContext) : Process
 
     public IEnumerable<TestNode> Processed => processed;
 
-    public override TestNode Process(TContext context, TestNode node)
+    public override void Process(TContext context, TestNode node)
     {
         if (expectedContext != null)
         {
@@ -41,6 +40,5 @@ public sealed class TestProcessor<TContext>(TContext? expectedContext) : Process
         }
         ProcessNodeOverride?.Invoke(node);
         processed.Enqueue(node);
-        return node;
     }
 }

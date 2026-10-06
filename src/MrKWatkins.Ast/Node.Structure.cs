@@ -276,16 +276,16 @@ public abstract partial class Node<TNode>
     }
 
     /// <summary>
-    /// Enumerates all descendents of this node in depth first pre-order.
+    /// Enumerates all descendants of this node in depth first pre-order.
     /// </summary>
     /// <seealso cref="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal{TNode}" />
-    public IEnumerable<TNode> Descendents => Traverse.DepthFirstPreOrder(This, false);
+    public IEnumerable<TNode> Descendants => Traverse.DepthFirstPreOrder(This, false);
 
     /// <summary>
-    /// Enumerates this node then all descendents of this node in depth first pre-order.
+    /// Enumerates this node then all descendants of this node in depth first pre-order.
     /// </summary>
     /// <seealso cref="MrKWatkins.Ast.Traversal.DepthFirstPreOrderTraversal{TNode}" />
-    public IEnumerable<TNode> ThisAndDescendents => Traverse.DepthFirstPreOrder(This);
+    public IEnumerable<TNode> ThisAndDescendants => Traverse.DepthFirstPreOrder(This);
 
     /// <summary>
     /// The index of this node in the <see cref="Parent" /> or -1 if this node has no <see cref="Parent" />.

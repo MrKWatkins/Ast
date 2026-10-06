@@ -52,17 +52,13 @@ public sealed class SerialPipelineStage<TContext, TBaseNode> : PipelineStage<TCo
         {
             try
             {
-                if (processor is IOrderedProcessor<TContext, TBaseNode> orderedProcessor)
-                {
-                    root = Process(context, root, processor, orderedProcessor);
-                }
-                else
-                {
-                    root = Process(context, root, processor);
-                }
+                root = processor is IOrderedProcessor<TContext, TBaseNode> orderedProcessor
+                    ? Process(context, root, processor, orderedProcessor)
+                    : Process(context, root, processor);
             }
-            catch (Exception exception)
+            catch (Exception exception) when (exception is not PipelineException)
             {
+                // Exceptions from processing a node will already be wrapped; this catches exceptions from traversing the tree.
                 throw new PipelineException($"Exception occurred executing processor {processor.GetType().SimpleName()}.", Name, exception);
             }
         }
@@ -74,29 +70,36 @@ public sealed class SerialPipelineStage<TContext, TBaseNode> : PipelineStage<TCo
     {
         foreach (var node in DefaultTraversal.Enumerate(root))
         {
-            var result = processor.Process(context, node);
-            if (!ReferenceEquals(result, node))
-            {
-                root = result;
-            }
+            root = Process(context, root, processor, node);
         }
 
         return root;
     }
 
-    private static TBaseNode Process(TContext context, TBaseNode root, Processor<TContext, TBaseNode> processor, IOrderedProcessor<TContext, TBaseNode> orderedProcessor)
+    private TBaseNode Process(TContext context, TBaseNode root, Processor<TContext, TBaseNode> processor, IOrderedProcessor<TContext, TBaseNode> orderedProcessor)
     {
         var traversal = orderedProcessor.GetTraversal(context, root);
 
-        foreach (var node in traversal.Enumerate(root, shouldEnumerateDescendents: n => orderedProcessor.ShouldProcessDescendents(context, n)))
+        foreach (var node in traversal.Enumerate(root, shouldEnumerateDescendants: n => orderedProcessor.ShouldProcessDescendants(context, n)))
         {
-            var result = processor.Process(context, node);
-            if (!ReferenceEquals(result, node))
-            {
-                root = result;
-            }
+            root = Process(context, root, processor, node);
         }
 
         return root;
+    }
+
+    private TBaseNode Process(TContext context, TBaseNode root, Processor<TContext, TBaseNode> processor, TBaseNode node)
+    {
+        TBaseNode? newRoot;
+        try
+        {
+            newRoot = processor.ProcessInPipeline(context, node);
+        }
+        catch (Exception exception)
+        {
+            throw new PipelineException($"Exception occurred executing processor {processor.GetType().SimpleName()} for node {node}.", Name, exception);
+        }
+
+        return newRoot ?? root;
     }
 }

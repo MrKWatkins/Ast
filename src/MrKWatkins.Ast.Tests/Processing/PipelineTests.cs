@@ -97,7 +97,7 @@ public sealed class PipelineTests : TreeTestFixture
     }
 
     [Test]
-    public void Run_Tuple_ReplacesRoot()
+    public void Run_Deconstruct_ReplacesRoot()
     {
         var replacement = new ANode { Name = "Replacement" };
         var replacer = new TestRootReplacer(replacement);
@@ -118,7 +118,7 @@ public sealed class PipelineTests : TreeTestFixture
     }
 
     [Test]
-    public void Run_Out_ReplacesRoot()
+    public void Run_Result_ReplacesRoot()
     {
         var replacement = new ANode { Name = "Replacement" };
         var replacer = new TestRootReplacer(replacement);
@@ -130,26 +130,10 @@ public sealed class PipelineTests : TreeTestFixture
 
         var pipeline = new Pipeline<TestNode>(stages);
 
-        pipeline.Run(N1, out var newRoot).Should().BeTrue();
-        newRoot.Should().BeTheSameInstanceAs(replacement);
-    }
-
-    [Test]
-    public void Run_Out_LastStageRun_ReplacesRoot()
-    {
-        var replacement = new ANode { Name = "Replacement" };
-        var replacer = new TestRootReplacer(replacement);
-
-        var stages = new PipelineStage<TestNode>[]
-        {
-            new SerialPipelineStage<TestNode>("Stage 1", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer])
-        };
-
-        var pipeline = new Pipeline<TestNode>(stages);
-
-        pipeline.Run(N1, out var newRoot, out var lastStageRun).Should().BeTrue();
-        newRoot.Should().BeTheSameInstanceAs(replacement);
-        lastStageRun.Should().Equal("Stage 1");
+        var result = pipeline.Run(N1);
+        result.Success.Should().BeTrue();
+        result.Root.Should().BeTheSameInstanceAs(replacement);
+        result.LastStageRun.Should().Equal("Stage 1");
     }
 
     [Test]
@@ -268,7 +252,7 @@ public sealed class PipelineTests : TreeTestFixture
     }
 
     [Test]
-    public void WithContext_Run_Tuple_ReplacesRoot()
+    public void WithContext_Run_Deconstruct_ReplacesRoot()
     {
         var context = new object();
         var replacement = new ANode { Name = "Replacement" };
@@ -284,43 +268,6 @@ public sealed class PipelineTests : TreeTestFixture
         var (success, root, lastStageRun) = pipeline.Run(context, N1);
         success.Should().BeTrue();
         root.Should().BeTheSameInstanceAs(replacement);
-        lastStageRun.Should().Equal("Stage 1");
-    }
-
-    [Test]
-    public void WithContext_Run_Out_ReplacesRoot()
-    {
-        var context = new object();
-        var replacement = new ANode { Name = "Replacement" };
-        var replacer = new TestRootReplacer<object>(context, replacement);
-
-        var stages = new PipelineStage<object, TestNode>[]
-        {
-            new SerialPipelineStage<object, TestNode>("Stage 1", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer])
-        };
-
-        var pipeline = new Pipeline<object, TestNode>(stages);
-
-        pipeline.Run(context, N1, out var newRoot).Should().BeTrue();
-        newRoot.Should().BeTheSameInstanceAs(replacement);
-    }
-
-    [Test]
-    public void WithContext_Run_Out_LastStageRun_ReplacesRoot()
-    {
-        var context = new object();
-        var replacement = new ANode { Name = "Replacement" };
-        var replacer = new TestRootReplacer<object>(context, replacement);
-
-        var stages = new PipelineStage<object, TestNode>[]
-        {
-            new SerialPipelineStage<object, TestNode>("Stage 1", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer])
-        };
-
-        var pipeline = new Pipeline<object, TestNode>(stages);
-
-        pipeline.Run(context, N1, out var newRoot, out var lastStageRun).Should().BeTrue();
-        newRoot.Should().BeTheSameInstanceAs(replacement);
         lastStageRun.Should().Equal("Stage 1");
     }
 

@@ -6,18 +6,14 @@ Each stage contains one or more processors and runs them either serially or in p
 
 ## Processors
 
-A [`Processor<TBaseNode>`](API/MrKWatkins.Ast.Processing/Processor-TBaseNode/index.md) has a single [`Process`](API/MrKWatkins.Ast.Processing/Processor-TBaseNode/Process.md) method that acts on **one** node. Walking the tree is the pipeline's job, not the processor's; [`Process`](API/MrKWatkins.Ast.Processing/Processor-TBaseNode/Process.md) is called once per node and should not touch descendents itself. Return the node you were given to say nothing changed; returning a different node tells the pipeline the root has been replaced, which is how a processor that swaps out the root reports the new one.
+A [`Processor<TBaseNode>`](API/MrKWatkins.Ast.Processing/Processor-TBaseNode/index.md) has a single [`Process`](API/MrKWatkins.Ast.Processing/Processor-TBaseNode/Process.md) method that acts on **one** node. Walking the tree is the pipeline's job, not the processor's; [`Process`](API/MrKWatkins.Ast.Processing/Processor-TBaseNode/Process.md) is called once per node and should not touch descendants itself. Processors that need to swap nodes in or out of the tree, including the root, should be [replacers](#replacers), which handle the mechanics.
 
 Most processors only care about one kind of node. [`NodeProcessor<TBaseNode, TNode>`](API/MrKWatkins.Ast.Processing/NodeProcessor-TBaseNode-TNode/index.md) does the type test for you and only calls your [`Process`](API/MrKWatkins.Ast.Processing/NodeProcessor-TBaseNode-TNode/Process.md) for matching nodes:
 
 ```c#
 internal sealed class OperatorCounter : NodeProcessor<MathsNode, BinaryOperation>
 {
-    protected override MathsNode Process(BinaryOperation node)
-    {
-        Count++;
-        return node;   // Return the node we were given; nothing was replaced.
-    }
+    protected override void Process(BinaryOperation node) => Count++;
 
     public int Count { get; private set; }
 }
@@ -30,7 +26,7 @@ Each family of processors also has a `TContext` variant — [`Processor<TContext
 A plain [`Processor<TBaseNode>`](API/MrKWatkins.Ast.Processing/Processor-TBaseNode/index.md) makes no promises about the order its nodes arrive in, which is what makes it safe to run in parallel. When order matters, inherit from [`OrderedProcessor<TBaseNode>`](API/MrKWatkins.Ast.Processing/OrderedProcessor-TBaseNode/index.md) instead. It adds two members:
 
 - [`GetTraversal`](API/MrKWatkins.Ast.Processing/OrderedProcessor-TBaseNode/GetTraversal.md) returns the [`ITraversal<TNode>`](API/MrKWatkins.Ast.Traversal/ITraversal-TNode/index.md) the pipeline should walk the tree with for this processor, defaulting to [depth first pre-order](API/MrKWatkins.Ast.Traversal/DepthFirstPreOrderTraversal-TNode/index.md).
-- [`ShouldProcessDescendents`](API/MrKWatkins.Ast.Processing/OrderedProcessor-TBaseNode/ShouldProcessDescendents.md) decides whether to walk into a node's descendents at all.
+- [`ShouldProcessDescendants`](API/MrKWatkins.Ast.Processing/OrderedProcessor-TBaseNode/ShouldProcessDescendants.md) decides whether to walk into a node's descendants at all.
 
 Ordered processors cannot be added to a parallel stage; the builder throws an `ArgumentException` if you try. In a parallel stage nodes are processed across threads, so there is no order to guarantee.
 
@@ -61,7 +57,7 @@ The post-order traversal above matters: reducing children before their parents m
 
 There are two base classes — [`Replacer<TBaseNode>`](API/MrKWatkins.Ast.Processing/Replacer-TBaseNode/index.md) for every node and [`NodeReplacer<TBaseNode, TNode>`](API/MrKWatkins.Ast.Processing/NodeReplacer-TBaseNode-TNode/index.md) for a specific type — plus context variants of each. Returning a node that already has a parent throws an `InvalidOperationException`.
 
-Replacing the root node is allowed. As the root has no parent to swap it in, the new root comes back out of the pipeline; see [Pipelines](#pipelines) below.
+Replacing the root node is allowed. As the root has no parent to swap it in, the new root comes back out of the pipeline; see [Pipelines](#pipelines) below. That also means a replacer can only replace the root when run in a pipeline: calling `Process` on a replacer directly with a root node it would replace throws an `InvalidOperationException`.
 
 A replacement is not itself visited by the walk that produced it, so a replacer cannot loop on its own output. The walk continues through the *replaced* node's children, which stay attached to it rather than moving to the replacement, so anything the new node should see needs a later stage.
 
@@ -108,25 +104,32 @@ The stage builders offer:
 | [`WithName`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithName.md) | Names the stage, for reporting which stage stopped the pipeline. |
 | [`WithShouldContinue`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithShouldContinue.md) | Replaces the test for whether the pipeline continues after this stage. |
 | [`WithAlwaysContinue`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithAlwaysContinue.md) | Continues regardless of errors in the tree. |
-| [`WithDefaultTraversal`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithDefaultTraversal.md) | Sets the traversal used for processors that don't specify their own. |
+| [`WithDefaultTraversal`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithDefaultTraversal.md) | Sets the traversal used for processors that don't specify their own. Ordered processors always use their own [`GetTraversal`](API/MrKWatkins.Ast.Processing/OrderedProcessor-TBaseNode/GetTraversal.md), so this only applies to unordered ones. |
 | [`WithMaxDegreeOfParallelism`](API/MrKWatkins.Ast.Processing/ParallelPipelineStageBuilder-TBaseNode/WithMaxDegreeOfParallelism.md) | Parallel stages only; defaults to the machine's processor count. |
 | [`WithStrategy`](API/MrKWatkins.Ast.Processing/ParallelPipelineStageBuilder-TBaseNode/WithStrategy.md) | Parallel stages only; how work is divided between threads. See [Parallel Stages](#parallel-stages). |
 
 Run the pipeline on a root node:
 
 ```c#
-var (success, newRoot, lastStageRun) = Pipeline.Run(function);
+var result = Pipeline.Run(function);
+
+if (!result.Success)
+{
+    Console.WriteLine($"Stopped at stage {result.LastStageRun}.");
+}
+
+return result.Root;
 ```
 
-[`Run`](API/MrKWatkins.Ast.Processing/Pipeline-TBaseNode/Run.md) works through the stages in order and returns `true` if they all ran. If it returns `false`, `lastStageRun` names the stage that stopped the pipeline. Overloads return the same information through `out` parameters instead of a tuple. Always use the root that comes back rather than the one you passed in, as a [replacer](#replacers) may have swapped it.
+[`Run`](API/MrKWatkins.Ast.Processing/Pipeline-TBaseNode/Run.md) works through the stages in order and returns a [`PipelineResult<TBaseNode>`](API/MrKWatkins.Ast.Processing/PipelineResult-TBaseNode/index.md). [`Success`](API/MrKWatkins.Ast.Processing/PipelineResult-TBaseNode/Success.md) is `true` if all the stages ran; if it is `false`, [`LastStageRun`](API/MrKWatkins.Ast.Processing/PipelineResult-TBaseNode/LastStageRun.md) names the stage that stopped the pipeline. Always use the [`Root`](API/MrKWatkins.Ast.Processing/PipelineResult-TBaseNode/Root.md) that comes back rather than the one you passed in, as a [replacer](#replacers) may have swapped it. The result can be deconstructed if you prefer: `var (success, root, lastStageRun) = Pipeline.Run(function);`. Running a single stage returns a [`PipelineStageResult<TBaseNode>`](API/MrKWatkins.Ast.Processing/PipelineStageResult-TBaseNode/index.md) in the same way.
 
-By default a stage stops the pipeline if the tree has any errors once the stage completes — that is, if [`ThisAndDescendentsHaveErrors`](API/MrKWatkins.Ast/Node-TNode/ThisAndDescendentsHaveErrors.md) is `true` for the root. Use [`WithShouldContinue`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithShouldContinue.md) for a different rule, or [`WithAlwaysContinue`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithAlwaysContinue.md) to press on regardless — useful for a stage that only gathers extra diagnostics.
+By default a stage stops the pipeline if the tree has any errors once the stage completes — that is, if [`ThisAndDescendantsHaveErrors`](API/MrKWatkins.Ast/Node-TNode/ThisAndDescendantsHaveErrors.md) is `true` for the root. Use [`WithShouldContinue`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithShouldContinue.md) for a different rule, or [`WithAlwaysContinue`](API/MrKWatkins.Ast.Processing/PipelineStageBuilder-TSelf-TStage-TBaseNode-TProcessor-TShouldContinue/WithAlwaysContinue.md) to press on regardless — useful for a stage that only gathers extra diagnostics.
 
-Exceptions from a processor, or from a should-continue function, are wrapped in a [`PipelineException`](API/MrKWatkins.Ast.Processing/PipelineException/index.md) naming the [`Stage`](API/MrKWatkins.Ast.Processing/PipelineException/Stage.md) they came from. This holds for parallel stages too: if several processors throw, the first exception is the one you get.
+Exceptions from a processor, or from a should-continue function, are wrapped in a [`PipelineException`](API/MrKWatkins.Ast.Processing/PipelineException/index.md) naming the [`Stage`](API/MrKWatkins.Ast.Processing/PipelineException/Stage.md) they came from and, for a processor, the node being processed. This holds for parallel stages too: if several processors throw, the first exception is the one you get.
 
 ## Parallel Stages
 
-A parallel stage is for passes that leave the shape of the tree alone — validators, and processors that annotate the nodes they are given. The tree is walked lazily while the processors run, so it is never loaded into memory in its entirety, but it also means nodes are processed concurrently with their ancestors and descendents and a structural change would corrupt the walk. Replacers are ordered processors and so cannot be added, and a processor that returns a node other than the one it was given, which in a serial stage would signal a new root, causes a [`PipelineException`](API/MrKWatkins.Ast.Processing/PipelineException/index.md).
+A parallel stage is for passes that leave the shape of the tree alone — validators, and processors that annotate the nodes they are given. The tree is walked lazily while the processors run, so it is never loaded into memory in its entirety, but it also means nodes are processed concurrently with their ancestors and descendants and a structural change would corrupt the walk. Replacers are ordered processors and so cannot be added.
 
 How the work is divided between threads is set with [`WithStrategy`](API/MrKWatkins.Ast.Processing/ParallelPipelineStageBuilder-TBaseNode/WithStrategy.md) and a [`ParallelStrategy`](API/MrKWatkins.Ast.Processing/ParallelStrategy/index.md):
 

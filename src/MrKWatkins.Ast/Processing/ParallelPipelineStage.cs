@@ -8,8 +8,7 @@ namespace MrKWatkins.Ast.Processing;
 /// </summary>
 /// <remarks>
 /// Processors in a parallel stage must not change the structure of the tree: the tree is walked lazily whilst the processors run, and a node may be
-/// processed at the same time as its ancestors and descendents. A processor that returns a node other than the one it was given causes a
-/// <see cref="PipelineException" />. See <see cref="ParallelStrategy" /> for how the work is divided between threads.
+/// processed at the same time as its ancestors and descendants. See <see cref="ParallelStrategy" /> for how the work is divided between threads.
 /// </remarks>
 /// <typeparam name="TBaseNode">The type of nodes in the tree.</typeparam>
 public sealed class ParallelPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
@@ -53,8 +52,7 @@ public sealed class ParallelPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
 /// </summary>
 /// <remarks>
 /// Processors in a parallel stage must not change the structure of the tree: the tree is walked lazily whilst the processors run, and a node may be
-/// processed at the same time as its ancestors and descendents. A processor that returns a node other than the one it was given causes a
-/// <see cref="PipelineException" />. See <see cref="ParallelStrategy" /> for how the work is divided between threads.
+/// processed at the same time as its ancestors and descendants. See <see cref="ParallelStrategy" /> for how the work is divided between threads.
 /// </remarks>
 /// <typeparam name="TContext">The type of the processing context.</typeparam>
 /// <typeparam name="TBaseNode">The type of nodes in the tree.</typeparam>
@@ -113,48 +111,44 @@ public sealed class ParallelPipelineStage<TContext, TBaseNode> : PipelineStage<T
 
         try
         {
-            switch (Strategy)
+            if (Strategy == ParallelStrategy.PerProcessor)
             {
-                case ParallelStrategy.PerNode:
-                    Parallel.ForEach(
-                        DefaultTraversal.Enumerate(root),
-                        options,
-                        node =>
+                Parallel.ForEach(
+                    Processors,
+                    options,
+                    processor =>
+                    {
+                        foreach (var node in DefaultTraversal.Enumerate(root))
                         {
-                            foreach (var processor in Processors)
-                            {
-                                Process(context, processor, node);
-                            }
-                        });
-                    break;
-
-                case ParallelStrategy.PerProcessor:
-                    Parallel.ForEach(
-                        Processors,
-                        options,
-                        processor =>
+                            Process(context, processor, node);
+                        }
+                    });
+            }
+            else
+            {
+                Parallel.ForEach(
+                    DefaultTraversal.Enumerate(root),
+                    options,
+                    node =>
+                    {
+                        foreach (var processor in Processors)
                         {
-                            foreach (var node in DefaultTraversal.Enumerate(root))
-                            {
-                                Process(context, processor, node);
-                            }
-                        });
-                    break;
-
-                default:
-                    throw new InvalidOperationException($"Unsupported strategy {Strategy}.");
+                            Process(context, processor, node);
+                        }
+                    });
             }
         }
-        catch (AggregateException exception)
+        catch (Exception exception)
         {
-            // Parallel.ForEach wraps exceptions in an AggregateException; unwrap the first PipelineException so parallel stages throw the same as serial ones.
-            var pipelineException = exception.InnerExceptions.OfType<PipelineException>().FirstOrDefault();
+            // Parallel.ForEach wraps exceptions in an AggregateException. Unwrap the first PipelineException, if there is one, so parallel stages throw
+            // the same as serial ones. Anything else will have come from traversing the tree.
+            var pipelineException = (exception as AggregateException)?.InnerExceptions.OfType<PipelineException>().FirstOrDefault();
             if (pipelineException != null)
             {
                 ExceptionDispatchInfo.Throw(pipelineException);
             }
 
-            throw;
+            throw new PipelineException("Exception occurred traversing the tree.", Name, exception);
         }
 
         return root;
@@ -162,19 +156,13 @@ public sealed class ParallelPipelineStage<TContext, TBaseNode> : PipelineStage<T
 
     private void Process(TContext context, Processor<TContext, TBaseNode> processor, TBaseNode node)
     {
-        TBaseNode result;
         try
         {
-            result = processor.Process(context, node);
+            processor.Process(context, node);
         }
         catch (Exception exception)
         {
             throw new PipelineException($"Exception occurred executing processor {processor.GetType().SimpleName()} for node {node}.", Name, exception);
-        }
-
-        if (!ReferenceEquals(result, node))
-        {
-            throw new PipelineException($"Processor {processor.GetType().SimpleName()} returned a different node for node {node}. Processors in a parallel stage cannot replace nodes.", Name);
         }
     }
 }

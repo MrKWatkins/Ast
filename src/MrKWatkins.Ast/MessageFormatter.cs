@@ -31,7 +31,7 @@ public static class MessageFormatter
     [Pure]
     public static IEnumerable<string> Format<TNode>(Node<TNode> node, MessageLevel level, MessageFormatterOptions? options = null)
         where TNode : Node<TNode> =>
-        node.ThisAndDescendents
+        node.ThisAndDescendants
             .SelectMany(n => n.Messages.Where(m => m.Level == level).Select(m => FormatMessage(n, m, options)));
 
     /// <summary>
@@ -45,7 +45,7 @@ public static class MessageFormatter
     [Pure]
     public static IEnumerable<IGrouping<MessageLevel, string>> Format<TNode>(Node<TNode> node, MessageFormatterOptions? options = null)
         where TNode : Node<TNode> =>
-        node.ThisAndDescendents
+        node.ThisAndDescendants
             .SelectMany(n => n.Messages.Select(m => (m.Level, Message: FormatMessage(n, m, options))))
             .GroupBy(x => x.Level, x => x.Message)
             .OrderByDescending(g => g.Key); // Error then Warning then Info.

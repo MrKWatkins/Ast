@@ -42,28 +42,29 @@ public sealed class ReplacerTests : TreeTestFixture
     }
 
     [Test]
-    public void Process_ReplaceRootNode()
+    public void Process_ReplaceRootNode_Throws()
     {
         var replacement = new ANode { Name = "Replacement" };
         var replacer = new TestReplacer(replacement);
-        var result = replacer.Process(N1);
-        result.Should().BeTheSameInstanceAs(replacement);
+        replacer.Invoking(r => r.Process(N1))
+            .Should().Throw<InvalidOperationException>().That.Should()
+            .HaveMessage("The root node can only be replaced by running the replacer in a pipeline.");
     }
 
     [Test]
     public void Process_ReplaceRootNode_ReturnOriginal()
     {
         var replacer = new TestReplacer(N1);
-        var result = replacer.Process(N1);
-        result.Should().BeTheSameInstanceAs(N1);
+        replacer.Invoking(r => r.Process(N1)).Should().NotThrow();
+        N1.Children.Should().SequenceEqual(N11, N12, N13);
     }
 
     [Test]
     public void Process_ReplaceRootNode_ReturnNull()
     {
         var replacer = new TestReplacer(null);
-        var result = replacer.Process(N1);
-        result.Should().BeTheSameInstanceAs(N1);
+        replacer.Invoking(r => r.Process(N1)).Should().NotThrow();
+        N1.Children.Should().SequenceEqual(N11, N12, N13);
     }
 
     [Test]
@@ -108,13 +109,14 @@ public sealed class ReplacerTests : TreeTestFixture
     }
 
     [Test]
-    public void WithContext_Process_ReplaceRootNode()
+    public void WithContext_Process_ReplaceRootNode_Throws()
     {
         var context = new object();
         var replacement = new ANode { Name = "Replacement" };
         var replacer = new TestReplacer<object>(context, replacement);
-        var result = replacer.Process(context, N1);
-        result.Should().BeTheSameInstanceAs(replacement);
+        replacer.Invoking(r => r.Process(context, N1))
+            .Should().Throw<InvalidOperationException>().That.Should()
+            .HaveMessage("The root node can only be replaced by running the replacer in a pipeline.");
     }
 
     [Test]
@@ -122,8 +124,8 @@ public sealed class ReplacerTests : TreeTestFixture
     {
         var context = new object();
         var replacer = new TestReplacer<object>(context, N1);
-        var result = replacer.Process(context, N1);
-        result.Should().BeTheSameInstanceAs(N1);
+        replacer.Invoking(r => r.Process(context, N1)).Should().NotThrow();
+        N1.Children.Should().SequenceEqual(N11, N12, N13);
     }
 
     [Test]
@@ -131,8 +133,8 @@ public sealed class ReplacerTests : TreeTestFixture
     {
         var context = new object();
         var replacer = new TestReplacer<object>(context, null);
-        var result = replacer.Process(context, N1);
-        result.Should().BeTheSameInstanceAs(N1);
+        replacer.Invoking(r => r.Process(context, N1)).Should().NotThrow();
+        N1.Children.Should().SequenceEqual(N11, N12, N13);
     }
 
     private sealed class TestReplacer(TestNode? replacement) : Replacer<TestNode>

@@ -29,7 +29,7 @@ public static class Compiler
     [Pure]
     public static Delegate Compile(Function function)
     {
-        if (function.ThisAndDescendentsHaveErrors)
+        if (function.ThisAndDescendantsHaveErrors)
         {
             throw new ArgumentException("Value contains errors.", nameof(function));
         }

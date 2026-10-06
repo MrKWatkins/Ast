@@ -11,7 +11,7 @@ public sealed class ParallelPipelineStageBuilder<TBaseNode> : PipelineStageBuild
     private ParallelStrategy strategy = ParallelStrategy.PerNode;
 
     internal ParallelPipelineStageBuilder(int number)
-        : base(number, root => !root.ThisAndDescendentsHaveErrors)
+        : base(number, root => !root.ThisAndDescendantsHaveErrors)
     {
     }
 
@@ -83,7 +83,7 @@ public sealed class ParallelPipelineStageBuilder<TContext, TBaseNode> : Pipeline
     private ParallelStrategy strategy = ParallelStrategy.PerNode;
 
     internal ParallelPipelineStageBuilder(int number)
-        : base(number, (_, root) => !root.ThisAndDescendentsHaveErrors)
+        : base(number, (_, root) => !root.ThisAndDescendantsHaveErrors)
     {
     }
 

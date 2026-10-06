@@ -153,7 +153,7 @@ public sealed partial class CompositeListenerTests : TreeTestFixture
     }
 
     [Test]
-    public void Listen_ShouldListenToChildren()
+    public void Listen_ShouldListenToDescendants()
     {
         var doListenToChildren = new TestListener<ANode> { ListenToChildren = (_, _) => true };
         var doNotListenToChildren = new TestListener<BNode> { ListenToChildren = (_, _) => false };
@@ -211,7 +211,7 @@ public sealed partial class CompositeListenerTests : TreeTestFixture
             Count++;
         }
 
-        protected override bool ShouldListenToChildren(TestContext context, TNode node) => ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToChildren(context, node);
+        protected override bool ShouldListenToDescendants(TestContext context, TNode node) => ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToDescendants(context, node);
     }
 
     private sealed class TestContext

@@ -17,7 +17,7 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
     {
         var processor = new TestProcessor();
         var orderedProcessor = new TestOrderedProcessor();
-        var orderedProcessorShouldProcessDescendentsOverride = new TestOrderedProcessor { ShouldProcessDescendentsOverride = n => n == N1 };
+        var orderedProcessorShouldProcessDescendantsOverride = new TestOrderedProcessor { ShouldProcessDescendantsOverride = n => n == N1 };
         var orderedProcessorTraversalOverride = new TestOrderedProcessor { TraversalOverride = BreadthFirstTraversal<TestNode>.Instance };
 
         bool ShouldContinue(TestNode root)
@@ -26,13 +26,13 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
             return shouldContinue;
         }
 
-        var stage = new SerialPipelineStage<TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor, orderedProcessor, orderedProcessorShouldProcessDescendentsOverride, orderedProcessorTraversalOverride]);
+        var stage = new SerialPipelineStage<TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor, orderedProcessor, orderedProcessorShouldProcessDescendantsOverride, orderedProcessorTraversalOverride]);
         stage.Name.Should().Equal("Test Stage");
 
         stage.Run(N1).Success.Should().Equal(shouldContinue);
         processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         orderedProcessor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
-        orderedProcessorShouldProcessDescendentsOverride.Processed.Should().SequenceEqual(N1, N11, N12, N13);
+        orderedProcessorShouldProcessDescendantsOverride.Processed.Should().SequenceEqual(N1, N11, N12, N13);
         orderedProcessorTraversalOverride.Processed.Should().SequenceEqual(TestNode.Traverse.BreadthFirst(N1));
     }
 
@@ -59,7 +59,7 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
 
         stage.Invoking(s => s.Run(N1))
             .Should().Throw<PipelineException>().That.Should()
-            .HaveParameters("Exception occurred executing processor TestProcessor.", "Test Stage").And
+            .HaveParameters("Exception occurred executing processor TestProcessor for node N123.", "Test Stage").And
             .HaveInnerException(exception);
     }
 
@@ -79,7 +79,7 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
     }
 
     [Test]
-    public void Run_Tuple_ReplacesRoot([Values(true, false)] bool shouldContinue)
+    public void Run_Deconstruct_ReplacesRoot([Values(true, false)] bool shouldContinue)
     {
         var replacement = new ANode { Name = "Replacement" };
         var replacer = new TestRootReplacer(replacement);
@@ -92,27 +92,41 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
     }
 
     [Test]
-    public void Run_Out_ReplacesRoot()
-    {
-        var replacement = new ANode { Name = "Replacement" };
-        var replacer = new TestRootReplacer(replacement);
-
-        var stage = new SerialPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer]);
-
-        stage.Run(N1, out var newRoot).Should().BeTrue();
-        newRoot.Should().BeTheSameInstanceAs(replacement);
-    }
-
-    [Test]
-    public void Run_Tuple_NoRootReplacement()
+    public void Run_Result_NoRootReplacement()
     {
         var processor = new TestProcessor();
 
         var stage = new SerialPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor]);
 
-        var (success, root) = stage.Run(N1);
-        success.Should().BeTrue();
-        root.Should().BeTheSameInstanceAs(N1);
+        var result = stage.Run(N1);
+        result.Success.Should().BeTrue();
+        result.Root.Should().BeTheSameInstanceAs(N1);
+    }
+
+    [Test]
+    public void Run_TraversalThrows()
+    {
+        var exception = new InvalidOperationException("Test");
+
+        var stage = new SerialPipelineStage<TestNode>("Test Stage", _ => true, new ThrowingTraversal(exception), [new TestProcessor()]);
+
+        stage.Invoking(s => s.Run(N1))
+            .Should().Throw<PipelineException>().That.Should()
+            .HaveParameters("Exception occurred executing processor TestProcessor.", "Test Stage").And
+            .HaveInnerException(exception);
+    }
+
+    [Test]
+    public void Run_OrderedProcessorTraversalThrows()
+    {
+        var exception = new InvalidOperationException("Test");
+
+        var stage = new SerialPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [new TestOrderedProcessor { TraversalOverride = new ThrowingTraversal(exception) }]);
+
+        stage.Invoking(s => s.Run(N1))
+            .Should().Throw<PipelineException>().That.Should()
+            .HaveParameters("Exception occurred executing processor TestOrderedProcessor.", "Test Stage").And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -128,7 +142,7 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
         var context = new object();
         var processor = new TestProcessor<object>(context);
         var orderedProcessor = new TestOrderedProcessor<object>(context);
-        var orderedProcessorShouldProcessDescendentsOverride = new TestOrderedProcessor<object>(context) { ShouldProcessDescendentsOverride = n => n == N1 };
+        var orderedProcessorShouldProcessDescendantsOverride = new TestOrderedProcessor<object>(context) { ShouldProcessDescendantsOverride = n => n == N1 };
         var orderedProcessorTraversalOverride = new TestOrderedProcessor<object>(context) { TraversalOverride = BreadthFirstTraversal<TestNode>.Instance };
 
         bool ShouldContinue(object actualContext, TestNode root)
@@ -138,13 +152,13 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
             return shouldContinue;
         }
 
-        var stage = new SerialPipelineStage<object, TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor, orderedProcessor, orderedProcessorShouldProcessDescendentsOverride, orderedProcessorTraversalOverride]);
+        var stage = new SerialPipelineStage<object, TestNode>("Test Stage", ShouldContinue, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor, orderedProcessor, orderedProcessorShouldProcessDescendantsOverride, orderedProcessorTraversalOverride]);
         stage.Name.Should().Equal("Test Stage");
 
         stage.Run(context, N1).Success.Should().Equal(shouldContinue);
         processor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
         orderedProcessor.Processed.Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1));
-        orderedProcessorShouldProcessDescendentsOverride.Processed.Should().SequenceEqual(N1, N11, N12, N13);
+        orderedProcessorShouldProcessDescendantsOverride.Processed.Should().SequenceEqual(N1, N11, N12, N13);
         orderedProcessorTraversalOverride.Processed.Should().SequenceEqual(TestNode.Traverse.BreadthFirst(N1));
     }
 
@@ -172,6 +186,20 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
 
         stage.Invoking(s => s.Run(context, N1))
             .Should().Throw<PipelineException>().That.Should()
+            .HaveParameters("Exception occurred executing processor TestProcessor<Object> for node N123.", "Test Stage").And
+            .HaveInnerException(exception);
+    }
+
+    [Test]
+    public void WithContext_Run_TraversalThrows()
+    {
+        var context = new object();
+        var exception = new InvalidOperationException("Test");
+
+        var stage = new SerialPipelineStage<object, TestNode>("Test Stage", (_, _) => true, new ThrowingTraversal(exception), [new TestProcessor<object>(context)]);
+
+        stage.Invoking(s => s.Run(context, N1))
+            .Should().Throw<PipelineException>().That.Should()
             .HaveParameters("Exception occurred executing processor TestProcessor<Object>.", "Test Stage").And
             .HaveInnerException(exception);
     }
@@ -193,7 +221,7 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
     }
 
     [Test]
-    public void WithContext_Run_Tuple_ReplacesRoot([Values(true, false)] bool shouldContinue)
+    public void WithContext_Run_Deconstruct_ReplacesRoot([Values(true, false)] bool shouldContinue)
     {
         var context = new object();
         var replacement = new ANode { Name = "Replacement" };
@@ -206,46 +234,6 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
         root.Should().BeTheSameInstanceAs(replacement);
     }
 
-    [Test]
-    public void WithContext_Run_Out_ReplacesRoot()
-    {
-        var context = new object();
-        var replacement = new ANode { Name = "Replacement" };
-        var replacer = new TestRootReplacer<object>(context, replacement);
-
-        var stage = new SerialPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [replacer]);
-
-        stage.Run(context, N1, out var newRoot).Should().BeTrue();
-        newRoot.Should().BeTheSameInstanceAs(replacement);
-    }
-
-    [Test]
-    public void Run_Tuple_ReplacesRoot_NonOrderedProcessor()
-    {
-        var replacement = new ANode { Name = "Replacement" };
-        var processor = new TestNonOrderedRootReplacer(replacement);
-
-        var stage = new SerialPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor]);
-
-        var (success, root) = stage.Run(N1);
-        success.Should().BeTrue();
-        root.Should().BeTheSameInstanceAs(replacement);
-    }
-
-    [Test]
-    public void WithContext_Run_Tuple_ReplacesRoot_NonOrderedProcessor()
-    {
-        var context = new object();
-        var replacement = new ANode { Name = "Replacement" };
-        var processor = new TestNonOrderedRootReplacer<object>(context, replacement);
-
-        var stage = new SerialPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, [processor]);
-
-        var (success, root) = stage.Run(context, N1);
-        success.Should().BeTrue();
-        root.Should().BeTheSameInstanceAs(replacement);
-    }
-
     private sealed class TestRootReplacer(TestNode replacement) : Replacer<TestNode>
     {
         protected override TestNode? Replace(TestNode node) => node.HasParent ? node : replacement;
@@ -254,20 +242,6 @@ public sealed class SerialPipelineStageTests : TreeTestFixture
     private sealed class TestRootReplacer<TContext>(TContext expectedContext, TestNode replacement) : Replacer<TContext, TestNode>
     {
         protected override TestNode? Replace(TContext context, TestNode node)
-        {
-            context.Should().BeTheSameInstanceAs(expectedContext);
-            return node.HasParent ? node : replacement;
-        }
-    }
-
-    private sealed class TestNonOrderedRootReplacer(TestNode replacement) : Processor<TestNode>
-    {
-        public override TestNode Process(TestNode node) => node.HasParent ? node : replacement;
-    }
-
-    private sealed class TestNonOrderedRootReplacer<TContext>(TContext expectedContext, TestNode replacement) : Processor<TContext, TestNode>
-    {
-        public override TestNode Process(TContext context, TestNode node)
         {
             context.Should().BeTheSameInstanceAs(expectedContext);
             return node.HasParent ? node : replacement;

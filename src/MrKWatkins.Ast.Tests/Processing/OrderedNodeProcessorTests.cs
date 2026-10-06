@@ -17,15 +17,15 @@ public sealed class OrderedNodeProcessorTests : TreeTestFixture
     }
 
     [Test]
-    public void ShouldProcessDescendents()
+    public void ShouldProcessDescendants()
     {
         var processor = new TestOrderedNodeProcessor();
 
-        processor.ShouldProcessDescendents(N11).Should().BeTrue();
-        processor.ShouldProcessDescendentsCalled.Should().BeFalse();
+        processor.ShouldProcessDescendants(N11).Should().BeTrue();
+        processor.ShouldProcessDescendantsCalled.Should().BeFalse();
 
-        processor.ShouldProcessDescendents(N12).Should().BeTrue();
-        processor.ShouldProcessDescendentsCalled.Should().BeTrue();
+        processor.ShouldProcessDescendants(N12).Should().BeTrue();
+        processor.ShouldProcessDescendantsCalled.Should().BeTrue();
     }
 
     [Test]
@@ -42,53 +42,48 @@ public sealed class OrderedNodeProcessorTests : TreeTestFixture
     }
 
     [Test]
-    public void WithContext_ShouldProcessDescendents()
+    public void WithContext_ShouldProcessDescendants()
     {
         var context = new object();
         var processor = new TestOrderedNodeProcessor<object>(context);
 
-        processor.ShouldProcessDescendents(context, N11).Should().BeTrue();
-        processor.ShouldProcessDescendentsCalled.Should().BeFalse();
+        processor.ShouldProcessDescendants(context, N11).Should().BeTrue();
+        processor.ShouldProcessDescendantsCalled.Should().BeFalse();
 
-        processor.ShouldProcessDescendents(context, N12).Should().BeTrue();
-        processor.ShouldProcessDescendentsCalled.Should().BeTrue();
+        processor.ShouldProcessDescendants(context, N12).Should().BeTrue();
+        processor.ShouldProcessDescendantsCalled.Should().BeTrue();
     }
 
     private sealed class TestOrderedNodeProcessor : OrderedNodeProcessor<TestNode, BNode>
     {
         public bool ProcessedCalled { get; private set; }
-        public bool ShouldProcessDescendentsCalled { get; private set; }
+        public bool ShouldProcessDescendantsCalled { get; private set; }
 
-        protected override TestNode Process(BNode node)
-        {
-            ProcessedCalled = true;
-            return node;
-        }
+        protected override void Process(BNode node) => ProcessedCalled = true;
 
-        protected override bool ShouldProcessDescendents(BNode node)
+        protected override bool ShouldProcessDescendants(BNode node)
         {
-            ShouldProcessDescendentsCalled = true;
-            return base.ShouldProcessDescendents(node);
+            ShouldProcessDescendantsCalled = true;
+            return base.ShouldProcessDescendants(node);
         }
     }
 
     private sealed class TestOrderedNodeProcessor<TContext>(TContext expectedContext) : OrderedNodeProcessor<TContext, TestNode, BNode>
     {
         public bool ProcessedCalled { get; private set; }
-        public bool ShouldProcessDescendentsCalled { get; private set; }
+        public bool ShouldProcessDescendantsCalled { get; private set; }
 
-        protected override TestNode Process(TContext context, BNode node)
+        protected override void Process(TContext context, BNode node)
         {
             context.Should().BeTheSameInstanceAs(expectedContext);
             ProcessedCalled = true;
-            return node;
         }
 
-        protected override bool ShouldProcessDescendents(TContext context, BNode node)
+        protected override bool ShouldProcessDescendants(TContext context, BNode node)
         {
-            ShouldProcessDescendentsCalled = true;
+            ShouldProcessDescendantsCalled = true;
             context.Should().BeTheSameInstanceAs(expectedContext);
-            return base.ShouldProcessDescendents(context, node);
+            return base.ShouldProcessDescendants(context, node);
         }
     }
 }

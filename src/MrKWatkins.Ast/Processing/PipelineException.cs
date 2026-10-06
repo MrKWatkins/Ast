@@ -1,18 +1,10 @@
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
-/// Exception thrown by a <see cref="Pipeline{TNode}" /> when one or more <see cref="Exception">Exceptions</see> occur during processing.
-/// <see cref="Exception.InnerException" /> will contain specifics of the <see cref="Exception" />, and will be an <see cref="AggregateException" />
-/// if multiple exceptions occurred.
+/// Exception thrown when a <see cref="Pipeline{TBaseNode}" /> or <see cref="Pipeline{TContext, TBaseNode}" /> fails.
 /// </summary>
 public sealed class PipelineException : Exception
 {
-    internal PipelineException(string message, string stage)
-        : base(message)
-    {
-        Stage = stage;
-    }
-
     internal PipelineException(string message, string stage, Exception innerException)
         : base(message, innerException)
     {
@@ -20,7 +12,7 @@ public sealed class PipelineException : Exception
     }
 
     /// <summary>
-    /// The name of the stage the exception occurred in.
+    /// The name of the stage that failed.
     /// </summary>
     public string Stage { get; }
 

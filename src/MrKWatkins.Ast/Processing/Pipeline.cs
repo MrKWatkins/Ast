@@ -39,28 +39,11 @@ public sealed class Pipeline<TBaseNode>
     }
 
     /// <summary>
-    /// Runs the pipeline on the specified root node, returning the potentially new root via an out parameter.
+    /// Runs the pipeline on the specified root node.
     /// </summary>
     /// <param name="root">The root node to run the pipeline on.</param>
-    /// <param name="newRoot">The root node after processing, which may have been replaced.</param>
-    /// <returns><c>true</c> if all stages ran, <c>false</c> if a stage stopped the pipeline.</returns>
-    public bool Run(TBaseNode root, out TBaseNode newRoot) => inner.Run(default, root, out newRoot);
-
-    /// <summary>
-    /// Runs the pipeline on the specified root node, returning the potentially new root and last stage run via out parameters.
-    /// </summary>
-    /// <param name="root">The root node to run the pipeline on.</param>
-    /// <param name="newRoot">The root node after processing, which may have been replaced.</param>
-    /// <param name="lastStageRun">The name of the last stage that ran.</param>
-    /// <returns><c>true</c> if all stages ran, <c>false</c> if a stage stopped the pipeline.</returns>
-    public bool Run(TBaseNode root, out TBaseNode newRoot, out string lastStageRun) => inner.Run(default, root, out newRoot, out lastStageRun);
-
-    /// <summary>
-    /// Runs the pipeline on the specified root node, returning a tuple with the result, the potentially replaced root node and the last stage run.
-    /// </summary>
-    /// <param name="root">The root node to run the pipeline on.</param>
-    /// <returns>A tuple of whether all stages ran, the root node after processing, and the name of the last stage that ran.</returns>
-    public (bool Success, TBaseNode Root, string LastStageRun) Run(TBaseNode root) => inner.Run(default, root);
+    /// <returns>The result of running the pipeline, including the root node after processing, which may have been replaced.</returns>
+    public PipelineResult<TBaseNode> Run(TBaseNode root) => inner.Run(default, root);
 }
 
 /// <summary>
@@ -102,45 +85,12 @@ public sealed class Pipeline<TContext, TBaseNode>
     }
 
     /// <summary>
-    /// Runs the pipeline on the specified root node, returning the potentially new root via an out parameter.
+    /// Runs the pipeline on the specified root node.
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="root">The root node to run the pipeline on.</param>
-    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TContext, TBaseNode}"/>.</param>
-    /// <returns><c>true</c> if all stages ran successfully, <c>false</c> otherwise.</returns>
-    public bool Run(TContext context, TBaseNode root, out TBaseNode newRoot)
-    {
-        var (success, resultRoot, _) = Run(context, root);
-        newRoot = resultRoot;
-        return success;
-    }
-
-    /// <summary>
-    /// Runs the pipeline on the specified root node, returning the potentially new root and last stage run via out parameters.
-    /// </summary>
-    /// <param name="context">The processing context.</param>
-    /// <param name="root">The root node to run the pipeline on.</param>
-    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TContext, TBaseNode}"/>.</param>
-    /// <param name="lastStageRun">
-    /// The name of the last stage that was run. If <c>false</c> is returned then this will be the name of the stage that stopped
-    /// further stages from continuing.
-    /// </param>
-    /// <returns><c>true</c> if all stages ran successfully, <c>false</c> otherwise.</returns>
-    public bool Run(TContext context, TBaseNode root, out TBaseNode newRoot, out string lastStageRun)
-    {
-        var (success, resultRoot, lastStage) = Run(context, root);
-        newRoot = resultRoot;
-        lastStageRun = lastStage;
-        return success;
-    }
-
-    /// <summary>
-    /// Runs the pipeline on the specified root node, returning a tuple with the result, the potentially replaced root node and the last stage run.
-    /// </summary>
-    /// <param name="context">The processing context.</param>
-    /// <param name="root">The root node to run the pipeline on.</param>
-    /// <returns>A tuple of whether all stages ran successfully, the root node which may have been replaced, and the name of the last stage that was run.</returns>
-    public (bool Success, TBaseNode Root, string LastStageRun) Run(TContext context, TBaseNode root)
+    /// <returns>The result of running the pipeline, including the root node after processing, which may have been replaced.</returns>
+    public PipelineResult<TBaseNode> Run(TContext context, TBaseNode root)
     {
         string lastStageRun = null!;
 
@@ -148,15 +98,15 @@ public sealed class Pipeline<TContext, TBaseNode>
         {
             lastStageRun = stage.Name;
 
-            var (success, newRoot) = stage.Run(context, root);
-            root = newRoot;
+            var result = stage.Run(context, root);
+            root = result.Root;
 
-            if (!success)
+            if (!result.Success)
             {
-                return (false, root, lastStageRun);
+                return new PipelineResult<TBaseNode>(false, root, lastStageRun);
             }
         }
 
-        return (true, root, lastStageRun);
+        return new PipelineResult<TBaseNode>(true, root, lastStageRun);
     }
 }

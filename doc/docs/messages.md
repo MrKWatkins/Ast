@@ -23,19 +23,19 @@ Messages can be read back from a single node or from a whole subtree. Each level
 | ------ | ----------- |
 | [`Errors`](API/MrKWatkins.Ast/Node-TNode/Errors.md) | The error messages on this node. |
 | [`HasErrors`](API/MrKWatkins.Ast/Node-TNode/HasErrors.md) | Whether this node has any errors. |
-| [`ThisAndDescendentsHaveErrors`](API/MrKWatkins.Ast/Node-TNode/ThisAndDescendentsHaveErrors.md) | Whether this node or anything beneath it has errors. |
-| [`ThisAndDescendentsWithErrors`](API/MrKWatkins.Ast/Node-TNode/ThisAndDescendentsWithErrors.md) | The nodes at or beneath this one that have errors. |
+| [`ThisAndDescendantsHaveErrors`](API/MrKWatkins.Ast/Node-TNode/ThisAndDescendantsHaveErrors.md) | Whether this node or anything beneath it has errors. |
+| [`ThisAndDescendantsWithErrors`](API/MrKWatkins.Ast/Node-TNode/ThisAndDescendantsWithErrors.md) | The nodes at or beneath this one that have errors. |
 
 `Warnings`, `Infos` and `Messages` have the equivalent members.
 
 ```c#
 sixty.AddError("Value must be less than 55.");
 
-var expressionHasErrors = expression.ThisAndDescendentsHaveErrors;  // true.
-var badNodes = expression.ThisAndDescendentsWithErrors;
+var expressionHasErrors = expression.ThisAndDescendantsHaveErrors;  // true.
+var badNodes = expression.ThisAndDescendantsWithErrors;
 ```
 
-Note the difference between [`HasErrors`](API/MrKWatkins.Ast/Node-TNode/HasErrors.md), which looks only at the node itself, and [`ThisAndDescendentsHaveErrors`](API/MrKWatkins.Ast/Node-TNode/ThisAndDescendentsHaveErrors.md), which walks the subtree. The latter is what a [pipeline](processing.md#pipelines) uses by default to decide whether to continue to the next stage.
+Note the difference between [`HasErrors`](API/MrKWatkins.Ast/Node-TNode/HasErrors.md), which looks only at the node itself, and [`ThisAndDescendantsHaveErrors`](API/MrKWatkins.Ast/Node-TNode/ThisAndDescendantsHaveErrors.md), which walks the subtree. The latter is what a [pipeline](processing.md#pipelines) uses by default to decide whether to continue to the next stage.
 
 ## Formatting Messages
 

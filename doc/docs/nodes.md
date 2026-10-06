@@ -73,7 +73,7 @@ Nodes know where they sit in the tree. Every relationship comes in a lazily enum
 | [`Parent`](API/MrKWatkins.Ast/Node-TNode/Parent.md) | The parent node; throws if the node is a root. Check [`HasParent`](API/MrKWatkins.Ast/Node-TNode/HasParent.md) first. |
 | [`Root`](API/MrKWatkins.Ast/Node-TNode/Root.md) | The highest parent above this node, or this node if it is the root. |
 | [`Ancestors`](API/MrKWatkins.Ast/Node-TNode/Ancestors.md) | The parent, grandparent and so on up to the root. |
-| [`Descendents`](API/MrKWatkins.Ast/Node-TNode/Descendents.md) | All descendents, depth first pre-order. |
+| [`Descendants`](API/MrKWatkins.Ast/Node-TNode/Descendants.md) | All descendants, depth first pre-order. |
 | [`NextSibling`](API/MrKWatkins.Ast/Node-TNode/NextSibling.md) / [`PreviousSibling`](API/MrKWatkins.Ast/Node-TNode/PreviousSibling.md) | The adjacent children of the same parent, or `null` at the ends. |
 | [`NextSiblings`](API/MrKWatkins.Ast/Node-TNode/NextSiblings.md) / [`PreviousSiblings`](API/MrKWatkins.Ast/Node-TNode/PreviousSiblings.md) | All siblings in each direction. |
 | [`IndexInParent`](API/MrKWatkins.Ast/Node-TNode/IndexInParent.md) | The index of this node in its parent, or -1 if it has no parent. |
@@ -86,7 +86,7 @@ var fifty = new ConstantNumber(50);
 var sixty = new ConstantNumber(60);
 var expression = new Addition(fifty, sixty);
 
-var allNodes = expression.ThisAndDescendents;
+var allNodes = expression.ThisAndDescendants;
 var fiftyAndParent = fifty.ThisAndAncestors;
 var fiftyAndSixty = fifty.ThisAndNextSiblings;
 var justSixty = sixty.PreviousSibling;
@@ -111,17 +111,17 @@ For bulk restructuring driven by node type, [replacers](processing.md#replacers)
 
 ## Traversal
 
-[`Descendents`](API/MrKWatkins.Ast/Node-TNode/Descendents.md) walks the tree depth first, pre-order. Other orders are available from the static `Traverse` class on your node type:
+[`Descendants`](API/MrKWatkins.Ast/Node-TNode/Descendants.md) walks the tree depth first, pre-order. Other orders are available from the static `Traverse` class on your node type:
 
 ```c#
 var breadthFirst = Expression.Traverse.BreadthFirst(root);
 var postOrder = Expression.Traverse.DepthFirstPostOrder(root);
 
-// Skip the descendents of any node we don't care about.
-var pruned = Expression.Traverse.DepthFirstPreOrder(root, shouldEnumerateDescendents: n => n is not Function);
+// Skip the descendants of any node we don't care about.
+var pruned = Expression.Traverse.DepthFirstPreOrder(root, shouldEnumerateDescendants: n => n is not Function);
 ```
 
-Each method takes an `includeRoot` flag and an optional `shouldEnumerateDescendents` predicate to prune whole subtrees from the walk. All enumerations are lazy.
+Each method takes an `includeRoot` flag and an optional `shouldEnumerateDescendants` predicate to prune whole subtrees from the walk. All enumerations are lazy.
 
 The same strategies are available as [`ITraversal<TNode>`](API/MrKWatkins.Ast.Traversal/ITraversal-TNode/index.md) singletons — [`DepthFirstPreOrderTraversal<TNode>`](API/MrKWatkins.Ast.Traversal/DepthFirstPreOrderTraversal-TNode/index.md), [`DepthFirstPostOrderTraversal<TNode>`](API/MrKWatkins.Ast.Traversal/DepthFirstPostOrderTraversal-TNode/index.md) and [`BreadthFirstTraversal<TNode>`](API/MrKWatkins.Ast.Traversal/BreadthFirstTraversal-TNode/index.md) — for passing to [processing](processing.md) pipelines, or for your own code that needs to be agnostic about the order it walks in.
 

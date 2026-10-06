@@ -1,8 +1,8 @@
 namespace MrKWatkins.Ast.Processing;
 
 /// <summary>
-/// Performs some processing on a given node in a <see cref="Pipeline{Node}" />. The processor can specify the order the pipeline
-/// should traverse the tree and whether to process descendents or not.
+/// Performs some processing on a given node of a specific type in a <see cref="Pipeline{TBaseNode}" />. The processor can specify the order the pipeline
+/// should traverse the tree and whether to process descendants or not.
 /// </summary>
 /// <typeparam name="TBaseNode">The type of nodes in the tree.</typeparam>
 /// <typeparam name="TNode">The type of node to process.</typeparam>
@@ -11,46 +11,43 @@ public abstract class OrderedNodeProcessor<TBaseNode, TNode> : OrderedProcessor<
     where TNode : TBaseNode
 {
     /// <inheritdoc />
-    public sealed override TBaseNode Process(TBaseNode node)
+    public sealed override void Process(TBaseNode node)
     {
         if (node is TNode typedNode)
         {
-            return Process(typedNode);
+            Process(typedNode);
         }
-
-        return node;
     }
 
     /// <summary>
-    /// Performs processing on the specified <paramref name="node" />. Does not process any descendents.
+    /// Performs processing on the specified <paramref name="node" />. Does not process any descendants.
     /// </summary>
     /// <param name="node">The node to process.</param>
-    /// <returns>The root node of the tree, which may have been replaced.</returns>
-    protected abstract TBaseNode Process(TNode node);
+    protected abstract void Process(TNode node);
 
     /// <inheritdoc />
-    public sealed override bool ShouldProcessDescendents(TBaseNode node)
+    public sealed override bool ShouldProcessDescendants(TBaseNode node)
     {
         if (node is TNode typedNode)
         {
-            return ShouldProcessDescendents(typedNode);
+            return ShouldProcessDescendants(typedNode);
         }
 
         return true;
     }
 
     /// <summary>
-    /// Whether descendents of this node should be processed by the <see cref="Pipeline{Node}" /> or not. Defaults to <c>true</c>.
+    /// Whether descendants of this node should be processed by the <see cref="Pipeline{TBaseNode}" /> or not. Defaults to <c>true</c>.
     /// </summary>
     /// <param name="node">The node.</param>
-    /// <returns><c>true</c> if descendents of <paramref name="node" /> should be processed, <c>false</c> otherwise.</returns>
+    /// <returns><c>true</c> if descendants should be processed, <c>false</c> otherwise.</returns>
     [Pure]
-    protected virtual bool ShouldProcessDescendents(TNode node) => true;
+    protected virtual bool ShouldProcessDescendants(TNode node) => true;
 }
 
 /// <summary>
-/// Performs some processing on a given node using a processing context in a <see cref="Pipeline{TContext, Node}" />. The processor can
-/// specify the order the pipeline should traverse the tree and whether to process descendents or not.
+/// Performs some processing on a given node of a specific type using a processing context in a <see cref="Pipeline{TContext, TBaseNode}" />. The processor
+/// can specify the order the pipeline should traverse the tree and whether to process descendants or not.
 /// </summary>
 /// <typeparam name="TContext">The type of the processing context.</typeparam>
 /// <typeparam name="TBaseNode">The type of nodes in the tree.</typeparam>
@@ -60,41 +57,38 @@ public abstract class OrderedNodeProcessor<TContext, TBaseNode, TNode> : Ordered
     where TNode : TBaseNode
 {
     /// <inheritdoc />
-    public sealed override TBaseNode Process(TContext context, TBaseNode node)
+    public sealed override void Process(TContext context, TBaseNode node)
     {
         if (node is TNode typedNode)
         {
-            return Process(context, typedNode);
+            Process(context, typedNode);
         }
-
-        return node;
     }
 
     /// <summary>
-    /// Performs processing on the specified <paramref name="node" />. Does not process any descendents.
+    /// Performs processing on the specified <paramref name="node" />. Does not process any descendants.
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="node">The node to process.</param>
-    /// <returns>The root node of the tree, which may have been replaced.</returns>
-    protected abstract TBaseNode Process(TContext context, TNode node);
+    protected abstract void Process(TContext context, TNode node);
 
     /// <inheritdoc />
-    public sealed override bool ShouldProcessDescendents(TContext context, TBaseNode node)
+    public sealed override bool ShouldProcessDescendants(TContext context, TBaseNode node)
     {
         if (node is TNode typedNode)
         {
-            return ShouldProcessDescendents(context, typedNode);
+            return ShouldProcessDescendants(context, typedNode);
         }
 
         return true;
     }
 
     /// <summary>
-    /// Whether descendents of this node should be processed by the <see cref="Pipeline{TContext, Node}" /> or not. Defaults to <c>true</c>.
+    /// Whether descendants of this node should be processed by the <see cref="Pipeline{TContext, TBaseNode}" /> or not. Defaults to <c>true</c>.
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="node">The node.</param>
-    /// <returns><c>true</c> if descendents of <paramref name="node" /> should be processed, <c>false</c> otherwise.</returns>
+    /// <returns><c>true</c> if descendants should be processed, <c>false</c> otherwise.</returns>
     [Pure]
-    protected virtual bool ShouldProcessDescendents(TContext context, TNode node) => true;
+    protected virtual bool ShouldProcessDescendants(TContext context, TNode node) => true;
 }

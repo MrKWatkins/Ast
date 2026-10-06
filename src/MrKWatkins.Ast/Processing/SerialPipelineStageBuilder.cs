@@ -8,7 +8,7 @@ public sealed class SerialPipelineStageBuilder<TBaseNode> : PipelineStageBuilder
     where TBaseNode : Node<TBaseNode>
 {
     internal SerialPipelineStageBuilder(int number)
-        : base(number, root => !root.ThisAndDescendentsHaveErrors)
+        : base(number, root => !root.ThisAndDescendantsHaveErrors)
     {
     }
 
@@ -31,7 +31,7 @@ public sealed class SerialPipelineStageBuilder<TContext, TBaseNode> : PipelineSt
     where TBaseNode : Node<TBaseNode>
 {
     internal SerialPipelineStageBuilder(int number)
-        : base(number, (_, root) => !root.ThisAndDescendentsHaveErrors)
+        : base(number, (_, root) => !root.ThisAndDescendantsHaveErrors)
     {
     }
 

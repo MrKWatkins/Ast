@@ -28,7 +28,7 @@ public static class Evaluator
     [Pure]
     public static int Evaluate(Function function, params int[] arguments)
     {
-        if (function.ThisAndDescendentsHaveErrors)
+        if (function.ThisAndDescendantsHaveErrors)
         {
             throw new ArgumentException("Value contains errors.", nameof(function));
         }

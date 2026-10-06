@@ -19,7 +19,7 @@ public sealed partial class ListenerTests
     }
 
     [Test]
-    public void NoContext_ShouldListenToChildren()
+    public void NoContext_ShouldListenToDescendants()
     {
         var listener = new NoContextTestListener { ListenToChildren = node => node is not BNode };
 
@@ -40,7 +40,7 @@ public sealed partial class ListenerTests
 
         protected internal override void AfterListenToNode(TestNode node) => output.Append(')');
 
-        protected internal override bool ShouldListenToChildren(TestNode node) => ListenToChildren?.Invoke(node) ?? base.ShouldListenToChildren(node);
+        protected internal override bool ShouldListenToDescendants(TestNode node) => ListenToChildren?.Invoke(node) ?? base.ShouldListenToDescendants(node);
 
         public override string ToString() => output.ToString();
     }
@@ -122,7 +122,7 @@ public sealed partial class ListenerTests
             output.Append(')');
         }
 
-        protected override bool ShouldListenToChildren(ANode node) => base.ShouldListenToChildren(node);
+        protected override bool ShouldListenToDescendants(ANode node) => base.ShouldListenToDescendants(node);
 
         public override string ToString() => output.ToString();
     }

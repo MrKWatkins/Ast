@@ -3,7 +3,7 @@ namespace MrKWatkins.Ast.Listening;
 /// <summary>
 /// A <see cref="Listener{TContext, TNode}" /> built from multiple other listeners that listen to specific node types. When a node is reached the listener with the
 /// most specific type for the node will be used. Only a single listener will ever listen to a node. If no suitable listener is found the node will be ignored but
-/// it's descendents will still be listened to.
+/// it's descendants will still be listened to.
 /// </summary>
 /// <typeparam name="TContext">The type of the context object.</typeparam>
 /// <typeparam name="TBaseNode">The base type of all nodes in the tree.</typeparam>
@@ -33,7 +33,7 @@ public sealed class CompositeListener<TContext, TBaseNode> : Listener<TContext, 
     protected internal override void AfterListenToNode(TContext context, TBaseNode node) => listeners.Get(node)?.AfterListenToNode(context, node);
 
     /// <inheritdoc />
-    protected internal override bool ShouldListenToChildren(TContext context, TBaseNode node) => listeners.Get(node)?.ShouldListenToChildren(context, node) ?? true;
+    protected internal override bool ShouldListenToDescendants(TContext context, TBaseNode node) => listeners.Get(node)?.ShouldListenToDescendants(context, node) ?? true;
 
     [MustUseReturnValue]
     ICompositeListenerBuilder<TContext, TBaseNode> ICompositeListenerBuilder<TContext, TBaseNode>.With(Listener<TContext, TBaseNode> listener)
@@ -66,7 +66,7 @@ public sealed class CompositeListener<TContext, TBaseNode> : Listener<TContext, 
 /// <summary>
 /// A <see cref="Listener{TNode}" /> built from multiple other listeners that listen to specific node types and do not take a context object. When a node is
 /// reached the listener with the most specific type for the node will be used. Only a single listener will ever listen to a node. If no suitable listener is found
-/// the node will be ignored but it's descendents will still be listened to.
+/// the node will be ignored but it's descendants will still be listened to.
 /// </summary>
 /// <typeparam name="TBaseNode">The base type of all nodes in the tree.</typeparam>
 public sealed class CompositeListener<TBaseNode> : Listener<TBaseNode>, ICompositeListenerBuilder<TBaseNode>
@@ -95,7 +95,7 @@ public sealed class CompositeListener<TBaseNode> : Listener<TBaseNode>, IComposi
     protected internal override void AfterListenToNode(TBaseNode node) => listeners.Get(node)?.AfterListenToNode(node);
 
     /// <inheritdoc />
-    protected internal override bool ShouldListenToChildren(TBaseNode node) => listeners.Get(node)?.ShouldListenToChildren(node) ?? true;
+    protected internal override bool ShouldListenToDescendants(TBaseNode node) => listeners.Get(node)?.ShouldListenToDescendants(node) ?? true;
 
     [MustUseReturnValue]
     ICompositeListenerBuilder<TBaseNode> ICompositeListenerBuilder<TBaseNode>.With(Listener<TBaseNode> listener)

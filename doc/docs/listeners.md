@@ -7,19 +7,19 @@ Listeners walk a tree and are notified as nodes are reached. They are the lightw
 There are two base classes to inherit from:
 
 - [`Listener<TContext, TNode>`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/index.md) listens to every node in the tree.
-- [`NodeListener<TContext, TBaseNode, TNode>`](API/MrKWatkins.Ast.Listening/NodeListener-TContext-TBaseNode-TNode/index.md) listens only to nodes of a specific type. Other nodes are ignored, but their descendents are still walked, so the whole tree is visited either way.
+- [`NodeListener<TContext, TBaseNode, TNode>`](API/MrKWatkins.Ast.Listening/NodeListener-TContext-TBaseNode-TNode/index.md) listens only to nodes of a specific type. Other nodes are ignored, but their descendants are still walked, so the whole tree is visited either way.
 
 Three methods can be overridden to get at the nodes:
 
 | Method | Called |
 | ------ | ------ |
-| [`BeforeListenToNode`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/BeforeListenToNode.md) | Immediately before a node *and its descendents* are visited. |
+| [`BeforeListenToNode`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/BeforeListenToNode.md) | Immediately before a node *and its descendants* are visited. |
 | [`ListenToNode`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/ListenToNode.md) | When the node itself is visited. |
-| [`AfterListenToNode`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/AfterListenToNode.md) | Immediately after a node *and its descendents* have been visited. |
+| [`AfterListenToNode`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/AfterListenToNode.md) | Immediately after a node *and its descendants* have been visited. |
 
 Between them, the before and after methods bracket a whole subtree, which is what you want for anything that nests — opening and closing brackets, pushing and popping a scope, indenting output.
 
-[`ShouldListenToChildren`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/ShouldListenToChildren.md) can be overridden to skip a node's descendents entirely.
+[`ShouldListenToDescendants`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/ShouldListenToDescendants.md) can be overridden to skip a node's descendants entirely.
 
 Start the walk by calling [`Listen`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/Listen.md) with the context and the root node:
 
@@ -63,7 +63,7 @@ private static readonly CompositeListener<FormattingContext, Expression> Listene
         .ToListener();
 ```
 
-Exactly one listener will ever be used for a node — the one registered for the most specific type that node matches. Registering a listener for a base type therefore gives fallback behaviour for anything more specific that has no listener of its own, and the [`With`](API/MrKWatkins.Ast.Listening/ICompositeListenerBuilder-TContext-TBaseNode/With.md) overload taking a two parameter listener registers a catch-all for the base node type itself. If no listener matches at all the node is skipped, though its descendents are still visited.
+Exactly one listener will ever be used for a node — the one registered for the most specific type that node matches. Registering a listener for a base type therefore gives fallback behaviour for anything more specific that has no listener of its own, and the [`With`](API/MrKWatkins.Ast.Listening/ICompositeListenerBuilder-TContext-TBaseNode/With.md) overload taking a two parameter listener registers a catch-all for the base node type itself. If no listener matches at all the node is skipped, though its descendants are still visited.
 
 Only one listener can be registered per type, and [`ToListener`](API/MrKWatkins.Ast.Listening/ICompositeListenerBuilder-TContext-TBaseNode/ToListener.md) throws if no listeners were registered at all. Listeners can share implementation through their own base classes in the usual way. [`CompositeListener<TBaseNode>`](API/MrKWatkins.Ast.Listening/CompositeListener-TBaseNode/index.md) does the same for listeners without a context.
 

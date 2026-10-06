@@ -21,16 +21,16 @@ public abstract partial class Node<TNode>
     public bool HasMessages => Messages.Any();
 
     /// <summary>
-    /// Returns <c>true</c> if this node or any of its descendents have any <see cref="Message">Messages</see>, <c>false</c> otherwise.
+    /// Returns <c>true</c> if this node or any of its descendants have any <see cref="Message">Messages</see>, <c>false</c> otherwise.
     /// </summary>
-    /// <returns>Whether this node or its descendents have messages or not.</returns>
-    public bool ThisAndDescendentsHaveMessages => ThisAndDescendentsWithMessages.Any();
+    /// <returns>Whether this node or its descendants have messages or not.</returns>
+    public bool ThisAndDescendantsHaveMessages => ThisAndDescendantsWithMessages.Any();
 
     /// <summary>
-    /// Lazily enumerates over this node and its descendents returning only those that have <see cref="Message">Messages</see>.
+    /// Lazily enumerates over this node and its descendants returning only those that have <see cref="Message">Messages</see>.
     /// </summary>
-    /// <returns>A lazy enumeration of this node if it has messages and any descendents that have messages.</returns>
-    public IEnumerable<TNode> ThisAndDescendentsWithMessages => ThisAndDescendents.Where(n => n.HasMessages);
+    /// <returns>A lazy enumeration of this node if it has messages and any descendants that have messages.</returns>
+    public IEnumerable<TNode> ThisAndDescendantsWithMessages => ThisAndDescendants.Where(n => n.HasMessages);
 
     /// <summary>
     /// Adds a <see cref="Message" /> to this node.
@@ -75,18 +75,18 @@ public abstract partial class Node<TNode>
     public bool HasErrors => Errors.Any();
 
     /// <summary>
-    /// Returns <c>true</c> if this node or any of its descendents have any <see cref="Message">Messages</see> with <see cref="Message.Level" />
+    /// Returns <c>true</c> if this node or any of its descendants have any <see cref="Message">Messages</see> with <see cref="Message.Level" />
     /// <see cref="MessageLevel.Error" />, <c>false</c> otherwise.
     /// </summary>
-    /// <returns>Whether this node or its descendents have errors or not.</returns>
-    public bool ThisAndDescendentsHaveErrors => ThisAndDescendentsWithErrors.Any();
+    /// <returns>Whether this node or its descendants have errors or not.</returns>
+    public bool ThisAndDescendantsHaveErrors => ThisAndDescendantsWithErrors.Any();
 
     /// <summary>
-    /// Lazily enumerates over this node and its descendents returning only those that have <see cref="Message">Messages</see> with
+    /// Lazily enumerates over this node and its descendants returning only those that have <see cref="Message">Messages</see> with
     /// <see cref="Message.Level" /> <see cref="MessageLevel.Error" />.
     /// </summary>
-    /// <returns>A lazy enumeration of this node if it has errors and any descendents that have errors.</returns>
-    public IEnumerable<TNode> ThisAndDescendentsWithErrors => ThisAndDescendents.Where(n => n.HasErrors);
+    /// <returns>A lazy enumeration of this node if it has errors and any descendants that have errors.</returns>
+    public IEnumerable<TNode> ThisAndDescendantsWithErrors => ThisAndDescendants.Where(n => n.HasErrors);
 
     /// <summary>
     /// Adds a <see cref="Message" /> with <see cref="Message.Level" /> <see cref="MessageLevel.Error" /> and the specified text to this node.
@@ -115,18 +115,18 @@ public abstract partial class Node<TNode>
     public bool HasWarnings => Warnings.Any();
 
     /// <summary>
-    /// Returns <c>true</c> if this node or any of its descendents have any <see cref="Message">Messages</see> with <see cref="Message.Level" />
+    /// Returns <c>true</c> if this node or any of its descendants have any <see cref="Message">Messages</see> with <see cref="Message.Level" />
     /// <see cref="MessageLevel.Warning" />, <c>false</c> otherwise.
     /// </summary>
-    /// <returns>Whether this node or its descendents have warnings or not.</returns>
-    public bool ThisAndDescendentsHaveWarnings => ThisAndDescendentsWithWarnings.Any();
+    /// <returns>Whether this node or its descendants have warnings or not.</returns>
+    public bool ThisAndDescendantsHaveWarnings => ThisAndDescendantsWithWarnings.Any();
 
     /// <summary>
-    /// Lazily enumerates over this node and its descendents returning only those that have <see cref="Message">Messages</see> with
+    /// Lazily enumerates over this node and its descendants returning only those that have <see cref="Message">Messages</see> with
     /// <see cref="Message.Level" /> <see cref="MessageLevel.Warning" />.
     /// </summary>
-    /// <returns>A lazy enumeration of this node if it has warnings and any descendents that have warnings.</returns>
-    public IEnumerable<TNode> ThisAndDescendentsWithWarnings => ThisAndDescendents.Where(n => n.HasWarnings);
+    /// <returns>A lazy enumeration of this node if it has warnings and any descendants that have warnings.</returns>
+    public IEnumerable<TNode> ThisAndDescendantsWithWarnings => ThisAndDescendants.Where(n => n.HasWarnings);
 
     /// <summary>
     /// Adds a <see cref="Message" /> with <see cref="Message.Level" /> <see cref="MessageLevel.Warning" /> and the specified text to this node.
@@ -155,18 +155,18 @@ public abstract partial class Node<TNode>
     public bool HasInfos => Infos.Any();
 
     /// <summary>
-    /// Returns <c>true</c> if this node or any of its descendents have any <see cref="Message">Messages</see> with <see cref="Message.Level" />
+    /// Returns <c>true</c> if this node or any of its descendants have any <see cref="Message">Messages</see> with <see cref="Message.Level" />
     /// <see cref="MessageLevel.Info" />, <c>false</c> otherwise.
     /// </summary>
-    /// <returns>Whether this node or its descendents have info messages or not.</returns>
-    public bool ThisAndDescendentsHaveInfos => ThisAndDescendentsWithInfos.Any();
+    /// <returns>Whether this node or its descendants have info messages or not.</returns>
+    public bool ThisAndDescendantsHaveInfos => ThisAndDescendantsWithInfos.Any();
 
     /// <summary>
-    /// Lazily enumerates over this node and its descendents returning only those that have <see cref="Message">Messages</see> with
+    /// Lazily enumerates over this node and its descendants returning only those that have <see cref="Message">Messages</see> with
     /// <see cref="Message.Level" /> <see cref="MessageLevel.Info" />.
     /// </summary>
-    /// <returns>A lazy enumeration of this node if it has info messages and any descendents that have info messages.</returns>
-    public IEnumerable<TNode> ThisAndDescendentsWithInfos => ThisAndDescendents.Where(n => n.HasInfos);
+    /// <returns>A lazy enumeration of this node if it has info messages and any descendants that have info messages.</returns>
+    public IEnumerable<TNode> ThisAndDescendantsWithInfos => ThisAndDescendants.Where(n => n.HasInfos);
 
     /// <summary>
     /// Adds a <see cref="Message" /> with <see cref="Message.Level" /> <see cref="MessageLevel.Info" /> and the specified text to this node.

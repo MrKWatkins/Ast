@@ -242,17 +242,32 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
     }
 
     [Test]
-    public void Run_ProcessorReturnsDifferentNode([Values] ParallelStrategy strategy)
+    public void Run_TraversalThrowsLazily([Values] ParallelStrategy strategy)
     {
-        var processors = new Processor<TestNode>[] { new TestProcessor(), new ReplacingProcessor(N123) };
+        var exception = new InvalidOperationException("Test");
 
-        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, strategy);
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, new ThrowingTraversal(exception), [new TestProcessor()], Environment.ProcessorCount, strategy);
 
-        var exception = stage.Invoking(s => s.Run(N1))
+        var pipelineException = stage.Invoking(s => s.Run(N1))
             .Should().Throw<PipelineException>().That;
 
-        exception.Should().HaveParameters("Processor ReplacingProcessor returned a different node for node N123. Processors in a parallel stage cannot replace nodes.", "Test Stage");
-        exception.InnerException.Should().BeNull();
+        // The exception happens inside Parallel.ForEach, so is wrapped in an AggregateException.
+        pipelineException.Should().HaveParameters("Exception occurred traversing the tree.", "Test Stage");
+        pipelineException.InnerException.Should().BeOfType<AggregateException>().Value.InnerExceptions.Should().SequenceEqual(exception);
+    }
+
+    [Test]
+    public void Run_TraversalThrowsEagerly()
+    {
+        var exception = new InvalidOperationException("Test");
+
+        // Per node enumerates the tree before calling Parallel.ForEach, so an eager exception is not wrapped in an AggregateException.
+        var stage = new ParallelPipelineStage<TestNode>("Test Stage", _ => true, new ThrowingTraversal(exception, lazily: false), [new TestProcessor()], Environment.ProcessorCount, ParallelStrategy.PerNode);
+
+        stage.Invoking(s => s.Run(N1))
+            .Should().Throw<PipelineException>().That.Should()
+            .HaveParameters("Exception occurred traversing the tree.", "Test Stage").And
+            .HaveInnerException(exception);
     }
 
     [Test]
@@ -419,18 +434,18 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
     }
 
     [Test]
-    public void WithContext_Run_ProcessorReturnsDifferentNode([Values] ParallelStrategy strategy)
+    public void WithContext_Run_TraversalThrowsLazily([Values] ParallelStrategy strategy)
     {
         var context = new object();
-        var processors = new Processor<object, TestNode>[] { new TestProcessor<object>(context), new ReplacingProcessor<object>(N123) };
+        var exception = new InvalidOperationException("Test");
 
-        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => true, DepthFirstPreOrderTraversal<TestNode>.Instance, processors, Environment.ProcessorCount, strategy);
+        var stage = new ParallelPipelineStage<object, TestNode>("Test Stage", (_, _) => true, new ThrowingTraversal(exception), [new TestProcessor<object>(context)], Environment.ProcessorCount, strategy);
 
-        var exception = stage.Invoking(s => s.Run(context, N1))
+        var pipelineException = stage.Invoking(s => s.Run(context, N1))
             .Should().Throw<PipelineException>().That;
 
-        exception.Should().HaveParameters("Processor ReplacingProcessor<Object> returned a different node for node N123. Processors in a parallel stage cannot replace nodes.", "Test Stage");
-        exception.InnerException.Should().BeNull();
+        pipelineException.Should().HaveParameters("Exception occurred traversing the tree.", "Test Stage");
+        pipelineException.InnerException.Should().BeOfType<AggregateException>().Value.InnerExceptions.Should().SequenceEqual(exception);
     }
 
     [Test]
@@ -466,18 +481,5 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
 
             await Task.Delay(100);
         }
-    }
-
-    /// <summary>
-    /// Returns a new node in place of <see cref="toReplace" />, which is only valid in a serial stage.
-    /// </summary>
-    private sealed class ReplacingProcessor(TestNode toReplace) : Processor<TestNode>
-    {
-        public override TestNode Process(TestNode node) => node == toReplace ? new ANode { Name = "Replacement" } : node;
-    }
-
-    private sealed class ReplacingProcessor<TContext>(TestNode toReplace) : Processor<TContext, TestNode>
-    {
-        public override TestNode Process(TContext context, TestNode node) => node == toReplace ? new ANode { Name = "Replacement" } : node;
     }
 }

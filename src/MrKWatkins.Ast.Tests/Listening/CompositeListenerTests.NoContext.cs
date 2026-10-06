@@ -107,7 +107,7 @@ public sealed partial class CompositeListenerTests
     }
 
     [Test]
-    public void NoContext_Listen_ShouldListenToChildren()
+    public void NoContext_Listen_ShouldListenToDescendants()
     {
         var doListenToChildren = new NoContextTestListener<ANode> { ListenToChildren = _ => true };
         var doNotListenToChildren = new NoContextTestListener<BNode> { ListenToChildren = _ => false };
@@ -142,6 +142,6 @@ public sealed partial class CompositeListenerTests
 
         protected override void ListenToNode(TNode node) => Count++;
 
-        protected override bool ShouldListenToChildren(TNode node) => ListenToChildren?.Invoke(node) ?? base.ShouldListenToChildren(node);
+        protected override bool ShouldListenToDescendants(TNode node) => ListenToChildren?.Invoke(node) ?? base.ShouldListenToDescendants(node);
     }
 }

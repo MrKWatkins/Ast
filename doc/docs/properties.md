@@ -72,7 +72,7 @@ Single and multiple valued properties are distinct; reading a multiple valued pr
 
 ## Copying Nodes
 
-[`Copy`](API/MrKWatkins.Ast/PropertyNode-TNode/Copy.md) deep copies a node, its properties and all of its descendents:
+[`Copy`](API/MrKWatkins.Ast/PropertyNode-TNode/Copy.md) deep copies a node, its properties and all of its descendants:
 
 ```c#
 var copy = expression.Copy();

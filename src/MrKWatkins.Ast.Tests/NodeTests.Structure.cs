@@ -467,7 +467,7 @@ public sealed partial class NodeTests
     }
 
     [Test]
-    public void Descendents()
+    public void Descendants()
     {
         var grandChildren0 = new TestNode[] { new ANode(), new BNode() };
         var grandChildren1 = new TestNode[] { new BNode(), new CNode() };
@@ -475,19 +475,19 @@ public sealed partial class NodeTests
 
         var root = new ANode(children);
 
-        root.Descendents.Should().SequenceEqual(children[0], grandChildren0[0], grandChildren0[1], children[1], grandChildren1[0], grandChildren1[1]);
+        root.Descendants.Should().SequenceEqual(children[0], grandChildren0[0], grandChildren0[1], children[1], grandChildren1[0], grandChildren1[1]);
 
-        children[0].Descendents.Should().SequenceEqual(grandChildren0);
-        children[1].Descendents.Should().SequenceEqual(grandChildren1);
+        children[0].Descendants.Should().SequenceEqual(grandChildren0);
+        children[1].Descendants.Should().SequenceEqual(grandChildren1);
 
-        grandChildren0[0].Descendents.Should().BeEmpty();
-        grandChildren0[1].Descendents.Should().BeEmpty();
-        grandChildren1[0].Descendents.Should().BeEmpty();
-        grandChildren1[1].Descendents.Should().BeEmpty();
+        grandChildren0[0].Descendants.Should().BeEmpty();
+        grandChildren0[1].Descendants.Should().BeEmpty();
+        grandChildren1[0].Descendants.Should().BeEmpty();
+        grandChildren1[1].Descendants.Should().BeEmpty();
     }
 
     [Test]
-    public void ThisAndDescendents()
+    public void ThisAndDescendants()
     {
         var grandChildren0 = new TestNode[] { new ANode(), new BNode() };
         var grandChildren1 = new TestNode[] { new BNode(), new CNode() };
@@ -495,15 +495,15 @@ public sealed partial class NodeTests
 
         var root = new ANode(children);
 
-        root.ThisAndDescendents.Should().SequenceEqual(root, children[0], grandChildren0[0], grandChildren0[1], children[1], grandChildren1[0], grandChildren1[1]);
+        root.ThisAndDescendants.Should().SequenceEqual(root, children[0], grandChildren0[0], grandChildren0[1], children[1], grandChildren1[0], grandChildren1[1]);
 
-        children[0].ThisAndDescendents.Should().SequenceEqual(children[0], grandChildren0[0], grandChildren0[1]);
-        children[1].ThisAndDescendents.Should().SequenceEqual(children[1], grandChildren1[0], grandChildren1[1]);
+        children[0].ThisAndDescendants.Should().SequenceEqual(children[0], grandChildren0[0], grandChildren0[1]);
+        children[1].ThisAndDescendants.Should().SequenceEqual(children[1], grandChildren1[0], grandChildren1[1]);
 
-        grandChildren0[0].ThisAndDescendents.Should().SequenceEqual(grandChildren0[0]);
-        grandChildren0[1].ThisAndDescendents.Should().SequenceEqual(grandChildren0[1]);
-        grandChildren1[0].ThisAndDescendents.Should().SequenceEqual(grandChildren1[0]);
-        grandChildren1[1].ThisAndDescendents.Should().SequenceEqual(grandChildren1[1]);
+        grandChildren0[0].ThisAndDescendants.Should().SequenceEqual(grandChildren0[0]);
+        grandChildren0[1].ThisAndDescendants.Should().SequenceEqual(grandChildren0[1]);
+        grandChildren1[0].ThisAndDescendants.Should().SequenceEqual(grandChildren1[0]);
+        grandChildren1[1].ThisAndDescendants.Should().SequenceEqual(grandChildren1[1]);
     }
 
     [Test]

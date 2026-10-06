@@ -65,15 +65,7 @@ public abstract class Visitor<TContext, TNode, TResult>
 
     internal bool HasOwner => owner != null;
 
-    internal void SetOwner(Visitor<TContext, TNode, TResult> compositeVisitor)
-    {
-        if (owner != null)
-        {
-            throw new InvalidOperationException($"The visitor {GetType().SimpleName()} has already been registered with a composite visitor.");
-        }
-
-        owner = compositeVisitor;
-    }
+    internal void SetOwner(Visitor<TContext, TNode, TResult> compositeVisitor) => owner = compositeVisitor;
 }
 
 /// <summary>

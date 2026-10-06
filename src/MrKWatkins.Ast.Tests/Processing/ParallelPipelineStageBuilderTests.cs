@@ -15,7 +15,7 @@ public sealed class ParallelPipelineStageBuilderTests
         stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
         stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
 
-        // Default should continue will return false if this or descendents have errors.
+        // Default should continue will return false if this or descendants have errors.
         var hasErrors = new ANode();
         hasErrors.AddError("Test");
 
@@ -127,7 +127,7 @@ public sealed class ParallelPipelineStageBuilderTests
         stage.MaxDegreeOfParallelism.Should().Equal(Environment.ProcessorCount);
         stage.Strategy.Should().Equal(ParallelStrategy.PerNode);
 
-        // Default should continue will return false if this or descendents have errors.
+        // Default should continue will return false if this or descendants have errors.
         var hasErrors = new ANode();
         hasErrors.AddError("Test");
 

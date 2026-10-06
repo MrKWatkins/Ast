@@ -57,7 +57,7 @@ var fifty = new ConstantNumber(50);
 var sixty = new ConstantNumber(60);
 var expression = new Addition(fifty, sixty);
 
-var allNodes = expression.ThisAndDescendents;
+var allNodes = expression.ThisAndDescendants;
 var fiftyAndParent = fifty.ThisAndAncestors;
 var fiftyAndSixty = fifty.ThisAndNextSiblings;
 var justSixty = sixty.PreviousSibling;
@@ -68,7 +68,7 @@ Mark nodes with errors, warnings and info messages:
 
 ```csharp
 sixty.AddError("Value must be less than 55.");
-var expressionHasErrors = expression.ThisAndDescendentsHaveErrors; // true.
+var expressionHasErrors = expression.ThisAndDescendantsHaveErrors; // true.
 ```
 
 Associate nodes with their position in source code during parsing:

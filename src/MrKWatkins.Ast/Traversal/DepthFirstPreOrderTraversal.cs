@@ -22,18 +22,18 @@ public sealed class DepthFirstPreOrderTraversal<TNode> : ITraversal<TNode>
     }
 
     /// <inheritdoc />
-    public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendents = null)
+    public IEnumerable<TNode> Enumerate(TNode root, bool includeRoot = true, Func<TNode, bool>? shouldEnumerateDescendants = null)
     {
         if (includeRoot)
         {
             yield return root;
         }
 
-        if (shouldEnumerateDescendents?.Invoke(root) ?? true)
+        if (shouldEnumerateDescendants?.Invoke(root) ?? true)
         {
-            foreach (var descendent in root.Children.SelectMany(child => Enumerate(child, true, shouldEnumerateDescendents)))
+            foreach (var descendant in root.Children.SelectMany(child => Enumerate(child, true, shouldEnumerateDescendants)))
             {
-                yield return descendent;
+                yield return descendant;
             }
         }
     }

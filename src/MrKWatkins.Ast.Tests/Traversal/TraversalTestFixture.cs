@@ -18,19 +18,19 @@ public abstract class TraversalTestFixture : TreeTestFixture
     protected abstract IEnumerable<TestNode> ExpectedOrderWithoutRoot { get; }
 
     [Test]
-    public void Enumerate_IncludeRoot_ShouldEnumerateDescendents() =>
-        Traversal.Enumerate(N1, true, c => c != N12).Should().SequenceEqual(ExpectedOrderWithRoot.Except(N12.Descendents));
+    public void Enumerate_IncludeRoot_ShouldEnumerateDescendants() =>
+        Traversal.Enumerate(N1, true, c => c != N12).Should().SequenceEqual(ExpectedOrderWithRoot.Except(N12.Descendants));
 
     [Test]
-    public void Enumerate_WithoutRoot_ShouldEnumerateDescendents() =>
-        Traversal.Enumerate(N1, false, c => c != N12).Should().SequenceEqual(ExpectedOrderWithoutRoot.Except(N12.Descendents));
+    public void Enumerate_WithoutRoot_ShouldEnumerateDescendants() =>
+        Traversal.Enumerate(N1, false, c => c != N12).Should().SequenceEqual(ExpectedOrderWithoutRoot.Except(N12.Descendants));
 
     [Test]
-    public void Enumerate_IncludeRoot_ShouldEnumerateDescendents_ExcludeDescendentsOfRoot() =>
+    public void Enumerate_IncludeRoot_ShouldEnumerateDescendants_ExcludeDescendantsOfRoot() =>
         Traversal.Enumerate(N1, true, c => c != N1).Should().SequenceEqual(N1);
 
     [Test]
-    public void Enumerate_WithoutRoot_ShouldEnumerateDescendents_ExcludeDescendentsOfRoot() =>
+    public void Enumerate_WithoutRoot_ShouldEnumerateDescendants_ExcludeDescendantsOfRoot() =>
         Traversal.Enumerate(N1, false, c => c != N1).Should().BeEmpty();
 
     [Test]

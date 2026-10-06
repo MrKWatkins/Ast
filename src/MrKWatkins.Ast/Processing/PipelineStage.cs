@@ -37,19 +37,11 @@ public abstract class PipelineStage<TBaseNode>
     public ITraversal<TBaseNode> DefaultTraversal => Inner.DefaultTraversal;
 
     /// <summary>
-    /// Runs the stage, returning the potentially new root via an out parameter.
+    /// Runs the stage.
     /// </summary>
     /// <param name="root">The root node to run processing on.</param>
-    /// <param name="newRoot">The root node after processing, which may have been replaced.</param>
-    /// <returns><c>true</c> if the pipeline should continue to the next stage, <c>false</c> otherwise.</returns>
-    public bool Run(TBaseNode root, out TBaseNode newRoot) => Inner.Run(default, root, out newRoot);
-
-    /// <summary>
-    /// Runs the stage, returning a tuple of whether the pipeline should continue and the potentially replaced root node.
-    /// </summary>
-    /// <param name="root">The root node to run processing on.</param>
-    /// <returns>A tuple of whether the pipeline should continue and the root node after processing, which may have been replaced.</returns>
-    public (bool Success, TBaseNode Root) Run(TBaseNode root) => Inner.Run(default, root);
+    /// <returns>The result of running the stage, including the root node after processing, which may have been replaced.</returns>
+    public PipelineStageResult<TBaseNode> Run(TBaseNode root) => Inner.Run(default, root);
 }
 
 /// <summary>
@@ -83,34 +75,19 @@ public abstract class PipelineStage<TContext, TBaseNode>
     public ITraversal<TBaseNode> DefaultTraversal { get; }
 
     /// <summary>
-    /// Runs the stage, returning the potentially new root via an out parameter.
+    /// Runs the stage.
     /// </summary>
     /// <param name="context">The processing context.</param>
     /// <param name="root">The root node to run processing on.</param>
-    /// <param name="newRoot">The root node after processing, which may have been replaced by a <see cref="Replacer{TContext, TBaseNode}"/>.</param>
-    /// <returns><c>true</c> if the pipeline should proceed to the next stage, <c>false</c> otherwise.</returns>
-    /// <exception cref="PipelineException">If an unhandled exception occurs during processing.</exception>
-    public bool Run(TContext context, TBaseNode root, out TBaseNode newRoot)
-    {
-        var (success, resultRoot) = Run(context, root);
-        newRoot = resultRoot;
-        return success;
-    }
-
-    /// <summary>
-    /// Runs the stage, returning a tuple of whether the pipeline should continue and the potentially replaced root node.
-    /// </summary>
-    /// <param name="context">The processing context.</param>
-    /// <param name="root">The root node to run processing on.</param>
-    /// <returns>A tuple of whether processing should continue and the root node, which may have been replaced by a <see cref="Replacer{TContext, TBaseNode}"/>.</returns>
-    /// <exception cref="PipelineException">If an unhandled exception occurs during processing.</exception>
-    public (bool Success, TBaseNode Root) Run(TContext context, TBaseNode root)
+    /// <returns>The result of running the stage, including the root node after processing, which may have been replaced.</returns>
+    /// <exception cref="PipelineException">If a processor or the <see cref="ShouldContinue" /> function throws.</exception>
+    public PipelineStageResult<TBaseNode> Run(TContext context, TBaseNode root)
     {
         var newRoot = Process(context, root);
 
         try
         {
-            return (ShouldContinue(context, newRoot), newRoot);
+            return new PipelineStageResult<TBaseNode>(ShouldContinue(context, newRoot), newRoot);
         }
         catch (Exception exception)
         {

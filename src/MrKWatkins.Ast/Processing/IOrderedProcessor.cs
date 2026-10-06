@@ -11,5 +11,5 @@ internal interface IOrderedProcessor<TContext, TBaseNode>
 {
     ITraversal<TBaseNode> GetTraversal(TContext context, TBaseNode root);
 
-    bool ShouldProcessDescendents(TContext context, TBaseNode node);
+    bool ShouldProcessDescendants(TContext context, TBaseNode node);
 }

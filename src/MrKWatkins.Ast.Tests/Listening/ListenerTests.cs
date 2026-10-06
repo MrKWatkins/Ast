@@ -21,7 +21,7 @@ public sealed partial class ListenerTests : TreeTestFixture
     }
 
     [Test]
-    public void ShouldListenToChildren()
+    public void ShouldListenToDescendants()
     {
         var listener = new TestListener { ListenToChildren = (_, node) => node is not BNode };
 
@@ -42,7 +42,7 @@ public sealed partial class ListenerTests : TreeTestFixture
 
         protected internal override void AfterListenToNode(StringBuilder context, TestNode node) => context.Append(')');
 
-        protected internal override bool ShouldListenToChildren(StringBuilder context, TestNode node) => ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToChildren(context, node);
+        protected internal override bool ShouldListenToDescendants(StringBuilder context, TestNode node) => ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToDescendants(context, node);
     }
 
     private sealed class CallsBaseTestListener : Listener<StringBuilder, TestNode>
