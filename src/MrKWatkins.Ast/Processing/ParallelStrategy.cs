@@ -18,7 +18,7 @@ public enum ParallelStrategy
 
     /// <summary>
     /// Each processor runs on its own thread and walks the whole tree itself. The tree is walked once per processor, and different processors can be
-    /// processing the same node at the same time, so processors must only write to a node in a thread safe manner, e.g. by adding messages. Suits
+    /// processing the same node at the same time, so processors must only write to a node in a thread safe manner, for example, by adding messages. Suits
     /// stages with a few expensive processors, or processors that read neighbouring nodes.
     /// </summary>
     PerProcessor

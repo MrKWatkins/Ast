@@ -8,7 +8,7 @@ namespace MrKWatkins.Ast.Position;
 public abstract class SourcePosition : IEquatable<SourcePosition>, IEqualityOperators<SourcePosition, SourcePosition, bool>
 {
     /// <summary>
-    /// Represents no source position, e.g. the parent node was generated programmatically.
+    /// Represents no source position, for example, the parent node was generated programmatically.
     /// </summary>
     /// <returns>The none position.</returns>
     public static readonly SourcePosition None = new NonePosition();

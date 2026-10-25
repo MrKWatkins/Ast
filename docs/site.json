@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "title": "Ast",
+  "description": "Build and manipulate abstract syntax trees in .NET.",
+  "repository": "https://github.com/MrKWatkins/Ast",
+  "base": "/Ast/",
+  "vocabularyDirectory": "docs/vocabulary",
+  "guide": [
+    {
+      "text": "Overview",
+      "link": "/"
+    },
+    {
+      "text": "Nodes and Trees",
+      "link": "/nodes"
+    },
+    {
+      "text": "Properties",
+      "link": "/properties"
+    },
+    {
+      "text": "Messages",
+      "link": "/messages"
+    },
+    {
+      "text": "Source Positions",
+      "link": "/source-positions"
+    },
+    {
+      "text": "Lexing",
+      "link": "/lexing"
+    },
+    {
+      "text": "Listeners",
+      "link": "/listeners"
+    },
+    {
+      "text": "Visitors",
+      "link": "/visitors"
+    },
+    {
+      "text": "Processing",
+      "link": "/processing"
+    }
+  ],
+  "api": {
+    "generator": "sesharp",
+    "assemblies": [
+      "src/MrKWatkins.Ast/bin/Release/net10.0/MrKWatkins.Ast.dll"
+    ]
+  }
+}

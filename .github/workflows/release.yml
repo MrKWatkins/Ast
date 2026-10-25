@@ -1,55 +1,50 @@
 name: Release
-
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version Number'
-        required: true
+        description: Optional version without v; blank increments the latest stable tag minor version
         type: string
-
+        required: false
+      publish-packages:
+        description: Publish NuGet packages and create a release
+        type: boolean
+        default: true
+      publish-docs:
+        description: Publish documentation
+        type: boolean
+        default: true
+      api-ref:
+        description: Optional API source override for docs-only XML comment corrections
+        type: string
 permissions:
-  checks: write
-  contents: write
-  id-token: write
-  pages: write
-
+  contents: read
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
 jobs:
-  Release:
-    name: Release ${{ inputs.version }}
+  examples:
+    name: Examples
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ github.token }}
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Publish to NuGet
-        uses: MrKWatkins/nuget-publish@main
+      - uses: MrKWatkins/build/dotnet/project@main
         with:
-          nuget-api-key: ${{ secrets.NUGET_API_KEY }}
+          directory: examples
+          docs: false
+          coverage-assembly-filters: -MrKWatkins.Ast
+  release:
+    name: Release
+    needs: examples
+    runs-on: ubuntu-latest
+    environment: github-pages
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - uses: MrKWatkins/build/dotnet/project@main
+        with:
           version: ${{ inputs.version }}
-          directory: src
-
-      - name: Build
-        uses: MrKWatkins/dotnet-build@main
-        with:
-          name: MrKWatkins.Ast
-          directory: src
-
-      - name: Install Sesharp
-        run: dotnet tool install --tool-path ./.tools MrKWatkins.Sesharp.Tool
-
-      - name: Make API Docs Directory
-        run: mkdir -p doc/docs/API
-
-      - name: Generate API Docs
-        run: ./.tools/sesharp src/MrKWatkins.Ast/bin/Release/net10.0/MrKWatkins.Ast.dll --output doc/docs/API --repository https://github.com/MrKWatkins/Ast
-
-      - name: Deploy docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG_FILE: doc/mkdocs.yml
-          REQUIREMENTS: doc/requirements.txt
+          publish-packages: ${{ inputs.publish-packages }}
+          publish-docs: ${{ inputs.publish-docs }}
+          api-ref: ${{ inputs.api-ref }}

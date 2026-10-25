@@ -4,7 +4,7 @@ namespace MrKWatkins.Ast.Visiting;
 /// A visitor for a syntax tree. A visitor is called for a node and returns a value for it. Unlike a <see cref="Listening.Listener{TContext, TNode}" />,
 /// which walks the whole tree itself, a visitor controls the walk: it visits whichever children it needs, in whatever order it needs, and combines
 /// their results into its own. That makes visitors the natural fit for evaluating or transforming a tree into a value, especially when not every
-/// child should be visited, e.g. short-circuit evaluation.
+/// child should be visited, for example, short-circuit evaluation.
 /// </summary>
 /// <remarks>
 /// Exceptions are not handled; if the visitor throws then the exception will escape from the <see cref="Visit"/> method and no

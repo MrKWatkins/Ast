@@ -258,7 +258,7 @@ public sealed partial class Children<TNode> : IList<TNode>, IReadOnlyList<TNode>
     /// Gets the index of the specified node in this collection.
     /// </summary>
     /// <param name="node">The node to search for.</param>
-    /// <returns>The index of the node or -1 if it is not in the collection.</returns>
+    /// <returns>The index of the node or <c>-1</c> if it is not in the collection.</returns>
     public int IndexOf(TNode node) =>
         node.HasParent && ReferenceEquals(node.Parent, parent)
             ? Array.IndexOf(nodes, node)

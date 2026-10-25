@@ -1,7 +1,7 @@
 namespace MrKWatkins.Ast.Traversal;
 
 /// <summary>
-/// Strategy for traversing nodes in a tree depth first, pre-order, i.e. depth first with parent nodes being enumerated before their children.
+/// Strategy for traversing nodes in a tree depth first, pre-order, that is, depth first with parent nodes being enumerated before their children.
 /// </summary>
 /// <remarks>
 /// This is the default traversal for the library.

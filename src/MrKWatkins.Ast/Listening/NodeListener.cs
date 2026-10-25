@@ -2,7 +2,7 @@ namespace MrKWatkins.Ast.Listening;
 
 /// <summary>
 /// A <see cref="Listener{TContext, TNode}" /> that only listens to nodes of a specific type. All other nodes will be ignored. The listener will
-/// still proceed to descendants of nodes that aren't listened too, i.e. the entire tree will be walked.
+/// still proceed to descendants of nodes that aren't listened too, that is, the entire tree will be walked.
 /// </summary>
 /// <typeparam name="TContext">The type of the context object.</typeparam>
 /// <typeparam name="TBaseNode">The base type of all nodes in the tree.</typeparam>
@@ -80,7 +80,7 @@ public abstract class NodeListener<TContext, TBaseNode, TNode> : Listener<TConte
 
 /// <summary>
 /// A <see cref="Listener{TNode}" /> that only listens to nodes of a specific type and does not take a context object. All other nodes will be
-/// ignored. The listener will still proceed to descendants of nodes that aren't listened too, i.e. the entire tree will be walked.
+/// ignored. The listener will still proceed to descendants of nodes that aren't listened too, that is, the entire tree will be walked.
 /// </summary>
 /// <typeparam name="TBaseNode">The base type of all nodes in the tree.</typeparam>
 /// <typeparam name="TNode">The type of the nodes to listen to.</typeparam>

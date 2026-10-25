@@ -1,7 +1,7 @@
 namespace MrKWatkins.Ast.Traversal;
 
 /// <summary>
-/// Strategy for traversing nodes in a tree depth first, post-order, i.e. depth first with parent nodes being enumerated after their children.
+/// Strategy for traversing nodes in a tree depth first, post-order, that is, depth first with parent nodes being enumerated after their children.
 /// </summary>
 /// <seealso href="https://en.wikipedia.org/wiki/Depth-first_search" />
 /// <typeparam name="TNode">The type of nodes in the tree.</typeparam>

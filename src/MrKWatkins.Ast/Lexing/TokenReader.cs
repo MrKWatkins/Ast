@@ -36,7 +36,7 @@ public sealed class TokenReader<TKind>
     public int Count => tokens.Length;
 
     /// <summary>
-    /// The index of the current position in the reader. Can be set to a previously retrieved value to rewind the reader, e.g. after
+    /// The index of the current position in the reader. Can be set to a previously retrieved value to rewind the reader, for example, after
     /// speculative lookahead.
     /// </summary>
     /// <returns>The index of the current position.</returns>
@@ -56,7 +56,7 @@ public sealed class TokenReader<TKind>
     }
 
     /// <summary>
-    /// Returns <c>true</c> if the reader is positioned at the last token, i.e. the end of file token, <c>false</c> otherwise.
+    /// Returns <c>true</c> if the reader is positioned at the last token, that is, the end of file token, <c>false</c> otherwise.
     /// </summary>
     /// <returns>Whether the reader is positioned at the last token or not.</returns>
     public bool AtEnd => position == tokens.Length - 1;
@@ -68,7 +68,7 @@ public sealed class TokenReader<TKind>
     public Token<TKind> Current => tokens[position];
 
     /// <summary>
-    /// Returns the token at the specified offset from the current position, clamped to the ends of the reader, i.e. offsets before
+    /// Returns the token at the specified offset from the current position, clamped to the ends of the reader, that is, offsets before
     /// the first token return the first token and offsets after the last token return the last token.
     /// </summary>
     /// <param name="offset">The offset from the current position; can be negative to peek at preceding tokens.</param>

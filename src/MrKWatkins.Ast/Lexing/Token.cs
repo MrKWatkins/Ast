@@ -73,7 +73,7 @@ public readonly record struct Token<TKind>
 
     /// <summary>
     /// The <see cref="TextFilePosition" /> of the token in <see cref="File" />. The start index, line and column are clamped to valid
-    /// positions in the file for tokens at positions a <see cref="TextFilePosition" /> cannot represent, i.e. a token starting on a
+    /// positions in the file for tokens at positions a <see cref="TextFilePosition" /> cannot represent, that is, a token starting on a
     /// line's terminator or a zero length token at the end of the file.
     /// </summary>
     /// <returns>The position.</returns>
@@ -109,7 +109,7 @@ public readonly record struct Token<TKind>
     }
 
     /// <summary>
-    /// Returns <c>true</c> if this token ends exactly where <paramref name="other" /> starts, i.e. the tokens are directly adjacent
+    /// Returns <c>true</c> if this token ends exactly where <paramref name="other" /> starts, that is, the tokens are directly adjacent
     /// in the file with nothing between them. Both tokens are assumed to come from the same file.
     /// </summary>
     /// <param name="other">The other token.</param>
@@ -118,7 +118,7 @@ public readonly record struct Token<TKind>
     public bool IsDirectlyBefore(in Token<TKind> other) => StartIndex + Length == other.StartIndex;
 
     /// <summary>
-    /// Returns a string representation of this token, i.e. the <see cref="Kind" /> followed by the <see cref="Text" /> if the token
+    /// Returns a string representation of this token, that is, the <see cref="Kind" /> followed by the <see cref="Text" /> if the token
     /// has any.
     /// </summary>
     /// <returns>A string representation of this token.</returns>

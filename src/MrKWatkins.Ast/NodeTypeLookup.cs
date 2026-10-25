@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 namespace MrKWatkins.Ast;
 
 /// <summary>
-/// Maps node types to handlers, e.g. listeners or visitors. When no handler is registered for a node's exact type the handler for its
+/// Maps node types to handlers, for example, listeners or visitors. When no handler is registered for a node's exact type the handler for its
 /// closest base type is used. Lookups are cached so that the base type search only happens once per node type.
 /// </summary>
 internal sealed class NodeTypeLookup<TBaseNode, THandler>

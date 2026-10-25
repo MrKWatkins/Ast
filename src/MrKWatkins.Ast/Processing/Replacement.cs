@@ -8,7 +8,7 @@ internal static class Replacement
     /// <summary>
     /// Replaces <paramref name="node" /> with <paramref name="replacement" /> if it is a different node. If <paramref name="node" /> has a parent the
     /// replacement is swapped into the tree in its place and <c>null</c> is returned. If <paramref name="node" /> is the root there is no tree to update
-    /// so the replacement is returned, i.e. a non-null return value is the new root of the tree.
+    /// so the replacement is returned, that is, a non-null return value is the new root of the tree.
     /// </summary>
     internal static TBaseNode? Apply<TBaseNode>(TBaseNode node, TBaseNode? replacement)
         where TBaseNode : Node<TBaseNode>

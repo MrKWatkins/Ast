@@ -8,7 +8,7 @@
 
 ## Background
 
-As part of my [Oakley](https://www.mrkwatkins.co.uk/tag/oakley/) project to create a compiler and it's associated OakAsm project to create an assembler (details coming soon) I needed to represent
+As part of my [Oakley](https://www.mrkwatkins.co.uk/tag/oakley/) project to create a compiler and its associated OakAsm project to create an assembler (details coming soon) I needed to represent
 [abstract syntax trees](https://en.wikipedia.org/wiki/Abstract_syntax_tree) in C#. This library was created so I could share the code between those two projects.
 
 Full documentation is available at [mrkwatkins.github.io/Ast](https://mrkwatkins.github.io/Ast/). Source code and issue tracking are on [GitHub](https://github.com/MrKWatkins/Ast).
@@ -113,3 +113,19 @@ Feel free to raise issues for bugs or suggestions, but I make no guarantees they
 ## License
 
 MIT
+
+## Building and documentation
+
+The library and examples remain separate solutions: `src/Ast.slnx` and `examples/Examples.slnx`. Tests use NUnit on Microsoft Testing Platform; run `dotnet test`
+from the corresponding directory to use its test configuration. **Build and Test** runs the two solutions in parallel jobs.
+
+Handwritten documentation lives in `docs/content`; `docs/site.json` defines navigation and API inputs. Run `python3 docs/preview.py` with Docker and the .NET 10 SDK
+installed, or select **Preview documentation** in a JetBrains IDE. Open `http://localhost:5173/Ast/`.
+
+**Build and Test** runs on pushes and pull requests. **Release** requires the examples to pass before building, testing and optionally publishing the library
+packages and documentation. Both publication options default to true. Leave the version blank for the next minor version, or enter an explicit stable version. To update documentation without
+publishing a package, turn **publish-packages** off and leave **publish-docs** on. This uses the latest released API and version; `api-ref` can override the API
+source for XML comment corrections. For the first docs-only publication of 0.9.139, set `api-ref` to `main` to include the prose corrections required by the new documentation checks.
+
+Configure NuGet trusted publishing for owner `MrKWatkins`, repository `Ast`, workflow `release.yml`, environment `github-pages` and package `MrKWatkins.Ast`.
+Set GitHub Pages to **GitHub Actions**, and allow `main` to deploy to the `github-pages` environment. No stored NuGet API key is required.

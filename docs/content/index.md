@@ -22,7 +22,7 @@ Trees are built from a self-generic base node type of your own. Nodes expose the
 
 ## Properties
 
-[`PropertyNode<TNode>`](API/MrKWatkins.Ast/PropertyNode-TNode/index.md) stores node state in a keyed [`Properties`](API/MrKWatkins.Ast/Properties/index.md) collection rather than in fields. That gives copyable nodes, structural equality by value, and single or multiple valued properties, all behind normal C# properties on your node types.
+[`PropertyNode<TNode>`](api/MrKWatkins.Ast/PropertyNode-TNode/index.md) stores node state in a keyed [`Properties`](api/MrKWatkins.Ast/Properties/index.md) collection rather than in fields. That gives copyable nodes, structural equality by value, and single or multiple valued properties, all behind normal C# properties on your node types.
 
 [Read more](properties.md)
 
@@ -34,13 +34,13 @@ Errors, warnings and informational messages are attached to the nodes they apply
 
 ## Source Positions
 
-Nodes can record where they came from with a [`SourcePosition`](API/MrKWatkins.Ast.Position/SourcePosition/index.md). Text and binary files are both supported, and positions can be combined to cover the source of an entire subtree.
+Nodes can record where they came from with a [`SourcePosition`](api/MrKWatkins.Ast.Position/SourcePosition/index.md). Text and binary files are both supported, and positions can be combined to cover the source of an entire subtree.
 
 [Read more](source-positions.md)
 
 ## Lexing
 
-[`SourceReader`](API/MrKWatkins.Ast.Lexing/SourceReader/index.md) reads a text file character by character while tracking lines and columns, producing [`Token<TKind>`](API/MrKWatkins.Ast.Lexing/Token-TKind/index.md)s. [`TokenReader<TKind>`](API/MrKWatkins.Ast.Lexing/TokenReader-TKind/index.md) then feeds those tokens to a parser, with lookahead, rewinding and error recovery.
+[`SourceReader`](api/MrKWatkins.Ast.Lexing/SourceReader/index.md) reads a text file character by character while tracking lines and columns, producing [`Token<TKind>`](api/MrKWatkins.Ast.Lexing/Token-TKind/index.md)s. [`TokenReader<TKind>`](api/MrKWatkins.Ast.Lexing/TokenReader-TKind/index.md) then feeds those tokens to a parser, with lookahead, rewinding and error recovery.
 
 [Read more](lexing.md)
 
@@ -66,15 +66,15 @@ Processing runs a pipeline of stages over a tree, each stage containing one or m
 
 Reference documentation is generated from the release assembly:
 
-- [`Node<TNode>`](API/MrKWatkins.Ast/Node-TNode/index.md)
-- [`PropertyNode<TNode>`](API/MrKWatkins.Ast/PropertyNode-TNode/index.md)
-- [`Children<TNode>`](API/MrKWatkins.Ast/Children-TNode/index.md)
-- [`Message`](API/MrKWatkins.Ast/Message/index.md)
-- [`SourcePosition`](API/MrKWatkins.Ast.Position/SourcePosition/index.md)
-- [`SourceReader`](API/MrKWatkins.Ast.Lexing/SourceReader/index.md)
-- [`Listener<TContext, TNode>`](API/MrKWatkins.Ast.Listening/Listener-TContext-TNode/index.md)
-- [`Visitor<TContext, TNode, TResult>`](API/MrKWatkins.Ast.Visiting/Visitor-TContext-TNode-TResult/index.md)
-- [`Pipeline<TBaseNode>`](API/MrKWatkins.Ast.Processing/Pipeline-TBaseNode/index.md)
+- [`Node<TNode>`](api/MrKWatkins.Ast/Node-TNode/index.md)
+- [`PropertyNode<TNode>`](api/MrKWatkins.Ast/PropertyNode-TNode/index.md)
+- [`Children<TNode>`](api/MrKWatkins.Ast/Children-TNode/index.md)
+- [`Message`](api/MrKWatkins.Ast/Message/index.md)
+- [`SourcePosition`](api/MrKWatkins.Ast.Position/SourcePosition/index.md)
+- [`SourceReader`](api/MrKWatkins.Ast.Lexing/SourceReader/index.md)
+- [`Listener<TContext, TNode>`](api/MrKWatkins.Ast.Listening/Listener-TContext-TNode/index.md)
+- [`Visitor<TContext, TNode, TResult>`](api/MrKWatkins.Ast.Visiting/Visitor-TContext-TNode-TResult/index.md)
+- [`Pipeline<TBaseNode>`](api/MrKWatkins.Ast.Processing/Pipeline-TBaseNode/index.md)
 
 ## Examples
 

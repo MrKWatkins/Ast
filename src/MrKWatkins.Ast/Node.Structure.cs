@@ -88,7 +88,7 @@ public abstract partial class Node<TNode>
     }
 
     /// <summary>
-    /// Lazily enumerates over the ancestors of this node, i.e. the <see cref="Parent"/>, grandparent, great-grandparent and so on up to the root node.
+    /// Lazily enumerates over the ancestors of this node, that is, the <see cref="Parent"/>, grandparent, great-grandparent and all remaining ancestors up to the root node.
     /// </summary>
     public IEnumerable<TNode> Ancestors
     {
@@ -104,8 +104,8 @@ public abstract partial class Node<TNode>
     }
 
     /// <summary>
-    /// Lazily enumerates over this node and its <see cref="Ancestors" />, i.e. this node, the <see cref="Parent" />, grandparent, great-grandparent
-    /// and so on up to the root node.
+    /// Lazily enumerates over this node and its <see cref="Ancestors" />, that is, this node, the <see cref="Parent" />, grandparent, great-grandparent
+    /// and all remaining ancestors up to the root node.
     /// </summary>
     public IEnumerable<TNode> ThisAndAncestors => ThisAnd(Ancestors);
 
@@ -128,7 +128,7 @@ public abstract partial class Node<TNode>
         => ThisAndAncestors.OfType<TAncestor>();
 
     /// <summary>
-    /// The root node, i.e. the highest parent above this node. Returns this node if it is the root, i.e. it has no parents.
+    /// The root node, that is, the highest parent above this node. Returns this node if it is the root, that is, it has no parents.
     /// </summary>
     public TNode Root => HasParent ? Ancestors.Last() : This;
 
@@ -136,7 +136,7 @@ public abstract partial class Node<TNode>
     private int GetIndexOfSelf() => Parent.Children.IndexOf(This); // Can never be -1.
 
     /// <summary>
-    /// The next sibling, i.e. the child from the same <see cref="Parent" /> at the next positional index. Returns <c>null</c> if this node is the last child.
+    /// The next sibling, that is, the child from the same <see cref="Parent" /> at the next positional index. Returns <c>null</c> if this node is the last child.
     /// </summary>
     public TNode? NextSibling
     {
@@ -159,13 +159,13 @@ public abstract partial class Node<TNode>
     public bool HasNextSibling => HasParent && GetIndexOfSelf() < Parent.Children.Count - 1;
 
     /// <summary>
-    /// Lazily enumerates over the next siblings, i.e. the children from the same <see cref="Parent" /> at subsequent positional indices in ascending
+    /// Lazily enumerates over the next siblings, that is, the children from the same <see cref="Parent" /> at subsequent positional indices in ascending
     /// index order.
     /// </summary>
     public IEnumerable<TNode> NextSiblings => HasParent ? Parent.Children.Skip(GetIndexOfSelf() + 1) : [];
 
     /// <summary>
-    /// Lazily enumerates over this node then the next siblings, i.e. the children from the same <see cref="Parent" /> at subsequent positional indices
+    /// Lazily enumerates over this node then the next siblings, that is, the children from the same <see cref="Parent" /> at subsequent positional indices
     /// in ascending index order.
     /// </summary>
     public IEnumerable<TNode> ThisAndNextSiblings => ThisAnd(NextSiblings);
@@ -198,7 +198,7 @@ public abstract partial class Node<TNode>
     }
 
     /// <summary>
-    /// The previous sibling, i.e. the child from the same <see cref="Parent" /> at the previous positional index. Returns <c>null</c> if this node is the first child.
+    /// The previous sibling, that is, the child from the same <see cref="Parent" /> at the previous positional index. Returns <c>null</c> if this node is the first child.
     /// </summary>
     public TNode? PreviousSibling
     {
@@ -221,7 +221,7 @@ public abstract partial class Node<TNode>
     public bool HasPreviousSibling => HasParent && GetIndexOfSelf() > 0;
 
     /// <summary>
-    /// Lazily enumerates over the previous siblings, i.e. the children from the same <see cref="Parent" /> at precedent positional indices in
+    /// Lazily enumerates over the previous siblings, that is, the children from the same <see cref="Parent" /> at precedent positional indices in
     /// descending index order.
     /// </summary>
     public IEnumerable<TNode> PreviousSiblings
@@ -243,7 +243,7 @@ public abstract partial class Node<TNode>
     }
 
     /// <summary>
-    /// Lazily enumerates over this node then the previous siblings, i.e. the children from the same <see cref="Parent" /> at precedent positional indices in
+    /// Lazily enumerates over this node then the previous siblings, that is, the children from the same <see cref="Parent" /> at precedent positional indices in
     /// descending index order.
     /// </summary>
     public IEnumerable<TNode> ThisAndPreviousSiblings => ThisAnd(PreviousSiblings);
@@ -288,7 +288,7 @@ public abstract partial class Node<TNode>
     public IEnumerable<TNode> ThisAndDescendants => Traverse.DepthFirstPreOrder(This);
 
     /// <summary>
-    /// The index of this node in the <see cref="Parent" /> or -1 if this node has no <see cref="Parent" />.
+    /// The index of this node in the <see cref="Parent" /> or <c>-1</c> if this node has no <see cref="Parent" />.
     /// </summary>
     /// <returns>The index in the parent node.</returns>
     /// <seealso cref="HasParent" />

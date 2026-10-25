@@ -1,33 +1,22 @@
-name: Build
-
-on:
-  push:
-  pull_request:
-
+name: Build and Test
+on: [push, pull_request]
 permissions:
-  checks: write
-  contents: write
-  id-token: write
-  pages: write
-
+  contents: read
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  Build:
-    name: Build
+  source:
+    name: Source
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Build MrKWatkins.Ast
-        uses: MrKWatkins/dotnet-build@main
+      - uses: MrKWatkins/build/dotnet/project@main
+  examples:
+    name: Examples
+    runs-on: ubuntu-latest
+    steps:
+      - uses: MrKWatkins/build/dotnet/project@main
         with:
-          name: MrKWatkins.Ast
-          directory: src
-
-      - name: Build Examples
-        uses: MrKWatkins/dotnet-build@main
-        with:
-          name: Examples
           directory: examples
+          docs: false
           coverage-assembly-filters: -MrKWatkins.Ast

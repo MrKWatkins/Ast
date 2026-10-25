@@ -51,7 +51,7 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
     public int StartLineIndex { get; }
 
     /// <summary>
-    /// Number, i.e. 1 based index, of the start line of the position in the text file.
+    /// Number, that is, 1 based index, of the start line of the position in the text file.
     /// </summary>
     /// <returns>The number of the start line.</returns>
     public int StartLineNumber => StartLineIndex + 1;
@@ -63,7 +63,7 @@ public sealed class TextFilePosition : SourceFilePosition<TextFilePosition, Text
     public int StartColumnIndex { get; }
 
     /// <summary>
-    /// Number, i.e. 1 based index, of the start column of the position in the text file.
+    /// Number, that is, 1 based index, of the start column of the position in the text file.
     /// </summary>
     /// <returns>The number of the start column.</returns>
     public int StartColumnNumber => StartColumnIndex + 1;

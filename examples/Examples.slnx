@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../.editorconfig" />
+    <File Path="../.gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="Listeners.Tests/Listeners.Tests.csproj" />
+  <Project Path="Listeners/Listeners.csproj" />
+  <Project Path="Maths.Tests/Maths.Tests.csproj" />
+  <Project Path="Maths/Maths.csproj" />
+  <Project Path="Visitors.Tests/Visitors.Tests.csproj" />
+  <Project Path="Visitors/Visitors.csproj" />
+</Solution>

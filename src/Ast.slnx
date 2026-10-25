@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../.editorconfig" />
+    <File Path="../.gitignore" />
+    <File Path="../License.md" />
+    <File Path="../ReadMe.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/Solution Items/.github/">
+    <File Path="../.github/dependabot.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/.github/workflows/">
+    <File Path="../.github/workflows/build.yml" />
+    <File Path="../.github/workflows/release.yml" />
+  </Folder>
+  <Project Path="MrKWatkins.Ast.Tests/MrKWatkins.Ast.Tests.csproj" />
+  <Project Path="MrKWatkins.Ast/MrKWatkins.Ast.csproj" />
+</Solution>
