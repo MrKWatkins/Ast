@@ -1,14 +1,44 @@
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "nuget"
-    directory: "/src"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "nuget"
-    directory: "/examples"
-    schedule:
-      interval: "daily"
+- package-ecosystem: github-actions
+  directory: /
+  schedule:
+    interval: weekly
+  groups:
+    minor-and-patch:
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
+    major:
+      patterns:
+      - '*'
+      update-types:
+      - major
+    security:
+      applies-to: security-updates
+      patterns:
+      - '*'
+- package-ecosystem: nuget
+  schedule:
+    interval: weekly
+  groups:
+    minor-and-patch:
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
+    major:
+      patterns:
+      - '*'
+      update-types:
+      - major
+    security:
+      applies-to: security-updates
+      patterns:
+      - '*'
+  directories:
+  - /src
+  - /examples

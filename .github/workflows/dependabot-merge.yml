@@ -1,0 +1,19 @@
+name: Dependabot Merge
+on:
+  workflow_run:
+    workflows: ["Build and Test"]
+    types: [completed]
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+concurrency:
+  group: dependabot-merge-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+jobs:
+  merge:
+    name: Merge tested dependencies
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: MrKWatkins/build/dependabot/merge@main
