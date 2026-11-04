@@ -112,7 +112,9 @@ Feel free to raise issues for bugs or suggestions, but I make no guarantees they
 
 ## License
 
-MIT
+Licensed under GPL v3.0 only (`GPL-3.0-only`). See [License.md](License.md).
+
+Previously published MIT versions retain their original licence.
 
 ## Building and documentation
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: MIT
 """Build API inputs and preview documentation using the shared Docker image."""
 
 import os

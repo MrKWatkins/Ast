@@ -96,4 +96,4 @@ My general rule is I'll write the interesting bits and use AI for the boring bit
 
 ## Licencing
 
-Licensed under MIT.
+Licensed under GPL v3.0 only (`GPL-3.0-only`).

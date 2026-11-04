@@ -7,4 +7,4 @@
 - Keep handwritten documentation in `docs/content` and navigation in `docs/site.json`. Generated API files and site output belong under ignored `artifacts`.
 - Use the shared `MrKWatkins/build/dotnet/project` action for builds and releases. NuGet publication uses trusted publishing.
 - Preview documentation with `python3 docs/preview.py` or the shared JetBrains run configuration.
-- Preserve the MIT licence. Keep workflow and tooling changes lean and consistent with the shared build setup.
+- Preserve the GPL-3.0-only licence. Keep workflow and tooling changes lean and consistent with the shared build setup.
