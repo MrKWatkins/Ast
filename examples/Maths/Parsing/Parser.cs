@@ -47,13 +47,13 @@ public static class Parser
     {
         var expression = ParseExpression(lexer, 0);
 
-        var parameters = new Dictionary<string, Parameter>();
+        var parameters = new Dictionary<string, Parameter>(StringComparer.Ordinal);
         foreach (var variable in expression.ThisAndDescendants.OfType<Variable>())
         {
             parameters.TryAdd(variable.Name, new Parameter(variable.Name));
         }
 
-        return new Function(parameters.Values.OrderBy(p => p.Name), expression);
+        return new Function(parameters.Values.OrderBy(p => p.Name, StringComparer.Ordinal), expression);
     }
 
     [MustUseReturnValue]

@@ -7,10 +7,7 @@ namespace MrKWatkins.Ast.Examples.Maths.Tree;
 /// </summary>
 public sealed class Variable : Expression
 {
-    public Variable(string name)
-    {
-        Name = name;
-    }
+    public Variable(string name) => Name = name;
 
     /// <summary>
     /// The name of the variable.

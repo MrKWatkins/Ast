@@ -253,15 +253,10 @@ public sealed partial class CompositeVisitorTests : TreeTestFixture
         }
     }
 
-    private sealed class TestVisitor<TNode> : NodeVisitor<TestContext, TestNode, TNode, string>
+    private sealed class TestVisitor<TNode>(string? prefix = null) : NodeVisitor<TestContext, TestNode, TNode, string>
         where TNode : TestNode
     {
-        private readonly string prefix;
-
-        public TestVisitor(string? prefix = null)
-        {
-            this.prefix = prefix ?? typeof(TNode).Name[..1];
-        }
+        private readonly string prefix = prefix ?? typeof(TNode).Name[..1];
 
         public int Count { get; private set; }
 

@@ -46,13 +46,9 @@ public sealed class DefaultNodeFactory<TNode> : INodeFactory<TNode>
 
         var constructorInfo = nodeType
             .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .FirstOrDefault(c => c.GetParameters().Length == 0);
-
-        if (constructorInfo == null)
-        {
-            throw new ArgumentException($"Could not find a parameterless constructor for the node type {nodeType.SimpleName()}.", nameof(nodeType));
-        }
-
+            .FirstOrDefault(c =>
+                c.GetParameters().Length == 0) ??
+                throw new ArgumentException($"Could not find a parameterless constructor for the node type {nodeType.SimpleName()}.", nameof(nodeType));
         var expression = Expression.Lambda<Func<TNode>>(Expression.New(constructorInfo));
         var constructor = expression.Compile();
 

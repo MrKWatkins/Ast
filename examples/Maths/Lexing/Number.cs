@@ -8,10 +8,8 @@ namespace MrKWatkins.Ast.Examples.Maths.Lexing;
 public sealed record Number : Token
 {
     internal Number(int startIndex, int length, int value)
-        : base(startIndex, length)
-    {
+        : base(startIndex, length) =>
         Value = value;
-    }
 
     public int Value { get; }
 

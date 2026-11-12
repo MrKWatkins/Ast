@@ -5,10 +5,7 @@ namespace MrKWatkins.Ast.Examples.Listeners;
 /// </summary>
 public sealed class Constant : Expression
 {
-    public Constant(int value)
-    {
-        Value = value;
-    }
+    public Constant(int value) => Value = value;
 
     public int Value
     {

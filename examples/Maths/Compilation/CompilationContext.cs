@@ -5,14 +5,9 @@ namespace MrKWatkins.Ast.Examples.Maths.Compilation;
 /// <summary>
 /// Context for compiling expressions. The evaluation proceeds downwards into the expression tree and maintains a stack of expressions as it goes.
 /// </summary>
-internal sealed class CompilationContext
+internal sealed class CompilationContext(IReadOnlyDictionary<string, ParameterExpression> parameters)
 {
-    public CompilationContext(IReadOnlyDictionary<string, ParameterExpression> parameters)
-    {
-        Parameters = parameters;
-    }
-
     internal Stack<Expression> Values { get; } = new();
 
-    internal IReadOnlyDictionary<string, ParameterExpression> Parameters { get; }
+    internal IReadOnlyDictionary<string, ParameterExpression> Parameters { get; } = parameters;
 }

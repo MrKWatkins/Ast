@@ -124,7 +124,7 @@ public sealed class TokenReaderTests
         var reader = CreateReader();
 
         reader.TryConsume(TestTokenKind.Number, out var token).Should().BeFalse();
-        token.Should().Equal(default(Token<TestTokenKind>));
+        token.Should().Equal(default);
         reader.Position.Should().Equal(0);
     }
 

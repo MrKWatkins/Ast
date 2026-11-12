@@ -14,14 +14,11 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>, IEqu
     private readonly Dictionary<string, Property> properties;
 
     internal Properties()
-        : this(new Dictionary<string, Property>())
+        : this(new Dictionary<string, Property>(StringComparer.Ordinal))
     {
     }
 
-    private Properties(Dictionary<string, Property> properties)
-    {
-        this.properties = properties;
-    }
+    private Properties(Dictionary<string, Property> properties) => this.properties = properties;
 
     /// <summary>
     /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
@@ -57,10 +54,8 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>, IEqu
     /// </exception>
     [Pure]
     public T GetOrThrow<T>(string key, ref T? cached)
-        where T : class
-    {
-        return cached ??= GetOrThrow<T>(key, k => new KeyNotFoundException($"No value for property with key \"{k}\"."));
-    }
+        where T : class =>
+        cached ??= GetOrThrow<T>(key, k => new KeyNotFoundException($"No value for property with key \"{k}\"."));
 
     /// <summary>
     ///     Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
@@ -81,10 +76,8 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>, IEqu
     /// </exception>
     [Pure]
     public T GetOrThrow<T>(string key, ref T? cached)
-        where T : struct
-    {
-        return cached ??= GetOrThrow<T>(key, k => new KeyNotFoundException($"No value for property with key \"{k}\"."));
-    }
+        where T : struct =>
+        cached ??= GetOrThrow<T>(key, k => new KeyNotFoundException($"No value for property with key \"{k}\"."));
 
     /// <summary>
     /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
@@ -120,10 +113,8 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>, IEqu
     /// </exception>
     [Pure]
     public T GetOrThrow<T>(string key, ref T? cached, [InstantHandle] Func<Exception> exceptionCreator)
-        where T : class
-    {
-        return cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator();
-    }
+        where T : class =>
+        cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator();
 
     /// <summary>
     /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
@@ -144,10 +135,8 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>, IEqu
     /// </exception>
     [Pure]
     public T GetOrThrow<T>(string key, ref T? cached, [InstantHandle] Func<Exception> exceptionCreator)
-        where T : struct
-    {
-        return cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator();
-    }
+        where T : struct =>
+        cached ??= TryGet<T>(key, out var value) ? value : throw exceptionCreator();
 
     /// <summary>
     /// Gets the value of a single valued property with the specified key or throws an exception if the property does not exist.
@@ -510,7 +499,7 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>, IEqu
     /// <param name="y">The second collection.</param>
     /// <returns><c>true</c> if the collections are equal, <c>false</c> otherwise.</returns>
     [Pure]
-    public static bool operator ==(Properties? x, Properties? y) => x?.Equals(y) ?? y is null;
+    public static bool operator ==(Properties? x, Properties? y) => x?.Equals(y) ?? (y is null);
 
     /// <summary>
     /// Returns <c>true</c> if two collections are not equal, <c>false</c> otherwise.
@@ -583,7 +572,7 @@ public sealed class Properties : IEnumerable<KeyValuePair<string, object>>, IEqu
     [Pure]
     internal Properties Copy()
     {
-        var newProperties = new Dictionary<string, Property>(properties.Count);
+        var newProperties = new Dictionary<string, Property>(properties.Count, StringComparer.Ordinal);
         foreach (var (key, property) in properties)
         {
             newProperties[key] = property.Multiple

@@ -55,8 +55,10 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
         stage.Strategy.Should().Equal(strategy);
 
         stage.Run(N1).Success.Should().Equal(shouldContinue);
-        processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
-        processors[1].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+        processors[0].Processed.OrderBy(n =>
+            n.Name, StringComparer.Ordinal).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name, StringComparer.Ordinal));
+        processors[1].Processed.OrderBy(n =>
+            n.Name, StringComparer.Ordinal).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name, StringComparer.Ordinal));
     }
 
     [Test]
@@ -80,7 +82,7 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
 
         stage.Run(N1);
 
-        processedBy.Keys.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+        processedBy.Keys.OrderBy(n => n.Name, StringComparer.Ordinal).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name, StringComparer.Ordinal));
         foreach (var record in processedBy.Values)
         {
             // Every processor ran, in registration order, on one thread.
@@ -158,8 +160,10 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
         block.SetResult();
         await runTask.WaitAsync(Timeout);
 
-        processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
-        processors[1].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+        processors[0].Processed.OrderBy(n =>
+            n.Name, StringComparer.Ordinal).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name, StringComparer.Ordinal));
+        processors[1].Processed.OrderBy(n =>
+            n.Name, StringComparer.Ordinal).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name, StringComparer.Ordinal));
     }
 
     [Test]
@@ -335,8 +339,10 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
         stage.Strategy.Should().Equal(strategy);
 
         stage.Run(context, N1).Success.Should().Equal(shouldContinue);
-        processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
-        processors[1].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+        processors[0].Processed.OrderBy(n =>
+            n.Name, StringComparer.Ordinal).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name, StringComparer.Ordinal));
+        processors[1].Processed.OrderBy(n =>
+            n.Name, StringComparer.Ordinal).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name, StringComparer.Ordinal));
     }
 
     [Test]
@@ -373,8 +379,10 @@ public sealed class ParallelPipelineStageTests : TreeTestFixture
         block.SetResult();
         await runTask.WaitAsync(Timeout);
 
-        processors[0].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
-        processors[1].Processed.OrderBy(n => n.Name).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name));
+        processors[0].Processed.OrderBy(n =>
+            n.Name, StringComparer.Ordinal).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name, StringComparer.Ordinal));
+        processors[1].Processed.OrderBy(n =>
+            n.Name, StringComparer.Ordinal).Should().SequenceEqual(TestNode.Traverse.DepthFirstPreOrder(N1).OrderBy(n => n.Name, StringComparer.Ordinal));
     }
 
     [Test]

@@ -30,7 +30,7 @@ public abstract class EqualityTestFixture
         AssertOperator("Equality", x, y, expected);
         AssertOperator("Inequality", x, y, !expected);
 
-        if (!ReferenceEquals(y, null) && expected)
+        if (y is not null && expected)
         {
             x.GetHashCode().Should().Equal(y.GetHashCode());
             y.GetHashCode().Should().Equal(x.GetHashCode());

@@ -5,8 +5,5 @@ namespace MrKWatkins.Ast.Examples.Listeners;
 /// </summary>
 public sealed class Array : Expression
 {
-    public Array(params Expression[] items)
-    {
-        Children.Add(items);
-    }
+    public Array(params Expression[] items) => Children.Add(items);
 }

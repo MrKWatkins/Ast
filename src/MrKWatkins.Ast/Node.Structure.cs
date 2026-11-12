@@ -116,7 +116,8 @@ public abstract partial class Node<TNode>
     [Pure]
     public IEnumerable<TAncestor> AncestorsOfType<TAncestor>()
         where TAncestor : TNode
-        => Ancestors.OfType<TAncestor>();
+        =>
+        Ancestors.OfType<TAncestor>();
 
     /// <summary>
     /// Lazily enumerates over the <see cref="Ancestors" /> of this node, returning only ancestors of the specified type.
@@ -125,7 +126,8 @@ public abstract partial class Node<TNode>
     [Pure]
     public IEnumerable<TAncestor> ThisAndAncestorsOfType<TAncestor>()
         where TAncestor : TNode
-        => ThisAndAncestors.OfType<TAncestor>();
+        =>
+        ThisAndAncestors.OfType<TAncestor>();
 
     /// <summary>
     /// The root node, that is, the highest parent above this node. Returns this node if it is the root, that is, it has no parents.

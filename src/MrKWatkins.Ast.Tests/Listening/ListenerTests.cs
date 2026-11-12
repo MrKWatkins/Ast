@@ -45,6 +45,7 @@ public sealed partial class ListenerTests : TreeTestFixture
         protected internal override bool ShouldListenToDescendants(StringBuilder context, TestNode node) => ListenToChildren?.Invoke(context, node) ?? base.ShouldListenToDescendants(context, node);
     }
 
+    [SuppressMessage("Performance", "CA1812", Justification = "Created through reflection or generic test fixtures.")]
     private sealed class CallsBaseTestListener : Listener<StringBuilder, TestNode>
     {
         private readonly Stack<TestNode> stack = new();
@@ -71,6 +72,7 @@ public sealed partial class ListenerTests : TreeTestFixture
         }
     }
 
+    [SuppressMessage("Performance", "CA1812", Justification = "Created through reflection or generic test fixtures.")]
     private sealed class TypedTestListener : NodeListener<StringBuilder, TestNode, ANode>
     {
         private readonly Stack<ANode> stack = new();
@@ -94,6 +96,7 @@ public sealed partial class ListenerTests : TreeTestFixture
         }
     }
 
+    [SuppressMessage("Performance", "CA1812", Justification = "Created through reflection or generic test fixtures.")]
     private sealed class CallsBaseTypedTestListener : NodeListener<StringBuilder, TestNode, ANode>
     {
         protected override void BeforeListenToNode(StringBuilder context, ANode node)

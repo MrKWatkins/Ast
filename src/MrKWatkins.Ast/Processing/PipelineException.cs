@@ -6,10 +6,8 @@ namespace MrKWatkins.Ast.Processing;
 public sealed class PipelineException : Exception
 {
     internal PipelineException(string message, string stage, Exception innerException)
-        : base(message, innerException)
-    {
+        : base(message, innerException) =>
         Stage = stage;
-    }
 
     /// <summary>
     /// The name of the stage that failed.

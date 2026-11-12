@@ -5,10 +5,7 @@ namespace MrKWatkins.Ast.Examples.Visitors;
 /// </summary>
 public sealed class Constant : Expression
 {
-    public Constant(bool value)
-    {
-        Value = value;
-    }
+    public Constant(bool value) => Value = value;
 
     public bool Value
     {

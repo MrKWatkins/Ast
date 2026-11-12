@@ -6,10 +6,8 @@ namespace MrKWatkins.Ast.Examples.Maths.Lexing;
 public sealed record Identifier : Token
 {
     internal Identifier(int startIndex, string name)
-        : base(startIndex, name.Length)
-    {
+        : base(startIndex, name.Length) =>
         Name = name;
-    }
 
     public string Name { get; }
 

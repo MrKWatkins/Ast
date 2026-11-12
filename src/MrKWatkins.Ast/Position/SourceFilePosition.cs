@@ -127,7 +127,7 @@ public abstract class SourceFilePosition<TSelf, TFile> : SourcePosition<TSelf>
     /// <inheritdoc />
     public sealed override bool Equals(SourcePosition? other)
     {
-        if (ReferenceEquals(null, other))
+        if (other is null)
         {
             return false;
         }

@@ -5,10 +5,7 @@ namespace MrKWatkins.Ast.Examples.Visitors;
 /// </summary>
 public sealed class Variable : Expression
 {
-    public Variable(string name)
-    {
-        Name = name;
-    }
+    public Variable(string name) => Name = name;
 
     public string Name
     {

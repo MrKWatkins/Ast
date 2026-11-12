@@ -26,7 +26,7 @@ public sealed partial class Children<TNode> : IList<TNode>, IReadOnlyList<TNode>
     internal Children(TNode parent, [InstantHandle] IEnumerable<TNode> nodes)
     {
         this.parent = parent;
-        this.nodes = nodes.ToArray();
+        this.nodes = [.. nodes];
         Count = this.nodes.Length;
         foreach (var node in this.nodes)
         {

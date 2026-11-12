@@ -37,7 +37,8 @@ public abstract class PipelineStageBuilder<TSelf, TStage, TBaseNode, TProcessor,
     /// <typeparam name="TConstructableProcessor">The type of the processor to add.</typeparam>
     /// <returns>The fluent builder.</returns>
     public TSelf Add<TConstructableProcessor>()
-        where TConstructableProcessor : TProcessor, new() => Add(new TConstructableProcessor());
+        where TConstructableProcessor : TProcessor, new() =>
+        Add(new TConstructableProcessor());
 
     /// <summary>
     /// Adds <see cref="Processor{TNode}">Processors</see> to the current stage.

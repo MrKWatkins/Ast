@@ -39,7 +39,7 @@ public static class Evaluator
             throw new ArgumentException($"Value contains {arguments.Length} arguments; {parameters.Count} are required.", nameof(arguments));
         }
 
-        var context = new EvaluationContext(parameters.Zip(arguments).ToDictionary(x => x.First.Name, x => x.Second));
+        var context = new EvaluationContext(parameters.Zip(arguments).ToDictionary(x => x.First.Name, x => x.Second, StringComparer.Ordinal));
 
         return Visitor.Visit(context, function.Expression);
     }

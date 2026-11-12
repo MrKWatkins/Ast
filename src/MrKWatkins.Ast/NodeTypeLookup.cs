@@ -13,10 +13,7 @@ internal sealed class NodeTypeLookup<TBaseNode, THandler>
     private readonly ConcurrentDictionary<Type, THandler?> handlers = new();
     private readonly string handlerName;
 
-    internal NodeTypeLookup(string handlerName)
-    {
-        this.handlerName = handlerName;
-    }
+    internal NodeTypeLookup(string handlerName) => this.handlerName = handlerName;
 
     internal int Count => handlers.Count;
 

@@ -10,10 +10,8 @@ public sealed class SerialPipelineStage<TBaseNode> : PipelineStage<TBaseNode>
     where TBaseNode : Node<TBaseNode>
 {
     internal SerialPipelineStage(string name, Func<TBaseNode, bool> shouldContinue, ITraversal<TBaseNode> defaultTraversal, IReadOnlyList<Processor<TBaseNode>> processors)
-        : base(new SerialPipelineStage<NoContext, TBaseNode>(name, (_, root) => shouldContinue(root), defaultTraversal, processors), shouldContinue)
-    {
+        : base(new SerialPipelineStage<NoContext, TBaseNode>(name, (_, root) => shouldContinue(root), defaultTraversal, processors), shouldContinue) =>
         Processors = processors;
-    }
 
     /// <summary>
     /// The processors in this stage.

@@ -172,9 +172,7 @@ public abstract class TraversalTestFixture : TreeTestFixture
     }
 
     [Test]
-    public void Enumerate_TooManyMutationsHaltsEnumeration()
-    {
-        AssertThat.Invoking(
+    public void Enumerate_TooManyMutationsHaltsEnumeration() => AssertThat.Invoking(
                 () =>
                 {
                     foreach (var node in Traversal.Enumerate(N1))
@@ -188,5 +186,4 @@ public abstract class TraversalTestFixture : TreeTestFixture
                 })
             .Should().Throw<InvalidOperationException>()
             .That.Should().HaveMessage("Node N122 has been removed from parent during enumeration at the same time as other mutations. Cannot determine sensible place to continue enumeration.");
-    }
 }

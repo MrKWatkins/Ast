@@ -22,7 +22,7 @@ public sealed class TokenReader<TKind>
     /// </exception>
     public TokenReader([InstantHandle] IEnumerable<Token<TKind>> tokens)
     {
-        this.tokens = tokens.ToArray();
+        this.tokens = [.. tokens];
         if (this.tokens.Length == 0)
         {
             throw new ArgumentException("Value must contain at least one token; a lexer should always produce an end of file token.", nameof(tokens));

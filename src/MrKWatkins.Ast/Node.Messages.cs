@@ -6,7 +6,7 @@ public abstract partial class Node<TNode>
     where TNode : Node<TNode>
 {
     private readonly Lock messagesLock = new();
-    private ImmutableList<Message> messages = ImmutableList<Message>.Empty;
+    private ImmutableList<Message> messages = [];
 
     /// <summary>
     /// The <see cref="Message">Messages</see> associated with this node.

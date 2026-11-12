@@ -193,15 +193,10 @@ public sealed partial class CompositeVisitorTests
         }
     }
 
-    private sealed class NoContextTestVisitor<TNode> : NodeVisitor<TestNode, TNode, string>
+    private sealed class NoContextTestVisitor<TNode>(string? prefix = null) : NodeVisitor<TestNode, TNode, string>
         where TNode : TestNode
     {
-        private readonly string prefix;
-
-        public NoContextTestVisitor(string? prefix = null)
-        {
-            this.prefix = prefix ?? typeof(TNode).Name[..1];
-        }
+        private readonly string prefix = prefix ?? typeof(TNode).Name[..1];
 
         public int Count { get; private set; }
 

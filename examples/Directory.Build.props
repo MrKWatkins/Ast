@@ -1,45 +1,10 @@
 <Project>
+    <Import Project="../src/Directory.Build.props" />
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <IsPackable>false</IsPackable>
+        <RootNamespace>MrKWatkins.Ast.Examples.$(MSBuildProjectName)</RootNamespace>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
     </PropertyGroup>
-
     <ItemGroup>
-        <ProjectReference Include="..\..\src\MrKWatkins.Ast\MrKWatkins.Ast.csproj"/>
-        <PackageReference Include="JetBrains.Annotations" PrivateAssets="All"/>
-
-        <Using Include="System.Diagnostics.CodeAnalysis"/>
-        <Using Include="System.Diagnostics.Contracts"/>
-        <Using Include="System.Diagnostics.Contracts.PureAttribute" Alias="PureAttribute"/>
-        <Using Include="JetBrains.Annotations"/>
-
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>$(AssemblyName).Tests</_Parameter1>
-        </AssemblyAttribute>
-    </ItemGroup>
-
-    <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
-        <!-- Allow underscores in test method names. -->
-        <NoWarn>CA1707</NoWarn>
-        <IsTestProject>true</IsTestProject>
-        <EnableNUnitRunner>true</EnableNUnitRunner>
-        <OutputType>Exe</OutputType>
-        <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-        <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
-    </PropertyGroup>
-
-    <ItemGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
-        <PackageReference Include="MrKWatkins.Assertions"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-        <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
-        <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" PrivateAssets="All" />
-        <PackageReference Include="NUnit"/>
-        <PackageReference Include="NUnit3TestAdapter"/>
-
-        <Using Include="MrKWatkins.Assertions"/>
-        <Using Include="NUnit.Framework"/>
+        <ProjectReference Include="../../src/MrKWatkins.Ast/MrKWatkins.Ast.csproj" />
     </ItemGroup>
 </Project>

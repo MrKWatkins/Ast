@@ -41,7 +41,7 @@ public sealed class EvaluatorTests
             new Or(new Variable("a"), new Variable("b")),
             new Not(new Variable("c")));
 
-        var variables = new Dictionary<string, bool> { ["a"] = false, ["b"] = true, ["c"] = false };
+        var variables = new Dictionary<string, bool>(StringComparer.Ordinal) { ["a"] = false, ["b"] = true, ["c"] = false };
 
         Evaluator.Evaluate(expression, variables).Should().BeTrue();
 

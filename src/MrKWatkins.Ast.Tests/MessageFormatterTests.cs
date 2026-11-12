@@ -99,7 +99,7 @@ public sealed class MessageFormatterTests
         messagesByLevel[2].Should().SequenceEqual(
             "Info: Child Info");
 
-        messagesByLevel = MessageFormatter.Format(parent, MessageFormatterOptions.PrefixOnly).ToList();
+        messagesByLevel = [.. MessageFormatter.Format(parent, MessageFormatterOptions.PrefixOnly)];
         messagesByLevel.Should().HaveCount(3);
         messagesByLevel[0].Key.Should().Equal(MessageLevel.Error);
         messagesByLevel[0].Should().SequenceEqual(

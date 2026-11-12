@@ -34,7 +34,7 @@ public static class Compiler
             throw new ArgumentException("Value contains errors.", nameof(function));
         }
 
-        var parameters = function.Parameters.ToDictionary(p => p.Name, p => LinqExpression.Parameter(typeof(int), p.Name));
+        var parameters = function.Parameters.ToDictionary(p => p.Name, p => LinqExpression.Parameter(typeof(int), p.Name), StringComparer.Ordinal);
 
         var context = new CompilationContext(parameters);
 

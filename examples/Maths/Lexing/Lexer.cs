@@ -6,17 +6,12 @@ namespace MrKWatkins.Ast.Examples.Maths.Lexing;
 /// <summary>
 /// Hand rolled lexer to take an input stream and split it into tokens.
 /// </summary>
-public sealed class Lexer : IEnumerable<Token>
+public sealed class Lexer(TextReader input) : IEnumerable<Token>
 {
-    private readonly TextReader input;
+    private readonly TextReader input = input;
     private int currentIndex;
     private bool isFinished;
     private Token? peeked;
-
-    public Lexer(TextReader input)
-    {
-        this.input = input;
-    }
 
     public Token Next()
     {
@@ -106,7 +101,7 @@ public sealed class Lexer : IEnumerable<Token>
         while (char.IsAsciiDigit((char) input.Peek()))
         {
             length++;
-            number = number * 10 + (input.Read() - '0');
+            number = (number * 10) + (input.Read() - '0');
         }
 
         return new Number(startIndex, length, number);
@@ -116,7 +111,10 @@ public sealed class Lexer : IEnumerable<Token>
     {
         var variable = new StringBuilder();
         variable.Append(firstCharacter);
-        while (char.IsAsciiLetter((char) input.Peek())) variable.Append((char) input.Read());
+        while (char.IsAsciiLetter((char) input.Peek()))
+        {
+            variable.Append((char) input.Read());
+        }
 
         return new Identifier(startIndex, variable.ToString());
     }

@@ -5,10 +5,7 @@ namespace MrKWatkins.Ast.Examples.Visitors;
 /// </summary>
 public sealed class Not : Expression
 {
-    public Not(Expression operand)
-    {
-        Children.Add(operand);
-    }
+    public Not(Expression operand) => Children.Add(operand);
 
     public Expression Operand => Children.First;
 }

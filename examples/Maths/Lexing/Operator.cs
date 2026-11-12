@@ -6,10 +6,8 @@ namespace MrKWatkins.Ast.Examples.Maths.Lexing;
 public sealed record Operator : Token
 {
     internal Operator(int index, char symbol)
-        : base(index, 1)
-    {
+        : base(index, 1) =>
         Symbol = symbol;
-    }
 
     public char Symbol { get; }
 

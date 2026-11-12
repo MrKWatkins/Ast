@@ -122,10 +122,7 @@ public sealed class PropertiesTests : EqualityTestFixture
         var properties = new Properties();
         properties.Set("One", 1);
 
-        Exception Creator()
-        {
-            return new InvalidOperationException("Test");
-        }
+        Exception Creator() => new InvalidOperationException("Test");
 
         properties.GetOrThrow<int>("One", Creator).Should().Equal(1);
     }
@@ -137,10 +134,7 @@ public sealed class PropertiesTests : EqualityTestFixture
 
         var exception = new InvalidOperationException("Test");
 
-        Exception Creator()
-        {
-            return exception;
-        }
+        Exception Creator() => exception;
 
         properties.Invoking(p => p.GetOrThrow<string>("Key", Creator))
             .Should().Throw<InvalidOperationException>()
@@ -153,10 +147,7 @@ public sealed class PropertiesTests : EqualityTestFixture
         var properties = new Properties();
         properties.Set("Key", "Value");
 
-        Exception Creator()
-        {
-            return new InvalidOperationException("Test");
-        }
+        Exception Creator() => new InvalidOperationException("Test");
 
         string? cachedString = null;
         properties.GetOrThrow("Key", ref cachedString, Creator).Should().Equal("Value");
@@ -170,10 +161,7 @@ public sealed class PropertiesTests : EqualityTestFixture
 
         var exception = new InvalidOperationException("Test");
 
-        Exception Creator()
-        {
-            return exception;
-        }
+        Exception Creator() => exception;
 
         string? cachedString = null;
         properties.Invoking(p => p.GetOrThrow("Key", ref cachedString, Creator))
@@ -187,10 +175,7 @@ public sealed class PropertiesTests : EqualityTestFixture
         var properties = new Properties();
         properties.Set("One", 1);
 
-        Exception Creator()
-        {
-            return new InvalidOperationException("Test");
-        }
+        Exception Creator() => new InvalidOperationException("Test");
 
         int? cachedInt = null;
         properties.GetOrThrow("One", ref cachedInt, Creator).Should().Equal(1);
@@ -207,10 +192,7 @@ public sealed class PropertiesTests : EqualityTestFixture
 
         var exception = new InvalidOperationException("Test");
 
-        Exception Creator()
-        {
-            return exception;
-        }
+        Exception Creator() => exception;
 
         int? cachedInt = null;
         properties.Invoking(p => p.GetOrThrow("Key", ref cachedInt, Creator))
@@ -224,10 +206,7 @@ public sealed class PropertiesTests : EqualityTestFixture
         var properties = new Properties();
         properties.Set("One", 1);
 
-        Exception Creator(string key)
-        {
-            return new InvalidOperationException("Test");
-        }
+        Exception Creator(string key) => new InvalidOperationException("Test");
 
         properties.GetOrThrow<int>("One", Creator).Should().Equal(1);
     }
@@ -256,10 +235,7 @@ public sealed class PropertiesTests : EqualityTestFixture
         var properties = new Properties();
         properties.Set("Key", "Value");
 
-        Exception Creator(string key)
-        {
-            return new InvalidOperationException("Test");
-        }
+        Exception Creator(string key) => new InvalidOperationException("Test");
 
         string? cachedString = null;
         properties.GetOrThrow("Key", ref cachedString, Creator).Should().Equal("Value");
@@ -291,10 +267,7 @@ public sealed class PropertiesTests : EqualityTestFixture
         var properties = new Properties();
         properties.Set("One", 1);
 
-        Exception Creator(string key)
-        {
-            return new InvalidOperationException("Test");
-        }
+        Exception Creator(string key) => new InvalidOperationException("Test");
 
         int? cachedInt = null;
         properties.GetOrThrow("One", ref cachedInt, Creator).Should().Equal(1);
@@ -1103,7 +1076,7 @@ public sealed class PropertiesTests : EqualityTestFixture
         AssertEqual(x, z, false);
         AssertEqual(x, new Properties(), false);
         AssertEqual(x, null, false);
-        AssertEqual(x, (object) "Other", false);
+        AssertEqual(x, "Other", false);
     }
 
     [Test]

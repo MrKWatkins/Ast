@@ -203,9 +203,7 @@ public sealed partial class ChildrenTests
     }
 
     [Test]
-    public void Enumerate_TooManyMutationsHaltsEnumeration()
-    {
-        AssertThat.Invoking(
+    public void Enumerate_TooManyMutationsHaltsEnumeration() => AssertThat.Invoking(
                 () =>
                 {
                     foreach (var node in P.Children)
@@ -219,7 +217,6 @@ public sealed partial class ChildrenTests
                 })
             .Should().Throw<InvalidOperationException>()
             .That.Should().HaveMessage("Node C2 has been removed from parent during enumeration at the same time as other mutations. Cannot determine sensible place to continue enumeration.");
-    }
 
     [Test]
     public void GetEnumerator()

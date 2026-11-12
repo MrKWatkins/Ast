@@ -5,10 +5,7 @@ namespace MrKWatkins.Ast.Examples.Visitors;
 /// </summary>
 public abstract class BinaryOperation : Expression
 {
-    private protected BinaryOperation(Expression left, Expression right)
-    {
-        Children.Add(left, right);
-    }
+    private protected BinaryOperation(Expression left, Expression right) => Children.Add(left, right);
 
     public Expression Left => Children.First;
 

@@ -7,25 +7,16 @@ namespace MrKWatkins.Ast.Lexing;
 /// lexing the file into <see cref="Token{TKind}">Tokens</see>. Lines are terminated by <c>"\n"</c>, <c>"\r\n"</c> or a lone
 /// <c>"\r"</c>, matching <see cref="TextFile.Lines" />.
 /// </summary>
-public sealed class SourceReader
+/// <param name="file">The file to read.</param>
+public sealed class SourceReader(TextFile file)
 {
-    private readonly string text;
-
-    /// <summary>
-    /// Initialises a new instance of the <see cref="SourceReader" /> class to read the specified <see cref="TextFile" />.
-    /// </summary>
-    /// <param name="file">The file to read.</param>
-    public SourceReader(TextFile file)
-    {
-        File = file;
-        text = file.Text;
-    }
+    private readonly string text = file.Text;
 
     /// <summary>
     /// The <see cref="TextFile" /> being read.
     /// </summary>
     /// <returns>The file.</returns>
-    public TextFile File { get; }
+    public TextFile File { get; } = file;
 
     /// <summary>
     /// The index of the current position in the file.
@@ -82,7 +73,7 @@ public sealed class SourceReader
 
         var current = text[Index];
         Index++;
-        if (current == '\n' || current == '\r' && (Index == text.Length || text[Index] != '\n'))
+        if (current == '\n' || (current == '\r' && (Index == text.Length || text[Index] != '\n')))
         {
             LineIndex++;
             ColumnIndex = 0;

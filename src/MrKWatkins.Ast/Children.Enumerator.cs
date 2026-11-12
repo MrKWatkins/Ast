@@ -62,9 +62,9 @@ public sealed partial class Children<TNode>
 
         public TNode Current { get; private set; } = null!;
 
-        object IEnumerator.Current => Current;
+        readonly object IEnumerator.Current => Current;
 
-        public void Dispose()
+        public readonly void Dispose()
         {
         }
     }

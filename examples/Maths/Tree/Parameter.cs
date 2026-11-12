@@ -5,10 +5,7 @@ namespace MrKWatkins.Ast.Examples.Maths.Tree;
 /// </summary>
 public sealed class Parameter : MathsNode
 {
-    public Parameter(string name)
-    {
-        Name = name;
-    }
+    public Parameter(string name) => Name = name;
 
     /// <summary>
     /// The name of the parameter.

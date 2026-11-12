@@ -28,7 +28,7 @@ public static class Evaluator
     [Pure]
     public static bool Evaluate(Expression expression, IReadOnlyDictionary<string, bool>? variables = null)
     {
-        var context = new EvaluationContext(variables ?? new Dictionary<string, bool>());
+        var context = new EvaluationContext(variables ?? new Dictionary<string, bool>(StringComparer.Ordinal));
 
         return Visitor.Visit(context, expression);
     }

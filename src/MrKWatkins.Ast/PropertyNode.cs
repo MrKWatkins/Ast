@@ -7,7 +7,6 @@ namespace MrKWatkins.Ast;
 public abstract class PropertyNode<TNode> : Node<TNode>
     where TNode : PropertyNode<TNode>
 {
-    private Properties? properties;
 
     /// <summary>
     /// Initialises a new instance of the <see cref="Node{TNode}" /> class.
@@ -30,9 +29,9 @@ public abstract class PropertyNode<TNode> : Node<TNode>
     /// The <see cref="MrKWatkins.Ast.Properties" /> associated with this node.
     /// </summary>
     /// <remarks>The properties.</remarks>
-    protected Properties Properties => properties ??= new Properties();
+    protected Properties Properties => PropertiesOrNull ??= new Properties();
 
-    internal Properties? PropertiesOrNull => properties;
+    internal Properties? PropertiesOrNull { get; private set; }
 
     /// <summary>
     /// Returns an <see cref="IEnumerable{T}"/> that enumerates over the properties as <see cref="KeyValuePair{TKey, TValue}"/>s.
@@ -70,7 +69,7 @@ public abstract class PropertyNode<TNode> : Node<TNode>
     public TNode Copy(INodeFactory<TNode> nodeFactory)
     {
         var copy = nodeFactory.Create(GetType());
-        copy.properties = properties?.Copy();
+        copy.PropertiesOrNull = PropertiesOrNull?.Copy();
         copy.Children.Add(Children.Select(c => c.Copy(nodeFactory)));
         return copy;
     }

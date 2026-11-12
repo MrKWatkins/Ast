@@ -11,7 +11,7 @@ public sealed class BinaryOperationVisitorTests
     {
         var expression = new BinaryOperation('#', new Constant(5), new Constant(10));
 
-        var context = new EvaluationContext(new Dictionary<string, int>());
+        var context = new EvaluationContext(new Dictionary<string, int>(StringComparer.Ordinal));
 
         var visitor = CompositeVisitor<EvaluationContext, MathsNode, int>
             .Build()

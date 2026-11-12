@@ -12,20 +12,14 @@ public abstract partial class Node<TNode>
     /// <summary>
     /// Initialises a new instance of the <see cref="Node{TNode}" /> class.
     /// </summary>
-    protected Node()
-    {
-        Children = new Children<TNode>(This);
-    }
+    protected Node() => Children = new Children<TNode>(This);
 
     /// <summary>
     /// Initialises a new instance of the <see cref="Node{TNode}" /> class with the specified children.
     /// </summary>
     /// <param name="children">The children to add.</param>
     /// <exception cref="InvalidOperationException">If any of <see cref="Children" /> already have a <see cref="Parent" />.</exception>
-    protected Node([InstantHandle] params IEnumerable<TNode> children)
-    {
-        Children = new Children<TNode>(This, children);
-    }
+    protected Node([InstantHandle] params IEnumerable<TNode> children) => Children = new Children<TNode>(This, children);
 
     private TNode This => (TNode) this;
 

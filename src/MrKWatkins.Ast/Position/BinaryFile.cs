@@ -3,7 +3,9 @@ namespace MrKWatkins.Ast.Position;
 /// <summary>
 /// A binary <see cref="SourceFile" />.
 /// </summary>
-public sealed class BinaryFile : SourceFile
+/// <param name="name">The name of the file.</param>
+/// <param name="bytes">The contents of the file.</param>
+public sealed class BinaryFile(string name, IReadOnlyList<byte> bytes) : SourceFile(name, bytes.Count)
 {
     /// <summary>
     /// Initialises a new instance of the <see cref="BinaryFile" /> class from a file on disk.
@@ -27,21 +29,10 @@ public sealed class BinaryFile : SourceFile
     }
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="BinaryFile" /> class from a list of bytes containing the file.
-    /// </summary>
-    /// <param name="name">The name of the file.</param>
-    /// <param name="bytes">The contents of the file.</param>
-    public BinaryFile(string name, IReadOnlyList<byte> bytes)
-        : base(name, bytes.Count)
-    {
-        Bytes = bytes;
-    }
-
-    /// <summary>
     /// The raw bytes of the file.
     /// </summary>
     /// <returns>The raw bytes of the file.</returns>
-    public IReadOnlyList<byte> Bytes { get; }
+    public IReadOnlyList<byte> Bytes { get; } = bytes;
 
     /// <summary>
     /// Creates a <see cref="BinaryFilePosition" /> from this <see cref="BinaryFile" />.

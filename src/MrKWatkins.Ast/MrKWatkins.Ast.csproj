@@ -1,35 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <IsPackable>true</IsPackable>
-        <Title>MrKWatkins.Ast</Title>
-        <Authors>Kevin Watkins</Authors>
         <Description>Library to build an abstract syntax tree for use in compilers.</Description>
-        <Copyright>Kevin Watkins 2023-2025</Copyright>
-        <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-        <PackageProjectUrl>https://github.com/MrKWatkins/Ast</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/MrKWatkins/Ast</RepositoryUrl>
-        <PackageIcon>Icon.png</PackageIcon>
-        <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
-
-    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="Icon.png" Pack="true" PackagePath="\"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="..\..\ReadMe.md" Pack="true" PackagePath="\">
-            <Link>ReadMe.md</Link>
-        </Content>
-    </ItemGroup>
 </Project>

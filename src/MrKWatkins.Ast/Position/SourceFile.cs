@@ -45,7 +45,7 @@ public abstract class SourceFile : IEquatable<SourceFile>, IEqualityOperators<So
     /// <inheritdoc />
     public bool Equals(SourceFile? other)
     {
-        if (ReferenceEquals(null, other))
+        if (other is null)
         {
             return false;
         }

@@ -45,6 +45,7 @@ public sealed partial class ListenerTests
         public override string ToString() => output.ToString();
     }
 
+    [SuppressMessage("Performance", "CA1812", Justification = "Created through reflection or generic test fixtures.")]
     private sealed class CallsBaseNoContextTestListener : Listener<TestNode>
     {
         private readonly StringBuilder output = new();
@@ -74,6 +75,7 @@ public sealed partial class ListenerTests
         public override string ToString() => output.ToString();
     }
 
+    [SuppressMessage("Performance", "CA1812", Justification = "Created through reflection or generic test fixtures.")]
     private sealed class NoContextTypedTestListener : NodeListener<TestNode, ANode>
     {
         private readonly StringBuilder output = new();
@@ -100,6 +102,7 @@ public sealed partial class ListenerTests
         public override string ToString() => output.ToString();
     }
 
+    [SuppressMessage("Performance", "CA1812", Justification = "Created through reflection or generic test fixtures.")]
     private sealed class CallsBaseNoContextTypedTestListener : NodeListener<TestNode, ANode>
     {
         private readonly StringBuilder output = new();

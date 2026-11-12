@@ -12,7 +12,7 @@ public sealed class BinaryOperationListenerTests
     {
         var expression = new BinaryOperation('#', new Constant(5), new Constant(10));
 
-        var context = new CompilationContext(new Dictionary<string, ParameterExpression>());
+        var context = new CompilationContext(new Dictionary<string, ParameterExpression>(StringComparer.Ordinal));
         context.Values.Push(LinqExpression.Constant(10));
         context.Values.Push(LinqExpression.Constant(5));
 

@@ -7,10 +7,7 @@ namespace MrKWatkins.Ast.Examples.Maths.Tree;
 /// </summary>
 public sealed class Constant : Expression
 {
-    internal Constant(int value)
-    {
-        Value = value;
-    }
+    internal Constant(int value) => Value = value;
 
     /// <summary>
     /// The value.

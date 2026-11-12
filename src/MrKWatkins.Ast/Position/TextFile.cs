@@ -3,7 +3,9 @@ namespace MrKWatkins.Ast.Position;
 /// <summary>
 /// A text <see cref="SourceFile" />.
 /// </summary>
-public sealed class TextFile : SourceFile
+/// <param name="name">The name of the file.</param>
+/// <param name="text">The contents of the file.</param>
+public sealed class TextFile(string name, string text) : SourceFile(name, text.Length)
 {
     /// <summary>
     /// Initialises a new instance of the <see cref="TextFile" /> class from a file on disk.
@@ -27,31 +29,16 @@ public sealed class TextFile : SourceFile
     }
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="BinaryFile" /> class from a string containing the file.
-    /// </summary>
-    /// <param name="name">The name of the file.</param>
-    /// <param name="text">The contents of the file.</param>
-    public TextFile(string name, string text)
-        : base(name, text.Length)
-    {
-        Text = text;
-        // Decided not to create this lazily, even though we might only need it for logging errors,
-        // so that StartLineNumber and StartColumnNumber can be validated in the constructor of
-        // TextFilePosition.
-        Lines = ReadLines(text);
-    }
-
-    /// <summary>
     /// The text of the file.
     /// </summary>
     /// <returns>The text.</returns>
-    public string Text { get; }
+    public string Text { get; } = text;
 
     /// <summary>
     /// The individual lines in the file.
     /// </summary>
     /// <returns>The lines.</returns>
-    public IReadOnlyList<string> Lines { get; }
+    public IReadOnlyList<string> Lines { get; } = ReadLines(text);
 
     /// <summary>
     /// Returns <c>true</c> if the file is empty.
